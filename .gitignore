@@ -1,0 +1,12 @@
+target
+*~
+*.iml
+.idea
+.java-version
+*.pdf
+*.svg
+*.mesh
+*.png
+*.jpg
+.DS_Store
+*.txt
