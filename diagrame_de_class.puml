@@ -1,0 +1,76 @@
+@startuml
+
+package UserInterface {
+    class UserInterface {
+        - CommandLine configure(String[] args)
+    }
+}
+Package Controller {
+    class Controller {
+        + LegacyMesh generateCarte(String : type)
+    }
+}
+Package Traductor {
+    class Traductor{
+        + Carte createCarte()
+    }
+}
+Package Legacy {
+    class LegacyMesh
+    class LegacyPolygon
+    class LegacyPoint
+    class LegacySegment
+
+}
+
+Package CarteGenerator {
+     Interface Carte1 {
+        + int : hauteur
+        + int : largeur
+        + String : type
+        + Carte enrich(Carte carte)
+        - Carte genShape(type)
+     }
+
+     class Carte {
+         + int : hauteur
+         + int : largeur
+         + String : type
+         + Carte enrich(Carte carte)
+         - Carte genShape(type)
+
+     }
+     class Tuile {
+         Point: centre
+         Tuile[] : voisin
+         Segment[] : frontiere
+     }
+     class Point {
+        int : X
+        int : Y
+     }
+     class Segment {
+        Point : A
+        Point : B
+     }
+
+     Interface Biome {
+        String : nom
+        String : color
+        String : property
+     }
+}
+
+Carte1 <-- Carte
+Controller -- UserInterface
+Controller -- Traductor
+Controller -- Carte
+Traductor --|> Legacy
+Traductor --|> Carte
+Carte "1" *-- "*" Tuile
+Tuile "*" -- "1" Biome
+Tuile "2" *-- "*" Segment
+Tuile "1" --* "1" Point
+Point "2" *-- "*" Segment
+
+@enduml
