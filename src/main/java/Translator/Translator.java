@@ -4,11 +4,23 @@ import Carte.Map;
 import Carte.PseudoPoint;
 import Carte.Tile;
 import Carte.TileColor;
+import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 
+import java.io.IOException;
 import java.util.Optional;
 
 public class Translator {
+    public static Structs.Mesh readMeshFromFile(String fileName){
+        Structs.Mesh startMesh = null;
+        try {
+            startMesh = new MeshReader().readFromFile(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return startMesh;
+    }
+
     public static Map generateMapFromMesh(Structs.Mesh startMesh) {
         int width = Integer.parseInt(readMetadata(startMesh, "width"));
         int height = Integer.parseInt(readMetadata(startMesh, "height"));
