@@ -11,20 +11,6 @@ public class Main {
     public static void main(String[] args) {
         UserArgs parsedArgs = new UserArgs(args);
         Mesh endMesh = generateMap(parsedArgs);
-        try {
-            //Write to mesh file
-            MeshWriter writer = new MeshWriter();
-            writer.writeToFile(endMesh, parsedArgs.getOutputFile());
-        } catch (Exception e) {
-            System.err.println(e.getMessage());
-            System.exit(1);
-        }
+        parsedArgs.createOutputFile(endMesh);
     }
-
-
-
-
-
-
-
 }

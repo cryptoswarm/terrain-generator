@@ -1,6 +1,10 @@
 package UserInterface;
 
+import ca.uqam.ace.inf5153.mesh.io.MeshWriter;
+import ca.uqam.ace.inf5153.mesh.io.Structs;
 import org.apache.commons.cli.*;
+
+import java.io.IOException;
 
 public class UserArgs {
     private String inputFile;
@@ -26,6 +30,15 @@ public class UserArgs {
         if (! cl.hasOption("i") || ! cl.hasOption("o"))
             throw new IllegalArgumentException("-i and -o must be provided!");
         return cl;
+    }
+
+    public void createOutputFile(Structs.Mesh endMesh){
+        MeshWriter writer = new MeshWriter();
+        try {
+            writer.writeToFile(endMesh, outputFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getOutputFile() {
