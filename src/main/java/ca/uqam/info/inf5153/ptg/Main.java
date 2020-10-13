@@ -1,5 +1,6 @@
 package ca.uqam.info.inf5153.ptg;
 
+import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.*;
 import ca.uqam.ace.inf5153.mesh.io.Structs.*;
 import org.apache.commons.cli.*;
@@ -13,28 +14,15 @@ import java.util.Set;
 public class Main {
 
     public static void main(String[] args) {
+        UserArgs parsedArgs = new UserArgs(args);
         try {
-            CommandLine options = configure(args);
-            String inputFile = options.getOptionValue("i");
-            String outputFile = options.getOptionValue("o");
-            Mesh updated = enrich(inputFile);
+            Mesh updated = enrich(parsedArgs.getInputFile());
             MeshWriter writer = new MeshWriter();
-            writer.writeToFile(updated, outputFile);
+            writer.writeToFile(updated, parsedArgs.getOutputFile());
         } catch (Exception e) {
             System.err.println(e);
             System.exit(1);
         }
-    }
-
-    private static CommandLine configure(String[] args) throws ParseException {
-        Options opts = new Options();
-        opts.addOption(new Option("i", "input", true,"Input mesh" ));
-        opts.addOption(new Option("o", "output", true,"output file" ));
-        CommandLineParser parser = new DefaultParser();
-        CommandLine cl = parser.parse(opts, args);
-        if (! cl.hasOption("i") || ! cl.hasOption("o"))
-            throw new IllegalArgumentException("-i and -o must be provided!");
-        return cl;
     }
 
     private static Mesh enrich(String inputFile) throws IOException {
