@@ -3,119 +3,65 @@ package ca.uqam.info.inf5153.ptg;
 import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.*;
 import ca.uqam.ace.inf5153.mesh.io.Structs.*;
+import ca.uqam.ace.inf5153.mesh.io.Structs.Point;
+import ca.uqam.ace.inf5153.mesh.io.Structs.Polygon;
 import org.apache.commons.cli.*;
 
-import java.io.IOException;
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Random;
-import java.util.Set;
 
 public class Main {
 
     public static void main(String[] args) {
         UserArgs parsedArgs = new UserArgs(args);
         try {
-            Mesh updated = enrich(parsedArgs.getInputFile());
+            //From file to Map (Move to Converter?) 
+            Mesh startMesh = new MeshReader().readFromFile(parsedArgs.getInputFile());
+            Map map = generateMapFromMesh(startMesh);
+
+            //Alter Map to create Atoll and Laguna (Move to generator)
+            map.createAtoll();
+            
+            //Resync Mesh with changes done inside Map (Move to Converter)
+            Mesh.Builder builder = startMesh.toBuilder();
+            Mesh endMesh = syncMeshBuilderWithMap(builder, map);
+            //Mesh is now resynced
+            
+            //Write to mesh file
             MeshWriter writer = new MeshWriter();
-            writer.writeToFile(updated, parsedArgs.getOutputFile());
+            writer.writeToFile(endMesh, parsedArgs.getOutputFile());
         } catch (Exception e) {
-            System.err.println(e);
+            System.err.println(e.getMessage());
             System.exit(1);
         }
     }
 
-    private static Mesh enrich(String inputFile) throws IOException {
-        Mesh mesh = new MeshReader().readFromFile(inputFile);
-        int height = Integer.parseInt(readMetadata(mesh, "height"));
-        int width = Integer.parseInt(readMetadata(mesh, "width"));
-        return process(mesh, width, height);
-    }
-
-
-    private static Mesh process(Mesh mesh, int w, int h) {
-        // Switch to "edition" mode
-        Mesh.Builder builder = mesh.toBuilder();
-        identifyBorders(builder, w, h);
-        int centre = findCentralPolygon(builder, w, h);
-        drawPath(builder, centre, 5);
-        // finalizing the updated mesh
-        return builder.build();
-    }
-
-    private static void identifyBorders(Mesh.Builder builder, int width, int height) {
-        Set<Integer> border = new HashSet<>();
-        // Finding all points touching the border
-        for (int i = 0; i < builder.getPointsCount(); i++) {
-            Point p = builder.getPoints(i);
-            if (p.getX() <= 0 || p.getX() >= width || p.getY() <= 0 || p.getY() >= height)
-                border.add(i);
-        }
-        // Identifying associated segments
-        Set<Integer> frontier = new HashSet<>();
-        for (int i = 0; i < builder.getSegmentsCount(); i++) {
-            Segment s = builder.getSegments(i);
-            if (border.contains(s.getV1Idx()) || border.contains(s.getV2Idx()))
-                frontier.add(i);
-        }
-        // Marking associated polygons in light blue
+    private static Mesh syncMeshBuilderWithMap(Mesh.Builder builder, Map map) {
         for (int i = 0; i < builder.getPolygonsCount(); i++) {
             Polygon p = builder.getPolygons(i);
-            Set<Integer> involved = new HashSet<Integer>(frontier);
-            involved.retainAll(p.getSegmentIdxList());
-            if (involved.size() != 0) {
-                Property color = Property.newBuilder().setKey("color").setValue("106:133:157:125").build();
-                builder.getPolygonsBuilder(i).addProperties(color);
-            }
+            TileColor tileColor = map.getTileColor(builder.getPoints(p.getCentroidIdx()));
+            Property color = Property.newBuilder().setKey("color").setValue(tileColor.toString()).build();
+            builder.getPolygonsBuilder(i).addProperties(color);
         }
+        Mesh endMesh = builder.build();
+        return endMesh;
     }
 
-    private static int findCentralPolygon(Mesh.Builder builder, int width, int height) {
-        double idealX = width / 2.0;
-        double idealY = height / 2.0;
-        double distanceToIdeal = Double.MAX_VALUE;
-        int candidate = -1;
-        for (int i = 0; i < builder.getPolygonsCount(); i++) {
-            Point centroid = builder.getPoints(builder.getPolygons(i).getCentroidIdx());
-            double distance = Math.sqrt(
-                    ((idealX - centroid.getX()) * (idealX - centroid.getX())) +
-                            ((idealY - centroid.getY()) * (idealY - centroid.getY())));
-            if (distance < distanceToIdeal) {
-                distanceToIdeal = distance;
-                candidate = i;
-            }
-        }
-        // Tagging the most central centroid
-        Point.Builder center = builder.getPointsBuilder(builder.getPolygons(candidate).getCentroidIdx());
-        Property color = Property.newBuilder().setKey("color").setValue("42:78:113").build();
-        Property size = Property.newBuilder().setKey("thickness").setValue("3").build();
-        center.addProperties(color).addProperties(size);
-        return candidate;
-    }
+    private static Map generateMapFromMesh(Mesh startMesh) {
+        int width = Integer.parseInt(readMetadata(startMesh, "width"));
+        int height = Integer.parseInt(readMetadata(startMesh, "height"));
+        Map map = new Map(width,height);
 
-    private static void drawPath(Mesh.Builder builder, int start, int length) {
-        if(length <= 0)
-            return;
-        Polygon p = builder.getPolygons(start);
-        Random bag = new Random();
-        Integer nextCentroid = p.getNeighbors(bag.nextInt(p.getNeighborsCount()));
-        Integer nextPolygon = -1;
-        for (int i = 0; i < builder.getPolygonsCount(); i++) {
-            Polygon candidate = builder.getPolygons(i);
-            if(candidate.getCentroidIdx() == nextCentroid) {
-                nextPolygon = i;
-                break;
+        for (Polygon polygon: startMesh.getPolygonsList()) {
+            Point tileCenter = startMesh.getPoints(polygon.getCentroidIdx());
+            Tile newTile = new Tile(polygon, tileCenter);
+            
+            for (int neighborId: polygon.getNeighborsList()) {
+                newTile.addNeighborPseudoCenter(new PseudoPoint(startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx())));
             }
+            
+            map.addTile(newTile);
         }
-        Property color = Property.newBuilder().setKey("color").setValue("169:169:169").build();
-        Property size = Property.newBuilder().setKey("thickness").setValue(length+"").build();
-        Property style = Property.newBuilder().setKey("style").setValue("dashed").build();
-        Segment s = Segment.newBuilder()
-                .setV1Idx(p.getCentroidIdx()).setV2Idx(nextCentroid)
-                .addProperties(color).addProperties(size).addProperties(style)
-                .build();
-        builder.addSegments(s);
-        drawPath(builder, nextPolygon, length-1);
+        return map;
     }
 
     private static String readMetadata(Mesh m, String key) {
