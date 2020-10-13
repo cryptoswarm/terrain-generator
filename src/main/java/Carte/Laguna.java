@@ -1,10 +1,10 @@
-package ca.uqam.info.inf5153.ptg;
+package Carte;
 
-public class Atoll extends Terrain{
+public class Laguna extends Terrain {
     double radius;
     PseudoPoint terrainCenter;
 
-    public Atoll(double radius, PseudoPoint terrainCenter) {
+    public Laguna(double radius, PseudoPoint terrainCenter) {
         this.radius = radius;
         this.terrainCenter = terrainCenter;
     }
@@ -13,6 +13,7 @@ public class Atoll extends Terrain{
         PseudoPoint tileCenter = t.getTilePseudoCenter();
         return (terrainCenter.distance(tileCenter) < radius);
     }
-    
+
+
 
 }

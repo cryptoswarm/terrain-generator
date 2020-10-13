@@ -1,11 +1,14 @@
 package ca.uqam.info.inf5153.ptg;
 
+import Carte.Map;
+import Carte.PseudoPoint;
+import Carte.Tile;
+import Carte.TileColor;
 import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.*;
 import ca.uqam.ace.inf5153.mesh.io.Structs.*;
 import ca.uqam.ace.inf5153.mesh.io.Structs.Point;
 import ca.uqam.ace.inf5153.mesh.io.Structs.Polygon;
-import org.apache.commons.cli.*;
 
 import java.util.Optional;
 

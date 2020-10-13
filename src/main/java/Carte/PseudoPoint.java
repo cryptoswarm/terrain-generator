@@ -1,4 +1,4 @@
-package ca.uqam.info.inf5153.ptg;
+package Carte;
 
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 

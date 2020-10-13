@@ -1,4 +1,4 @@
-package ca.uqam.info.inf5153.ptg;
+package Carte;
 
 public enum TileColor {
     OCEANBLUE("0:64:128:255"),
