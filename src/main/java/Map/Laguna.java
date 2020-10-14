@@ -1,4 +1,4 @@
-package Carte;
+package Map;
 
 public class Laguna extends Terrain {
     double radius;

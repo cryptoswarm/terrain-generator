@@ -1,9 +1,9 @@
 package Translator;
 
-import Carte.Map;
-import Carte.PseudoPoint;
-import Carte.Tile;
-import Carte.TileColor;
+import Map.Map;
+import Map.PseudoPoint;
+import Map.Tile;
+import Map.TileColor;
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 

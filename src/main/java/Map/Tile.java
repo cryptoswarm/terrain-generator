@@ -1,8 +1,6 @@
-package Carte;
+package Map;
 
 
-import Carte.PseudoPoint;
-import Carte.TileColor;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 
 import java.util.HashSet;

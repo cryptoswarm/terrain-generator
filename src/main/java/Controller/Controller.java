@@ -1,12 +1,9 @@
 package Controller;
 
 
-import Carte.Map;
+import Map.Map;
 import UserInterface.UserArgs;
-import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
-
-import java.io.IOException;
 
 import static Translator.Translator.*;
 

@@ -1,4 +1,4 @@
-package Carte;
+package Map;
 
 public class Atoll extends Terrain {
     double radius;

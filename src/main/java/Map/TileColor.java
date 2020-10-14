@@ -1,4 +1,4 @@
-package Carte;
+package Map;
 
 public enum TileColor {
     OCEANBLUE("0:64:128:255"),

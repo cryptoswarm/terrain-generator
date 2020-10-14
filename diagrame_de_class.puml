@@ -12,7 +12,7 @@ Package Controller {
 }
 Package Traductor {
     class Traductor{
-        + Carte createCarte()
+        + Map createCarte()
     }
 }
 Package Legacy {
@@ -28,16 +28,16 @@ Package CarteGenerator {
         + int : hauteur
         + int : largeur
         + String : type
-        + Carte enrich(Carte carte)
-        - Carte genShape(type)
+        + Map enrich(Map carte)
+        - Map genShape(type)
      }
 
-     class Carte {
+     class Map {
          + int : hauteur
          + int : largeur
          + String : type
-         + Carte enrich(Carte carte)
-         - Carte genShape(type)
+         + Map enrich(Map carte)
+         - Map genShape(type)
 
      }
      class Tuile {
@@ -61,13 +61,13 @@ Package CarteGenerator {
      }
 }
 
-Carte1 <-- Carte
+Carte1 <-- Map
 Controller -- UserInterface
 Controller -- Traductor
-Controller -- Carte
+Controller -- Map
 Traductor --|> Legacy
-Traductor --|> Carte
-Carte "1" *-- "*" Tuile
+Traductor --|> Map
+Map "1" *-- "*" Tuile
 Tuile "*" -- "1" Biome
 Tuile "2" *-- "*" Segment
 Tuile "1" --* "1" Point
