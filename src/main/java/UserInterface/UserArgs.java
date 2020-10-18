@@ -9,6 +9,9 @@ import java.io.IOException;
 public class UserArgs {
     private String inputFile;
     private String outputFile;
+    private String shapeForm;
+    private String shapeAsAtoll;
+    private String shapeAsTortuga;
 
     public UserArgs(String[] args){
         CommandLine options = null;
@@ -19,12 +22,18 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
+        shapeForm = options.getOptionValue("--shape");
+        shapeAsAtoll= options.getOptionValue("atoll");
+        shapeAsTortuga = options.getOptionValue("tortuga");
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
         opts.addOption(new Option("i", "input", true,"Input mesh" ));
         opts.addOption(new Option("o", "output", true,"output file" ));
+        opts.addOption(new Option("shape", "shape", true,"carte shape" ));
+        opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
+        opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
         CommandLineParser parser = new DefaultParser();
         CommandLine cl = parser.parse(opts, args);
         if (! cl.hasOption("i") || ! cl.hasOption("o"))
@@ -48,4 +57,15 @@ public class UserArgs {
         return inputFile;
     }
 
+    public String getShapeForm() {
+        return shapeForm;
+    }
+
+    public String getShapeAsAtoll() {
+        return shapeAsAtoll;
+    }
+
+    public String getShapeAsTortuga() {
+        return shapeAsTortuga;
+    }
 }

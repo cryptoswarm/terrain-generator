@@ -7,6 +7,7 @@ import translator.Ocean;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Random;
 
 
 public class Carte {
@@ -64,6 +65,33 @@ public class Carte {
                 }
             }
         }
+    }
+
+    public void createATortuga() {
+
+        Random r = new Random();
+
+        //int major = r.nextInt(height - width/2) + width;
+        //System.out.println("major = "+major);
+       // int major = r.nextInt(height );
+
+        //int minor = r.nextInt(major);
+        //int centerId = r.nextInt(tiles.size());
+
+        //Tortuga tortuga = new Tortuga(major, minor, perfectCenter);
+        Tortuga tortuga = new Tortuga(800, 500, perfectCenter);
+        Ocean ocean = new Ocean();
+
+        for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
+            Dot center = entry.getKey();
+            Tile b = entry.getValue();
+
+            if( tortuga.isOnEllipse(center) ){
+                b.setBackgroundColor(TileColor.OCEANBLUE);
+                ocean.constructOcean(center, b);
+            }
+        }
+
     }
 
     public HashMap<Dot, Tile> getTiles() {

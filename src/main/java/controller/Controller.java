@@ -15,7 +15,19 @@ public class Controller {
         Carte carte = generateMapFromMesh(startMesh);
 
         //Alter Map to create Atoll and Laguna (Move to generator)
-        carte.createAtoll();
+
+       // String shape = parsedArgs.getShapeForm();
+       // System.out.println(" parsedArgs.getShapeForm() should = --shape "+parsedArgs.getShapeForm());
+       // if(shape != null  && parsedArgs.getShapeAsAtoll().equals("atoll")){
+
+               //carte.createAtoll();
+
+                //do nothing for the moment
+        carte.createATortuga();
+
+       // }
+
+        //carte.createAtoll();
 
         //Resync Mesh with changes done inside Map (Move to Converter)
         Structs.Mesh endMesh = syncMeshBuilderWithMap(startMesh, carte);

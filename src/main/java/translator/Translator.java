@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Translator {
+
     public static Structs.Mesh readMeshFromFile(String fileName){
         Structs.Mesh startMesh = null;
         try {
@@ -69,27 +70,19 @@ public class Translator {
 
 */
 
-
-
-
         for(Map.Entry<Dot, Tile> entry:map.getTiles().entrySet() ) {
 
             Dot center = entry.getKey();
             Tile b = entry.getValue();
-            //System.out.println("my tuil at "+b.getPolygonId()+" points are "
-                  //  +b.getTilePseudoCenter().getCoordonnee().toString()+" color ="
-                  //  +b.getBackgroundColor());
-                  //  if(b.getBackgroundColor() != null){
-                        Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(b.getBackgroundColor().toString()).build();
-                        builder.getPolygonsBuilder(b.getPolygonId()).addProperties(color);
-
-                //    }
+            if(b.getBackgroundColor() != null) {
+                Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(b.getBackgroundColor().toString()).build();
+                builder.getPolygonsBuilder(b.getPolygonId()).addProperties(color);
+                System.out.println("I'm not null ***********************************************************");
+            }else{
+                System.out.println("im null");
+            }
 
         }
-
-
-
-
 
         return builder.build();
     }
