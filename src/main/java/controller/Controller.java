@@ -15,15 +15,19 @@ public class Controller {
         Carte carte = generateMapFromMesh(startMesh);
 
         //Alter Map to create Atoll and Laguna (Move to generator)
-
+        System.out.println( " parsedArgs.getShapeForm() should be atol or turtoga =  "+parsedArgs.getShapeSpecification() );
+        //System.out.println("parsedArgs.getShapeAsAtoll() ="+parsedArgs.getShapeAsAtoll());
        // String shape = parsedArgs.getShapeForm();
        // System.out.println(" parsedArgs.getShapeForm() should = --shape "+parsedArgs.getShapeForm());
-       // if(shape != null  && parsedArgs.getShapeAsAtoll().equals("atoll")){
-
-               //carte.createAtoll();
-
+        if( parsedArgs.getShapeSpecification() != null) {
+            if (parsedArgs.getShapeSpecification().equals("atoll")) {
+                carte.createAtoll();
+            } else if (parsedArgs.getShapeSpecification().equals("tortuga")) {
+                carte.createATortuga();
                 //do nothing for the moment
-        carte.createATortuga();
+            }
+        }
+
 
        // }
 

@@ -9,9 +9,11 @@ import java.io.IOException;
 public class UserArgs {
     private String inputFile;
     private String outputFile;
-    private String shapeForm;
-    private String shapeAsAtoll;
-    private String shapeAsTortuga;
+    //private String shapeForm;
+    //private String shapeAsAtoll;
+    //private String shapeAsTortuga;
+    private String shapeSpecification;
+
 
     public UserArgs(String[] args){
         CommandLine options = null;
@@ -22,9 +24,9 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
-        shapeForm = options.getOptionValue("--shape");
-        shapeAsAtoll= options.getOptionValue("atoll");
-        shapeAsTortuga = options.getOptionValue("tortuga");
+        //shapeForm = options.getOptionValue("shape");
+        shapeSpecification= options.getOptionValue("shape");
+        //shapeAsTortuga = options.getOptionValue("tortuga");
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
@@ -56,7 +58,7 @@ public class UserArgs {
     public String getInputFile() {
         return inputFile;
     }
-
+/*
     public String getShapeForm() {
         return shapeForm;
     }
@@ -67,5 +69,11 @@ public class UserArgs {
 
     public String getShapeAsTortuga() {
         return shapeAsTortuga;
+    }
+
+ */
+
+    public String getShapeSpecification() {
+        return shapeSpecification;
     }
 }
