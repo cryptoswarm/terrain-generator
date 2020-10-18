@@ -7,8 +7,8 @@ import geometrie.Dot;
 import java.util.HashSet;
 
 public class Tile {
+
     Structs.Polygon polygon;
-    //Structs.Point center;
     Dot center;
     TileColor backgroundColor;
     HashSet<Dot> neighbors;
@@ -37,15 +37,8 @@ public class Tile {
         return backgroundColor;
     }
 
-    /*
-        public PseudoPoint getTilePseudoCenter() {
-            return new PseudoPoint(center);
-        }
-     */
     public Dot getTilePseudoCenter() {
-        //System.out.println("center coor ="+center.getCoordonnee().toString());
 
-        //return new Dot(new Coordonnee(center.getCoordonnee().getX(), center.getCoordonnee().getY(), 0));
         return this.center;
     }
 

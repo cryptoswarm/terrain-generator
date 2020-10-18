@@ -34,7 +34,6 @@ public class Dot {
         if (!(o instanceof Dot)) return false;
         Dot dot = (Dot) o;
         return coordonnee.equals(dot.coordonnee);
-        //return coordonnee.getX() ==
     }
 
     @Override
@@ -44,8 +43,8 @@ public class Dot {
 
     public float distance(Dot that) {
         float horizontal = this.getCoordonnee().getX() - that.getCoordonnee().getX();
-        float vertical = this.getCoordonnee().getX() - that.getCoordonnee().getX();
+        float vertical = this.getCoordonnee().getY() - that.getCoordonnee().getY();
 
-        return (float) Math.sqrt(horizontal*horizontal + vertical*vertical);
+        return (float) Math.sqrt( Math.pow(horizontal, 2) + Math.pow(vertical, 2) );
     }
 }
