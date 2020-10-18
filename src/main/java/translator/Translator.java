@@ -51,24 +51,6 @@ public class Translator {
 
     public static Structs.Mesh syncMeshBuilderWithMap(Structs.Mesh startMesh, Carte map) {
         Structs.Mesh.Builder builder = startMesh.toBuilder();
-/*
-        for (int i = 0; i < builder.getPolygonsCount(); i++) {
-            Structs.Polygon p = builder.getPolygons(i);
-
-            Structs.Point point =builder.getPoints(p.getCentroidIdx());
-            Dot dot = new Dot(new Coordonnee(point.getX(), point.getY(), 0));
-            TileColor tileColor = map.getTileColor(dot);
-
-            try {
-                Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor.toString()).build();
-                builder.getPolygonsBuilder(i).addProperties(color);
-                System.out.println("im not null");
-            }catch (NullPointerException e){
-                System.out.println("im null");
-            }
-        }
-
-*/
 
         for(Map.Entry<Dot, Tile> entry:map.getTiles().entrySet() ) {
 
@@ -77,13 +59,8 @@ public class Translator {
             if(b.getBackgroundColor() != null) {
                 Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(b.getBackgroundColor().toString()).build();
                 builder.getPolygonsBuilder(b.getPolygonId()).addProperties(color);
-                System.out.println("I'm not null ***********************************************************");
-            }else{
-                System.out.println("im null");
             }
-
         }
-
         return builder.build();
     }
 

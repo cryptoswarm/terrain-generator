@@ -12,6 +12,7 @@ public class Atoll {
         this.bRadius = b;
         this.sRadius = s;
         this.terrainCenter = terrainCenter;
+
     }
 
 }

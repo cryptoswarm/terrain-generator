@@ -22,7 +22,7 @@ public class Vegetation {
     }
 
 
-    public Map<Dot, Tile> getVegetation() {
+    public Map<Dot, Tile> getTuileVege() {
         return vegetation;
     }
 

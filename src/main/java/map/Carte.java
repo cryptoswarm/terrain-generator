@@ -7,7 +7,6 @@ import translator.Ocean;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
 
 
 public class Carte {
@@ -69,26 +68,36 @@ public class Carte {
 
     public void createATortuga() {
 
-        Random r = new Random();
+        Tortuga tortuga = new Tortuga(width, perfectCenter);
 
-        //int major = r.nextInt(height - width/2) + width;
-        //System.out.println("major = "+major);
-       // int major = r.nextInt(height );
-
-        //int minor = r.nextInt(major);
-        //int centerId = r.nextInt(tiles.size());
-
-        //Tortuga tortuga = new Tortuga(major, minor, perfectCenter);
-        Tortuga tortuga = new Tortuga(800, 500, perfectCenter);
         Ocean ocean = new Ocean();
+        //Vegetation vegetation = new Vegetation();
+        //Plage plage = new Plage();
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
-            if( tortuga.isOnEllipse(center) ){
+            if(tortuga.isInsideIslande(b)){
+                b.setBackgroundColor(TileColor.DARKGREEN);
+                tortuga.getVegetation().constructVegetation(b);
+            }else{
                 b.setBackgroundColor(TileColor.OCEANBLUE);
                 ocean.constructOcean(center, b);
+            }
+
+        }
+        for(Map.Entry<Dot, Tile> entry:tortuga.getVegetation().getTuileVege().entrySet()) {
+            Dot center = entry.getKey();
+            Tile b = entry.getValue();
+
+            for (Dot val : b.getNeighborPseudoCenters()) {
+                Tile temp = tiles.get(val);
+                if(! tortuga.isInsideIslande(temp) ){
+                    tiles.get(val).setBackgroundColor(TileColor.SAND);
+                    tortuga.getPlage().constructPlage(b);
+                }
+
             }
         }
 
@@ -100,5 +109,6 @@ public class Carte {
 
     public  TileColor getTileColor( Dot point){
         return tiles.get(point).backgroundColor;
+
     }
 }
