@@ -1,10 +1,9 @@
 package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
-import ca.uqam.ace.inf5153.mesh.io.*;
 import ca.uqam.ace.inf5153.mesh.io.Structs.*;
 
-import static Controller.Controller.generateMap;
+import static controller.Controller.generateMap;
 
 public class Main {
 

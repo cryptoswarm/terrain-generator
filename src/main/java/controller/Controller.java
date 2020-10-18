@@ -1,24 +1,24 @@
-package Controller;
+package controller;
 
 
-import Map.Map;
+import map.Carte;
 import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 
-import static Translator.Translator.*;
+import static translator.Translator.*;
 
 public class Controller {
     public static Structs.Mesh generateMap(UserArgs parsedArgs){
 
         Structs.Mesh startMesh = readMeshFromFile(parsedArgs.getInputFile());
 
-        Map map = generateMapFromMesh(startMesh);
+        Carte carte = generateMapFromMesh(startMesh);
 
         //Alter Map to create Atoll and Laguna (Move to generator)
-        map.createAtoll();
+        carte.createAtoll();
 
         //Resync Mesh with changes done inside Map (Move to Converter)
-        Structs.Mesh endMesh = syncMeshBuilderWithMap(startMesh, map);
+        Structs.Mesh endMesh = syncMeshBuilderWithMap(startMesh, carte);
         //Mesh is now resynced
 
         return endMesh;

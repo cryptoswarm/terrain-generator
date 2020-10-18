@@ -1,9 +1,11 @@
-package Map;
+package map;
 
-import ca.uqam.ace.inf5153.mesh.io.Structs;
+import geometrie.Dot;
 
 public abstract class Terrain {
-    Structs.Point center;
+    //Structs.Point center;
+    Dot center;
+
 
     abstract public boolean isTileOnTerrain(Tile t);
 }

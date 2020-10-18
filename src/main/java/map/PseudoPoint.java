@@ -1,3 +1,4 @@
+/*
 package Map;
 
 import ca.uqam.ace.inf5153.mesh.io.Structs;
@@ -39,3 +40,4 @@ public class PseudoPoint {
         return Objects.hash(x, y);
     }
 }
+*/

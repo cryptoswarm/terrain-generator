@@ -1,0 +1,115 @@
+package translator;
+
+import ca.uqam.ace.inf5153.mesh.io.MeshReader;
+import ca.uqam.ace.inf5153.mesh.io.Structs;
+import geometrie.Coordonnee;
+import geometrie.Dot;
+import map.Carte;
+import map.Tile;
+
+import java.io.IOException;
+import java.util.Map;
+import java.util.Optional;
+
+public class Translator {
+    public static Structs.Mesh readMeshFromFile(String fileName){
+        Structs.Mesh startMesh = null;
+        try {
+            startMesh = new MeshReader().readFromFile(fileName);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return startMesh;
+    }
+
+    public static Carte generateMapFromMesh(Structs.Mesh startMesh) {
+        int width = Integer.parseInt(readMetadata(startMesh, "width"));
+        int height = Integer.parseInt(readMetadata(startMesh, "height"));
+        Carte carte = new Carte(width,height);
+        for(int i=0; i< startMesh.getPolygonsList().size(); i++){
+            System.out.println("startMesh.getPolygonsList().centroid = "+startMesh.getPolygons(i).getCentroidIdx());
+            System.out.println("+startMesh.getPolygons(i).getPoints. "+startMesh.getPoints( startMesh.getPolygons(i).getCentroidIdx() ));
+        }
+        Structs.Mesh.Builder builder = startMesh.toBuilder();
+        for(int kk=0; kk<builder.getPolygonsCount(); kk++){
+            System.out.println("buildr polygon centroid ="+builder.getPolygons(kk).getCentroidIdx());
+            System.out.println("buildr polygon get points="+builder.getPoints(builder.getPolygons(kk).getCentroidIdx()));
+        }
+       // int polygonId =0;
+        for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
+
+            Structs.Point tileCenter = startMesh.getPoints(polygon.getCentroidIdx());
+           // System.out.println("tileCenter = "+tileCenter.toString());
+            Dot dot = new Dot( new Coordonnee(tileCenter.getX(), tileCenter.getY(), 0) );
+            Tile newTile = new Tile(polygon, dot, polygon.getCentroidIdx() );
+           // System.out.println("my dot ="+dot.getCoordonnee().toString());
+
+            for (int neighborId: polygon.getNeighborsList()) {
+                Structs.Point pt = startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx());
+
+                newTile.addNeighborPseudoCenter(new Dot(new Coordonnee(pt.getX(), pt.getY(), 0)));
+            }
+
+            carte.addTile(newTile);
+
+        }
+        return carte;
+    }
+
+    public static Structs.Mesh syncMeshBuilderWithMap(Structs.Mesh startMesh, Carte map) {
+        Structs.Mesh.Builder builder = startMesh.toBuilder();
+/*
+        for (int i = 0; i < builder.getPolygonsCount(); i++) {
+            Structs.Polygon p = builder.getPolygons(i);
+            //Dot dot = new Dot( new Coordonnee( builder.getPoints(p.getCentroidIdx()).getX(),
+                   // builder.getPoints(p.getCentroidIdx()).getY(), 0) );
+            Structs.Point point =builder.getPoints(p.getCentroidIdx());
+            TileColor tileColor = map.getTileColor(point);
+            //map.getTileColor(point);
+           // if(tileColor != null) {
+            try {
+                Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor.toString()).build();
+                builder.getPolygonsBuilder(i).addProperties(color);
+                System.out.println("im not null");
+            }catch (NullPointerException e){
+                System.out.println("im null 2");
+            }
+
+           // }
+        }
+*/
+
+
+
+
+
+        for(Map.Entry<Dot, Tile> entry:map.getTiles().entrySet() ) {
+
+            Dot center = entry.getKey();
+            Tile b = entry.getValue();
+            System.out.println("my tuil at "+b.getPolygonId()+" points are "
+                    +b.getTilePseudoCenter().getCoordonnee().toString()+" color ="
+                    +b.getBackgroundColor());
+                    if(b.getBackgroundColor() != null){
+                        Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(b.getBackgroundColor().toString()).build();
+                        builder.getPolygonsBuilder(b.getPolygonId()).addProperties(color);
+
+                    }
+
+        }
+        System.out.println("size of hashMap = "+map.getTiles().size());
+
+
+        Structs.Mesh endMesh = builder.build();
+        return endMesh;
+    }
+
+    private static String readMetadata(Structs.Mesh m, String key) {
+        Optional<Structs.Property> prop = m.getPropertiesList().stream().filter(p -> p.getKey().equals(key)).findFirst();
+        if (prop.isPresent()) {
+            return prop.get().getValue();
+        } else {
+            throw new IllegalArgumentException("Missing property [" + key + "]");
+        }
+    }
+}

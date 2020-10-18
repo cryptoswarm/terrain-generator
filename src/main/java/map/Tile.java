@@ -1,0 +1,55 @@
+package map;
+
+
+import ca.uqam.ace.inf5153.mesh.io.Structs;
+import geometrie.Dot;
+
+import java.util.HashSet;
+
+public class Tile {
+    Structs.Polygon polygon;
+    //Structs.Point center;
+    Dot center;
+    TileColor backgroundColor;
+    HashSet<Dot> neighbors;
+    int polygonId;
+
+    public Tile(Structs.Polygon polygon, Dot center, int polygonId) {
+        this.polygon = polygon;
+        this.center = center;
+        this.neighbors = new HashSet<>();
+        this.polygonId = polygonId;
+    }
+
+    public void addNeighborPseudoCenter(Dot neighborPseudoCenter) {
+        this.neighbors.add(neighborPseudoCenter);
+    }
+
+    public HashSet<Dot> getNeighborPseudoCenters() {
+        return neighbors;
+    }
+
+    public void setBackgroundColor(TileColor c) {
+        backgroundColor = c;
+    }
+
+    public TileColor getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    /*
+        public PseudoPoint getTilePseudoCenter() {
+            return new PseudoPoint(center);
+        }
+     */
+    public Dot getTilePseudoCenter() {
+        //System.out.println("center coor ="+center.getCoordonnee().toString());
+
+        //return new Dot(new Coordonnee(center.getCoordonnee().getX(), center.getCoordonnee().getY(), 0));
+        return this.center;
+    }
+
+    public int getPolygonId() {
+        return polygonId;
+    }
+}
