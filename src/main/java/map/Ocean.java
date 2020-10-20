@@ -1,7 +1,6 @@
-package translator;
+package map;
 
 import geometrie.Dot;
-import map.Tile;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -17,6 +16,7 @@ public class Ocean {
     }
 
     public void constructOcean(Dot dot, Tile tuile){
+        tuile.setBackgroundColor(TileColor.OCEANBLUE);
         ocean.put( dot, tuile);
     }
 

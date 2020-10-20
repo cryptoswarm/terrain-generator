@@ -2,7 +2,6 @@ package map;
 
 import geometrie.Coordonnee;
 import geometrie.Dot;
-import translator.Ocean;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -31,22 +30,18 @@ public class Carte {
         int shortestSide = Math.min(width, height);
 
         Atoll atoll = new Atoll((double)(shortestSide/2)*.7, (double)(shortestSide/2)*.4, perfectCenter);
-        Ocean ocean = new Ocean();
-        Lagon lagon = new Lagon();
-        Plage plage = new Plage();
-        Vegetation vegetation = new Vegetation();
+
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
-            if (center.distance(perfectCenter) >= atoll.bRadius) {
 
-                b.setBackgroundColor(TileColor.OCEANBLUE);
-                ocean.constructOcean(center, b);
-
-            } else if (center.distance(perfectCenter) <= atoll.sRadius) {
+            if(atoll.isInOcean(center)){
+                atoll.defineOcean(center, b);
+            }
+            if(atoll.isInLagon(center)){
                 b.setBackgroundColor(TileColor.WATERBLUE);
-                lagon.constructLagon(center, b);
+                atoll.defineLagon(center, b);
             }
         }
 
@@ -54,13 +49,14 @@ public class Carte {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
-            if( center.distance(perfectCenter) > atoll.sRadius && center.distance(perfectCenter) < atoll.bRadius){
-                if( ocean.isNeighbor(b) || lagon.isNeighbor(b)){
+            if(atoll.isBetweenLagonAndOcean(center)) {
+
+                if(atoll.isNeighborLagonOrOcean(b)){
                     b.setBackgroundColor(TileColor.SAND);
-                    plage.constructPlage(b);
-                }else {
-                    b.setBackgroundColor(TileColor.DARKGREEN);
-                    vegetation.constructVegetation(b);
+                    atoll.definePLage(b);
+                }else{
+                    b.setBackgroundColor(TileColor.MIDGREEN);
+                    atoll.defineVegetation(b);
                 }
             }
         }
@@ -79,7 +75,7 @@ public class Carte {
             Tile b = entry.getValue();
 
             if(tortuga.isInsideIslande(b)){
-                b.setBackgroundColor(TileColor.DARKGREEN);
+                b.setBackgroundColor(TileColor.MIDGREEN);
                 tortuga.getVegetation().constructVegetation(b);
             }else{
                 b.setBackgroundColor(TileColor.OCEANBLUE);
