@@ -1,27 +1,27 @@
 package map;
 
+import geometrie.Circle;
 import geometrie.Dot;
 
-public class Atoll {
+public class Atoll{
 
-    double bRadius;
-    double sRadius;
-    Dot terrainCenter;
+
     private Ocean ocean;
     private Lagon lagon;
     private Plage plage;
     private Vegetation vegetation;
+    private Circle circle;
 
-    public Atoll(double b, double s,  Dot terrainCenter) {
-        this.bRadius = b;
-        this.sRadius = s;
-        this.terrainCenter = terrainCenter;
+    public Atoll(int b, int s){
+
+        this.circle = new Circle(b, s);
         this.ocean = new Ocean();
         this.lagon = new Lagon();
         this.plage = new Plage();
         this.vegetation = new Vegetation();
-
     }
+
+
 /*
     public void  isOutAtoll(Dot that, Tile b){
         if( that.distance(terrainCenter) >= bRadius ){
@@ -33,7 +33,8 @@ public class Atoll {
  */
 
     public boolean isInOcean(Dot that ){
-        return that.distance(terrainCenter) >= bRadius;
+       // return that.distance(terrainCenter) >= bRadius;
+        return that.distance(circle.getCenter()) >= circle.getbRadius();
     }
 
 /*
@@ -45,7 +46,8 @@ public class Atoll {
     }
 */
     public boolean isInLagon(Dot that ){
-        return that.distance(terrainCenter) <= sRadius;
+        //return that.distance(terrainCenter) <= sRadius;
+        return that.distance(circle.getCenter()) <= circle.getsRadius();
     }
 
     public void defineOcean(Dot dot, Tile tile){

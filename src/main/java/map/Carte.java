@@ -27,10 +27,10 @@ public class Carte {
     
     public void createAtoll() {
 
-        int shortestSide = Math.min(width, height);
+        //int shortestSide = Math.min(width, height);
 
-        Atoll atoll = new Atoll((double)(shortestSide/2)*.7, (double)(shortestSide/2)*.4, perfectCenter);
-
+        //Atoll atoll = new Atoll((double)(shortestSide/2)*.7, (double)(shortestSide/2)*.4, perfectCenter);
+        Atoll atoll = new Atoll( width, height);
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
@@ -64,7 +64,7 @@ public class Carte {
 
     public void createATortuga() {
 
-        Tortuga tortuga = new Tortuga(width, perfectCenter);
+        Tortuga tortuga = new Tortuga(width, height);//perfectCenter);
 
         Ocean ocean = new Ocean();
         //Vegetation vegetation = new Vegetation();
