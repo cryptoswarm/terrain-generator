@@ -46,7 +46,7 @@ public class Ocean {
         for(Map.Entry<Dot, Tile> entry:ocean.entrySet() ) {
             //Dot center = entry.getKey();
             Tile b = entry.getValue();
-            for(Dot val : b.getNeighborPseudoCenters())
+            for( Dot val : b.getNeighborPseudoCenters() )
             {
                 if(val.equals(tile.getTilePseudoCenter())){
                     isPresent = true;

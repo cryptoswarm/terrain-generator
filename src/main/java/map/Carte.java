@@ -1,6 +1,5 @@
 package map;
 
-import geometrie.Coordonnee;
 import geometrie.Dot;
 
 import java.util.HashMap;
@@ -9,27 +8,27 @@ import java.util.Map;
 
 
 public class Carte {
+
     int width;
     int height;
-    Dot perfectCenter;
+    //Tortuga tortuga;
+    //Atoll atoll;
     HashMap<Dot, Tile> tiles;
 
     public Carte(int width, int height) {
         this.width = width;
         this.height = height;
-        this.perfectCenter = new Dot(new Coordonnee((float) (width / 2.0), (float) (height / 2.0), 0 ));
         this.tiles = new LinkedHashMap<>();
+        //this.tortuga = new Tortuga(width, height);
+        //this.atoll =  new Atoll( width, height);
     }
     
     public void addTile(Tile tile) {
         tiles.put(tile.center,tile);
     }
     
-    public void createAtoll() {
+    public Atoll createAtoll() {
 
-        //int shortestSide = Math.min(width, height);
-
-        //Atoll atoll = new Atoll((double)(shortestSide/2)*.7, (double)(shortestSide/2)*.4, perfectCenter);
         Atoll atoll = new Atoll( width, height);
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
@@ -60,15 +59,14 @@ public class Carte {
                 }
             }
         }
+        return atoll;
     }
 
-    public void createATortuga() {
+    public Tortuga createATortuga() {
 
         Tortuga tortuga = new Tortuga(width, height);//perfectCenter);
 
         Ocean ocean = new Ocean();
-        //Vegetation vegetation = new Vegetation();
-        //Plage plage = new Plage();
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
@@ -97,7 +95,16 @@ public class Carte {
             }
         }
 
+        return tortuga;
     }
+
+    public void createAquifere(Vegetation vegetation, int nb){
+        for(int i=0; i<nb; i++){
+            Aquifere aquifere = new Aquifere(vegetation);
+            aquifere.setColor();
+        }
+    }
+
 
     public HashMap<Dot, Tile> getTiles() {
         return tiles;

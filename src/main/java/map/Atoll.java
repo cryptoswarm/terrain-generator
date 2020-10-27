@@ -22,31 +22,14 @@ public class Atoll{
     }
 
 
-/*
-    public void  isOutAtoll(Dot that, Tile b){
-        if( that.distance(terrainCenter) >= bRadius ){
-            b.setBackgroundColor(TileColor.OCEANBLUE);
-            ocean.constructOcean(that, b);
-        }
-    }
-
- */
-
     public boolean isInOcean(Dot that ){
-       // return that.distance(terrainCenter) >= bRadius;
+
         return that.distance(circle.getCenter()) >= circle.getbRadius();
     }
 
-/*
-    public void  isInAtoll(Dot that, Tile b){
-        if( that.distance(terrainCenter) <= sRadius ){
-            b.setBackgroundColor(TileColor.WATERBLUE);
-            lagon.constructLagon(that, b);
-        }
-    }
-*/
+
     public boolean isInLagon(Dot that ){
-        //return that.distance(terrainCenter) <= sRadius;
+
         return that.distance(circle.getCenter()) <= circle.getsRadius();
     }
 
@@ -73,4 +56,7 @@ public class Atoll{
         return ocean.isNeighbor(b) || lagon.isNeighbor(b);
     }
 
+    public Vegetation getVegetation(){
+        return vegetation;
+    }
 }

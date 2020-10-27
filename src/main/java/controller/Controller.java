@@ -1,9 +1,11 @@
 package controller;
 
 
+import map.Atoll;
 import map.Carte;
 import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
+import map.Tortuga;
 
 import static translator.Translator.*;
 
@@ -20,12 +22,26 @@ public class Controller {
        // String shape = parsedArgs.getShapeForm();
        // System.out.println(" parsedArgs.getShapeForm() should = --shape "+parsedArgs.getShapeForm());
         if( parsedArgs.getShapeSpecification() != null) {
+
             if (parsedArgs.getShapeSpecification().equals("atoll")) {
-                carte.createAtoll();
+
+                Atoll atoll = carte.createAtoll();
+
+                if(parsedArgs.getNbWaterSources() != null){
+                    int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
+                    carte.createAquifere(atoll.getVegetation(), nbWaterSources );
+                }
+
             } else if (parsedArgs.getShapeSpecification().equals("tortuga")) {
-                carte.createATortuga();
-                //do nothing for the moment
+               Tortuga tortuga = carte.createATortuga();
+                if(parsedArgs.getNbWaterSources() != null){
+                    int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
+                    carte.createAquifere(tortuga.getVegetation(), nbWaterSources );
+                }
             }
+
+
+
         }
 
 
