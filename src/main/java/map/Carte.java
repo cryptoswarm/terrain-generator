@@ -101,7 +101,10 @@ public class Carte {
     public void createAquifere(Vegetation vegetation, int nb){
         for(int i=0; i<nb; i++){
             Aquifere aquifere = new Aquifere(vegetation);
-            aquifere.setColor();
+            //aquifere.setColor();
+            //aquifere.propager();
+            Lake lake = new Lake(aquifere);
+            lake.setColor();
         }
     }
 

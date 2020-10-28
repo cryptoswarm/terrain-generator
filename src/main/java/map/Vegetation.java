@@ -45,24 +45,33 @@ public class Vegetation {
     public Tile findRandomVegtalTile(){
         Random random = new Random();
         ArrayList<Dot>  dots    = new ArrayList<>(vegetation.keySet());
-        Dot      randomDot = dots.get( random.nextInt(dots.size()) );
+        Dot      randomDot = dots.get( random.nextInt( dots.size()) );
         return vegetation.get(randomDot);
-
     }
 
 
 
-    public HashSet<Dot> findNeighbors( Tile tile){
-        HashSet<Dot> neighbors = new HashSet<>();
-        for(Map.Entry<Dot, Tile> entry:vegetation.entrySet() ) {
-            //Dot center = entry.getKey();
-            Tile b = entry.getValue();
+    public Map<Dot, Tile> findNeighbors( Tile tile){
 
-            if(  b.getTilePseudoCenter().equals(tile.getTilePseudoCenter()) ){
-                neighbors = b.getNeighborPseudoCenters();
-                break;
-            }
-        }
-        return neighbors;
+        Map<Dot, Tile>  aquifereNeighbors = new HashMap<>();
+
+        //for(Map.Entry<Dot, Tile> entry:vegetation.entrySet() ) {
+            //Dot center = entry.getKey();
+           // Tile b = entry.getValue();
+
+            //if(  b.getTilePseudoCenter().equals(tile.getTilePseudoCenter() ) ){ //Si le point centre de la tuile porteuse de source d'eau
+                                                                                // est dans la liste des voisines
+                for( Dot  dot : tile.getNeighborPseudoCenters() ){
+                    Tile tile1 = vegetation.get(dot);
+                    aquifereNeighbors.put(dot, tile1);
+                }
+               // break;
+            //}
+       // }
+        return aquifereNeighbors;
+    }
+
+    public Tile findCorrespendingTile(Dot dot){
+        return vegetation.get(dot);
     }
 }

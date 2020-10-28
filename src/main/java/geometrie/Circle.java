@@ -20,7 +20,7 @@ public class Circle implements Shape {
     }
 
     @Override
-    public  double defineShape(int width, int height){
+    public double defineShape(int width, int height){
        return  Math.min(width, height);
     }
 
