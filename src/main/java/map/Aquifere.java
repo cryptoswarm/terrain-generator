@@ -11,6 +11,7 @@ public class Aquifere {
     private Map<Dot, Tile> neighbors;
     private Vegetation vegetation;
     //private HashSet<Dot> neighbors2;
+
     public Aquifere(Vegetation vegetation) {
         this.vegetation = vegetation;
         this.aquifereTileCenter = vegetation.findRandomVegtalTile();
@@ -77,5 +78,9 @@ public class Aquifere {
             Tile b = entry.getValue();
             b.setBackgroundColor(color);
         }
+    }
+
+    public Map<Dot, Tile> getNeighbors() {
+        return neighbors;
     }
 }

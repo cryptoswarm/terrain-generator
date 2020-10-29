@@ -5,8 +5,8 @@ package UserInterface {
         - CommandLine configure(String[] args)
     }
 }
-Package controller {
-    class controller {
+Package writer {
+    class writer {
         + LegacyMesh generateCarte(String : type)
     }
 }
@@ -62,9 +62,9 @@ Package CarteGenerator {
 }
 
 Carte1 <-- map
-controller -- UserInterface
-controller -- Traductor
-controller -- map
+writer -- UserInterface
+writer -- Traductor
+writer -- map
 Traductor --|> Legacy
 Traductor --|> map
 map "1" *-- "*" Tuile

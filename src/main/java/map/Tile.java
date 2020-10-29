@@ -14,7 +14,7 @@ public class Tile {
     HashSet<Dot> neighbors;
     int polygonId;
 
-    public Tile(Structs.Polygon polygon, Dot center, int polygonId) {
+    public Tile( Structs.Polygon polygon, Dot center, int polygonId ) {
         this.polygon = polygon;
         this.center = center;
         this.neighbors = new HashSet<>();

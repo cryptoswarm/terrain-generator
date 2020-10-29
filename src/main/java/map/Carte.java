@@ -29,7 +29,7 @@ public class Carte {
     
     public Atoll createAtoll() {
 
-        Atoll atoll = new Atoll( width, height);
+        Atoll atoll = new Atoll( width , height); //width =1000
 
         for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
@@ -97,13 +97,24 @@ public class Carte {
 
         return tortuga;
     }
-
+/*
     public void createAquifere(Vegetation vegetation, int nb){
         for(int i=0; i<nb; i++){
             Aquifere aquifere = new Aquifere(vegetation);
             //aquifere.setColor();
             //aquifere.propager();
+            //Lake lake = new Lake(aquifere);
+            //lake.setColor();
+        }
+    }
+
+ */
+    public void createLake( Vegetation vegetation, int nbWaterSources ){
+        for(int i=0; i< nbWaterSources; i++){
+            Aquifere aquifere = new Aquifere(vegetation);
             Lake lake = new Lake(aquifere);
+            lake.findLakeNeighbors(vegetation);
+            lake.setColorNeighbors();
             lake.setColor();
         }
     }

@@ -12,6 +12,8 @@ public class Atoll{
     private Vegetation vegetation;
     private Circle circle;
 
+    private Tile tile;
+
     public Atoll(int b, int s){
 
         this.circle = new Circle(b, s);

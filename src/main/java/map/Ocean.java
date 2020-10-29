@@ -2,11 +2,11 @@ package map;
 
 import geometrie.Dot;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Ocean {
+public class Ocean { //c'est bon interafce tuile ,,,, ocean implements tuile
 
     private Map<Dot, Tile> ocean;
     Color color;
