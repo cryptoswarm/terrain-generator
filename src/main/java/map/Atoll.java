@@ -5,8 +5,6 @@ import geometrie.Dot;
 
 public class Atoll {
 
-
-    private Ocean ocean;
     private Lagon lagon;
     private Plage plage;
     private Vegetation vegetation;
@@ -16,7 +14,6 @@ public class Atoll {
     public Atoll(int b, int s){
 
         this.circle = new Circle(b, s);
-        this.ocean = new Ocean();
         this.lagon = new Lagon();
         this.plage = new Plage();
         this.vegetation = new Vegetation();
@@ -40,10 +37,6 @@ public class Atoll {
         return that.distance(circle.getCenter()) <= circle.getsRadius();
     }
 
-    public void defineOcean(Dot dot, Tile tile){
-        ocean.constructOcean(dot, tile);
-    }
-
     public void defineLagon(Dot dot, Tile tile){
         lagon.constructLagon(dot, tile);
     }
@@ -59,11 +52,32 @@ public class Atoll {
         return !isInLagon(that) && !isInOcean(that);
     }
 
-    public boolean isNeighborLagonOrOcean(Tile b){
+    public boolean isNeighborLagonOrOcean(Ocean ocean, Tile b){
         return ocean.isNeighbor(b) || lagon.isNeighbor(b);
     }
 
     public Vegetation getVegetation(){
         return vegetation;
     }
+
+
+    public Lagon getLagon() {
+        return lagon;
+    }
+
+    public Plage getPlage() {
+        return plage;
+    }
+/*
+    public boolean isNeighborLagonOrOcean1(Ocean ocean, Dot b){
+        return ocean.isNeighbor1(b) || lagon.isNeighbor1(b);
+    }
+
+    public boolean isNotNeighborLagonAndOcean1(Ocean ocean, Dot b){
+        return !ocean.isNeighbor1(b) && !lagon.isNeighbor1(b);
+    }
+*/
+
+
+
 }

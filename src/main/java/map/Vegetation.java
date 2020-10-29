@@ -17,7 +17,7 @@ public class Vegetation {
     }
 
     public void constructVegetation(Tile tuile){
-        vegetation.put( tuile.getTilePseudoCenter(), tuile);
+        vegetation.put( tuile.getTileCenter(), tuile);
     }
 
 
@@ -59,7 +59,7 @@ public class Vegetation {
             //Dot center = entry.getKey();
            // Tile b = entry.getValue();
 
-            //if(  b.getTilePseudoCenter().equals(tile.getTilePseudoCenter() ) ){ //Si le point centre de la tuile porteuse de source d'eau
+            //if(  b.getTileCenter().equals(tile.getTileCenter() ) ){ //Si le point centre de la tuile porteuse de source d'eau
                                                                                 // est dans la liste des voisines
                 for( Dot  dot : tile.getNeighborPseudoCenters() ){
                     Tile tile1 = vegetation.get(dot);

@@ -7,9 +7,9 @@ import java.util.HashSet;
 
 public class Tile {
 
-    Dot center;
+    private Dot center;
     TileColor backgroundColor;
-    HashSet<Dot> neighbors;
+    HashSet<Dot> neighbors;  //possible qu'on va devoir enlever les voisins d'ici
     int polygonId;
 
     public Tile(  Dot center, int polygonId ) {
@@ -34,7 +34,7 @@ public class Tile {
         return backgroundColor;
     }
 
-    public Dot getTilePseudoCenter() {
+    public Dot getTileCenter() {
 
         return this.center;
     }
@@ -42,4 +42,5 @@ public class Tile {
     public int getPolygonId() {
         return polygonId;
     }
+
 }

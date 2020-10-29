@@ -44,7 +44,7 @@ public class Lake {
                 Tile lakeTile = entry2.getValue();
 
                 for (Dot dotLake : lakeTile.getNeighborPseudoCenters()) {
-                    if ( dotLake.equals(vegeTile.getTilePseudoCenter()) ) {
+                    if ( dotLake.equals(vegeTile.getTileCenter()) ) {
                             this.lakeNeighbors.put(vegeCenter, vegeTile);
                     }
                 }

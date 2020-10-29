@@ -6,12 +6,11 @@ import reader.MeshFileReader;
 import reader.Reader;
 import writer.Writer;
 
-//import java.io.FileReader;
 
 public class Main {
 
     public static void main(String[] args) {
-        //valider si le fichier existe avant de le donner au reader
+
         UserArgs parsedArgs = new UserArgs(args);
 
         Reader reader = new MeshFileReader();

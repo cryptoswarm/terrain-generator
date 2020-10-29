@@ -19,7 +19,7 @@ public class Plage {
     }
 
     public void constructPlage( Tile tuile){
-        plage.put( tuile.getTilePseudoCenter(), tuile);
+        plage.put( tuile.getTileCenter(), tuile);
     }
 
 

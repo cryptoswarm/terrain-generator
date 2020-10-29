@@ -50,14 +50,20 @@ public class MeshFileReader implements Reader {
             }
             */
 
+
+            //HashSet<Dot> neighbors = new HashSet<>();  // les centre des tuiles voisines a une quelconque  tuile
+
             for (int neighborId: polygon.getNeighborsList()) {
+
                 Structs.Point pt = startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx());
+
+                //neighbors.add(new Dot(new Coordonnee(pt.getX(), pt.getY(), 0)));
 
                 newTile.addNeighborPseudoCenter(new Dot(new Coordonnee(pt.getX(), pt.getY(), 0)));
             }
+           // carte.addTileAndNeighbors(newTile, neighbors);
 
             carte.addTile(newTile);
-
         }
         return carte;
 

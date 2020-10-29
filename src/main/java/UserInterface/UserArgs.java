@@ -1,13 +1,15 @@
 package UserInterface;
 
-import org.apache.commons.cli.*;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class UserArgs {
     private String inputFile;
     private String outputFile;
-    //private String shapeForm;
-    //private String shapeAsAtoll;
-    //private String shapeAsTortuga;
     private String shapeSpecification;
     private String nbWaterSources;
 
@@ -42,36 +44,14 @@ public class UserArgs {
             throw new IllegalArgumentException("-i and -o must be provided!");
         return cl;
     }
-/*
-    public void createOutputFile(Structs.Mesh endMesh){
-        MeshWriter writer = new MeshWriter();
-        try {
-            writer.writeToFile(endMesh, outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-*/
+
     public String getOutputFile() {
         return outputFile;
     }
     public String getInputFile() {
         return inputFile;
     }
-/*
-    public String getShapeForm() {
-        return shapeForm;
-    }
 
-    public String getShapeAsAtoll() {
-        return shapeAsAtoll;
-    }
-
-    public String getShapeAsTortuga() {
-        return shapeAsTortuga;
-    }
-
- */
 
     public String getShapeSpecification() {
         return shapeSpecification;

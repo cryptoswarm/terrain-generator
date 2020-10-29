@@ -59,10 +59,10 @@ public class Ellipse {
 
     public boolean isOutEllipse(Tile tile ){
 
-        float x = tile.getTilePseudoCenter().getCoordonnee().getX();
-        float y = tile.getTilePseudoCenter().getCoordonnee().getY();
+        float x = tile.getTileCenter().getCoordonnee().getX();
+        float y = tile.getTileCenter().getCoordonnee().getY();
 
-        return tile.getTilePseudoCenter().distance(ellipseCenter) <= a && //b &&
+        return tile.getTileCenter().distance(ellipseCenter) <= a && //b &&
                 ( Math.pow( (x-h),2)/ Math.pow(b,2) )
                         + ( Math.pow((y-k), 2) / Math.pow(b/2, 2) ) <= 1;
     }

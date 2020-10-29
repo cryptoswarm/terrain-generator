@@ -2,7 +2,7 @@ package map;
 
 import geometrie.Dot;
 
-import java.awt.*;
+import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,7 +43,7 @@ public class Lagon {
             Tile b = entry.getValue();
             for(Dot val : b.getNeighborPseudoCenters())
             {
-                if(val.equals(tile.getTilePseudoCenter())){
+                if(val.equals(tile.getTileCenter())){
                     isPresent = true;
                     break;
                 }
@@ -54,5 +54,15 @@ public class Lagon {
         }
         return isPresent;
     }
+/*
+    public boolean isNeighbor1( Dot dot){
+
+        boolean isPresent = false;
+       if( lagon.containsKey(dot )) {
+           isPresent = true;
+       }
+        return isPresent;
+    }
+*/
 
 }
