@@ -32,7 +32,7 @@ public class MeshFileReader implements Reader {
             Structs.Point tileCenter = startMesh.getPoints(polygon.getCentroidIdx());
 
             Dot dot = new Dot( new Coordonnee(tileCenter.getX(), tileCenter.getY(), 0) );
-            Tile newTile = new Tile(polygon, dot, polygon.getCentroidIdx() );
+            Tile newTile = new Tile( dot, polygon.getCentroidIdx() );
 
 
 

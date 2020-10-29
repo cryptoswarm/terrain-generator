@@ -2,21 +2,19 @@ package map;
 
 import geometrie.Dot;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
 public class Ocean { //c'est bon interafce tuile ,,,, ocean implements tuile
 
     private Map<Dot, Tile> ocean;
-    Color color;
+    //Color color;
 
     public Ocean(){
         this.ocean = new HashMap<>();
     }
 
     public void constructOcean(Dot dot, Tile tuile){
-        tuile.setBackgroundColor(TileColor.OCEANBLUE);
         ocean.put( dot, tuile);
     }
 
@@ -32,15 +30,17 @@ public class Ocean { //c'est bon interafce tuile ,,,, ocean implements tuile
     public int oceanTuildNbr(){
         return ocean.size();
     }
-
+/*
     public void setColor(Color color) {
         this.color = color;
     }
 
+ */
+/*
     public Color getColor() {
         return color;
     }
-
+*/
     public boolean isNeighbor( Tile tile){
         boolean isPresent = false;
         for(Map.Entry<Dot, Tile> entry:ocean.entrySet() ) {

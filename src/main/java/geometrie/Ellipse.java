@@ -4,7 +4,7 @@ import map.Tile;
 
 import java.util.Random;
 
-public class Ellipse implements Shape {
+public class Ellipse {
 
 
     private double majorAxis;
@@ -26,7 +26,7 @@ public class Ellipse implements Shape {
         this.b = minorAxis/2 ;  // was 500=2 = 250
     }
 
-    @Override
+
     public double defineShape(int width, int height){
         Random r = new Random();
         double major = Math.max(width, height);

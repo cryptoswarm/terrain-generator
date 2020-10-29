@@ -15,15 +15,11 @@ public class Main {
         UserArgs parsedArgs = new UserArgs(args);
 
         Reader reader = new MeshFileReader();
-
         Carte carte =  reader.readFile( parsedArgs.getInputFile());
 
         Writer writer = new Writer();
-        //Mesh endMesh =
         writer.generateEndMesh(parsedArgs, carte);
 
-       // parsedArgs.createOutputFile(endMesh);
-        //writer.createOutputFile(endMesh, parsedArgs);
     }
     //atoll ou tortga est une liste de tuiles
 }

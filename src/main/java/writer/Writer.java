@@ -66,7 +66,7 @@ public class Writer { //writer
         return endMesh;
     }
 
-    private Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, Carte map) {
+    private Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, Carte carte) {
 
         //Structs.Mesh startMesh = readMeshFromFile(parsedArgs.getInputFile());
 
@@ -81,7 +81,7 @@ public class Writer { //writer
         assert startMesh != null;
         Structs.Mesh.Builder builder = startMesh.toBuilder();
 
-        for(Map.Entry<Dot, Tile> entry:map.getTiles().entrySet() ) {
+        for(Map.Entry<Dot, Tile> entry:carte.getTiles().entrySet() ) {
 
             Dot center = entry.getKey();
             Tile b = entry.getValue();

@@ -3,7 +3,7 @@ package map;
 import geometrie.Circle;
 import geometrie.Dot;
 
-public class Atoll{
+public class Atoll {
 
 
     private Ocean ocean;
@@ -12,7 +12,6 @@ public class Atoll{
     private Vegetation vegetation;
     private Circle circle;
 
-    private Tile tile;
 
     public Atoll(int b, int s){
 
@@ -22,8 +21,14 @@ public class Atoll{
         this.plage = new Plage();
         this.vegetation = new Vegetation();
     }
+/*
+    @Override
+    public Shape defineShape(int width, int height){
+        //return  Math.min(width, height);
+        return new Shape(width, height);
+    }
 
-
+*/
     public boolean isInOcean(Dot that ){
 
         return that.distance(circle.getCenter()) >= circle.getbRadius();

@@ -36,6 +36,7 @@ public class Carte {
             Tile b = entry.getValue();
 
             if(atoll.isInOcean(center)){
+                b.setBackgroundColor(TileColor.OCEANBLUE);
                 atoll.defineOcean(center, b);
             }
             if(atoll.isInLagon(center)){
