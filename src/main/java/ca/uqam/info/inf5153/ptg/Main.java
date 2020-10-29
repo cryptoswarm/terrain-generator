@@ -1,7 +1,6 @@
 package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
-import ca.uqam.ace.inf5153.mesh.io.Structs.Mesh;
 import map.Carte;
 import reader.MeshFileReader;
 import reader.Reader;
@@ -20,10 +19,11 @@ public class Main {
         Carte carte =  reader.readFile( parsedArgs.getInputFile());
 
         Writer writer = new Writer();
-        Mesh endMesh = writer.generateEndMesh(parsedArgs, carte);
+        //Mesh endMesh =
+        writer.generateEndMesh(parsedArgs, carte);
 
        // parsedArgs.createOutputFile(endMesh);
-        writer.createOutputFile(endMesh, parsedArgs);
+        //writer.createOutputFile(endMesh, parsedArgs);
     }
     //atoll ou tortga est une liste de tuiles
 }

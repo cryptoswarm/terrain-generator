@@ -56,6 +56,13 @@ public class Writer { //writer
         Structs.Mesh endMesh = syncMeshBuilderWithMap(parsedArgs, carte);
         //Mesh is now resynced
 
+        MeshWriter writer = new MeshWriter();
+        try {
+            writer.writeToFile(endMesh, parsedArgs.getOutputFile() );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         return endMesh;
     }
 
@@ -85,7 +92,7 @@ public class Writer { //writer
         }
         return builder.build();
     }
-
+/*
     public void createOutputFile(Structs.Mesh endMesh, UserArgs parsedArgs){
         MeshWriter writer = new MeshWriter();
         try {
@@ -94,4 +101,6 @@ public class Writer { //writer
             e.printStackTrace();
         }
     }
+
+ */
 }
