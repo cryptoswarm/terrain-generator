@@ -195,13 +195,134 @@ public class Carte {
     }
 
  */
-    public void createLake( Vegetation vegetation, int nbWaterSources ){
+    public void createLake( Vegetation vegetation, int nbWaterSources, String soilTypeChoice){
         for(int i=0; i< nbWaterSources; i++){
-            Aquifere aquifere = new Aquifere(vegetation);
+
+            Tile tile = vegetation.findRandomVegtalTile();
+            Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquifereNeighbors(tile);
+
+            Aquifere aquifere = new Aquifere(tile, aquifereNeighbors);
             Lake lake = new Lake(aquifere);
-            lake.findLakeNeighbors(vegetation);
-            lake.setColorNeighbors();
-            lake.setColor();
+
+            lake.findAdjacentLakeNeighbors(vegetation);
+            lake.setColor(TileColor.WATERBLUE);
+            //lake.setColorNeighbors(TileColor.DARKGREEN);
+            Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
+
+            applyHumidityEffect(soilTypeChoice, tuileAndDistance);
+
+        }
+    }
+
+    public void createNape( Vegetation vegetation, int nbWaterSources, String soilTypeChoice){
+        for(int i=0; i< nbWaterSources; i++){
+
+            Tile tile = vegetation.findRandomVegtalTile();
+            Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquifereNeighbors(tile);
+
+            Aquifere aquifere = new Aquifere(tile, aquifereNeighbors);
+            Lake lake = new Lake(aquifere);
+
+            lake.findAdjacentLakeNeighbors(vegetation);
+            lake.setColor(TileColor.DARKGREEN);
+            //lake.setColorNeighbors(TileColor.DARKGREEN);
+            Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
+
+            applyHumidityEffect(soilTypeChoice, tuileAndDistance);
+
+        }
+    }
+
+    public void applyHumidityEffect(String soilTypeChoice, Map<Double, Tile> tuileAndDistance){
+        int nbHumideTile;
+        int nbLessHumideTile;
+        int nbLessLessHumidTile;
+        int totalAffectedTiles;
+        int index;
+
+        switch (soilTypeChoice){
+            case "dry" :
+                nbHumideTile = 15;
+                nbLessHumideTile = 12;
+                nbLessLessHumidTile = 8;
+                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
+                index =0;
+                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                    Tile b = entry.getValue();
+                    if(index < nbHumideTile){
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.DARKGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        index++;
+                    }
+
+                }
+                break;
+            case "regular":
+
+                nbHumideTile = 20;
+                nbLessHumideTile = 15;
+                nbLessLessHumidTile = 12;
+                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
+                index =0;
+                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                    Tile b = entry.getValue();
+                    if(index < nbHumideTile){
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.DARKGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        index++;
+                    }
+
+                }
+                break;
+            case "wet":
+                nbHumideTile = 35;
+                nbLessHumideTile = 25;
+                nbLessLessHumidTile = 20;
+                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
+                index =0;
+                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                    Tile b = entry.getValue();
+                    if(index < nbHumideTile){
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.DARKGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        index++;
+                    }
+                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
+                        System.out.println("my index is ="+index);
+                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        index++;
+                    }
+
+                }
+                break;
+            default:
+                System.out.println("soil type are three, either dry, or regular or wet ");
+                System.exit(1);
         }
     }
 

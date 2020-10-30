@@ -2,7 +2,6 @@ package map;
 
 import geometrie.Dot;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class Aquifere {
@@ -12,15 +11,14 @@ public class Aquifere {
     private Vegetation vegetation;
     //private HashSet<Dot> neighbors2;
 
-    public Aquifere(Vegetation vegetation) {
-        this.vegetation = vegetation;
-        this.aquifereTileCenter = vegetation.findRandomVegtalTile();
-        this.neighbors = findAquifereNeighbors(aquifereTileCenter);
+    public Aquifere(Tile tile, Map<Dot, Tile> neighbors) {
+
+        this.aquifereTileCenter = tile;
+        this.neighbors = neighbors;
     }
 
     public void setColor(){
         this.aquifereTileCenter.setBackgroundColor(TileColor.DARKGREEN);
-
     }
 
     public void propager(){
@@ -55,7 +53,7 @@ public class Aquifere {
 
 
     }
-
+/*
     public  Map<Dot, Tile> findAquifereNeighbors(Tile aquifereTileCenter){
         Map<Dot, Tile> neighbor = new HashMap<>();
         Tile tile;
@@ -66,6 +64,8 @@ public class Aquifere {
         }
         return neighbor;
     }
+
+ */
 
     public Tile getAquifereTileCenter() {
         return aquifereTileCenter;

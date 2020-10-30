@@ -12,6 +12,7 @@ public class UserArgs {
     private String outputFile;
     private String shapeSpecification;
     private String nbWaterSources;
+    private String soilType;
 
 
     public UserArgs(String[] args){
@@ -26,6 +27,7 @@ public class UserArgs {
         //shapeForm = options.getOptionValue("shape");
         shapeSpecification= options.getOptionValue("shape");
         nbWaterSources =  options.getOptionValue("water") ;
+        soilType =  options.getOptionValue("soil") ;
         //shapeAsTortuga = options.getOptionValue("tortuga");
     }
 
@@ -37,6 +39,7 @@ public class UserArgs {
         opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
         opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
         opts.addOption(new Option("water", "water", true,"generation des aquiferes" ));
+        opts.addOption(new Option("soil", "soil", true,"soil type" ));
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cl = parser.parse(opts, args);
@@ -59,5 +62,9 @@ public class UserArgs {
 
     public String getNbWaterSources() {
         return nbWaterSources;
+    }
+
+    public String getSoilType() {
+        return soilType;
     }
 }

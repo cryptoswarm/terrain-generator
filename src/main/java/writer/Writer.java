@@ -6,10 +6,7 @@ import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.MeshWriter;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import geometrie.Dot;
-import map.Atoll;
-import map.Carte;
-import map.Tile;
-import map.Tortuga;
+import map.*;
 
 import java.io.IOException;
 import java.util.Map;
@@ -53,14 +50,19 @@ public class Writer { //writer
 
                 if(parsedArgs.getNbWaterSources() != null){
                     int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
-                    carte.createLake(atoll.getVegetation(), nbWaterSources);
+
+                    //carte.createLake(atoll.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
+                    carte.createNape(atoll.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
+                }
+                if( parsedArgs.getSoilType() != null){
+
                 }
 
             } else if (parsedArgs.getShapeSpecification().equals("tortuga")) {
                Tortuga tortuga = carte.createATortuga();
                 if(parsedArgs.getNbWaterSources() != null){
                     int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
-                    carte.createLake(tortuga.getVegetation(), nbWaterSources);
+                    carte.createLake(tortuga.getVegetation(), nbWaterSources, parsedArgs.getSoilType() );
                 }
             }
         }

@@ -49,6 +49,18 @@ public class Vegetation {
         return vegetation.get(randomDot);
     }
 
+    public  Map<Dot, Tile> findAquifereNeighbors(Tile randomTile){
+        Map<Dot, Tile> neighbor = new HashMap<>();
+        Tile tile;
+        for(Dot dot : randomTile.getNeighborPseudoCenters() ){
+            if(  ( tile = findCorrespendingTile(dot))  != null ){
+                neighbor.put(dot, tile );
+            }
+        }
+        neighbor.put(randomTile.getTileCenter(), randomTile);
+        return neighbor;
+    }
+
 
 
     public Map<Dot, Tile> findNeighbors( Tile tile){
