@@ -1,14 +1,19 @@
 package UserInterface;
 
-import ca.uqam.ace.inf5153.mesh.io.MeshWriter;
-import ca.uqam.ace.inf5153.mesh.io.Structs;
-import org.apache.commons.cli.*;
-
-import java.io.IOException;
+import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.CommandLineParser;
+import org.apache.commons.cli.DefaultParser;
+import org.apache.commons.cli.Option;
+import org.apache.commons.cli.Options;
+import org.apache.commons.cli.ParseException;
 
 public class UserArgs {
     private String inputFile;
     private String outputFile;
+    private String shapeSpecification;
+    private String nbWaterSources;
+    private String soilType;
+
 
     public UserArgs(String[] args){
         CommandLine options = null;
@@ -19,26 +24,28 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
+        //shapeForm = options.getOptionValue("shape");
+        shapeSpecification= options.getOptionValue("shape");
+        nbWaterSources =  options.getOptionValue("water") ;
+        soilType =  options.getOptionValue("soil") ;
+        //shapeAsTortuga = options.getOptionValue("tortuga");
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
         opts.addOption(new Option("i", "input", true,"Input mesh" ));
         opts.addOption(new Option("o", "output", true,"output file" ));
+        opts.addOption(new Option("shape", "shape", true,"carte shape" ));
+        opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
+        opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
+        opts.addOption(new Option("water", "water", true,"generation des aquiferes" ));
+        opts.addOption(new Option("soil", "soil", true,"soil type" ));
+
         CommandLineParser parser = new DefaultParser();
         CommandLine cl = parser.parse(opts, args);
         if (! cl.hasOption("i") || ! cl.hasOption("o"))
             throw new IllegalArgumentException("-i and -o must be provided!");
         return cl;
-    }
-
-    public void createOutputFile(Structs.Mesh endMesh){
-        MeshWriter writer = new MeshWriter();
-        try {
-            writer.writeToFile(endMesh, outputFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public String getOutputFile() {
@@ -48,4 +55,16 @@ public class UserArgs {
         return inputFile;
     }
 
+
+    public String getShapeSpecification() {
+        return shapeSpecification;
+    }
+
+    public String getNbWaterSources() {
+        return nbWaterSources;
+    }
+
+    public String getSoilType() {
+        return soilType;
+    }
 }

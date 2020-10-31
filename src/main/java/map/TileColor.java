@@ -1,4 +1,4 @@
-package Map;
+package map;
 
 public enum TileColor {
     OCEANBLUE("0:64:128:255"),
@@ -6,7 +6,9 @@ public enum TileColor {
     SAND("223:159:0:255"),
     LIGHTGREEN("0:255:63:255"),
     MIDGREEN("0:191:63:255"),
-    DARKGREEN("0:127:63:255");
+    DARKGREEN("0:127:63:255"),
+    LESSDARKERGREEN("0:127:63:230"),
+    LESSLESSDARKERGREEN("0:191:63:179");
     
     private final String rgba;
     
@@ -18,4 +20,6 @@ public enum TileColor {
     public String toString() {
         return rgba;
     }
+
+
 }

@@ -1,14 +1,14 @@
 @startuml
-UserInterface -> Controller : generateCarte(Mesh carte)
-Controller --> Traductor : CreateCarte(Mesh carte)
-Traductor --> Map : new Map(Mesh carte)
-Traductor <-- Map : Map carte
-Controller <-- Traductor : Map carte
-Controller --> Map : enrich()
-Controller <-- Map : Map enrichCarte
-Controller --> Traductor : CreateMesh(Map enrichCarte)
-Controller <-- Traductor : enrichMesh
-UserInterface <-- Controller : enrichMesh
+UserInterface -> writer : generateCarte(Mesh carte)
+writer --> Traductor : CreateCarte(Mesh carte)
+Traductor --> map : new map(Mesh carte)
+Traductor <-- map : map carte
+writer <-- Traductor : map carte
+writer --> map : enrich()
+writer <-- map : map enrichCarte
+writer --> Traductor : CreateMesh(map enrichCarte)
+writer <-- Traductor : enrichMesh
+UserInterface <-- writer : enrichMesh
 
 
 @enduml
