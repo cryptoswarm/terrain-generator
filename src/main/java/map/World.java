@@ -2,12 +2,18 @@ package map;
 
 import geometrie.Dot;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 
 public class World {
-
+    enum BiomeType {
+        OCEAN,
+        PLAGE,
+        LAGOON,
+        VEGETATION;
+    }
     int width;
     int height;
 
@@ -16,15 +22,13 @@ public class World {
     //HashMap< Tile, HashSet<Dot> > tileAndNeighbors;
     //HashSet<Dot> neighbors;
 
-    Ocean ocean;
-
+    HashMap<BiomeType, Biome> biomes;
     public World(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new LinkedHashMap<>();
         //this.tileAndNeighbors = new LinkedHashMap<>();
 
-        this.ocean = new Ocean();
 
     }
 /*
@@ -51,108 +55,8 @@ public class World {
 
         tiles.put(tile.getTileCenter(),tile);
     }
-
-    /**
-     *  Attention : Si on decide de donner à la carte la responsabilité de connaitre les voisins de chaque tuile
-     *              donc, c'est l'implementation en commentaire qu'on va utiliser
-     * @return Atoll
-     */
-    public Atoll createAtoll() {
-
-        Atoll atoll = new Atoll( width , height); //width =1000
-
-        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
-            Dot center = entry.getKey();
-            Tile b = entry.getValue();
-
-            if(atoll.isInOcean(center)){
-                b.setBackgroundColor(TileColor.OCEANBLUE);
-                ocean.constructOcean(center, b);
-            }
-            if(atoll.isInLagon(center)){
-                b.setBackgroundColor(TileColor.WATERBLUE);
-                atoll.defineLagon(center, b);
-            }
-        }
-
-        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
-            Dot center = entry.getKey();
-            Tile b = entry.getValue();
-
-            if(atoll.isBetweenLagonAndOcean(center)) {
-
-                if(atoll.isNeighborLagonOrOcean(ocean, b)){
-                    b.setBackgroundColor(TileColor.SAND);
-                    atoll.definePLage(b);
-                }else{
-                    b.setBackgroundColor(TileColor.MIDGREEN);
-                    atoll.defineVegetation(b);
-                }
-            }
-        }
-
-/*
-        for(Map.Entry<Tile, HashSet<Dot>> entry:tileAndNeighbors.entrySet() ) {
-
-            Tile tile = entry.getKey();
-            HashSet<Dot> neighbors = entry.getValue();
-
-            if(atoll.isInOcean(tile.getTileCenter())){
-                tile.setBackgroundColor(TileColor.OCEANBLUE);
-                ocean.constructOcean(tile.getTileCenter(), tile);
-            }
-
-            if(atoll.isInLagon( tile.getTileCenter()) ){
-                tile.setBackgroundColor(TileColor.WATERBLUE);
-                atoll.defineLagon(tile.getTileCenter(), tile);
-            }
-        }
-
-      for(Map.Entry<Tile, HashSet<Dot> > entry:tileAndNeighbors.entrySet() ) {
-
-            Tile tile = entry.getKey();
-            HashSet<Dot> neighbors = entry.getValue();
-
-           if (atoll.isBetweenLagonAndOcean1(tile)) {
-
-                //if( ocean.isNeighbor(tile) || atoll.getLagon().isNeighbor(tile) ){
-                for (Dot dot : neighbors) {
-                    //Tile tile1 = tiles.get(dot);
-
-                    if(atoll.isNeighborLagonOrOcean1(ocean, dot)){
-                        tile.setBackgroundColor( TileColor.SAND );
-                        atoll.definePLage(tile);
-                    }
-                }
-            }
-        }
-
-        for(Map.Entry<Tile, HashSet<Dot> > entry:tileAndNeighbors.entrySet() ) {
-
-            Tile tile = entry.getKey();
-            HashSet<Dot> neighbors = entry.getValue();
-
-            if (atoll.isBetweenLagonAndOcean1(tile)) {
-
-                for (Dot dot : neighbors) {
-
-                    if( ! atoll.isNeighborLagonOrOcean1(ocean, dot) && tile.getBackgroundColor() != TileColor.SAND){
-
-                        tile.setBackgroundColor(TileColor.MIDGREEN);
-                        atoll.defineVegetation(tile);
-                    }
-                }
-            }
-        }
-
- */
-
-        return atoll;
-    }
-
-
-
-    public Tortuga createATortuga() {
+/* minnnnne
+    public Tortuga addBiomeTortuga() {
 
         Tortuga tortuga = new Tortuga(width, height);//perfectCenter);
 
@@ -182,6 +86,8 @@ public class World {
         }
         return tortuga;
     }
+
+ */
 /*
     public void createAquifere(Vegetation vegetation, int nb){
         for(int i=0; i<nb; i++){
@@ -198,7 +104,7 @@ public class World {
         for(int i=0; i< nbWaterSources; i++){
 
             Tile tile = vegetation.findRandomVegtalTile();
-            java.util.Map<Dot, Tile> aquiferNeighbors =  vegetation.findAquiferNeighbors(tile);
+            java.util.HashMap<Dot, Tile> aquiferNeighbors =  vegetation.findAquiferNeighbors(tile);
 
             Aquifer aquifer = new Aquifer(tile, aquiferNeighbors);
             Lake lake = new Lake(aquifer);
@@ -217,7 +123,7 @@ public class World {
         for(int i=0; i< nbWaterSources; i++){
 
             Tile tile = vegetation.findRandomVegtalTile();
-            java.util.Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquiferNeighbors(tile);
+            java.util.HashMap<Dot, Tile> aquifereNeighbors =  vegetation.findAquiferNeighbors(tile);
 
             Aquifer aquifer = new Aquifer(tile, aquifereNeighbors);
             Lake lake = new Lake(aquifer);

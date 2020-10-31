@@ -2,26 +2,29 @@ package map;
 
 import geometrie.Dot;
 
-import java.awt.Color;
 import java.util.HashMap;
-import java.util.Map;
 
 public class Lagoon implements Biome {
 
-    private Map<Dot, Tile> lagon;
+    private HashMap<Dot, Tile> lagoon;
     private TileColor color = TileColor.WATERBLUE;
 
     public Lagoon() {
-        this.lagon = new HashMap<>();
+        this.lagoon = new HashMap<>();
     }
 
-    public void constructLagon(Dot dot, Tile tuile){
-        lagon.put(dot, tuile);
+    public void constructBiome(Dot dot, Tile tuile){
+        lagoon.put(dot, tuile);
+    }
+
+    @Override
+    public HashMap<Dot, Tile> getTiles() {
+        return lagoon;
     }
 
 
-    public Map<Dot, Tile> getLagon() {
-        return lagon;
+    public HashMap<Dot, Tile> getLagon() {
+        return lagoon;
     }
 
 
@@ -31,7 +34,7 @@ public class Lagoon implements Biome {
 
     public boolean isNeighbor( Tile tile){
         boolean isPresent = false;
-        for(Map.Entry<Dot, Tile> entry:lagon.entrySet() ) {
+        for(HashMap.Entry<Dot, Tile> entry:lagoon.entrySet() ) {
             //Dot center = entry.getKey();
             Tile b = entry.getValue();
             for(Dot val : b.getNeighborPseudoCenters())

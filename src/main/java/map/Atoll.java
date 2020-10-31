@@ -3,58 +3,52 @@ package map;
 import geometrie.Circle;
 import geometrie.Dot;
 
-public class Atoll {
+import java.util.HashMap;
 
+public class Atoll implements IslandType {
+    private HashMap<Dot, Tile> atoll;
     private Lagoon lagon;
     private Plage plage;
     private Vegetation vegetation;
     private Circle circle;
 
 
-    public Atoll(int b, int s){
+    public Atoll(World world){
 
-        this.circle = new Circle(b, s);
+        this.circle = new Circle(world.width, world.height);
         this.lagon = new Lagoon();
         this.plage = new Plage();
         this.vegetation = new Vegetation();
-    }
-/*
-    @Override
-    public Shape defineShape(int width, int height){
-        //return  Math.min(width, height);
-        return new Shape(width, height);
-    }
 
-*/
-    public boolean isInOcean(Dot that ){
+        HashMap<Dot, Tile> tiles = world.tiles;
+        for (java.util.Map.Entry<Dot, Tile> entry : tiles.entrySet()) {
+            Tile tile = entry.getValue();
+            if (tile.getTileCenter().distance(circle.getCenter()) <= circle.getsRadius()){
+                atoll.put(tile.getTileCenter(),tile);
+            }
+        }
 
-        return that.distance(circle.getCenter()) >= circle.getbRadius();
     }
 
 
-    public boolean isInLagon(Dot that ){
 
-        return that.distance(circle.getCenter()) <= circle.getsRadius();
-    }
 
-    public void defineLagon(Dot dot, Tile tile){
-        lagon.constructLagon(dot, tile);
-    }
 
-    public void definePLage(Tile b){
-        plage.constructPlage(b);
+    private boolean isInAtoll(Dot center){
+        return atoll.get(center) != null;
     }
-    public void defineVegetation(Tile b){
-        vegetation.constructVegetation(b);
+    public boolean isInLagon(Dot center){
+        return center.distance(circle.getCenter()) <= circle.getsRadius();
     }
 
     public boolean isBetweenLagonAndOcean(Dot that){
-        return !isInLagon(that) && !isInOcean(that);
+        return !isInLagon(that) && isInAtoll(that);
     }
 
-    public boolean isNeighborLagonOrOcean(Ocean ocean, Tile b){
-        return ocean.isNeighbor(b) || lagon.isNeighbor(b);
+    /*public boolean isNeighborLagonOrOcean(Tile tile){
+        return ocean.isNeighbor(tile) || lagon.isNeighbor(tile);
     }
+     */
 
     public Vegetation getVegetation(){
         return vegetation;
@@ -67,6 +61,10 @@ public class Atoll {
 
     public Plage getPlage() {
         return plage;
+    }
+
+    public HashMap<Dot, Tile> getTiles(){
+        return atoll;
     }
 /*
     public boolean isNeighborLagonOrOcean1(Ocean ocean, Dot b){

@@ -1,13 +1,11 @@
 package map;
 
 import geometrie.Dot;
-
-import java.awt.*;
 import java.util.*;
 
 public class Vegetation implements Biome {
 
-    private Map<Dot, Tile>  vegetation;
+    private HashMap<Dot, Tile>  vegetation;
     TileColor color = TileColor.GREEN;
 
 
@@ -17,7 +15,6 @@ public class Vegetation implements Biome {
     }
 
     public void constructVegetation(Tile tuile){
-        vegetation.put( tuile.getTileCenter(), tuile);
     }
 
 
@@ -37,8 +34,8 @@ public class Vegetation implements Biome {
         return vegetation.get(randomDot);
     }
 
-    public Map<Dot, Tile> findAquiferNeighbors(Tile randomTile){
-        Map<Dot, Tile> neighbor = new HashMap<>();
+    public HashMap<Dot, Tile> findAquiferNeighbors(Tile randomTile){
+        HashMap<Dot, Tile> neighbor = new HashMap<>();
         Tile tile;
         for(Dot dot : randomTile.getNeighborPseudoCenters() ){
             if(  ( tile = findCorrespendingTile(dot))  != null ){
@@ -53,7 +50,7 @@ public class Vegetation implements Biome {
 
     public Map<Dot, Tile> findNeighbors(Tile tile){
 
-        Map<Dot, Tile> aquiferNeighbors = new HashMap<>();
+        HashMap<Dot, Tile> aquiferNeighbors = new HashMap<>();
 
         //for(Map.Entry<Dot, Tile> entry:vegetation.entrySet() ) {
             //Dot center = entry.getKey();
@@ -73,5 +70,16 @@ public class Vegetation implements Biome {
 
     public Tile findCorrespendingTile(Dot dot){
         return vegetation.get(dot);
+    }
+
+    @Override
+    public void constructBiome(Dot dot, Tile tile) {
+        vegetation.put( tile.getTileCenter(), tile);
+
+    }
+
+    @Override
+    public HashMap<Dot, Tile> getTiles() {
+        return vegetation;
     }
 }

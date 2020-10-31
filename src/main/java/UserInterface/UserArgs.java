@@ -24,11 +24,18 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
-        //shapeForm = options.getOptionValue("shape");
-        shapeSpecification= options.getOptionValue("shape");
+        shapeSpecification = options.getOptionValue("shape");
         nbWaterSources =  options.getOptionValue("water") ;
-        soilType =  options.getOptionValue("soil") ;
-        //shapeAsTortuga = options.getOptionValue("tortuga");
+        soilType =  options.getOptionValue("soil");
+    }
+
+    public Boolean validateUserArgs(){
+        if (shapeSpecification != null) {
+            if (shapeSpecification.equals("atoll") || shapeSpecification.equals("tortuga")) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
@@ -54,16 +61,12 @@ public class UserArgs {
     public String getInputFile() {
         return inputFile;
     }
-
-
     public String getShapeSpecification() {
         return shapeSpecification;
     }
-
     public String getNbWaterSources() {
         return nbWaterSources;
     }
-
     public String getSoilType() {
         return soilType;
     }

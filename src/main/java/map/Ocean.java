@@ -3,11 +3,10 @@ package map;
 import geometrie.Dot;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class Ocean implements Biome {
 
-    private Map<Dot, Tile> ocean;
+    private HashMap<Dot, Tile> ocean;
 
     public Ocean(){
         this.ocean = new HashMap<>();
@@ -18,7 +17,7 @@ public class Ocean implements Biome {
      * @param dot  centre
      * @param tuile une tuile
      */
-    public void constructOcean(Dot dot, Tile tuile){
+    public void constructBiome(Dot dot, Tile tuile){
         ocean.put( dot, tuile);
     }
 
@@ -27,7 +26,7 @@ public class Ocean implements Biome {
      * @return  les  tuiles composant les biome ocean
      */
 
-    public Map<Dot, Tile> getOcean() {
+    public HashMap<Dot, Tile> getTiles() {
         return ocean;
     }
 
@@ -42,7 +41,7 @@ public class Ocean implements Biome {
 
     public boolean isNeighbor( Tile tile){
         boolean isPresent = false;
-        for(Map.Entry<Dot, Tile> entry:ocean.entrySet() ) {
+        for(HashMap.Entry<Dot, Tile> entry:ocean.entrySet() ) {
             //Dot center = entry.getKey();
             Tile b = entry.getValue();
             for( Dot val : b.getNeighborPseudoCenters() )

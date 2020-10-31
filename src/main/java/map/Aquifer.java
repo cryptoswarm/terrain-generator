@@ -2,16 +2,16 @@ package map;
 
 import geometrie.Dot;
 
-import java.util.Map;
+import java.util.HashMap;
 
 public class Aquifer implements Biome{
 
     private Tile aquiferTileCenter;
-    private Map<Dot, Tile> neighbors;
+    private HashMap<Dot, Tile> neighbors;
     private Vegetation vegetation;
     //private HashSet<Dot> neighbors2;
 
-    public Aquifer(Tile tile, Map<Dot, Tile> neighbors) {
+    public Aquifer(Tile tile, HashMap<Dot, Tile> neighbors) {
 
         this.aquiferTileCenter = tile;
         this.neighbors = neighbors;
@@ -74,13 +74,23 @@ public class Aquifer implements Biome{
     public void setColorAquifer(TileColor color) {
 
         this.aquiferTileCenter.setBackgroundColor(color);
-        for(Map.Entry<Dot, Tile> entry:neighbors.entrySet() ) {
+        for(HashMap.Entry<Dot, Tile> entry:neighbors.entrySet() ) {
             Tile b = entry.getValue();
             b.setBackgroundColor(color);
         }
     }
 
-    public Map<Dot, Tile> getNeighbors() {
+    public HashMap<Dot, Tile> getNeighbors() {
         return neighbors;
+    }
+
+    @Override
+    public void constructBiome(Dot dot, Tile tuile) {
+
+    }
+
+    @Override
+    public HashMap<Dot, Tile> getTiles() {
+        return null;
     }
 }

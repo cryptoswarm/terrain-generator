@@ -1,8 +1,11 @@
 package map;
 
+import geometrie.Dot;
 import geometrie.Ellipse;
 
-public class Tortuga {
+import java.util.HashMap;
+
+public class Tortuga implements IslandType {
 
     private Vegetation vegetation;
     private Plage plage;
@@ -41,5 +44,10 @@ public class Tortuga {
 
     public Plage getPlage() {
         return plage;
+    }
+
+    @Override
+    public HashMap<Dot, Tile> getTiles() {
+        return null;
     }
 }
