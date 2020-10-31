@@ -6,7 +6,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Lagon {
+public class Lagon implements Biome {
 
     private Map<Dot, Tile> lagon;
     private Color color;

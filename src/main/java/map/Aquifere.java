@@ -4,7 +4,7 @@ import geometrie.Dot;
 
 import java.util.Map;
 
-public class Aquifere {
+public class Aquifere implements Biome{
 
     private Tile aquifereTileCenter;
     private Map<Dot, Tile> neighbors;

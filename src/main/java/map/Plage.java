@@ -6,7 +6,7 @@ import java.awt.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Plage {
+public class Plage implements Biome{
 
 
     private Map<Dot, Tile>  plage;

@@ -5,7 +5,7 @@ import geometrie.Dot;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Ocean { //c'est bon interafce tuile ,,,, ocean implements tuile
+public class Ocean implements Biome {
 
     private Map<Dot, Tile> ocean;
 

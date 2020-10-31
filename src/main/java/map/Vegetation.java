@@ -5,7 +5,7 @@ import geometrie.Dot;
 import java.awt.*;
 import java.util.*;
 
-public class Vegetation {
+public class Vegetation implements Biome {
 
     private Map<Dot, Tile>  vegetation;
     Color color;
