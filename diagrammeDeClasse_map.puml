@@ -1,0 +1,140 @@
+@startuml
+
+class aquifere {
+    - Vegetation vegetation
+    - Map<Dot, Tile> Neighbors
+    - Tile aquifereTileCenter
+    + Aquifere()
+    + setColor()
+    + propager()
+    + getAcquifereTileCenter()
+    + setColorAcquifere(TileColor color)
+    + getNeighbors(Map<Dot, Tile>)
+}
+
+class Atoll {
+    - Lagon lagon
+    - Plage plage
+    - Circle circle
+    + Atoll(int, int)
+    + isInOcean(Dot dot)
+    + isInLagon(Dot dot)
+    + defineLagon(Dot dot, Tile tile)
+    + definePlage(Tile tile)
+    + defineVegetation(Tile tile)
+    + isBetweenLagoonAndOcean(Dot dot)
+    + isNeighborsLagoonOrOcean(Ocean ocean, Tile tile)
+    + getVegetation()
+    + getLagoon()
+    + getPlage()
+}
+
+class Carte{
+    + int width
+    + int height
+    + hashmap<Dot, Tile> tiles
+    + Ocean ocean
+    + Carte(width, height)
+    + addTile()
+    + createAtoll()
+    + createATortuga()
+    + createLake(Vegetation veg, Int nbWaterSource, String soilTypeChoice)
+    + createNape(Vegetation veg, Int nbWaterSource, String soilTypeChoice)
+    + applyHumidityEffect(String soilTypeChoice, Map<Double, Tile> TuileAndDistance)
+    + getTile()
+}
+class Lagoon {
+    - Map<Dot dot Tile tile> lagoon
+    Lagoon()
+    constructLagoon(Dot dot, Tile tile)
+    getLagoon()
+    lagonTuildNbr()
+    setColor(Color color)
+    getColor()
+    isNeighbors(Tile tile)
+}
+
+class Lake{
+    - Acquifere acquifere
+    - Map<Dot, Tile> lake
+    - Tile lakeCenter
+    - Map<Dot, Tile> lakeNeighbors
+    + Lake(acquifere)
+    + setColor()
+    + findAdjacentLakeNeighbors(Vegetation vegetation)
+    + setColorNeighbors(TileColor color)
+    + findDistanceFromAcquifereCenter(Vegetation vegetation)
+}
+class Ocean{
+    map<Dot, Tile> ocean
+    Ocean()
+    constructOcean<Dot dot, Tile tile>
+    getOcean()
+    getOceanTuiledId()
+    oceanTuiledNbr()
+    isNeighbors(Tile tile)
+}
+
+class Plage{
+    Map<Dot, Tile> plage
+    Color color
+    Plage()
+    constructPlage(Tile tile)
+    getPlage()
+    getPlageTuileId()
+    plageTuileNbr()
+    setColor(Color color)
+    getColor()
+}
+
+Class Tile{
+    Dot center
+    TileColor backgroungColor
+    Hashset<Dot> neighbors
+    int polygonId
+    Tile(Dot center, int polygonId)
+    addNeighborsPseudoCenter(Dot dot)
+    getNeighborsPseudoCenter()
+    setBackgroundColor(TileColor color)
+    getBackgroundColor()
+    getTileCenter()
+    getPolygonId()
+}
+Enum TileColor{
+    OCEANBLUE ("0:64:128:255")
+    WATERBLUE ("0:255:255:255")
+    SAND ("223:159:0:255")
+    LIGHTGREEN ("0:255:63:255")
+    MIDGREEN ("0:191:63:255")
+    DARKGREEN ("0:127:63:255")
+    LESSDARKERGREEN ("0:127:63:230")
+    LESSLESSDARKERGREEN ("0:191:63:179")
+}
+
+Class Tortuga{
+    Vegetation vegetation
+    Plage plage
+    Elypse elypse
+    Tortuga(int width, int height)
+    isInsideIsland(Tile tile)
+    getVegetation()
+    getPlage()
+}
+
+class Vegetation{
+    - Map<Dot dot, Tile tile> vegetation
+    - Color color
+    Vegetation()
+    constructVegetationTile()
+    getTuileVege()
+    getVegeTuiledId<Dot>
+    getNbTuilesVegetale()
+    setColor(Color color)
+    getColor()
+    findRandomVegtaleTile()
+    findAcquifereNeighbors(Tile randomTile)
+    findNeighbors(Tile tile)
+    findCorespondingTile(Dot dot)
+}
+
+@enduml
