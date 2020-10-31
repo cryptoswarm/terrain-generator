@@ -1,11 +1,11 @@
 package reader;
 
-import map.Carte;
+import map.World;
 
 public class PeshFileReader implements Reader {
 
     @Override
-    public Carte readFile(String fileName){
+    public World readFile(String fileName){
         return null;
     }
 }

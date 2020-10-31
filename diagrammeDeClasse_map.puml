@@ -66,7 +66,7 @@ class Lake{
     + findDistanceFromAcquifereCenter(Vegetation vegetation)
 }
 class Ocean{
-    map<Dot, Tile> ocean
+    world<Dot, Tile> ocean
     Ocean()
     constructOcean<Dot dot, Tile tile>
     getOcean()

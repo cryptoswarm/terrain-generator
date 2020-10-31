@@ -9,7 +9,6 @@ import geometrie.Dot;
 import map.*;
 
 import java.io.IOException;
-import java.util.Map;
 
 
 public class Writer { //writer
@@ -20,11 +19,11 @@ public class Writer { //writer
     /**
      *
      * @param parsedArgs  les arguments entrés par l'utilisateur
-     * @param carte   la carte qu'on a précedement construit a partir du mesh initiale
+     * @param world   la carte qu'on a précedement construit a partir du mesh initiale
      * @return
      */
 
-    public  Structs.Mesh generateEndMesh(UserArgs parsedArgs, Carte carte){
+    public  Structs.Mesh generateEndMesh(UserArgs parsedArgs, World world){
 
         //Alter Map to create Atoll and Laguna (Move to generator)
         //System.out.println( " parsedArgs.getShapeForm() should be atol or turtoga =  "+parsedArgs.getShapeSpecification() );
@@ -46,29 +45,29 @@ public class Writer { //writer
 
             if (parsedArgs.getShapeSpecification().equals("atoll")) {
 
-                Atoll atoll = carte.createAtoll();
+                Atoll atoll = world.createAtoll();
 
                 if(parsedArgs.getNbWaterSources() != null){
                     int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
 
                     //carte.createLake(atoll.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
-                    carte.createNape(atoll.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
+                    world.createNape(atoll.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
                 }
                 if( parsedArgs.getSoilType() != null){
 
                 }
 
             } else if (parsedArgs.getShapeSpecification().equals("tortuga")) {
-               Tortuga tortuga = carte.createATortuga();
+               Tortuga tortuga = world.createATortuga();
                 if(parsedArgs.getNbWaterSources() != null){
                     int nbWaterSources = Integer.parseInt( parsedArgs.getNbWaterSources() );
-                    carte.createLake(tortuga.getVegetation(), nbWaterSources, parsedArgs.getSoilType() );
+                    world.createLake(tortuga.getVegetation(), nbWaterSources, parsedArgs.getSoilType() );
                 }
             }
         }
 
         //Resync Mesh with changes done inside Map (Move to Converter)
-        Structs.Mesh endMesh = syncMeshBuilderWithMap(parsedArgs, carte);
+        Structs.Mesh endMesh = syncMeshBuilderWithMap(parsedArgs, world);
         //Mesh is now resynced
 
         MeshWriter writer = new MeshWriter();
@@ -84,12 +83,12 @@ public class Writer { //writer
     /**
      * Eterer sur les tuiles composant la carte et synchroniser avec les polygones composant le mesh
      * @param parsedArgs  les arguments de l'utilisateur
-     * @param carte  la carte apres qu'on ait ajouté tous ce qu'on besoin
+     * @param world  la carte apres qu'on ait ajouté tous ce qu'on besoin
      *
      * @return  un mesh
      */
 
-    private Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, Carte carte) {
+    private Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, World world) {
 
         Structs.Mesh startMesh = null;
         try {
@@ -101,7 +100,7 @@ public class Writer { //writer
         assert startMesh != null;
         Structs.Mesh.Builder builder = startMesh.toBuilder();
 
-        for(Map.Entry<Dot, Tile> entry:carte.getTiles().entrySet() ) {
+        for(java.util.Map.Entry<Dot, Tile> entry: world.getTiles().entrySet() ) {
 
             Dot center = entry.getKey();
             Tile b = entry.getValue();

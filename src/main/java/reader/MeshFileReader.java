@@ -4,7 +4,7 @@ import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import geometrie.Coordonnee;
 import geometrie.Dot;
-import map.Carte;
+import map.World;
 import map.Tile;
 
 import java.io.IOException;
@@ -13,7 +13,7 @@ import java.util.Optional;
 public class MeshFileReader implements Reader {
 
     @Override
-    public Carte readFile(String fileName){
+    public World readFile(String fileName){
 
         Structs.Mesh startMesh = null;
         try {
@@ -25,7 +25,7 @@ public class MeshFileReader implements Reader {
         int width = Integer.parseInt(readMetadata(startMesh, "width"));
         int height = Integer.parseInt(readMetadata(startMesh, "height"));
 
-        Carte carte = new Carte(width,height);
+        World world = new World(width,height);
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
 
@@ -63,9 +63,9 @@ public class MeshFileReader implements Reader {
             }
            // carte.addTileAndNeighbors(newTile, neighbors);
 
-            carte.addTile(newTile);
+            world.addTile(newTile);
         }
-        return carte;
+        return world;
 
     }
 

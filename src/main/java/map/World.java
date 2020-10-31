@@ -4,10 +4,9 @@ import geometrie.Dot;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Map;
 
 
-public class Carte {
+public class World {
 
     int width;
     int height;
@@ -19,7 +18,7 @@ public class Carte {
 
     Ocean ocean;
 
-    public Carte(int width, int height) {
+    public World(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new LinkedHashMap<>();
@@ -62,7 +61,7 @@ public class Carte {
 
         Atoll atoll = new Atoll( width , height); //width =1000
 
-        for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
+        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
@@ -76,7 +75,7 @@ public class Carte {
             }
         }
 
-        for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
+        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
@@ -157,7 +156,7 @@ public class Carte {
 
         Tortuga tortuga = new Tortuga(width, height);//perfectCenter);
 
-        for(Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
+        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
@@ -169,7 +168,7 @@ public class Carte {
                 ocean.constructOcean(center, b);
             }
         }
-        for(Map.Entry<Dot, Tile> entry:tortuga.getVegetation().getTuileVege().entrySet()) {
+        for(java.util.Map.Entry<Dot, Tile> entry:tortuga.getVegetation().getVegetation().entrySet()) {
             Dot center = entry.getKey();
             Tile b = entry.getValue();
 
@@ -199,15 +198,15 @@ public class Carte {
         for(int i=0; i< nbWaterSources; i++){
 
             Tile tile = vegetation.findRandomVegtalTile();
-            Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquifereNeighbors(tile);
+            java.util.Map<Dot, Tile> aquiferNeighbors =  vegetation.findAquiferNeighbors(tile);
 
-            Aquifere aquifere = new Aquifere(tile, aquifereNeighbors);
-            Lake lake = new Lake(aquifere);
+            Aquifer aquifer = new Aquifer(tile, aquiferNeighbors);
+            Lake lake = new Lake(aquifer);
 
             lake.findAdjacentLakeNeighbors(vegetation);
             lake.setColor(TileColor.WATERBLUE);
             //lake.setColorNeighbors(TileColor.DARKGREEN);
-            Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
+            java.util.Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
 
             applyHumidityEffect(soilTypeChoice, tuileAndDistance);
 
@@ -218,22 +217,22 @@ public class Carte {
         for(int i=0; i< nbWaterSources; i++){
 
             Tile tile = vegetation.findRandomVegtalTile();
-            Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquifereNeighbors(tile);
+            java.util.Map<Dot, Tile> aquifereNeighbors =  vegetation.findAquiferNeighbors(tile);
 
-            Aquifere aquifere = new Aquifere(tile, aquifereNeighbors);
-            Lake lake = new Lake(aquifere);
+            Aquifer aquifer = new Aquifer(tile, aquifereNeighbors);
+            Lake lake = new Lake(aquifer);
 
             lake.findAdjacentLakeNeighbors(vegetation);
             lake.setColor(TileColor.DARKGREEN);
             //lake.setColorNeighbors(TileColor.DARKGREEN);
-            Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
+            java.util.Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
 
             applyHumidityEffect(soilTypeChoice, tuileAndDistance);
 
         }
     }
 
-    public void applyHumidityEffect(String soilTypeChoice, Map<Double, Tile> tuileAndDistance){
+    public void applyHumidityEffect(String soilTypeChoice, java.util.Map<Double, Tile> tuileAndDistance){
         int nbHumideTile;
         int nbLessHumideTile;
         int nbLessLessHumidTile;
@@ -247,7 +246,7 @@ public class Carte {
                 nbLessLessHumidTile = 8;
                 totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
                 index =0;
-                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
                     Tile b = entry.getValue();
                     if(index < nbHumideTile){
                         System.out.println("my index is ="+index);
@@ -256,12 +255,12 @@ public class Carte {
                     }
                     if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.GREEN);
                         index++;
                     }
                     if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
                         index++;
                     }
 
@@ -274,7 +273,7 @@ public class Carte {
                 nbLessLessHumidTile = 12;
                 totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
                 index =0;
-                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
                     Tile b = entry.getValue();
                     if(index < nbHumideTile){
                         System.out.println("my index is ="+index);
@@ -283,12 +282,12 @@ public class Carte {
                     }
                     if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.GREEN);
                         index++;
                     }
                     if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
                         index++;
                     }
 
@@ -300,7 +299,7 @@ public class Carte {
                 nbLessLessHumidTile = 20;
                 totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
                 index =0;
-                for(Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
+                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
                     Tile b = entry.getValue();
                     if(index < nbHumideTile){
                         System.out.println("my index is ="+index);
@@ -309,12 +308,12 @@ public class Carte {
                     }
                     if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.GREEN);
                         index++;
                     }
                     if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
                         System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LESSLESSDARKERGREEN);
+                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
                         index++;
                     }
 

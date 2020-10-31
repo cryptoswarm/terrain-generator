@@ -9,15 +9,15 @@ import java.util.TreeMap;
 
 public class Lake {
 
-    private Aquifere aquifere;
+    private Aquifer aquifer;
     private Map<Dot, Tile> lake;
     private Tile lakeCenter;
     private Map<Dot, Tile> lakeNeighbors;
 
-    public Lake(Aquifere aquifere) {
-        this.aquifere = aquifere;
-        this.lake = aquifere.getNeighbors();
-        this.lakeCenter = aquifere.getAquifereTileCenter();
+    public Lake(Aquifer aquifer) {
+        this.aquifer = aquifer;
+        this.lake = aquifer.getNeighbors();
+        this.lakeCenter = aquifer.getAquiferTileCenter();
         this.lakeNeighbors = new HashMap<>();
     }
 
@@ -32,12 +32,12 @@ public class Lake {
     public void findAdjacentLakeNeighbors(Vegetation vegetation) {
 
         for (Map.Entry<Dot, Tile> entry2 : lake.entrySet()) {  //enlever les tuiles constituants le biom (lac) de ceux
-            // constituant le biom (vegetation)
+            // constituant le biome (vegetation)
             Dot lakeCenter = entry2.getKey();
-            vegetation.getTuileVege().remove(lakeCenter);
+            vegetation.getVegetation().remove(lakeCenter);
         }
 
-        for (Map.Entry<Dot, Tile> entry : vegetation.getTuileVege().entrySet()) {
+        for (Map.Entry<Dot, Tile> entry : vegetation.getVegetation().entrySet()) {
             Dot vegeCenter = entry.getKey();
             Tile vegeTile = entry.getValue();
             for (Map.Entry<Dot, Tile> entry2 : lake.entrySet()) {
@@ -69,10 +69,10 @@ public class Lake {
         for( Map.Entry<Dot, Tile> entry2:lake.entrySet()) {  //enlever les tuiles constituants le biom (lac) de ceux
             // constituant le biom (vegetation)
             Dot lakeCenter = entry2.getKey();
-            vegetation.getTuileVege().remove(lakeCenter);
+            vegetation.getVegetation().remove(lakeCenter);
         }
 
-        for(Map.Entry<Dot, Tile> entry:vegetation.getTuileVege().entrySet() ) {
+        for(Map.Entry<Dot, Tile> entry:vegetation.getVegetation().entrySet() ) {
 
             Dot vegeCenter = entry.getKey();
             Tile vegeTile = entry.getValue();

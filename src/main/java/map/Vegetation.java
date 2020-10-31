@@ -8,7 +8,7 @@ import java.util.*;
 public class Vegetation implements Biome {
 
     private Map<Dot, Tile>  vegetation;
-    Color color;
+    TileColor color = TileColor.GREEN;
 
 
     public Vegetation(){
@@ -21,23 +21,11 @@ public class Vegetation implements Biome {
     }
 
 
-    public Map<Dot, Tile> getTuileVege() {
+    public Map<Dot, Tile> getVegetation() {
         return vegetation;
     }
 
-    public Tile getVegeTuildId(Dot dot) {
-        return vegetation.get(dot);
-    }
-
-    public int getNbTuilesVegetales(){
-        return vegetation.size();
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
+    public TileColor getColor() {
         return color;
     }
 
@@ -49,7 +37,7 @@ public class Vegetation implements Biome {
         return vegetation.get(randomDot);
     }
 
-    public  Map<Dot, Tile> findAquifereNeighbors(Tile randomTile){
+    public Map<Dot, Tile> findAquiferNeighbors(Tile randomTile){
         Map<Dot, Tile> neighbor = new HashMap<>();
         Tile tile;
         for(Dot dot : randomTile.getNeighborPseudoCenters() ){
@@ -63,9 +51,9 @@ public class Vegetation implements Biome {
 
 
 
-    public Map<Dot, Tile> findNeighbors( Tile tile){
+    public Map<Dot, Tile> findNeighbors(Tile tile){
 
-        Map<Dot, Tile>  aquifereNeighbors = new HashMap<>();
+        Map<Dot, Tile> aquiferNeighbors = new HashMap<>();
 
         //for(Map.Entry<Dot, Tile> entry:vegetation.entrySet() ) {
             //Dot center = entry.getKey();
@@ -75,12 +63,12 @@ public class Vegetation implements Biome {
                                                                                 // est dans la liste des voisines
                 for( Dot  dot : tile.getNeighborPseudoCenters() ){
                     Tile tile1 = vegetation.get(dot);
-                    aquifereNeighbors.put(dot, tile1);
+                    aquiferNeighbors.put(dot, tile1);
                 }
                // break;
             //}
        // }
-        return aquifereNeighbors;
+        return aquiferNeighbors;
     }
 
     public Tile findCorrespendingTile(Dot dot){

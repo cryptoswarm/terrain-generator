@@ -6,12 +6,12 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Lagon implements Biome {
+public class Lagoon implements Biome {
 
     private Map<Dot, Tile> lagon;
-    private Color color;
+    private TileColor color = TileColor.WATERBLUE;
 
-    public Lagon() {
+    public Lagoon() {
         this.lagon = new HashMap<>();
     }
 
@@ -24,15 +24,8 @@ public class Lagon implements Biome {
         return lagon;
     }
 
-    public int lagonTuildNbr(){
-        return lagon.size();
-    }
 
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
+    public TileColor getColor() {
         return color;
     }
 

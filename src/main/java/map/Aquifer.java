@@ -4,30 +4,30 @@ import geometrie.Dot;
 
 import java.util.Map;
 
-public class Aquifere implements Biome{
+public class Aquifer implements Biome{
 
-    private Tile aquifereTileCenter;
+    private Tile aquiferTileCenter;
     private Map<Dot, Tile> neighbors;
     private Vegetation vegetation;
     //private HashSet<Dot> neighbors2;
 
-    public Aquifere(Tile tile, Map<Dot, Tile> neighbors) {
+    public Aquifer(Tile tile, Map<Dot, Tile> neighbors) {
 
-        this.aquifereTileCenter = tile;
+        this.aquiferTileCenter = tile;
         this.neighbors = neighbors;
     }
 
     public void setColor(){
-        this.aquifereTileCenter.setBackgroundColor(TileColor.DARKGREEN);
+        this.aquiferTileCenter.setBackgroundColor(TileColor.DARKGREEN);
     }
 
     public void propager(){
         //this.neighbors = this.vegetation.findNeighbors(aquifereTileCenter);
         //aquifereTileCenter.getNeighborPseudoCenters();
-        for(Dot dot : aquifereTileCenter.getNeighborPseudoCenters() ){
+        for(Dot dot : aquiferTileCenter.getNeighborPseudoCenters() ){
 
             if( vegetation.findCorrespendingTile(dot) != null ){
-                vegetation.findCorrespendingTile(dot).setBackgroundColor(TileColor.LESSDARKERGREEN);
+                vegetation.findCorrespendingTile(dot).setBackgroundColor(TileColor.GREEN);
             }
         }
         /*
@@ -67,13 +67,13 @@ public class Aquifere implements Biome{
 
  */
 
-    public Tile getAquifereTileCenter() {
-        return aquifereTileCenter;
+    public Tile getAquiferTileCenter() {
+        return aquiferTileCenter;
     }
 
-    public void setColorAquifere(TileColor color) {
+    public void setColorAquifer(TileColor color) {
 
-        this.aquifereTileCenter.setBackgroundColor(color);
+        this.aquiferTileCenter.setBackgroundColor(color);
         for(Map.Entry<Dot, Tile> entry:neighbors.entrySet() ) {
             Tile b = entry.getValue();
             b.setBackgroundColor(color);

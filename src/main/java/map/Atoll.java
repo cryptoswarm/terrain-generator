@@ -5,7 +5,7 @@ import geometrie.Dot;
 
 public class Atoll {
 
-    private Lagon lagon;
+    private Lagoon lagon;
     private Plage plage;
     private Vegetation vegetation;
     private Circle circle;
@@ -14,7 +14,7 @@ public class Atoll {
     public Atoll(int b, int s){
 
         this.circle = new Circle(b, s);
-        this.lagon = new Lagon();
+        this.lagon = new Lagoon();
         this.plage = new Plage();
         this.vegetation = new Vegetation();
     }
@@ -61,7 +61,7 @@ public class Atoll {
     }
 
 
-    public Lagon getLagon() {
+    public Lagoon getLagon() {
         return lagon;
     }
 

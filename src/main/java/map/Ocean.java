@@ -32,24 +32,6 @@ public class Ocean implements Biome {
     }
 
     /**
-     *
-     * @param dot centre
-     * @return  retourner la tuile equivalente
-     */
-
-    public Tile getOceanTuildId(Dot dot) {
-        return ocean.get(dot);
-    }
-
-    /**
-     *
-     * @return le nombre total des tuiles composant le biome ocean
-     */
-    public int oceanTuildNbr(){
-        return ocean.size();
-    }
-
-    /**
      * Vérifier si une tuile est voisine aux tuiles composant le biome ocean
      * Chaque tuile connait ses voisines
      * eterer sur la listes des tuiles composant le biome ocean puis les voisines de  this tuile

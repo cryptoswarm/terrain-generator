@@ -1,7 +1,7 @@
 package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
-import map.Carte;
+import map.World;
 import reader.MeshFileReader;
 import reader.Reader;
 import writer.Writer;
@@ -14,10 +14,10 @@ public class Main {
         UserArgs parsedArgs = new UserArgs(args);
 
         Reader reader = new MeshFileReader();
-        Carte carte =  reader.readFile( parsedArgs.getInputFile());
+        World world =  reader.readFile( parsedArgs.getInputFile());
 
         Writer writer = new Writer();
-        writer.generateEndMesh(parsedArgs, carte);
+        writer.generateEndMesh(parsedArgs, world);
 
     }
     //atoll ou tortga est une liste de tuiles
