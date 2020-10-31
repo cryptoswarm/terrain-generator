@@ -1,6 +1,6 @@
 @startuml
 
-class aquifere {
+class Aquifer {
     - Vegetation vegetation
     - Map<Dot, Tile> Neighbors
     - Tile aquifereTileCenter
@@ -137,4 +137,33 @@ class Vegetation{
     findCorespondingTile(Dot dot)
 }
 
+Carte -- Atoll
+Carte -- Tortuga
+Carte -- Tile
+Carte -- Lake
+Carte -- Vegetation
+Carte -- Plage
+Carte -- Ocean
+Carte -- Aquifer
+Carte -- TileColor
+Carte -- Lagoon
+
+Aquifer -- Tile
+Aquifer -- TileColor
+
+Atoll -- Plage
+Atoll -- Vegetation
+Atoll -- Lagoon
+
+Lake -- Aquifer
+Lake -- Tile
+Lake -- TileColor
+Lake -- Vegetation
+
+Plage -- Tile
+
+Tortuga -- Plage
+Tortuga -- Vegetation
+
+Vegetation -- Tile
 @enduml
