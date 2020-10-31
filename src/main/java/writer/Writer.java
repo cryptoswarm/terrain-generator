@@ -44,7 +44,7 @@ public class Writer {
         assert startMesh != null;
         Structs.Mesh.Builder builder = startMesh.toBuilder();
 
-        for(java.util.Map.Entry<Dot, Tile> entry: world.getTiles().entrySet() ) {
+        for(java.util.HashMap.Entry<Dot, Tile> entry: world.getTiles().entrySet() ) {
 
             Dot center = entry.getKey();
             Tile b = entry.getValue();

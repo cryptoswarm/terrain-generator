@@ -6,7 +6,7 @@ import geometrie.Dot;
 import java.util.HashMap;
 
 public class Atoll implements IslandType {
-    private HashMap<Dot, Tile> atoll;
+    private HashMap<Dot, Tile> atoll = new HashMap<Dot, Tile>();
     private Lagoon lagon;
     private Plage plage;
     private Vegetation vegetation;

@@ -22,7 +22,9 @@ public class World {
     //HashMap< Tile, HashSet<Dot> > tileAndNeighbors;
     //HashSet<Dot> neighbors;
 
-    HashMap<BiomeType, Biome> biomes;
+    HashMap<BiomeType, Biome> biomes = new HashMap<BiomeType, Biome>();
+
+
     public World(int width, int height) {
         this.width = width;
         this.height = height;

@@ -13,7 +13,7 @@ public class WorldGenerator {
             if (parsedArgs.getShapeSpecification().equals("atoll")) {
 
                 IslandType atoll = new Atoll(world);
-                createBiome(atoll, world);
+                world = createBiome(atoll, world);
 
                 if (parsedArgs.getNbWaterSources() != null) {
                     int nbWaterSources = Integer.parseInt(parsedArgs.getNbWaterSources());
@@ -32,15 +32,19 @@ public class WorldGenerator {
                     world.createLake(tortuga.getVegetation(), nbWaterSources, parsedArgs.getSoilType());
                 }*/
             }
+
+
+
         return world;
     }
 
-    private static void createBiome(IslandType island, World world) {
+    private static World createBiome(IslandType island, World world) {
         //Ocean
         world.biomes.put(OCEAN, new Ocean());
         for (java.util.Map.Entry<Dot, Tile> entry : world.tiles.entrySet()) {
             if(island.getTiles().get(entry.getKey()) == null){
                 world.biomes.get(OCEAN).constructBiome(entry.getKey(), entry.getValue());
+                entry.getValue().setBackgroundColor(TileColor.OCEANBLUE);
             }
         }
         //lagon
@@ -49,6 +53,7 @@ public class WorldGenerator {
             for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
                 if (((Atoll) island).isInLagon(entry.getKey())) {
                     world.biomes.get(LAGOON).constructBiome(entry.getKey(), entry.getValue());
+                    entry.getValue().setBackgroundColor(TileColor.WATERBLUE);
                 }
             }
         }
@@ -58,11 +63,14 @@ public class WorldGenerator {
             for (Dot tileCenter : entry.getValue().neighbors) {
                 if(world.biomes.get(OCEAN).getTiles().get(tileCenter) != null || world.biomes.get(LAGOON).getTiles().get(tileCenter) != null){
                     world.biomes.get(PLAGE).constructBiome(entry.getKey(), entry.getValue());
+                    entry.getValue().setBackgroundColor(TileColor.SAND);
                     break;
                 }
             }
         }
         //vegetation
+
+        return world;
 
     }
 }
