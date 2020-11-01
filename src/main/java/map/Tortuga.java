@@ -17,7 +17,7 @@ public class Tortuga implements Island {
         for (java.util.Map.Entry<Dot, Tile> entry : tiles.entrySet()) {
             Tile tile = entry.getValue();
             Dot tileCenter = entry.getKey();
-            if (!ellipse.isOutEllipse(tile)){
+            if (ellipse.isOutEllipse(tile)){
                 tortuga.put(tileCenter,tile);
             }
         }
@@ -30,6 +30,6 @@ public class Tortuga implements Island {
 
     @Override
     public boolean isOnIsland(Tile tile) {
-        return tortuga.get(tile.getTileCenter()) == null;
+        return tortuga.get(tile.getTileCenter()) != null;
     }
 }

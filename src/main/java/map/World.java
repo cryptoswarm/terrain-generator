@@ -209,7 +209,6 @@ public class World {
 
         //lagon
         if(island instanceof Atoll) {
-            System.out.println("weird");
             for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
                 Tile tile = entry.getValue();
                 if (((Atoll)island).isInLagon(tile)) {
@@ -223,7 +222,6 @@ public class World {
             Tile tile = entry.getValue();
             if(!isTileInBiomes(tile)) {
                 for (Dot neighbors : tile.neighbors) {
-                    System.out.println("plage");
                     if (ocean.getTiles().get(neighbors) != null || lagoon.getTiles().get(neighbors) != null) {
                         plage.addToBiome(tile);
                         break;
@@ -235,7 +233,7 @@ public class World {
         //vegetation
         for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
             Tile tile = entry.getValue();
-            System.out.println("vegetation");
+
             if(!isTileInBiomes(tile)){
                 vegetation.addToBiome(tile);
             }
