@@ -24,11 +24,11 @@ public class Circle {
         return center;
     }
 
-    public double getbRadius() {
+    public double getBigRadius() {
         return bRadius;
     }
 
-    public double getsRadius() {
+    public double getSmallRadius() {
         return sRadius;
     }
 }

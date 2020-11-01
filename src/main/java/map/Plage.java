@@ -20,9 +20,9 @@ public class Plage implements Biome{
     }
 
     @Override
-    public void constructBiome(Dot dot, Tile tile) {
-        plage.put( tile.getTileCenter(), tile);
-
+    public void addToBiome(Tile tile) {
+        plage.put(tile.getTileCenter(), tile);
+        tile.setBackgroundColor(color);
     }
 
     @Override

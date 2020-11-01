@@ -2,4 +2,4 @@
 
 export ARGS=$(echo "$@")
 
-mvn -q exec:java -Dexec.args="$ARGS"
+mvn -q -X exec:java -Dexec.args="$ARGS"

@@ -5,67 +5,27 @@ import geometrie.Dot;
 import java.util.HashMap;
 
 public class Ocean implements Biome {
-
     private HashMap<Dot, Tile> ocean;
+    private TileColor color = TileColor.OCEANBLUE;
 
     public Ocean(){
         this.ocean = new HashMap<>();
     }
 
     /**
-     *  Sauvergader les tuiles composant les biome ocean
-     * @param dot  centre
-     * @param tuile une tuile
+     *  Sauvergader les tuiles composant le biome ocean
+     * @param tile une tuile
      */
-    public void constructBiome(Dot dot, Tile tuile){
-        ocean.put( dot, tuile);
+    public void addToBiome(Tile tile){
+        ocean.put(tile.getTileCenter(), tile);
+        tile.setBackgroundColor(color);
     }
 
     /**
-     *
      * @return  les  tuiles composant les biome ocean
      */
-
     public HashMap<Dot, Tile> getTiles() {
         return ocean;
     }
 
-    /**
-     * Vérifier si une tuile est voisine aux tuiles composant le biome ocean
-     * Chaque tuile connait ses voisines
-     * eterer sur la listes des tuiles composant le biome ocean puis les voisines de  this tuile
-     * Si that tuile est parmis les voisines on sort de la boucle en ayant true sinon false
-     * @param tile  une tuile
-     * @return
-     */
-
-    public boolean isNeighbor( Tile tile){
-        boolean isPresent = false;
-        for(HashMap.Entry<Dot, Tile> entry:ocean.entrySet() ) {
-            //Dot center = entry.getKey();
-            Tile b = entry.getValue();
-            for( Dot val : b.getNeighborPseudoCenters() )
-            {
-                if(val.equals(tile.getTileCenter())){
-                    isPresent = true;
-                    break;
-                }
-            }
-            if(isPresent) {
-                break;
-            }
-        }
-        return isPresent;
-    }
-/*
-    public boolean isNeighbor1( Dot dot){
-        boolean isPresent = false;
-
-        if( ocean.containsKey(dot) ) {
-            isPresent = true;
-        }
-        return isPresent;
-    }
-
- */
 }

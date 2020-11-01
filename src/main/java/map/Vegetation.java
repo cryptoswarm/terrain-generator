@@ -10,22 +10,18 @@ public class Vegetation implements Biome {
 
 
     public Vegetation(){
-
         this.vegetation = new HashMap<>();
     }
 
-    public void constructVegetation(Tile tuile){
+    @Override
+    public void addToBiome(Tile tile) {
+        vegetation.put(tile.getTileCenter(), tile);
+        tile.setBackgroundColor(color);
     }
-
 
     public Map<Dot, Tile> getVegetation() {
         return vegetation;
     }
-
-    public TileColor getColor() {
-        return color;
-    }
-
 
     public Tile findRandomVegtalTile(){
         Random random = new Random();
@@ -72,11 +68,6 @@ public class Vegetation implements Biome {
         return vegetation.get(dot);
     }
 
-    @Override
-    public void constructBiome(Dot dot, Tile tile) {
-        vegetation.put( tile.getTileCenter(), tile);
-
-    }
 
     @Override
     public HashMap<Dot, Tile> getTiles() {

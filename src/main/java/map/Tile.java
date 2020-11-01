@@ -4,12 +4,13 @@ package map;
 import geometrie.Dot;
 
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Tile {
 
     private Dot center;
     TileColor backgroundColor;
-    HashSet<Dot> neighbors;  //possible qu'on va devoir enlever les voisins d'ici
+    HashSet<Dot> neighbors;
     int polygonId;
 
     public Tile(  Dot center, int polygonId ) {
@@ -43,4 +44,16 @@ public class Tile {
         return polygonId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return center.equals(tile.center);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(center);
+    }
 }

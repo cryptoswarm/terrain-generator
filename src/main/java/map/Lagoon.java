@@ -13,26 +13,19 @@ public class Lagoon implements Biome {
         this.lagoon = new HashMap<>();
     }
 
-    public void constructBiome(Dot dot, Tile tuile){
-        lagoon.put(dot, tuile);
-    }
 
     @Override
     public HashMap<Dot, Tile> getTiles() {
         return lagoon;
     }
 
-
-    public HashMap<Dot, Tile> getLagon() {
-        return lagoon;
+    @Override
+    public void addToBiome(Tile tile) {
+        lagoon.put(tile.getTileCenter(), tile);
+        tile.setBackgroundColor(color);
     }
 
-
-    public TileColor getColor() {
-        return color;
-    }
-
-    public boolean isNeighbor( Tile tile){
+    public boolean isNeighbor(Tile tile){
         boolean isPresent = false;
         for(HashMap.Entry<Dot, Tile> entry:lagoon.entrySet() ) {
             //Dot center = entry.getKey();
@@ -50,15 +43,4 @@ public class Lagoon implements Biome {
         }
         return isPresent;
     }
-/*
-    public boolean isNeighbor1( Dot dot){
-
-        boolean isPresent = false;
-       if( lagon.containsKey(dot )) {
-           isPresent = true;
-       }
-        return isPresent;
-    }
-*/
-
 }

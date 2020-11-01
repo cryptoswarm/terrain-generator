@@ -19,7 +19,7 @@ public class Writer {
      * @param world   la carte qu'on a précedement construit a partir du mesh initiale
      * @return
      */
-    public  Structs.Mesh generateEndMesh(UserArgs parsedArgs, World world){
+    public static Structs.Mesh generateEndMesh(UserArgs parsedArgs, World world){
         Structs.Mesh endMesh = syncMeshBuilderWithMap(parsedArgs, world);
         createOutputFile(endMesh, parsedArgs);
         return endMesh;
@@ -32,7 +32,7 @@ public class Writer {
      *
      * @return  un mesh
      */
-    private Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, World world) {
+    private static Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, World world) {
 
         Structs.Mesh startMesh = null;
         try {
@@ -56,10 +56,10 @@ public class Writer {
         return builder.build();
     }
 
-    private void createOutputFile(Structs.Mesh endMesh, UserArgs parsedArgs){
+    private static void createOutputFile(Structs.Mesh endMesh, UserArgs parsedArgs){
         MeshWriter writer = new MeshWriter();
         try {
-            writer.writeToFile(endMesh, parsedArgs.getOutputFile() );
+            writer.writeToFile(endMesh, parsedArgs.getOutputFile());
         } catch (IOException e) {
             e.printStackTrace();
         }

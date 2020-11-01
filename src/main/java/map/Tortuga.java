@@ -5,49 +5,31 @@ import geometrie.Ellipse;
 
 import java.util.HashMap;
 
-public class Tortuga implements IslandType {
+public class Tortuga implements Island {
 
-    private Vegetation vegetation;
-    private Plage plage;
     private Ellipse ellipse;
+    private HashMap<Dot, Tile> tortuga = new HashMap<Dot, Tile>();
 
 
-    public Tortuga(int width, int height){ //Dot center) {
-
-        this.ellipse = new Ellipse(width, height );
-        this.vegetation = new Vegetation();
-        this.plage = new Plage();
-    }
-
-    /**
-     *
-     * @param tile  la tuile qu'on veuille vérifier s'il elle est a l'interieur de l'ellipce
-     * @return
-     */
-    public boolean isInsideIslande(Tile tile){
-
-        return ellipse.isOutEllipse(tile);
-    }
-
-    /**
-     *
-     * @return la listes des tuiles composant le biom vegetation
-     */
-    public Vegetation getVegetation() {
-        return vegetation;
-    }
-
-    /**
-     *
-     * @return la listes des tuiles composant le biom plage
-     */
-
-    public Plage getPlage() {
-        return plage;
+    public Tortuga(World world){
+        this.ellipse = new Ellipse(world.getWidth(), world.getHeight());
+        HashMap<Dot, Tile> tiles = world.getTiles();
+        for (java.util.Map.Entry<Dot, Tile> entry : tiles.entrySet()) {
+            Tile tile = entry.getValue();
+            Dot tileCenter = entry.getKey();
+            if (!ellipse.isOutEllipse(tile)){
+                tortuga.put(tileCenter,tile);
+            }
+        }
     }
 
     @Override
     public HashMap<Dot, Tile> getTiles() {
-        return null;
+        return tortuga;
+    }
+
+    @Override
+    public boolean isOnIsland(Tile tile) {
+        return tortuga.get(tile.getTileCenter()) == null;
     }
 }

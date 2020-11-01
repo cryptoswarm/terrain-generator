@@ -2,94 +2,41 @@ package map;
 
 import geometrie.Dot;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-
 public class World {
-    enum BiomeType {
-        OCEAN,
-        PLAGE,
-        LAGOON,
-        VEGETATION;
-    }
-    int width;
-    int height;
+    private int width;
+    private int height;
+    private HashMap<Dot, Tile> tiles;
+    private Biome plage;
+    private Biome ocean;
+    private Biome lagoon;
+    private Biome vegetation;
 
-    HashMap<Dot, Tile> tiles;
-
-    //HashMap< Tile, HashSet<Dot> > tileAndNeighbors;
-    //HashSet<Dot> neighbors;
-
-    HashMap<BiomeType, Biome> biomes = new HashMap<BiomeType, Biome>();
 
 
     public World(int width, int height) {
         this.width = width;
         this.height = height;
         this.tiles = new LinkedHashMap<>();
-        //this.tileAndNeighbors = new LinkedHashMap<>();
-
-
-    }
-/*
-    // Si on l'utilise, elle va service a ce qu'on puisse synchroniser les tuiles et le end mesh
-    public HashMap<Tile, HashSet<Dot>> getTileAndNeighbors() {
-        return tileAndNeighbors;
+        plage = new Plage();
+        ocean = new Ocean();
+        vegetation = new Vegetation();
+        lagoon = new Lagoon();
     }
 
- */
-/*
-    /**
-     *  Cette methode n'est pas utilisé, son utilisation depend de notre implementation finale
-     * @param tile une tuiles
-     * @param neighbors  les voisins de cette tuile
-
-    public void addTileAndNeighbors(Tile tile, HashSet<Dot> neighbors ){
-       // this.neighbors = neighbors;
-        tileAndNeighbors.put(tile, new HashSet<>(neighbors));
+    public int getWidth() {
+        return width;
     }
-*/
-
+    public int getHeight() {
+        return height;
+    }
 
     public void addTile(Tile tile) {
-
         tiles.put(tile.getTileCenter(),tile);
     }
-/* minnnnne
-    public Tortuga addBiomeTortuga() {
 
-        Tortuga tortuga = new Tortuga(width, height);//perfectCenter);
-
-        for(java.util.Map.Entry<Dot, Tile> entry:tiles.entrySet() ) {
-            Dot center = entry.getKey();
-            Tile b = entry.getValue();
-
-            if(tortuga.isInsideIslande(b)){
-                b.setBackgroundColor(TileColor.MIDGREEN);
-                tortuga.getVegetation().constructVegetation(b);
-            }else{
-                b.setBackgroundColor(TileColor.OCEANBLUE);
-                ocean.constructOcean(center, b);
-            }
-        }
-        for(java.util.Map.Entry<Dot, Tile> entry:tortuga.getVegetation().getVegetation().entrySet()) {
-            Dot center = entry.getKey();
-            Tile b = entry.getValue();
-
-            for (Dot val : b.getNeighborPseudoCenters()) {
-                Tile temp = tiles.get(val);
-                if(! tortuga.isInsideIslande(temp) ){
-                    tiles.get(val).setBackgroundColor(TileColor.SAND);
-                    tortuga.getPlage().constructPlage(b);
-                }
-            }
-        }
-        return tortuga;
-    }
-
- */
 /*
     public void createAquifere(Vegetation vegetation, int nb){
         for(int i=0; i<nb; i++){
@@ -240,5 +187,59 @@ public class World {
 
     public HashMap<Dot, Tile> getTiles() {
         return tiles;
+    }
+
+    private boolean isTileInBiomes(Tile tile){
+        Dot tileCenter = tile.getTileCenter();
+        if (ocean.getTiles().get(tileCenter) != null) return true;
+        if (plage.getTiles().get(tileCenter) != null) return true;
+        if (lagoon.getTiles().get(tileCenter) != null) return true;
+        if (vegetation.getTiles().get(tileCenter) != null) return true;
+        return false;
+    }
+
+    public void createBiome(Island island) {
+        //Ocean
+        for (java.util.Map.Entry<Dot, Tile> entry : tiles.entrySet()) {
+            Tile tile = entry.getValue();
+            if(!island.isOnIsland(tile)){
+                ocean.addToBiome(tile);
+            }
+        }
+
+        //lagon
+        if(island instanceof Atoll) {
+            System.out.println("weird");
+            for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
+                Tile tile = entry.getValue();
+                if (((Atoll)island).isInLagon(tile)) {
+                    lagoon.addToBiome(tile);
+                }
+            }
+        }
+
+        //plage
+        for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
+            Tile tile = entry.getValue();
+            if(!isTileInBiomes(tile)) {
+                for (Dot neighbors : tile.neighbors) {
+                    System.out.println("plage");
+                    if (ocean.getTiles().get(neighbors) != null || lagoon.getTiles().get(neighbors) != null) {
+                        plage.addToBiome(tile);
+                        break;
+                    }
+                }
+            }
+        }
+
+        //vegetation
+        for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
+            Tile tile = entry.getValue();
+            System.out.println("vegetation");
+            if(!isTileInBiomes(tile)){
+                vegetation.addToBiome(tile);
+            }
+        }
+
     }
 }

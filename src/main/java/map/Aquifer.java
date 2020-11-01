@@ -84,13 +84,14 @@ public class Aquifer implements Biome{
         return neighbors;
     }
 
-    @Override
-    public void constructBiome(Dot dot, Tile tuile) {
-
-    }
 
     @Override
     public HashMap<Dot, Tile> getTiles() {
         return null;
+    }
+
+    @Override
+    public void addToBiome(Tile tile) {
+
     }
 }
