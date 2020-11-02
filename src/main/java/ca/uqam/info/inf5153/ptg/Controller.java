@@ -71,7 +71,9 @@ public class Controller {
                 m = MODE.WATER_MAP;
             } else {
                 mode = new Normal();
+                m = MODE.NORMAL;
             }
         }
+        m = MODE.NORMAL;
     };
 }

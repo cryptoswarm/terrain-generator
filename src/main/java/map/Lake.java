@@ -15,11 +15,13 @@ public class Lake implements Aquifer {
         for(Tile i : tile.getNeighbors().values()) {
             if(vegetation.get(i.getCenter()) != null) {
                 lake.put(i.getCenter(), i);
-                i.setHumidityLevel(1);
             }
 
         }
-        for(Tile i: lake.values()) i.setBackgroundColor(color);
+        for(Tile i: lake.values()) {
+            i.setBackgroundColor(color);
+            i.setHumidityLevel(1);
+        }
     }
 
     @Override

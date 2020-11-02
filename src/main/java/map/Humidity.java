@@ -6,7 +6,7 @@ public class Humidity implements Mode{
     public String getColor(int R, int G, int B, int A, int factor) {
         int value = applyFactor(G, factor);
         if(factor == 0) return 0 + ":" + 0 + ":" + 0 + ":" + 255;
-        return color.getR() + ":" + color.getG() + ":" + color.getB() + ":" + (255 - value);
+        return color.getR() + ":" + color.getG() + ":" + 255 + ":" + (255 - value);
     }
 
     private static int applyFactor(int g, int factor){
