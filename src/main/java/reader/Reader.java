@@ -1,9 +1,7 @@
 package reader;
 
-import map.World;
-
 public interface Reader {
 
-    World readFile(String fileName);
+    public void readFile(String fileName);
 
 }

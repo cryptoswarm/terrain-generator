@@ -1,11 +1,11 @@
 package map;
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 
 import java.util.HashMap;
 
 public class Ocean implements Biome {
-    private HashMap<Dot, Tile> ocean;
+    private HashMap<Coordinate, Tile> ocean;
     private TileColor color = TileColor.OCEANBLUE;
 
     public Ocean(){
@@ -17,14 +17,14 @@ public class Ocean implements Biome {
      * @param tile une tuile
      */
     public void addToBiome(Tile tile){
-        ocean.put(tile.getTileCenter(), tile);
+        ocean.put(tile.getCenter(), tile);
         tile.setBackgroundColor(color);
     }
 
     /**
      * @return  les  tuiles composant les biome ocean
      */
-    public HashMap<Dot, Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return ocean;
     }
 

@@ -1,47 +1,48 @@
 package map;
 
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Tile {
 
-    private Dot center;
+    private Coordinate center;
     TileColor backgroundColor;
-    HashSet<Dot> neighbors;
-    int polygonId;
+    int humidityLevel;
+    HashMap<Coordinate, Tile> neighbors;
 
-    public Tile(  Dot center, int polygonId ) {
+    public Tile(Coordinate center) {
         this.center = center;
-        this.neighbors = new HashSet<>();
-        this.polygonId = polygonId;
+        this.neighbors = new HashMap<Coordinate, Tile>();
+        humidityLevel = 0;
     }
 
-    public void addNeighborPseudoCenter(Dot neighborPseudoCenter) {
-        this.neighbors.add(neighborPseudoCenter);
+    public void addNeighbor(Tile neighbor) {
+        this.neighbors.put(neighbor.getCenter(), neighbor);
     }
 
-    public HashSet<Dot> getNeighborPseudoCenters() {
+    public HashMap<Coordinate, Tile> getNeighbors() {
         return neighbors;
     }
 
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
     }
-
     public TileColor getBackgroundColor() {
         return backgroundColor;
     }
 
-    public Dot getTileCenter() {
-
+    public Coordinate getCenter() {
         return this.center;
     }
 
-    public int getPolygonId() {
-        return polygonId;
+    public int getHumidityLevel() {
+        return humidityLevel;
+    }
+    public void setHumidityLevel(int humidityLevel) {
+        this.humidityLevel = humidityLevel;
     }
 
     @Override

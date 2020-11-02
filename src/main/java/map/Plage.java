@@ -1,13 +1,13 @@
 package map;
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 import java.util.HashMap;
 import static map.TileColor.SAND;
 
 public class Plage implements Biome{
 
 
-    private HashMap<Dot, Tile>  plage;
+    private HashMap<Coordinate, Tile>  plage;
     private TileColor color = SAND;
 
 
@@ -21,12 +21,12 @@ public class Plage implements Biome{
 
     @Override
     public void addToBiome(Tile tile) {
-        plage.put(tile.getTileCenter(), tile);
+        plage.put(tile.getCenter(), tile);
         tile.setBackgroundColor(color);
     }
 
     @Override
-    public HashMap<Dot, Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return plage;
     }
 }

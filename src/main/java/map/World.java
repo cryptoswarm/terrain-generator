@@ -1,14 +1,14 @@
 package map;
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.*;
 
 public class World {
     private int width;
     private int height;
-    private HashMap<Dot, Tile> tiles;
+    private soilType soil;
+    private HashMap<Coordinate, Tile> tiles;
     private Biome plage;
     private Biome ocean;
     private Biome lagoon;
@@ -16,9 +16,7 @@ public class World {
 
 
 
-    public World(int width, int height) {
-        this.width = width;
-        this.height = height;
+    public World() {
         this.tiles = new LinkedHashMap<>();
         plage = new Plage();
         ocean = new Ocean();
@@ -26,171 +24,81 @@ public class World {
         lagoon = new Lagoon();
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public void setSoil(String soil) {
+        this.soil = soilType.getSoilType(soil);
+    }
     public int getWidth() {
         return width;
     }
     public int getHeight() {
         return height;
     }
+    public Biome getVegetation() {
+        return vegetation;
+    }
 
     public void addTile(Tile tile) {
-        tiles.put(tile.getTileCenter(),tile);
+        tiles.put(tile.getCenter(),tile);
     }
 
-/*
-    public void createAquifere(Vegetation vegetation, int nb){
-        for(int i=0; i<nb; i++){
-            Aquifere aquifere = new Aquifere(vegetation);
-            //aquifere.setColor();
-            //aquifere.propager();
-            //Lake lake = new Lake(aquifere);
-            //lake.setColor();
+    private Tile findRandomTile(HashMap<Coordinate, Tile> tiles){
+        Random random = new Random();
+        ArrayList<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
+        Coordinate randomCoordinate = coordinates.get( random.nextInt( coordinates.size()) );
+        return tiles.get(randomCoordinate);
+    }
+
+    public void createLake(int lakesNbs){
+        for(int i = 0; i <= lakesNbs; i++) {
+            Tile tile = findRandomTile(vegetation.getTiles());
+            Aquifer lake = new Lake(tile, vegetation.getTiles());
+            applyHumidityEffect(lake.getTiles());
         }
     }
 
- */
-    public void createLake( Vegetation vegetation, int nbWaterSources, String soilTypeChoice){
-        for(int i=0; i< nbWaterSources; i++){
-
-            Tile tile = vegetation.findRandomVegtalTile();
-            java.util.HashMap<Dot, Tile> aquiferNeighbors =  vegetation.findAquiferNeighbors(tile);
-
-            Aquifer aquifer = new Aquifer(tile, aquiferNeighbors);
-            Lake lake = new Lake(aquifer);
-
-            lake.findAdjacentLakeNeighbors(vegetation);
-            lake.setColor(TileColor.WATERBLUE);
-            //lake.setColorNeighbors(TileColor.DARKGREEN);
-            java.util.Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
-
-            applyHumidityEffect(soilTypeChoice, tuileAndDistance);
-
+    public void createNape(int napeNbs){
+        for(int i = 0; i <= napeNbs; i++) {
+            Tile tile = findRandomTile(vegetation.getTiles());
+            Aquifer nape = new Nape(tile, vegetation.getTiles());
+            applyHumidityEffect(nape.getTiles());
         }
     }
 
-    public void createNape( Vegetation vegetation, int nbWaterSources, String soilTypeChoice){
-        for(int i=0; i< nbWaterSources; i++){
-
-            Tile tile = vegetation.findRandomVegtalTile();
-            java.util.HashMap<Dot, Tile> aquifereNeighbors =  vegetation.findAquiferNeighbors(tile);
-
-            Aquifer aquifer = new Aquifer(tile, aquifereNeighbors);
-            Lake lake = new Lake(aquifer);
-
-            lake.findAdjacentLakeNeighbors(vegetation);
-            lake.setColor(TileColor.DARKGREEN);
-            //lake.setColorNeighbors(TileColor.DARKGREEN);
-            java.util.Map<Double, Tile> tuileAndDistance =  lake.findDistanceFromAquifereCenter(vegetation);
-
-            applyHumidityEffect(soilTypeChoice, tuileAndDistance);
-
-        }
-    }
-
-    public void applyHumidityEffect(String soilTypeChoice, java.util.Map<Double, Tile> tuileAndDistance){
-        int nbHumideTile;
-        int nbLessHumideTile;
-        int nbLessLessHumidTile;
-        int totalAffectedTiles;
-        int index;
-
-        switch (soilTypeChoice){
-            case "dry" :
-                nbHumideTile = 15;
-                nbLessHumideTile = 12;
-                nbLessLessHumidTile = 8;
-                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
-                index =0;
-                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
-                    Tile b = entry.getValue();
-                    if(index < nbHumideTile){
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.DARKGREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.GREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
-                        index++;
-                    }
-
+    private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
+        for(Tile i: tiles.values()){
+            Float distance = getDistanceFromWaterSource(i, waterSource);
+            if( distance < soil.getAffectedDistance()){
+                if (i.getHumidityLevel() < Math.round(distance)){
+                    i.setHumidityLevel(Math.round(distance));
                 }
-                break;
-            case "regular":
-
-                nbHumideTile = 20;
-                nbLessHumideTile = 15;
-                nbLessLessHumidTile = 12;
-                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
-                index =0;
-                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
-                    Tile b = entry.getValue();
-                    if(index < nbHumideTile){
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.DARKGREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.GREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
-                        index++;
-                    }
-
-                }
-                break;
-            case "wet":
-                nbHumideTile = 35;
-                nbLessHumideTile = 25;
-                nbLessLessHumidTile = 20;
-                totalAffectedTiles = nbHumideTile + nbLessHumideTile + nbLessLessHumidTile;
-                index =0;
-                for(java.util.Map.Entry<Double, Tile> entry:tuileAndDistance.entrySet()) {
-                    Tile b = entry.getValue();
-                    if(index < nbHumideTile){
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.DARKGREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile-1 && index< nbHumideTile+nbLessHumideTile) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.GREEN);
-                        index++;
-                    }
-                    if(index >= nbHumideTile + nbLessHumideTile  && index< totalAffectedTiles) {
-                        System.out.println("my index is ="+index);
-                        b.setBackgroundColor(TileColor.LIGHTGREEN2);
-                        index++;
-                    }
-
-                }
-                break;
-            default:
-                System.out.println("soil type are three, either dry, or regular or wet ");
-                System.exit(1);
+            }
         }
+    }
+
+    private Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource) {
+        Float distance = (float)10000;
+        for(Tile i: waterSource.values()){
+            Float tmp = tile.getCenter().distance(i.getCenter());
+            if( tmp < distance) distance = tmp;
+        }
+        return distance;
     }
 
     /**
-     *
-     * @return le centre de chaque tuile et la tuile elle meme
+     * @return Return world tiles.
      */
-
-    public HashMap<Dot, Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }
 
     private boolean isTileInBiomes(Tile tile){
-        Dot tileCenter = tile.getTileCenter();
+        Coordinate tileCenter = tile.getCenter();
         if (ocean.getTiles().get(tileCenter) != null) return true;
         if (plage.getTiles().get(tileCenter) != null) return true;
         if (lagoon.getTiles().get(tileCenter) != null) return true;
@@ -200,28 +108,21 @@ public class World {
 
     public void createBiome(Island island) {
         //Ocean
-        for (java.util.Map.Entry<Dot, Tile> entry : tiles.entrySet()) {
-            Tile tile = entry.getValue();
-            if(!island.isOnIsland(tile)){
-                ocean.addToBiome(tile);
-            }
+        for (Tile tile : tiles.values()) {
+            if(!island.isOnIsland(tile)) ocean.addToBiome(tile);
         }
 
         //lagon
         if(island instanceof Atoll) {
-            for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
-                Tile tile = entry.getValue();
-                if (((Atoll)island).isInLagon(tile)) {
-                    lagoon.addToBiome(tile);
-                }
+            for (Tile tile : island.getTiles().values()) {
+                if (((Atoll)island).isInLagon(tile)) lagoon.addToBiome(tile);
             }
         }
 
         //plage
-        for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
-            Tile tile = entry.getValue();
+        for (Tile tile : island.getTiles().values()) {
             if(!isTileInBiomes(tile)) {
-                for (Dot neighbors : tile.neighbors) {
+                for (Tile neighbors : tile.getNeighbors().values()) {
                     if (ocean.getTiles().get(neighbors) != null || lagoon.getTiles().get(neighbors) != null) {
                         plage.addToBiome(tile);
                         break;
@@ -231,13 +132,9 @@ public class World {
         }
 
         //vegetation
-        for (java.util.Map.Entry<Dot, Tile> entry : island.getTiles().entrySet()) {
-            Tile tile = entry.getValue();
-
-            if(!isTileInBiomes(tile)){
-                vegetation.addToBiome(tile);
-            }
+        for (Tile tile : island.getTiles().values()) {
+            if(!isTileInBiomes(tile)) vegetation.addToBiome(tile);
         }
-
     }
+
 }

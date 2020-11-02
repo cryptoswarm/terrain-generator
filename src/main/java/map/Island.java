@@ -1,9 +1,9 @@
 package map;
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 import java.util.HashMap;
 
 public interface Island {
-    public HashMap<Dot, Tile> getTiles();
+    public HashMap<Coordinate, Tile> getTiles();
     public boolean isOnIsland(Tile tile);
 }

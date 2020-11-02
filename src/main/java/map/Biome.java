@@ -1,10 +1,10 @@
 package map;
 
-import geometrie.Dot;
+import geometrie.Coordinate;
 
 import java.util.HashMap;
 
 public interface Biome {
     public void addToBiome(Tile tile);
-    public HashMap<Dot, Tile> getTiles();
+    public HashMap<Coordinate, Tile> getTiles();
 }

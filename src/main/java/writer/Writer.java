@@ -5,10 +5,12 @@ import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.MeshWriter;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
-import geometrie.Dot;
+import ca.uqam.info.inf5153.ptg.Controller;
+import geometrie.Coordinate;
 import map.*;
 
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 
 
 public class Writer {
@@ -19,47 +21,36 @@ public class Writer {
      * @param world   la carte qu'on a précedement construit a partir du mesh initiale
      * @return
      */
-    public static Structs.Mesh generateEndMesh(UserArgs parsedArgs, World world){
-        Structs.Mesh endMesh = syncMeshBuilderWithMap(parsedArgs, world);
-        createOutputFile(endMesh, parsedArgs);
-        return endMesh;
-    }
-
-    /**
-     * Itérer sur les tuiles composant la carte et synchroniser avec les polygones composant le mesh
-     * @param parsedArgs  les arguments de l'utilisateur
-     * @param world  la carte apres qu'on ait ajouté tous ce qu'on besoin
-     *
-     * @return  un mesh
-     */
-    private static Structs.Mesh syncMeshBuilderWithMap(UserArgs parsedArgs, World world) {
-
+    public static void generateEndMesh(String outFileName, String fileName, World world){
         Structs.Mesh startMesh = null;
         try {
-            startMesh = new MeshReader().readFromFile(parsedArgs.getInputFile());
+            startMesh = new MeshReader().readFromFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        assert startMesh != null;
-        Structs.Mesh.Builder builder = startMesh.toBuilder();
-
-        for(java.util.HashMap.Entry<Dot, Tile> entry: world.getTiles().entrySet() ) {
-
-            Dot center = entry.getKey();
-            Tile b = entry.getValue();
-            if(b.getBackgroundColor() != null) {
-                Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(b.getBackgroundColor().toString()).build();
-                builder.getPolygonsBuilder(b.getPolygonId()).addProperties(color);
-            }
-        }
-        return builder.build();
+        Structs.Mesh endMesh = syncMeshBuilderWithMap(startMesh, world);
+        createOutputFile(endMesh, outFileName);
     }
 
-    private static void createOutputFile(Structs.Mesh endMesh, UserArgs parsedArgs){
+
+    public static Structs.Mesh syncMeshBuilderWithMap(Structs.Mesh startMesh, World world) {
+        Structs.Mesh.Builder builder = startMesh.toBuilder();
+        for (int i = 0; i < builder.getPolygonsCount(); i++) {
+            Structs.Polygon p = builder.getPolygons(i);
+            float x = builder.getPoints(p.getCentroidIdx()).getX();
+            float y = builder.getPoints(p.getCentroidIdx()).getY();
+            String tileColor = Controller.getTileColor(x, y);
+            Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
+            builder.getPolygonsBuilder(i).addProperties(color);
+        }
+        Structs.Mesh endMesh = builder.build();
+        return endMesh;
+    }
+
+    private static void createOutputFile(Structs.Mesh endMesh, String fileName){
         MeshWriter writer = new MeshWriter();
         try {
-            writer.writeToFile(endMesh, parsedArgs.getOutputFile());
+            writer.writeToFile(endMesh, fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,25 +1,39 @@
 package map;
 
 public enum TileColor {
-    OCEANBLUE("0:64:128:255"),
-    WATERBLUE("0:255:255:255"),
-    SAND("223:159:0:255"),
-    LIGHTGREEN("0:255:63:255"),
-    MIDGREEN("0:191:63:255"),
-    DARKGREEN("0:127:63:255"),
-    GREEN("0:127:63:230"),
-    LIGHTGREEN2("0:191:63:179");
-    
-    private final String rgba;
-    
-    TileColor(String rgba) {
-        this.rgba = rgba;
+    OCEANBLUE(0,64,128,255),
+    WATERBLUE(0,255,255,255),
+    SAND(223,159,0,255),
+    LIGHTGREEN(0,255,0,255),
+    DARKGREEN(0,70,0,255);
+
+    TileColor(int r, int g, int b, int a) {
+        R = r;
+        G = g;
+        B = b;
+        A = a;
+    }
+
+    private int R;
+    private int G;
+    private int B;
+    private int A;
+
+    public int getR() {
+        return R;
+    }
+    public int getG() {
+        return G;
+    }
+    public int getB() {
+        return B;
+    }
+    public int getA() {
+        return A;
     }
 
     @Override
     public String toString() {
-        return rgba;
+        return R + ":" + G + ":" + B + ":" + A;
     }
-
-
 }
