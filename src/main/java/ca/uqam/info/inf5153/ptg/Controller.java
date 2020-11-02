@@ -2,10 +2,7 @@ package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
 import geometrie.Coordinate;
-import map.Tile;
-import map.TileColor;
-import map.World;
-import map.WorldGenerator;
+import map.*;
 import reader.MeshFileReader;
 import reader.Reader;
 
@@ -21,7 +18,7 @@ public class Controller {
         ALTITUDE_MAP
     }
 
-    private static MODE mode = null;
+    private static Mode mode = null;
 
     public static void createWorld(String[] args) {
         UserArgs parsedArgs = new UserArgs(args);
@@ -54,94 +51,25 @@ public class Controller {
     }
     public static String getTileColor(float x, float y){
         Tile tile = world.getTiles().get(new Coordinate(x,y,0));
-        TileColor color = getColor(tile);
-        String colorRGB = null;
-        int value = 0;
+        TileColor color = tile.getBackgroundColor();
+        MODE m = MODE.WATER_MAP;
+        int factor = 255;
+        if(m == MODE.NORMAL || m == MODE.WATER_MAP) factor = tile.getHumidityLevel();
+        if(m == MODE.ALTITUDE_MAP) factor = (int)tile.getAltitude();
 
-        int g = color.getG();
-
-        if(mode == MODE.NORMAL) {
-            if (world.getVegetation().getTiles().get(tile.getCenter()) != null) {
-                g = applyFactor(g, tile.getHumidityLevel());
-            }
-            colorRGB = color.getR() + ":" + g + ":" + color.getB() + ":" + color.getA();
-
-        }else if(mode == MODE.WATER_MAP){
-
-            if (world.getVegetation().getTiles().get(tile.getCenter()) != null || world.getPlage().getTiles().get(tile.getCenter()) != null) {
-                value = applyFactor(g, tile.getHumidityLevel());
-            }else{
-
-                return 0 + ":" + 0 + ":" + 0 + ":" + 255;
-            }
-
-            if (value == 0){
-
-                return 0 + ":" + 0 + ":" + 255 + ":" + 255;
-
-            }else {
-
-                colorRGB = color.getR() + ":" + color.getG() + ":" + 255 + ":" + (255 - value);
-
-            }
-
-        }else if(mode == MODE.ALTITUDE_MAP){
-
-            value = applyFactor(0, (int) tile.getAltitude());
-
-            if (value == 0){
-                return 0 + ":" + 0 + ":" + 0 + ":" + 255;
-            }else{
-                colorRGB = color.getR() + ":" + color.getG() + ":" + color.getB() + ":" + value;
-
-            }
-
-
-        }
-        return colorRGB;
-    }
-
-    private static int applyFactor(int g, int factor){
-        if (factor > 0){
-            if (70 + factor >= 255) return 255;
-            return 70 + factor;
-        }
-        return g;
-    }
-
-    private static TileColor getColor(Tile tile){
-
-        TileColor color = null;
-
-        switch (mode){
-
-            case NORMAL:
-                color = tile.getBackgroundColor();
-                break;
-            case WATER_MAP:
-                color = TileColor.DARKBLUE;
-                break;
-            case ALTITUDE_MAP:
-                color = TileColor.BROWN;
-        }
-
-        return color;
+        return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
 
     }
 
     public static void setMode(String userArg){
-
         if(userArg != null){
-
             if (userArg.equals("altitude")){
-                mode = MODE.ALTITUDE_MAP;
+                mode = new Altitude();
             }else if (userArg.equals("humidity")){
-                mode = MODE.WATER_MAP;
+                mode = new Humidity();
+            } else {
+                mode = new Normal();
             }
-
         }
-
-
-
     };
 }

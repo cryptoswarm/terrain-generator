@@ -1,16 +1,12 @@
 package writer;
 
 
-import UserInterface.UserArgs;
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.MeshWriter;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import ca.uqam.info.inf5153.ptg.Controller;
-import geometrie.Coordinate;
 import map.*;
-
 import java.io.IOException;
-import java.lang.reflect.Constructor;
 
 
 public class Writer {

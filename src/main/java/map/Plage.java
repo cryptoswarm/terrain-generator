@@ -16,6 +16,7 @@ public class Plage implements Biome {
     public void addToBiome(Tile tile) {
         plage.put(tile.getCenter(), tile);
         tile.setBackgroundColor(color);
+        tile.setHumidityLevel(5);
     }
 
     @Override

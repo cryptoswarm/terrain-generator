@@ -17,6 +17,7 @@ public class Vegetation implements Biome {
     public void addToBiome(Tile tile) {
         vegetation.put(tile.getCenter(), tile);
         tile.setBackgroundColor(color);
+        tile.setHumidityLevel(10);
     }
 
     @Override

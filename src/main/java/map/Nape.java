@@ -13,6 +13,7 @@ public class Nape implements Aquifer{
         for(Tile i : tile.getNeighbors().values()) {
             if(vegetation.get(i.getCenter()) != null) {
                 nape.put(i.getCenter(), i);
+                i.setHumidityLevel(1000);
             }
         }
         for(Tile i: nape.values()) i.setBackgroundColor(color);

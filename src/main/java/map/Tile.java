@@ -17,7 +17,7 @@ public class Tile {
     public Tile(Coordinate center) {
         this.center = center;
         this.neighbors = new HashMap<>();
-        humidityLevel = 1000;
+        humidityLevel = 0;
     }
 
     public void addNeighbor(Tile neighbor) {

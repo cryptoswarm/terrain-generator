@@ -39,10 +39,7 @@ public class World {
     public int getHeight() {
         return height;
     }
-    public Biome getVegetation() {
-        return vegetation;
-    }
-    public Biome getPlage() { return plage; }
+
 
     public void addTile(Tile tile) {
         tiles.put(tile.getCenter(),tile);
@@ -72,10 +69,10 @@ public class World {
     }
 
     private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
-        for(Tile i: tiles.values()){
+        for(Tile i: vegetation.getTiles().values()) {
             Float distance = getDistanceFromWaterSource(i, waterSource);
             if( distance < soil.getAffectedDistance()) {
-                if (i.getHumidityLevel() > Math.round(distance)) {
+                if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
                     i.setHumidityLevel(Math.round(distance));
                 }
             }
