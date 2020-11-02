@@ -2,12 +2,12 @@ package geometrie;
 
 import java.util.Objects;
 
-public class Coordonnee {
+public class Coordinate {
     private  float x;
     private float y;
     private float z;
 
-    public Coordonnee(float x, float y, float z) {
+    public Coordinate(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -25,16 +25,14 @@ public class Coordonnee {
         return z;
     }
 
-    public void setX(float x) {
-        this.x = x;
-    }
-
-    public void setY(float y) {
-        this.y = y;
-    }
-
     public void setZ(float z) {
         this.z = z;
+    }
+
+    public float distance(Coordinate that) {
+        float horizontal = this.x - that.x;
+        float vertical = this.y - that.y;
+        return (float) Math.sqrt( Math.pow(horizontal, 2) + Math.pow(vertical, 2) );
     }
 
     @Override
@@ -49,11 +47,10 @@ public class Coordonnee {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Coordonnee)) return false;
-        Coordonnee that = (Coordonnee) o;
+        if (!(o instanceof Coordinate)) return false;
+        Coordinate that = (Coordinate) o;
         return Float.compare(that.x, x) == 0 &&
-                Float.compare(that.y, y) == 0 &&
-                Float.compare(that.z, z) == 0;
+                Float.compare(that.y, y) == 0;
     }
 
     @Override

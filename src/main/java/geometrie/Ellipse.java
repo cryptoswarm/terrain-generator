@@ -9,19 +9,18 @@ public class Ellipse {
 
     private double majorAxis;
     private double minorAxis;
-    private Dot ellipseCenter;
+    private Coordinate ellipseCenter;
     private float h;
     private double a;
     private double b;
     private double k;
 
     public Ellipse(  int width, int height ){
-
         this.majorAxis = defineShape(width, height);
         this.minorAxis = findMinorAxis(majorAxis);
         this.ellipseCenter = setNewCenter(width, height);
-        this.h = ellipseCenter.getCoordonnee().getX();
-        this.k = ellipseCenter.getCoordonnee().getY();
+        this.h = ellipseCenter.getX();
+        this.k = ellipseCenter.getY();
         this.a = majorAxis/2 ;  //was 800/2 = 400
         this.b = minorAxis/2 ;  // was 500=2 = 250
     }
@@ -42,27 +41,27 @@ public class Ellipse {
     }
 
 
-    private Dot setNewCenter( int width, int height ){
+    private Coordinate setNewCenter(int width, int height ){
 
         Random r = new Random();
-        Dot perfectCenter = new Dot(new Coordonnee((float) (width / 2.0), (float) (height / 2.0), 0 ));
+        Coordinate perfectCenter = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
 
-        float x = r.nextInt( (int)perfectCenter.getCoordonnee().getX() )+  perfectCenter.getCoordonnee().getX()/2;
+        float x = r.nextInt( (int)perfectCenter.getX() )+  perfectCenter.getX()/2;
 
         //perfectCenter.getCoordonnee().getX()/3;  //wil give somthing between x=[250, 750]
-        float y = r.nextInt( (int)perfectCenter.getCoordonnee().getY()/2 )+  perfectCenter.getCoordonnee().getY() ;// +
+        float y = r.nextInt( (int)perfectCenter.getY()/2 )+  perfectCenter.getY() ;// +
 
         // perfectCenter.getCoordonnee().getY()/3;  y = [500, 750]
-        return  new Dot(new Coordonnee(x, y, 0));
+        return  new Coordinate(x, y, 0);
 
     }
 
     public boolean isOutEllipse(Tile tile ){
 
-        float x = tile.getTileCenter().getCoordonnee().getX();
-        float y = tile.getTileCenter().getCoordonnee().getY();
+        float x = tile.getCenter().getX();
+        float y = tile.getCenter().getY();
 
-        return tile.getTileCenter().distance(ellipseCenter) <= a && //b &&
+        return tile.getCenter().distance(ellipseCenter) <= a && //b &&
                 ( Math.pow( (x-h),2)/ Math.pow(b,2) )
                         + ( Math.pow((y-k), 2) / Math.pow(b/2, 2) ) <= 1;
     }

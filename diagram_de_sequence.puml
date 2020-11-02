@@ -1,12 +1,12 @@
 @startuml
-UserInterface -> writer : generateCarte(Mesh carte)
-writer --> Traductor : CreateCarte(Mesh carte)
-Traductor --> map : new map(Mesh carte)
-Traductor <-- map : map carte
-writer <-- Traductor : map carte
-writer --> map : enrich()
-writer <-- map : map enrichCarte
-writer --> Traductor : CreateMesh(map enrichCarte)
+UserInterface -> writer : generateCarte(Mesh world)
+writer --> Traductor : CreateCarte(Mesh world)
+Traductor --> world : new world(Mesh world)
+Traductor <-- world : world world
+writer <-- Traductor : world world
+writer --> world : enrich()
+writer <-- world : world enrichCarte
+writer --> Traductor : CreateMesh(world enrichCarte)
 writer <-- Traductor : enrichMesh
 UserInterface <-- writer : enrichMesh
 

@@ -2,8 +2,9 @@ package geometrie;
 
 public class Circle {
 
-    private Dot center;
+    private Coordinate center;
     private double bRadius;
+    private double mRadius;
     private double sRadius;
     private int width;
     private int height;
@@ -14,21 +15,20 @@ public class Circle {
         this.shortestSide = Math.min(width, height);
         this.bRadius = (shortestSide/2)*.7;
         this.sRadius = (shortestSide/2)*.4;
-        this.center = new Dot(new Coordonnee((float) (width / 2.0), (float) (height / 2.0), 0 ));
+        this.center = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
         this.width = width;
         this.height = height;
     }
 
 
-    public Dot getCenter() {
+    public Coordinate getCenter() {
         return center;
     }
 
-    public double getbRadius() {
+    public double getBigRadius() {
         return bRadius;
     }
-
-    public double getsRadius() {
+    public double getSmallRadius() {
         return sRadius;
     }
 }

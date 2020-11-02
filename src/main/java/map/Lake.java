@@ -1,89 +1,25 @@
 
 package map;
 
-import geometrie.Dot;
-
+import geometrie.Coordinate;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeMap;
 
-public class Lake {
+import static map.TileColor.WATERBLUE;
 
-    private Aquifere aquifere;
-    private Map<Dot, Tile> lake;
-    private Tile lakeCenter;
-    private Map<Dot, Tile> lakeNeighbors;
+public class Lake implements Aquifer {
+    private HashMap<Coordinate, Tile> lake = new HashMap<Coordinate, Tile>();
+    final private TileColor color = WATERBLUE;
 
-    public Lake(Aquifere aquifere) {
-        this.aquifere = aquifere;
-        this.lake = aquifere.getNeighbors();
-        this.lakeCenter = aquifere.getAquifereTileCenter();
-        this.lakeNeighbors = new HashMap<>();
+    public Lake(Tile tile, HashMap<Coordinate, Tile> vegetation) {
+        lake.put(tile.getCenter(), tile);
+        for(Tile i : tile.getNeighbors().values()) {
+            if(vegetation.get(i.getCenter()) != null) lake.put(i.getCenter(), i);
+        }
+        for(Tile i: lake.values()) i.setBackgroundColor(color);
     }
 
-    public void setColor(TileColor tileColor){
-        this.lakeCenter.setBackgroundColor(tileColor);
-        for(Map.Entry<Dot, Tile> entry:lake.entrySet() ) {
-            Tile b = entry.getValue();
-            b.setBackgroundColor(tileColor);
-        }
+    @Override
+    public HashMap<Coordinate, Tile> getTiles() {
+        return lake;
     }
-
-    public void findAdjacentLakeNeighbors(Vegetation vegetation) {
-
-        for (Map.Entry<Dot, Tile> entry2 : lake.entrySet()) {  //enlever les tuiles constituants le biom (lac) de ceux
-            // constituant le biom (vegetation)
-            Dot lakeCenter = entry2.getKey();
-            vegetation.getTuileVege().remove(lakeCenter);
-        }
-
-        for (Map.Entry<Dot, Tile> entry : vegetation.getTuileVege().entrySet()) {
-            Dot vegeCenter = entry.getKey();
-            Tile vegeTile = entry.getValue();
-            for (Map.Entry<Dot, Tile> entry2 : lake.entrySet()) {
-
-                Tile lakeTile = entry2.getValue();
-
-                for (Dot dotLake : lakeTile.getNeighborPseudoCenters()) {
-                    if (dotLake.equals(vegeTile.getTileCenter())) {
-                        this.lakeNeighbors.put(vegeCenter, vegeTile);
-                    }
-                }
-            }
-        }
-    }
-
-    public void setColorNeighbors(TileColor color){
-
-        for(Map.Entry<Dot, Tile> entry:lakeNeighbors.entrySet() ) {
-            Tile b = entry.getValue();
-            b.setBackgroundColor(color);
-        }
-    }
-
-    public Map<Double, Tile> findDistanceFromAquifereCenter(Vegetation vegetation){
-
-        Map<Double, Tile> distanceTuileFromCenter = new TreeMap<>();
-        //TreeMap<Double, Tile> map = new TreeMap<Integer,String>()
-
-        for( Map.Entry<Dot, Tile> entry2:lake.entrySet()) {  //enlever les tuiles constituants le biom (lac) de ceux
-            // constituant le biom (vegetation)
-            Dot lakeCenter = entry2.getKey();
-            vegetation.getTuileVege().remove(lakeCenter);
-        }
-
-        for(Map.Entry<Dot, Tile> entry:vegetation.getTuileVege().entrySet() ) {
-
-            Dot vegeCenter = entry.getKey();
-            Tile vegeTile = entry.getValue();
-
-            double distance = vegeCenter.distance(lakeCenter.getTileCenter());
-
-            distanceTuileFromCenter.put(distance, vegeTile );
-        }
-        return distanceTuileFromCenter;
-    }
-
-
-
 }

@@ -1,45 +1,40 @@
 package map;
 
+import geometrie.Coordinate;
 import geometrie.Ellipse;
 
-public class Tortuga {
+import java.util.HashMap;
 
-    private Vegetation vegetation;
-    private Plage plage;
+public class Tortuga implements Island {
+
     private Ellipse ellipse;
+    private HashMap<Coordinate, Tile> tortuga = new HashMap<Coordinate, Tile>();
 
 
-    public Tortuga(int width, int height){ //Dot center) {
-
-        this.ellipse = new Ellipse(width, height );
-        this.vegetation = new Vegetation();
-        this.plage = new Plage();
+    public Tortuga(World world){
+        this.ellipse = new Ellipse(world.getWidth(), world.getHeight());
+        HashMap<Coordinate, Tile> tiles = world.getTiles();
+        for (java.util.Map.Entry<Coordinate, Tile> entry : tiles.entrySet()) {
+            Tile tile = entry.getValue();
+            Coordinate tileCenter = entry.getKey();
+            if (ellipse.isOutEllipse(tile)){
+                tortuga.put(tileCenter,tile);
+            }
+        }
     }
 
-    /**
-     *
-     * @param tile  la tuile qu'on veuille vérifier s'il elle est a l'interieur de l'ellipce
-     * @return
-     */
-    public boolean isInsideIslande(Tile tile){
-
-        return ellipse.isOutEllipse(tile);
+    @Override
+    public HashMap<Coordinate, Tile> getTiles() {
+        return tortuga;
     }
 
-    /**
-     *
-     * @return la listes des tuiles composant le biom vegetation
-     */
-    public Vegetation getVegetation() {
-        return vegetation;
+    @Override
+    public boolean isOnIsland(Tile tile) {
+        return tortuga.get(tile.getCenter()) != null;
     }
 
-    /**
-     *
-     * @return la listes des tuiles composant le biom plage
-     */
+    @Override
+    public void defineAltitude() {
 
-    public Plage getPlage() {
-        return plage;
     }
 }

@@ -1,0 +1,160 @@
+@startuml
+left to right direction
+
+Class WorldGenerator {
+    + generateWorld()
+}
+
+Interface Aquifer {
+    HashMap<Coordinate, Tile> getTiles()
+}
+
+Interface Biome {
+    void addToBiome(Tile tile)
+    HashMap<Coordinate, Tile> getTiles()
+}
+
+Interface Island {
+    HashMap<Coordinate, Tile> getTiles()
+    boolean isOnIsland(Tile tile)
+}
+
+class Atoll {
+    - HashMap<Coordinate, Tile> atoll
+    - Circle circle
+    + HashMap<Coordinate, Tile> getTiles()
+    + boolean isOnAtoll(Tile tile)
+    + boolean isOnIsland(Tile tile)
+}
+
+class World {
+    - int width;
+    - int height;
+    - soilType soil;
+    - HashMap<Coordinate, Tile> tiles;
+    - Biome plage;
+    - Biome ocean;
+    - Biome lagoon;
+    - Biome vegetation;
+    + void addTile(Tile tile)
+    - Tile findRandomTile(HashMap<Coordinate, Tile> tiles)
+    + void createLake(int lakesNbs)
+    + void createNape(int napeNbs)
+    - void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource)
+    - Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource)
+    + HashMap<Coordinate, Tile> getTiles()
+    - boolean isTileInBiomes(Tile tile)
+    + void createBiome(Island island)
+}
+
+class Lagoon {
+    - HashMap<Coordinate, Tile> lagoon
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+class Lake{
+    - HashMap<Coordinate, Tile> lake
+    - TileColor color
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+class Nape{
+    - HashMap<Coordinate, Tile> nape
+    - TileColor color
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+
+class Ocean{
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+class Plage{
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+Class Tile{
+    - Coordinate center
+    - TileColor backgroundColor
+    - HashMap<Coordinate, Tile> neighbors
+    - int humidityLevel
+    + addNeighbor(Tile tile)
+}
+
+Enum TileColor{
+    OCEANBLUE ("0:64:128:255")
+    WATERBLUE ("0:255:255:255")
+    SAND ("223:159:0:255")
+    LIGHTGREEN ("0:255:63:255")
+    MIDGREEN ("0:191:63:255")
+    DARKGREEN ("0:127:63:255")
+    LESSDARKERGREEN ("0:127:63:230")
+    LESSLESSDARKERGREEN ("0:191:63:179")
+}
+
+Enum soilType {
+    DRY ("dry", 100),
+    REGULAR ("regular",200),
+    WET ("wet", 400);
+}
+
+Class Tortuga{
+    - Elypse elypse
+    + isOnIsland(Tile tile)
+}
+
+class Vegetation{
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+WorldGenerator -- World
+WorldGenerator -- Island
+
+World -- Tile
+World -- Aquifer
+World -- Biome
+World -- soilType
+
+Aquifer --- Tile
+Biome -- Tile
+
+Atoll -up-|> Island
+
+Tortuga -up-|> Island
+
+
+Lake --|> Aquifer
+Lake -- TileColor
+
+Nape --|> Aquifer
+Nape -- TileColor
+
+
+Plage -up-|> Biome
+Plage -- TileColor
+
+Ocean -up-|> Biome
+Ocean -- TileColor
+
+Vegetation -up-|> Biome
+Vegetation -- TileColor
+
+Lagoon -up-|> Biome
+Lagoon -- TileColor
+
+
+
+
+
+@enduml

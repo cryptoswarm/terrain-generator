@@ -1,45 +1,25 @@
 package map;
 
-import geometrie.Dot;
-
-import java.awt.*;
+import geometrie.Coordinate;
 import java.util.HashMap;
-import java.util.Map;
+import static map.TileColor.SAND;
 
-public class Plage {
-
-
-    private Map<Dot, Tile>  plage;
-    Color color;
-
+public class Plage implements Biome {
+    private HashMap<Coordinate, Tile>  plage;
+    final private TileColor color = SAND;
 
     public Plage(){
-
         this.plage = new HashMap<>();
     }
 
-    public void constructPlage( Tile tuile){
-        plage.put( tuile.getTileCenter(), tuile);
+    @Override
+    public void addToBiome(Tile tile) {
+        plage.put(tile.getCenter(), tile);
+        tile.setBackgroundColor(color);
     }
 
-
-    public Map<Dot, Tile> getPlage() {
+    @Override
+    public HashMap<Coordinate, Tile> getTiles() {
         return plage;
-    }
-
-    public Tile getPlageTuildId(Dot dot) {
-        return plage.get(dot);
-    }
-
-    public int plageTuildNbr(){
-        return plage.size();
-    }
-
-    public void setColor(Color color) {
-        this.color = color;
-    }
-
-    public Color getColor() {
-        return color;
     }
 }

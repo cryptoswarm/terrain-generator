@@ -1,83 +1,55 @@
 package map;
 
 import geometrie.Circle;
-import geometrie.Dot;
+import geometrie.Coordinate;
 
-public class Atoll {
+import java.util.HashMap;
 
-    private Lagon lagon;
-    private Plage plage;
-    private Vegetation vegetation;
+public class Atoll implements Island {
+    private HashMap<Coordinate, Tile> atoll = new HashMap<Coordinate, Tile>();
     private Circle circle;
 
 
-    public Atoll(int b, int s){
+    public Atoll(World world){
+        this.circle = new Circle(world.getWidth(), world.getHeight());
 
-        this.circle = new Circle(b, s);
-        this.lagon = new Lagon();
-        this.plage = new Plage();
-        this.vegetation = new Vegetation();
+        HashMap<Coordinate, Tile> tiles = world.getTiles();
+        for (java.util.Map.Entry<Coordinate, Tile> entry : tiles.entrySet()) {
+            Tile tile = entry.getValue();
+            Coordinate tileCenter = entry.getKey();
+            if (tileCenter.distance(circle.getCenter()) <= circle.getBigRadius()){
+                atoll.put(tileCenter,tile);
+            }
+        }
     }
-/*
+
+
     @Override
-    public Shape defineShape(int width, int height){
-        //return  Math.min(width, height);
-        return new Shape(width, height);
+    public boolean isOnIsland(Tile tile) {
+        if(atoll.get(tile.getCenter()) == null) return false;
+        return true;
     }
 
-*/
-    public boolean isInOcean(Dot that ){
-
-        return that.distance(circle.getCenter()) >= circle.getbRadius();
+    public boolean isInLagon(Tile tile){
+        return tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius();
     }
 
-
-    public boolean isInLagon(Dot that ){
-
-        return that.distance(circle.getCenter()) <= circle.getsRadius();
+    public HashMap<Coordinate, Tile> getTiles(){
+        return atoll;
     }
 
-    public void defineLagon(Dot dot, Tile tile){
-        lagon.constructLagon(dot, tile);
-    }
+    @Override
+    public void defineAltitude(){
+        for(Tile tile: atoll.values()){
+            int distanceTileFromCenter = Math.round(tile.getCenter().distance(circle.getCenter()));
+            if( Math.abs(distanceTileFromCenter - circle.getBigRadius()) < distanceTileFromCenter - circle.getSmallRadius()){
+                tile.setAltitude(Math.abs(distanceTileFromCenter - circle.getBigRadius()));
+            } else {
+                tile.setAltitude(distanceTileFromCenter - circle.getSmallRadius());
+            }
 
-    public void definePLage(Tile b){
-        plage.constructPlage(b);
+        }
     }
-    public void defineVegetation(Tile b){
-        vegetation.constructVegetation(b);
-    }
-
-    public boolean isBetweenLagonAndOcean(Dot that){
-        return !isInLagon(that) && !isInOcean(that);
-    }
-
-    public boolean isNeighborLagonOrOcean(Ocean ocean, Tile b){
-        return ocean.isNeighbor(b) || lagon.isNeighbor(b);
-    }
-
-    public Vegetation getVegetation(){
-        return vegetation;
-    }
-
-
-    public Lagon getLagon() {
-        return lagon;
-    }
-
-    public Plage getPlage() {
-        return plage;
-    }
-/*
-    public boolean isNeighborLagonOrOcean1(Ocean ocean, Dot b){
-        return ocean.isNeighbor1(b) || lagon.isNeighbor1(b);
-    }
-
-    public boolean isNotNeighborLagonAndOcean1(Ocean ocean, Dot b){
-        return !ocean.isNeighbor1(b) && !lagon.isNeighbor1(b);
-    }
-*/
-
 
 
 }
