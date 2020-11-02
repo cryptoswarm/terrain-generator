@@ -11,7 +11,7 @@ import static writer.Writer.generateEndMesh;
 
 public class Controller {
     private static World world = new World();
-
+    private static MODE m;
     private enum MODE{
         NORMAL,
         WATER_MAP,
@@ -24,6 +24,7 @@ public class Controller {
         UserArgs parsedArgs = new UserArgs(args);
         String fileName = parsedArgs.getInputFile();
         String outFileName = parsedArgs.getOutputFile();
+        m = null;
         setMode(parsedArgs.getHeatmap());
 
         Reader reader = new MeshFileReader();
@@ -52,8 +53,7 @@ public class Controller {
     public static String getTileColor(float x, float y){
         Tile tile = world.getTiles().get(new Coordinate(x,y,0));
         TileColor color = tile.getBackgroundColor();
-        MODE m = MODE.WATER_MAP;
-        int factor = 255;
+        int factor = 0;
         if(m == MODE.NORMAL || m == MODE.WATER_MAP) factor = tile.getHumidityLevel();
         if(m == MODE.ALTITUDE_MAP) factor = (int)tile.getAltitude();
 
@@ -65,8 +65,10 @@ public class Controller {
         if(userArg != null){
             if (userArg.equals("altitude")){
                 mode = new Altitude();
+                m = MODE.ALTITUDE_MAP;
             }else if (userArg.equals("humidity")){
                 mode = new Humidity();
+                m = MODE.WATER_MAP;
             } else {
                 mode = new Normal();
             }

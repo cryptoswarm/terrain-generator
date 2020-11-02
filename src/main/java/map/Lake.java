@@ -15,7 +15,7 @@ public class Lake implements Aquifer {
         for(Tile i : tile.getNeighbors().values()) {
             if(vegetation.get(i.getCenter()) != null) {
                 lake.put(i.getCenter(), i);
-                i.setHumidityLevel(1000);
+                i.setHumidityLevel(1);
             }
 
         }
