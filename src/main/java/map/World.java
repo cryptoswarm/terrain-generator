@@ -120,7 +120,7 @@ public class World {
         for (Tile tile : island.getTiles().values()) {
             if(!isTileInBiomes(tile)) {
                 for (Tile neighbors : tile.getNeighbors().values()) {
-                    if (ocean.getTiles().get(neighbors) != null || lagoon.getTiles().get(neighbors) != null) {
+                    if (ocean.getTiles().get(neighbors.getCenter()) != null || lagoon.getTiles().get(neighbors.getCenter()) != null) {
                         plage.addToBiome(tile);
                         break;
                     }
@@ -133,5 +133,7 @@ public class World {
             if(!isTileInBiomes(tile)) vegetation.addToBiome(tile);
         }
     }
+
+
 
 }

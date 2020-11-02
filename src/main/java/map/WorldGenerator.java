@@ -13,11 +13,14 @@ public class WorldGenerator {
             island = new Tortuga(world);
         }
 
+        island.defineAltitude();
         world.createBiome(island);
         world.createLake(nbWaterSources);
         world.createNape(nbWaterSources);
 
         return world;
     }
+
+
 }
 

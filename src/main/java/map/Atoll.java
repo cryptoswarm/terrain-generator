@@ -38,7 +38,18 @@ public class Atoll implements Island {
         return atoll;
     }
 
+    @Override
+    public void defineAltitude(){
+        for(Tile tile: atoll.values()){
+            int distanceTileFromCenter = Math.round(tile.getCenter().distance(circle.getCenter()));
+            if( Math.abs(distanceTileFromCenter - circle.getBigRadius()) < distanceTileFromCenter - circle.getSmallRadius()){
+                tile.setAltitude(Math.abs(distanceTileFromCenter - circle.getBigRadius()));
+            } else {
+                tile.setAltitude(distanceTileFromCenter - circle.getSmallRadius());
+            }
 
+        }
+    }
 
 
 }

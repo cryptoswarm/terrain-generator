@@ -4,6 +4,7 @@ public class Circle {
 
     private Coordinate center;
     private double bRadius;
+    private double mRadius;
     private double sRadius;
     private int width;
     private int height;
@@ -27,7 +28,6 @@ public class Circle {
     public double getBigRadius() {
         return bRadius;
     }
-
     public double getSmallRadius() {
         return sRadius;
     }

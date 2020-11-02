@@ -32,4 +32,9 @@ public class Tortuga implements Island {
     public boolean isOnIsland(Tile tile) {
         return tortuga.get(tile.getCenter()) != null;
     }
+
+    @Override
+    public void defineAltitude() {
+
+    }
 }

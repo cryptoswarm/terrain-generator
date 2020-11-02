@@ -11,6 +11,7 @@ public class Tile {
     final private Coordinate center;
     private TileColor backgroundColor;
     private int humidityLevel;
+    private double altitude;
     private HashMap<Coordinate, Tile> neighbors;
 
     public Tile(Coordinate center) {
@@ -40,6 +41,12 @@ public class Tile {
     }
     public void setHumidityLevel(int humidityLevel) {
         this.humidityLevel = humidityLevel;
+    }
+    public double getAltitude() {
+        return altitude;
+    }
+    public void setAltitude(double altitude) {
+        this.altitude = altitude;
     }
 
     @Override
