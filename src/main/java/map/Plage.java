@@ -5,18 +5,11 @@ import java.util.HashMap;
 import static map.TileColor.SAND;
 
 public class Plage implements Biome{
-
-
     private HashMap<Coordinate, Tile>  plage;
-    private TileColor color = SAND;
-
+    final private TileColor color = SAND;
 
     public Plage(){
         this.plage = new HashMap<>();
-    }
-
-    public TileColor getColor() {
-        return color;
     }
 
     @Override

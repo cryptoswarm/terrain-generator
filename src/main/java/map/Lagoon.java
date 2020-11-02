@@ -7,7 +7,7 @@ import java.util.HashMap;
 public class Lagoon implements Biome {
 
     private HashMap<Coordinate, Tile> lagoon;
-    private TileColor color = TileColor.WATERBLUE;
+    final private TileColor color = TileColor.WATERBLUE;
 
     public Lagoon() {
         this.lagoon = new HashMap<>();

@@ -73,8 +73,8 @@ public class World {
     private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
         for(Tile i: tiles.values()){
             Float distance = getDistanceFromWaterSource(i, waterSource);
-            if( distance < soil.getAffectedDistance()){
-                if (i.getHumidityLevel() < Math.round(distance)){
+            if( distance < soil.getAffectedDistance()) {
+                if (i.getHumidityLevel() > Math.round(distance)) {
                     i.setHumidityLevel(Math.round(distance));
                 }
             }
@@ -90,9 +90,6 @@ public class World {
         return distance;
     }
 
-    /**
-     * @return Return world tiles.
-     */
     public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }

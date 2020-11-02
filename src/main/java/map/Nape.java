@@ -1,9 +1,7 @@
 package map;
 
 import geometrie.Coordinate;
-
 import java.util.HashMap;
-
 import static map.TileColor.DARKGREEN;
 
 public class Nape implements Aquifer{

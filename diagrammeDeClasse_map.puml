@@ -1,105 +1,93 @@
 @startuml
 
-class Aquifer {
-    - Vegetation vegetation
-    - Map<Dot, Tile> Neighbors
-    - Tile aquifereTileCenter
-    + Aquifere()
-    + setColor()
-    + propager()
-    + getAcquifereTileCenter()
-    + setColorAcquifere(TileColor color)
-    + getNeighbors(Map<Dot, Tile>)
+Class WorldGenerator {
+    + generateWorld()
+}
+
+Interface Aquifer {
+    HashMap<Coordinate, Tile> getTiles()
+}
+
+Interface Biome {
+    void addToBiome(Tile tile)
+    HashMap<Coordinate, Tile> getTiles()
+}
+
+Interface Island {
+    HashMap<Coordinate, Tile> getTiles()
+    boolean isOnIsland(Tile tile)
 }
 
 class Atoll {
-    - Lagon lagon
-    - Plage plage
+    - HashMap<Coordinate, Tile> atoll
     - Circle circle
-    + Atoll(int, int)
-    + isInOcean(Dot dot)
-    + isInLagon(Dot dot)
-    + defineLagon(Dot dot, Tile tile)
-    + definePlage(Tile tile)
-    + defineVegetation(Tile tile)
-    + isBetweenLagoonAndOcean(Dot dot)
-    + isNeighborsLagoonOrOcean(Ocean ocean, Tile tile)
-    + getVegetation()
-    + getLagoon()
-    + getPlage()
+    + HashMap<Coordinate, Tile> getTiles()
+    + boolean isOnAtoll(Tile tile)
+    + boolean isOnIsland(Tile tile)
 }
 
-class Carte{
-    + int width
-    + int height
-    + hashmap<Dot, Tile> tiles
-    + Ocean ocean
-    + Carte(width, height)
-    + addTile()
-    + createAtoll()
-    + createATortuga()
-    + createLake(Vegetation veg, Int nbWaterSource, String soilTypeChoice)
-    + createNape(Vegetation veg, Int nbWaterSource, String soilTypeChoice)
-    + applyHumidityEffect(String soilTypeChoice, Map<Double, Tile> TuileAndDistance)
-    + getTile()
+class World {
+    - int width;
+    - int height;
+    - soilType soil;
+    - HashMap<Coordinate, Tile> tiles;
+    - Biome plage;
+    - Biome ocean;
+    - Biome lagoon;
+    - Biome vegetation;
+    + void addTile(Tile tile)
+    - Tile findRandomTile(HashMap<Coordinate, Tile> tiles)
+    + void createLake(int lakesNbs)
+    + void createNape(int napeNbs)
+    - void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource)
+    - Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource)
+    + HashMap<Coordinate, Tile> getTiles()
+    - boolean isTileInBiomes(Tile tile)
+    + void createBiome(Island island)
 }
+
 class Lagoon {
-    - Map<Dot dot Tile tile> lagoon
-    Lagoon()
-    constructLagoon(Dot dot, Tile tile)
-    getLagoon()
-    lagonTuildNbr()
-    setColor(Color color)
-    getColor()
-    isNeighbors(Tile tile)
+    - HashMap<Coordinate, Tile> lagoon
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
 }
 
 class Lake{
-    - Acquifere acquifere
-    - Map<Dot, Tile> lake
-    - Tile lakeCenter
-    - Map<Dot, Tile> lakeNeighbors
-    + Lake(acquifere)
-    + setColor()
-    + findAdjacentLakeNeighbors(Vegetation vegetation)
-    + setColorNeighbors(TileColor color)
-    + findDistanceFromAcquifereCenter(Vegetation vegetation)
+    - HashMap<Coordinate, Tile> lake
+    - TileColor color
+    + HashMap<Coordinate, Tile> getTiles()
 }
+
+class Nape{
+    - HashMap<Coordinate, Tile> nape
+    - TileColor color
+    + HashMap<Coordinate, Tile> getTiles()
+}
+
+
 class Ocean{
-    world<Dot, Tile> ocean
-    Ocean()
-    constructOcean<Dot dot, Tile tile>
-    getOcean()
-    getOceanTuiledId()
-    oceanTuiledNbr()
-    isNeighbors(Tile tile)
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
 }
 
 class Plage{
-    Map<Dot, Tile> plage
-    Color color
-    Plage()
-    constructPlage(Tile tile)
-    getPlage()
-    getPlageTuileId()
-    plageTuileNbr()
-    setColor(Color color)
-    getColor()
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
 }
 
 Class Tile{
-    Dot center
-    TileColor backgroungColor
-    Hashset<Dot> neighbors
-    int polygonId
-    Tile(Dot center, int polygonId)
-    addNeighborsPseudoCenter(Dot dot)
-    getNeighborsPseudoCenter()
-    setBackgroundColor(TileColor color)
-    getBackgroundColor()
-    getTileCenter()
-    getPolygonId()
+    - Coordinate center
+    - TileColor backgroundColor
+    - HashMap<Coordinate, Tile> neighbors
+    - int humidityLevel
+    + addNeighbor(Tile tile)
 }
+
 Enum TileColor{
     OCEANBLUE ("0:64:128:255")
     WATERBLUE ("0:255:255:255")
@@ -111,59 +99,69 @@ Enum TileColor{
     LESSLESSDARKERGREEN ("0:191:63:179")
 }
 
+Enum soilType {
+    DRY ("dry", 100),
+    REGULAR ("regular",200),
+    WET ("wet", 400);
+}
+
 Class Tortuga{
-    Vegetation vegetation
-    Plage plage
-    Elypse elypse
-    Tortuga(int width, int height)
-    isInsideIsland(Tile tile)
-    getVegetation()
-    getPlage()
+    - Elypse elypse
+    + isOnIsland(Tile tile)
 }
 
 class Vegetation{
-    - Map<Dot dot, Tile tile> vegetation
-    - Color color
-    Vegetation()
-    constructVegetationTile()
-    getTuileVege()
-    getVegeTuiledId<Dot>
-    getNbTuilesVegetale()
-    setColor(Color color)
-    getColor()
-    findRandomVegtaleTile()
-    findAcquifereNeighbors(Tile randomTile)
-    findNeighbors(Tile tile)
-    findCorespondingTile(Dot dot)
+    - HashMap<Coordinate, Tile> ocean
+    - TileColor color
+    + void addToBiome(Tile tile)
+    + HashMap<Coordinate, Tile> getTiles()
 }
 
-Carte -- Atoll
-Carte -- Tortuga
-Carte -- Tile
-Carte -- Lake
-Carte -- Vegetation
-Carte -- Plage
-Carte -- Ocean
-Carte -- Aquifer
-Carte -- TileColor
-Carte -- Lagoon
+WorldGenerator -- World
+WorldGenerator -- Island
+
+World -- Tile
+World -- Aquifer
+World -- Biome
+World -- soilType
 
 Aquifer -- Tile
-Aquifer -- TileColor
+Biome -- Tile
 
-Atoll -- Plage
-Atoll -- Vegetation
-Atoll -- Lagoon
+Atoll -- Tile
+Atoll --|> Island
 
-Lake -- Aquifer
+Tortuga -- Tile
+Tortuga --|> Island
+
+
+Lake --|> Aquifer
 Lake -- Tile
 Lake -- TileColor
-Lake -- Vegetation
 
+Nape --|> Aquifer
+Nape -- Tile
+Nape -- TileColor
+
+
+Plage --|> Biome
 Plage -- Tile
+Plage -- TileColor
 
-Tortuga -- Plage
-Tortuga -- Vegetation
+Ocean --|> Biome
+Ocean -- Tile
+Ocean -- TileColor
 
-Vegetation -- Tile
+Vegetation --|> Biome
+Vegetation  -- Tile
+Vegetation -- TileColor
+
+Lagoon --|> Biome
+Lagoon -- Tile
+Lagoon -- TileColor
+
+
+
+
+
 @enduml

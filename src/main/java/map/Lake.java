@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 import static map.TileColor.WATERBLUE;
 
-public class Lake implements Aquifer{
+public class Lake implements Aquifer {
     private HashMap<Coordinate, Tile> lake = new HashMap<Coordinate, Tile>();
-    TileColor color = WATERBLUE;
+    final private TileColor color = WATERBLUE;
 
     public Lake(Tile tile, HashMap<Coordinate, Tile> vegetation) {
         lake.put(tile.getCenter(), tile);

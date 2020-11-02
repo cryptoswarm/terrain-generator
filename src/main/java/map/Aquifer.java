@@ -1,7 +1,6 @@
 package map;
 
 import geometrie.Coordinate;
-
 import java.util.HashMap;
 
 public interface Aquifer {

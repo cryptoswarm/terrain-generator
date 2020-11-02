@@ -1,9 +1,9 @@
 package map;
 
 public enum soilType {
-    DRY("dry", 100),
-    REGULAR("regular",200),
-    WET("wet", 400);
+    DRY("dry", 50),
+    REGULAR("regular",100),
+    WET("wet", 200);
 
     soilType(String soilString, int affectedDistance) {
         this.soilString = soilString;
