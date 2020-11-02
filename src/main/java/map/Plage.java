@@ -4,7 +4,7 @@ import geometrie.Coordinate;
 import java.util.HashMap;
 import static map.TileColor.SAND;
 
-public class Plage implements Biome{
+public class Plage implements Biome {
     private HashMap<Coordinate, Tile>  plage;
     final private TileColor color = SAND;
 

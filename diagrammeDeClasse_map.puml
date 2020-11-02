@@ -1,4 +1,5 @@
 @startuml
+left to right direction
 
 Class WorldGenerator {
     + generateWorld()
@@ -125,39 +126,31 @@ World -- Aquifer
 World -- Biome
 World -- soilType
 
-Aquifer -- Tile
+Aquifer --- Tile
 Biome -- Tile
 
-Atoll -- Tile
-Atoll --|> Island
+Atoll -up-|> Island
 
-Tortuga -- Tile
-Tortuga --|> Island
+Tortuga -up-|> Island
 
 
 Lake --|> Aquifer
-Lake -- Tile
 Lake -- TileColor
 
 Nape --|> Aquifer
-Nape -- Tile
 Nape -- TileColor
 
 
-Plage --|> Biome
-Plage -- Tile
+Plage -up-|> Biome
 Plage -- TileColor
 
-Ocean --|> Biome
-Ocean -- Tile
+Ocean -up-|> Biome
 Ocean -- TileColor
 
-Vegetation --|> Biome
-Vegetation  -- Tile
+Vegetation -up-|> Biome
 Vegetation -- TileColor
 
-Lagoon --|> Biome
-Lagoon -- Tile
+Lagoon -up-|> Biome
 Lagoon -- TileColor
 
 
