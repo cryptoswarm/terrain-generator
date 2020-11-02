@@ -13,10 +13,12 @@ public class UserArgs {
     private String shapeSpecification;
     private String nbWaterSources;
     private String soilType;
+    private String heatmap;
 
 
     public UserArgs(String[] args){
         CommandLine options = null;
+
         try {
             options = configure(args);
         } catch (ParseException e) {
@@ -27,6 +29,7 @@ public class UserArgs {
         shapeSpecification = options.getOptionValue("shape");
         nbWaterSources =  options.getOptionValue("water") ;
         soilType =  options.getOptionValue("soil");
+        heatmap = options.getOptionValue("heatmap");
     }
 
     public Boolean validateUserArgs(){
@@ -47,6 +50,7 @@ public class UserArgs {
         opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
         opts.addOption(new Option("water", "water", true,"generation des aquiferes" ));
         opts.addOption(new Option("soil", "soil", true,"soil type" ));
+        opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cl = parser.parse(opts, args);
@@ -69,5 +73,8 @@ public class UserArgs {
     }
     public String getSoilType() {
         return soilType;
+    }
+    public String getHeatmap() {
+        return heatmap;
     }
 }

@@ -15,6 +15,8 @@ import java.lang.reflect.Constructor;
 
 public class Writer {
 
+
+
     /**
      *
      * @param parsedArgs  les arguments entrés par l'utilisateur
@@ -55,5 +57,7 @@ public class Writer {
             e.printStackTrace();
         }
     }
+
+
 
 }

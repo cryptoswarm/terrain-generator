@@ -5,7 +5,9 @@ public enum TileColor {
     WATERBLUE(0,255,255,255),
     SAND(223,159,0,255),
     LIGHTGREEN(0,255,0,255),
-    DARKGREEN(0,70,0,255);
+    DARKGREEN(0,70,0,255),
+    DARKBLUE(0,0,255,255),
+    BROWN(165,42,42, 255);
 
     TileColor(int r, int g, int b, int a) {
         R = r;

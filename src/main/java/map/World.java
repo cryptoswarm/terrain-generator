@@ -42,6 +42,7 @@ public class World {
     public Biome getVegetation() {
         return vegetation;
     }
+    public Biome getPlage() { return plage; }
 
     public void addTile(Tile tile) {
         tiles.put(tile.getCenter(),tile);
