@@ -52,6 +52,10 @@ public class World {
     public int getHeight() {
         return height;
     }
+    public HashMap<Coordinate, Tile> getTiles() {
+        return tiles;
+    }
+
 
 
     public void addTile(Tile tile) {
@@ -104,9 +108,6 @@ public class World {
         return distance;
     }
 
-    public HashMap<Coordinate, Tile> getTiles() {
-        return tiles;
-    }
 
     private boolean isTileInBiomes(Tile tile){
         Coordinate tileCenter = tile.getCenter();

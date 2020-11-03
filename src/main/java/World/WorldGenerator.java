@@ -11,7 +11,7 @@ public class WorldGenerator {
 
 
 
-    public static World generateWorld() {
+    public static void generateWorld() {
         random = new Random();
         Island island = null;
 
@@ -24,8 +24,6 @@ public class WorldGenerator {
         island.defineAltitude();
         world.createBiome(island);
         world.createWaterSource();
-
-        return world;
     }
     public static void newWorld(){
         world = new World();
