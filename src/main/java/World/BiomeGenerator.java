@@ -19,20 +19,21 @@ public class BiomeGenerator implements Generator {
                 if (tile.isInLagoon()) {
                     tile.setBiome(new Lagoon());
                     tile.setBackgroundColor(tile.getBiome().getColor());
-                }
-                if(tile.getBiome() == null) {
+                } else {
                     for (Tile neighbor : tile.getNeighbors().values()) {
-                        if (neighbor.getBiome() != null && neighbor.getBiome() instanceof Ocean || neighbor.getBiome() instanceof Lagoon) {
+                        if (neighbor.getBiome() instanceof Ocean || neighbor.getBiome() instanceof Lagoon) {
                             tile.setBiome(new Plage());
                             tile.setBackgroundColor(tile.getBiome().getColor());
                             break;
                         }
                     }
+
+                    if(tile.getBiome() == null) {
+                        tile.setBiome(new Vegetation());
+                        tile.setBackgroundColor(tile.getBiome().getColor());
+                    }
                 }
-                if(tile.getBiome() == null) {
-                    tile.setBiome(new Vegetation());
-                    tile.setBackgroundColor(tile.getBiome().getColor());
-                }
+
             }
         }
     }

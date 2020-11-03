@@ -13,12 +13,9 @@ public class Atoll implements Island {
     public Atoll(HashMap<Coordinate, Tile> tiles, Random random, int width, int height){
         this.circle = new Circle(width, height, random);
         for (Tile tile : tiles.values()) {
-            if (tile.getCenter().distance(circle.getCenter()) <= circle.getBigRadius()){
-                tile.setOnIsland(true);
-            }
-            if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
-                tile.setInLagoon(true);
-            }
+            Coordinate c = tile.getCenter();
+            if (c.distance(circle.getCenter()) <= circle.getBigRadius()) tile.setOnIsland(true);
+            if (c.distance(circle.getCenter()) <= circle.getSmallRadius()) tile.setInLagoon(true);
         }
     }
 
