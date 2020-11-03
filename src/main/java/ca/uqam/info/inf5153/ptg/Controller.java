@@ -1,7 +1,6 @@
 package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
-import geometrie.Coordinate;
 import World.*;
 import Translator.Reader;
 

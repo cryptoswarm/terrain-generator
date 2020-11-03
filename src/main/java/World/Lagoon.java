@@ -1,6 +1,6 @@
 package World;
 
-import geometrie.Coordinate;
+import Geometry.Coordinate;
 
 import java.util.HashMap;
 

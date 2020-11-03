@@ -1,6 +1,6 @@
 package World;
 
-import geometrie.Coordinate;
+import Geometry.Coordinate;
 
 import java.util.Random;
 
@@ -18,7 +18,7 @@ public class WorldGenerator {
         if (world.getShape().equals("atoll")) {
             island = new Atoll(world, random);
         } else if (world.getShape().equals("tortuga")) {
-            island = new Tortuga(world);
+            island = new Tortuga(world, random);
         }
 
         island.defineAltitude();
