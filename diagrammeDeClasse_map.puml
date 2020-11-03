@@ -2,7 +2,21 @@
 left to right direction
 
 Class WorldGenerator {
+    - world
+    - mode
+    - random
     + generateWorld()
+    + void newWorld()
+    + setHeight(height: int)
+    + void setWidth(width: int)
+    + void setSoil(s: String)
+    + void setNbsWaterSource(i: int)
+    + void setShape(s: String)
+    + void addTile(x: float, y: float)
+    + void addNeighbor(float x, float y, float nx, float ny)
+    + String getTileColor(float x, float y)
+    + void setMode(String s)
+    + Random getRandom()
 }
 
 Interface Aquifer {
@@ -38,8 +52,9 @@ class World {
     - Biome vegetation;
     + void addTile(Tile tile)
     - Tile findRandomTile(HashMap<Coordinate, Tile> tiles)
-    + void createLake(int lakesNbs)
-    + void createNape(int napeNbs)
+    - void createLake(int lakesNbs)
+    - void createNape(int napeNbs)
+    + createWaterSource()
     - void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource)
     - Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource)
     + HashMap<Coordinate, Tile> getTiles()
@@ -90,14 +105,13 @@ Class Tile{
 }
 
 Enum TileColor{
-    OCEANBLUE ("0:64:128:255")
-    WATERBLUE ("0:255:255:255")
-    SAND ("223:159:0:255")
-    LIGHTGREEN ("0:255:63:255")
-    MIDGREEN ("0:191:63:255")
-    DARKGREEN ("0:127:63:255")
-    LESSDARKERGREEN ("0:127:63:230")
-    LESSLESSDARKERGREEN ("0:191:63:179")
+    OCEANBLUE (0,64,128,255)
+    WATERBLUE (0,255,255,255)
+    SAND (223,159,0,255)
+    LIGHTGREEN (0,255,63,255)
+    DARKGREEN (0,127,63,255)
+    DARKBLUE(0,0,255,255),
+    BROWN(165,42,42, 255);
 }
 
 Enum soilType {
