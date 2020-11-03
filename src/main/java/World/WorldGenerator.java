@@ -8,38 +8,39 @@ public class WorldGenerator {
     private static World world;
     private static Mode mode;
     private static Random random;
+    private static int nbsWaterSource;
+    private static soilType soil;
+    private static String islandType;
+    private static int width;
+    private static int height;
 
 
 
     public static void generateWorld() {
         random = new Random();
-        Island island = null;
 
-        if (world.getShape().equals("atoll")) {
-            island = new Atoll(world, random);
-        } else if (world.getShape().equals("tortuga")) {
-            island = new Tortuga(world, random);
-        }
-
-        island.defineAltitude();
-        Generator bg = new BiomeGenerator();
-        bg.generate(world.getTiles(), island);
-        //world.createWaterSource();
+        //island.defineAltitude();
+        Generator i = new IslandGenerator(world.getTiles(), islandType, width, height);
+        i.generate();
+        Generator bg = new BiomeGenerator(world.getTiles());
+        bg.generate();
+        Generator ws = new LakeGenerator(world.getTiles(), nbsWaterSource, soil);
+        ws.generate();
     }
     public static void newWorld(){
         world = new World();
     }
-    public static void setHeight(int height){
-        world.setHeight(height);
+    public static void setHeight(int h){
+        height = h;
     }
-    public static void setWidth(int width){
-        world.setWidth(width);
+    public static void setWidth(int w){
+        width = w;
     }
     public static void setSoil(String s){
-        world.setSoil(s);
+        soil = soilType.getSoilType(s);
     }
-    public static void setNbsWaterSource(int i) {world.setNbsWaterSrc(i);}
-    public static void setShape(String s){ world.setShape(s);}
+    public static void setNbsWaterSource(int i) {nbsWaterSource = i;}
+    public static void setShape(String s){ islandType = s;}
     public static void addTile(float x, float y){
         world.addTile(new Tile(new Coordinate(x,y,0)));
     }

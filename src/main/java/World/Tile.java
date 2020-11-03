@@ -12,12 +12,16 @@ public class Tile {
     private TileColor backgroundColor;
     private int humidityLevel;
     private double altitude;
+    private boolean isOnIsland;
+    private boolean isInLagoon;
     private HashMap<Coordinate, Tile> neighbors;
 
     public Tile(Coordinate center) {
         this.center = center;
         this.neighbors = new HashMap<>();
         humidityLevel = 0;
+        isInLagoon = false;
+        isOnIsland = false;
     }
 
     public void addNeighbor(Tile neighbor) {
@@ -31,10 +35,7 @@ public class Tile {
         backgroundColor = c;
     }
     public TileColor getBackgroundColor() {
-        if(backgroundColor != null) {
-            return backgroundColor;
-        }
-        return biome.getColor();
+        return backgroundColor;
     }
     public Coordinate getCenter() {
         return this.center;
@@ -51,7 +52,18 @@ public class Tile {
     public void setAltitude(double altitude) {
         this.altitude = altitude;
     }
-
+    public void setOnIsland(boolean onIsland) {
+        isOnIsland = onIsland;
+    }
+    public boolean isOnIsland() {
+        return isOnIsland;
+    }
+    public void setInLagoon(boolean inLagoon) {
+        isInLagoon = inLagoon;
+    }
+    public boolean isInLagoon() {
+        return isInLagoon;
+    }
     public void setBiome(Biome biome) {
         this.biome = biome;
     }

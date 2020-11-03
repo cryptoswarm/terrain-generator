@@ -5,34 +5,35 @@ import Geometry.Coordinate;
 import java.util.HashMap;
 
 public class BiomeGenerator implements Generator {
-    public void generate(HashMap<Coordinate, Tile> tiles, Island island) {
-        //Ocean
+    private HashMap<Coordinate, Tile> tiles;
+    public BiomeGenerator(HashMap<Coordinate, Tile> tiles) {
+        this.tiles = tiles;
+    }
+
+    public void generate() {
         for (Tile tile : tiles.values()) {
-            if(!island.isOnIsland(tile)) tile.setBiome(new Ocean());
-        }
-
-        //lagon
-        if(island instanceof Atoll) {
-            for (Tile tile : island.getTiles().values()) {
-                if (((Atoll)island).isInLagon(tile)) tile.setBiome(new Lagoon());
-            }
-        }
-
-        //plage
-        for (Tile tile : island.getTiles().values()) {
-            if(tile.getBiome() == null) {
-                for (Tile neighbor : tile.getNeighbors().values()) {
-                    if (neighbor.getBiome() != null && neighbor.getBiome() instanceof Ocean || neighbor.getBiome() instanceof Lagoon) {
-                        tile.setBiome(new Plage());
-                        break;
+            if(!tile.isOnIsland()) {
+                tile.setBiome(new Ocean());
+                tile.setBackgroundColor(tile.getBiome().getColor());
+            } else {
+                if (tile.isInLagoon()) {
+                    tile.setBiome(new Lagoon());
+                    tile.setBackgroundColor(tile.getBiome().getColor());
+                }
+                if(tile.getBiome() == null) {
+                    for (Tile neighbor : tile.getNeighbors().values()) {
+                        if (neighbor.getBiome() != null && neighbor.getBiome() instanceof Ocean || neighbor.getBiome() instanceof Lagoon) {
+                            tile.setBiome(new Plage());
+                            tile.setBackgroundColor(tile.getBiome().getColor());
+                            break;
+                        }
                     }
                 }
+                if(tile.getBiome() == null) {
+                    tile.setBiome(new Vegetation());
+                    tile.setBackgroundColor(tile.getBiome().getColor());
+                }
             }
-        }
-
-        //vegetation
-        for (Tile tile : island.getTiles().values()) {
-            if(tile.getBiome() == null) tile.setBiome(new Vegetation());
         }
     }
 

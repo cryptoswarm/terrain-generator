@@ -7,13 +7,13 @@ import java.util.HashMap;
 import static World.TileColor.WATERBLUE;
 
 public class Lake implements Aquifer {
-    private HashMap<Coordinate, Tile> lake = new HashMap<Coordinate, Tile>();
+    private HashMap<Coordinate, Tile> lake = new HashMap<>();
     final private TileColor color = WATERBLUE;
 
-    public Lake(Tile tile, HashMap<Coordinate, Tile> vegetation) {
+    public Lake(Tile tile) {
         lake.put(tile.getCenter(), tile);
         for(Tile i : tile.getNeighbors().values()) {
-            if(vegetation.get(i.getCenter()) != null) {
+            if(i.getBiome() instanceof Vegetation) {
                 lake.put(i.getCenter(), i);
             }
 
@@ -21,7 +21,7 @@ public class Lake implements Aquifer {
         for(Tile i: lake.values()) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
-            vegetation.remove(i.getCenter());
+            //vegetation.remove(i.getCenter());
         }
     }
 

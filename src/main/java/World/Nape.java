@@ -8,17 +8,17 @@ public class Nape implements Aquifer{
     private HashMap<Coordinate, Tile> nape = new HashMap<>();
     TileColor color = DARKGREEN;
 
-    public Nape(Tile tile, HashMap<Coordinate, Tile> vegetation) {
+    public Nape(Tile tile) {
         nape.put(tile.getCenter(), tile);
         for(Tile i : tile.getNeighbors().values()) {
-            if(vegetation.get(i.getCenter()) != null) {
+            if(i.getBiome() instanceof Vegetation) {
                 nape.put(i.getCenter(), i);
             }
         }
         for(Tile i: nape.values()) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
-            vegetation.remove(i.getCenter());
+            //vegetation.remove(i.getCenter());
         }
     }
 
