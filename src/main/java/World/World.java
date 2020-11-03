@@ -1,13 +1,17 @@
-package map;
+package World;
 
 import geometrie.Coordinate;
 
 import java.util.*;
 
+import static World.WorldGenerator.getRandom;
+
 public class World {
     private int width;
     private int height;
     private soilType soil;
+    private int nbsWaterSrc;
+    private String shape;
     private HashMap<Coordinate, Tile> tiles;
     private Biome plage;
     private Biome ocean;
@@ -33,48 +37,58 @@ public class World {
     public void setSoil(String soil) {
         this.soil = soilType.getSoilType(soil);
     }
+    public void setNbsWaterSrc(int nbsWaterSrc) {
+        this.nbsWaterSrc = nbsWaterSrc;
+    }
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+    public String getShape() {
+        return shape;
+    }
     public int getWidth() {
         return width;
     }
     public int getHeight() {
         return height;
     }
-    public Biome getVegetation() {
-        return vegetation;
-    }
+
 
     public void addTile(Tile tile) {
         tiles.put(tile.getCenter(),tile);
     }
 
     private Tile findRandomTile(HashMap<Coordinate, Tile> tiles){
-        Random random = new Random();
         ArrayList<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
-        Coordinate randomCoordinate = coordinates.get( random.nextInt( coordinates.size()) );
+        Coordinate randomCoordinate = coordinates.get( getRandom().nextInt( coordinates.size()) );
         return tiles.get(randomCoordinate);
     }
 
-    public void createLake(int lakesNbs){
-        for(int i = 0; i <= lakesNbs; i++) {
+    private void createLake(int nbsLake){
+        for(int i = 0; i < nbsLake; i++) {
             Tile tile = findRandomTile(vegetation.getTiles());
             Aquifer lake = new Lake(tile, vegetation.getTiles());
             applyHumidityEffect(lake.getTiles());
         }
     }
-
-    public void createNape(int napeNbs){
-        for(int i = 0; i <= napeNbs; i++) {
+    private void createNape(int nbsNapes){
+        for(int i = 0; i < nbsNapes; i++) {
             Tile tile = findRandomTile(vegetation.getTiles());
             Aquifer nape = new Nape(tile, vegetation.getTiles());
             applyHumidityEffect(nape.getTiles());
         }
     }
+    public void createWaterSource() {
+        int i  = getRandom().nextInt(nbsWaterSrc+1);
+        createLake(nbsWaterSrc - i);
+        createNape(i);
+    }
 
     private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
-        for(Tile i: tiles.values()){
+        for(Tile i: vegetation.getTiles().values()) {
             Float distance = getDistanceFromWaterSource(i, waterSource);
             if( distance < soil.getAffectedDistance()) {
-                if (i.getHumidityLevel() > Math.round(distance)) {
+                if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
                     i.setHumidityLevel(Math.round(distance));
                 }
             }

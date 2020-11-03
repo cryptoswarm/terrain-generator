@@ -1,4 +1,4 @@
-package reader;
+package Translator;
 
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
@@ -6,10 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 import ca.uqam.info.inf5153.ptg.Controller;
 
-public class MeshFileReader implements Reader {
-
-
-    @Override
+public class Reader {
     public void readFile(String fileName){
         Structs.Mesh startMesh = null;
         try {
@@ -25,7 +22,7 @@ public class MeshFileReader implements Reader {
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = startMesh.getPoints(polygon.getCentroidIdx());
-            Controller.addTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
+            Controller.addWorldTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
         }
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
@@ -34,17 +31,12 @@ public class MeshFileReader implements Reader {
                 Structs.Point neighborCenterCoordinate =
                         startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx());
 
-                Controller.addNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
+                Controller.addWorldNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
                         neighborCenterCoordinate.getX(), neighborCenterCoordinate.getY());
             }
         }
     }
-
-
-
-
     private static String readMetadata(Structs.Mesh m, String key) {
-
         Optional<Structs.Property> prop = m.getPropertiesList().stream().filter(p -> p.getKey().equals(key)).findFirst();
         if (prop.isPresent()) {
             return prop.get().getValue();

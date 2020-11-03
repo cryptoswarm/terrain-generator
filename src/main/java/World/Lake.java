@@ -1,10 +1,10 @@
 
-package map;
+package World;
 
 import geometrie.Coordinate;
 import java.util.HashMap;
 
-import static map.TileColor.WATERBLUE;
+import static World.TileColor.WATERBLUE;
 
 public class Lake implements Aquifer {
     private HashMap<Coordinate, Tile> lake = new HashMap<Coordinate, Tile>();
@@ -13,9 +13,16 @@ public class Lake implements Aquifer {
     public Lake(Tile tile, HashMap<Coordinate, Tile> vegetation) {
         lake.put(tile.getCenter(), tile);
         for(Tile i : tile.getNeighbors().values()) {
-            if(vegetation.get(i.getCenter()) != null) lake.put(i.getCenter(), i);
+            if(vegetation.get(i.getCenter()) != null) {
+                lake.put(i.getCenter(), i);
+            }
+
         }
-        for(Tile i: lake.values()) i.setBackgroundColor(color);
+        for(Tile i: lake.values()) {
+            i.setBackgroundColor(color);
+            i.setHumidityLevel(5);
+            vegetation.remove(i.getCenter());
+        }
     }
 
     @Override

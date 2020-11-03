@@ -10,13 +10,15 @@ import org.apache.commons.cli.ParseException;
 public class UserArgs {
     private String inputFile;
     private String outputFile;
-    private String shapeSpecification;
+    private String shape;
     private String nbWaterSources;
     private String soilType;
+    private String heatmap;
 
 
     public UserArgs(String[] args){
         CommandLine options = null;
+
         try {
             options = configure(args);
         } catch (ParseException e) {
@@ -24,19 +26,12 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
-        shapeSpecification = options.getOptionValue("shape");
+        shape = options.getOptionValue("shape");
         nbWaterSources =  options.getOptionValue("water") ;
         soilType =  options.getOptionValue("soil");
+        heatmap = options.getOptionValue("heatmap");
     }
 
-    public Boolean validateUserArgs(){
-        if (shapeSpecification != null) {
-            if (shapeSpecification.equals("atoll") || shapeSpecification.equals("tortuga")) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private static CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
@@ -45,8 +40,9 @@ public class UserArgs {
         opts.addOption(new Option("shape", "shape", true,"carte shape" ));
         opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
         opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
-        opts.addOption(new Option("water", "water", true,"generation des aquiferes" ));
+        opts.addOption(new Option("water", "water", true,"generation des aquifères" ));
         opts.addOption(new Option("soil", "soil", true,"soil type" ));
+        opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cl = parser.parse(opts, args);
@@ -61,13 +57,16 @@ public class UserArgs {
     public String getInputFile() {
         return inputFile;
     }
-    public String getShapeSpecification() {
-        return shapeSpecification;
+    public String getShape() {
+        return shape;
     }
-    public String getNbWaterSources() {
-        return nbWaterSources;
+    public int getNbWaterSources() {
+        return Integer.parseInt(nbWaterSources);
     }
     public String getSoilType() {
         return soilType;
+    }
+    public String getHeatmap() {
+        return heatmap;
     }
 }

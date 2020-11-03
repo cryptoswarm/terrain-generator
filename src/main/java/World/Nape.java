@@ -1,11 +1,11 @@
-package map;
+package World;
 
 import geometrie.Coordinate;
 import java.util.HashMap;
-import static map.TileColor.DARKGREEN;
+import static World.TileColor.DARKGREEN;
 
 public class Nape implements Aquifer{
-    private HashMap<Coordinate, Tile> nape = new HashMap<Coordinate, Tile>();
+    private HashMap<Coordinate, Tile> nape = new HashMap<>();
     TileColor color = DARKGREEN;
 
     public Nape(Tile tile, HashMap<Coordinate, Tile> vegetation) {
@@ -15,7 +15,11 @@ public class Nape implements Aquifer{
                 nape.put(i.getCenter(), i);
             }
         }
-        for(Tile i: nape.values()) i.setBackgroundColor(color);
+        for(Tile i: nape.values()) {
+            i.setBackgroundColor(color);
+            i.setHumidityLevel(5);
+            vegetation.remove(i.getCenter());
+        }
     }
 
     @Override

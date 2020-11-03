@@ -1,17 +1,18 @@
-package map;
+package World;
 
 import geometrie.Circle;
 import geometrie.Coordinate;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class Atoll implements Island {
     private HashMap<Coordinate, Tile> atoll = new HashMap<Coordinate, Tile>();
     private Circle circle;
 
 
-    public Atoll(World world){
-        this.circle = new Circle(world.getWidth(), world.getHeight());
+    public Atoll(World world, Random random){
+        this.circle = new Circle(world.getWidth(), world.getHeight(), random);
 
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (java.util.Map.Entry<Coordinate, Tile> entry : tiles.entrySet()) {

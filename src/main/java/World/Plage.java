@@ -1,8 +1,8 @@
-package map;
+package World;
 
 import geometrie.Coordinate;
 import java.util.HashMap;
-import static map.TileColor.SAND;
+import static World.TileColor.SAND;
 
 public class Plage implements Biome {
     private HashMap<Coordinate, Tile>  plage;
@@ -16,6 +16,7 @@ public class Plage implements Biome {
     public void addToBiome(Tile tile) {
         plage.put(tile.getCenter(), tile);
         tile.setBackgroundColor(color);
+        tile.setHumidityLevel(255);
     }
 
     @Override
