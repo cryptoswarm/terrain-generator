@@ -1,10 +1,10 @@
 
-package map;
+package World;
 
 import geometrie.Coordinate;
 import java.util.HashMap;
 
-import static map.TileColor.WATERBLUE;
+import static World.TileColor.WATERBLUE;
 
 public class Lake implements Aquifer {
     private HashMap<Coordinate, Tile> lake = new HashMap<Coordinate, Tile>();

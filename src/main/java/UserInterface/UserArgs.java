@@ -32,14 +32,6 @@ public class UserArgs {
         heatmap = options.getOptionValue("heatmap");
     }
 
-    public Boolean validateUserArgs(){
-        if (shapeSpecification != null) {
-            if (shapeSpecification.equals("atoll") || shapeSpecification.equals("tortuga")) {
-                return true;
-            }
-        }
-        return false;
-    }
 
     private static CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
@@ -48,7 +40,7 @@ public class UserArgs {
         opts.addOption(new Option("shape", "shape", true,"carte shape" ));
         opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
         opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
-        opts.addOption(new Option("water", "water", true,"generation des aquiferes" ));
+        opts.addOption(new Option("water", "water", true,"generation des aquifères" ));
         opts.addOption(new Option("soil", "soil", true,"soil type" ));
         opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
 

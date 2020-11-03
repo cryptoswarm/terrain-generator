@@ -1,8 +1,8 @@
-package map;
+package World;
 
 import geometrie.Coordinate;
 import java.util.HashMap;
-import static map.TileColor.DARKGREEN;
+import static World.TileColor.DARKGREEN;
 
 public class Nape implements Aquifer{
     private HashMap<Coordinate, Tile> nape = new HashMap<Coordinate, Tile>();

@@ -1,4 +1,4 @@
-package writer;
+package Translator;
 
 
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;

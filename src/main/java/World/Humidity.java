@@ -1,4 +1,4 @@
-package map;
+package World;
 
 public class Humidity implements Mode{
     TileColor color = TileColor.DARKBLUE;

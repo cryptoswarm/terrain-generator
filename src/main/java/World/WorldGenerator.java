@@ -1,4 +1,4 @@
-package map;
+package World;
 
 import UserInterface.UserArgs;
 

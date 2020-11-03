@@ -1,0 +1,60 @@
+@startuml
+
+package UserInterface {
+    class UserArgs {
+        - String inputFile
+        - String outputFile
+        - String shapeSpecification
+        - String nbWaterSources
+        - String soilType
+        - String heatmap
+    }
+}
+
+Package Translator {
+    class Reader {
+        + void readFile(String : fileName)
+        - String readMetadata(m : Structs.Mesh , key: String)
+    }
+    class Writer {
+        + void generateEndMesh(outFileName: String, fileName: String)
+        + Structs.Mesh syncMeshBuilderWithMap(startMesh: Structs.Mesh)
+        - createOutputFile(endMesh: Structs.Mesh , fileName: String)
+    }
+}
+
+Package Legacy {
+    class LegacyMesh
+    class LegacyPolygon
+    class LegacyPoint
+    class LegacySegment
+
+}
+
+Package ca.uqam.info.inf5153.ptg {
+    class Main
+    class Controller {
+        + void createWorld()
+        + void setWorldHeight()
+        + void setWorldWidth()
+        + void addTile()
+        + void addNeighbor()
+        + String getTileColor()
+        + void setMode()
+    }
+}
+
+Package World {
+     class world
+     class Tuile
+     class Coordinate
+     Interface Biome
+}
+
+Translator -- Legacy
+Translator -- ca.uqam.info.inf5153.ptg
+ca.uqam.info.inf5153.ptg -- World
+ca.uqam.info.inf5153.ptg -- UserInterface
+
+
+@enduml

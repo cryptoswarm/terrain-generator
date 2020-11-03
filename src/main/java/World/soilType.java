@@ -1,4 +1,4 @@
-package map;
+package World;
 
 public enum soilType {
     DRY("dry", 50),

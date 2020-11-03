@@ -1,10 +1,8 @@
-package map;
+package World;
 
 import geometrie.Coordinate;
-
 import java.util.HashMap;
 
-public  interface Biome {
-    void addToBiome(Tile tile);
+public interface Aquifer {
     HashMap<Coordinate, Tile> getTiles();
 }

@@ -1,4 +1,4 @@
-package map;
+package World;
 
 public class Normal implements Mode {
     @Override

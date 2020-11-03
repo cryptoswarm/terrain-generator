@@ -1,4 +1,4 @@
-package reader;
+package Translator;
 
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.util.Optional;
 import ca.uqam.info.inf5153.ptg.Controller;
 
-public class MeshFileReader implements Reader {
-    @Override
+public class Reader {
     public void readFile(String fileName){
         Structs.Mesh startMesh = null;
         try {
@@ -38,7 +37,6 @@ public class MeshFileReader implements Reader {
         }
     }
     private static String readMetadata(Structs.Mesh m, String key) {
-
         Optional<Structs.Property> prop = m.getPropertiesList().stream().filter(p -> p.getKey().equals(key)).findFirst();
         if (prop.isPresent()) {
             return prop.get().getValue();

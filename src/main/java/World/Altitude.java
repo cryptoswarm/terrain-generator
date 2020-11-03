@@ -1,4 +1,4 @@
-package map;
+package World;
 
 public class Altitude implements Mode {
     TileColor color = TileColor.BROWN;

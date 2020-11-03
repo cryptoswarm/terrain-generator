@@ -2,12 +2,11 @@ package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
 import geometrie.Coordinate;
-import map.*;
-import reader.MeshFileReader;
-import reader.Reader;
+import World.*;
+import Translator.Reader;
 
 
-import static writer.Writer.generateEndMesh;
+import static Translator.Writer.generateEndMesh;
 
 public class Controller {
     private static World world;
@@ -28,7 +27,7 @@ public class Controller {
         m = null;
         setMode(parsedArgs.getHeatmap());
 
-        Reader reader = new MeshFileReader();
+        Reader reader = new Reader();
 
         reader.readFile(fileName);
         world.setSoil(parsedArgs.getSoilType());

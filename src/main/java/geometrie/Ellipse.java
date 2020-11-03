@@ -1,6 +1,6 @@
 package geometrie;
 
-import map.Tile;
+import World.Tile;
 
 import java.util.Random;
 
