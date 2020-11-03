@@ -79,6 +79,7 @@ Translator -- Legacy
 Translator -- ca.uqam.info.inf5153.ptg
 ca.uqam.info.inf5153.ptg -- World
 ca.uqam.info.inf5153.ptg -- UserInterface
+World -- Geometry
 
 
 @enduml

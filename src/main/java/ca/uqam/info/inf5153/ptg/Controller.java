@@ -30,11 +30,11 @@ public class Controller {
         generateEndMesh(outFileName, fileName);
     }
 
-    public static void setWorldHeight(int height){
-        setHeight(height);
+    public static void setWorldHeight(int h){
+        setHeight(h);
     }
-    public static void setWorldWidth(int width){
-        setWidth(width);
+    public static void setWorldWidth(int w){
+        setWidth(w);
     }
     public static void addWorldTile(float x, float y){
         addTile(x,y);
