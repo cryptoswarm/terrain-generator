@@ -33,7 +33,7 @@ public class Writer {
             Structs.Polygon p = builder.getPolygons(i);
             float x = builder.getPoints(p.getCentroidIdx()).getX();
             float y = builder.getPoints(p.getCentroidIdx()).getY();
-            String tileColor = Controller.getTileColor(x, y);
+            String tileColor = Controller.getWorldTileColor(x, y);
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
             builder.getPolygonsBuilder(i).addProperties(color);
         }

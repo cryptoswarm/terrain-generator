@@ -22,7 +22,7 @@ public class Reader {
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = startMesh.getPoints(polygon.getCentroidIdx());
-            Controller.addTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
+            Controller.addWorldTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
         }
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
@@ -31,7 +31,7 @@ public class Reader {
                 Structs.Point neighborCenterCoordinate =
                         startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx());
 
-                Controller.addNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
+                Controller.addWorldNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
                         neighborCenterCoordinate.getX(), neighborCenterCoordinate.getY());
             }
         }

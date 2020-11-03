@@ -10,7 +10,7 @@ import org.apache.commons.cli.ParseException;
 public class UserArgs {
     private String inputFile;
     private String outputFile;
-    private String shapeSpecification;
+    private String shape;
     private String nbWaterSources;
     private String soilType;
     private String heatmap;
@@ -26,7 +26,7 @@ public class UserArgs {
         }
         inputFile = options.getOptionValue("i");
         outputFile = options.getOptionValue("o");
-        shapeSpecification = options.getOptionValue("shape");
+        shape = options.getOptionValue("shape");
         nbWaterSources =  options.getOptionValue("water") ;
         soilType =  options.getOptionValue("soil");
         heatmap = options.getOptionValue("heatmap");
@@ -57,11 +57,11 @@ public class UserArgs {
     public String getInputFile() {
         return inputFile;
     }
-    public String getShapeSpecification() {
-        return shapeSpecification;
+    public String getShape() {
+        return shape;
     }
-    public String getNbWaterSources() {
-        return nbWaterSources;
+    public int getNbWaterSources() {
+        return Integer.parseInt(nbWaterSources);
     }
     public String getSoilType() {
         return soilType;

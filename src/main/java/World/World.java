@@ -8,6 +8,8 @@ public class World {
     private int width;
     private int height;
     private soilType soil;
+    private int nbsWaterSrc;
+    private String shape;
     private HashMap<Coordinate, Tile> tiles;
     private Biome plage;
     private Biome ocean;
@@ -33,6 +35,15 @@ public class World {
     public void setSoil(String soil) {
         this.soil = soilType.getSoilType(soil);
     }
+    public void setNbsWaterSrc(int nbsWaterSrc) {
+        this.nbsWaterSrc = nbsWaterSrc;
+    }
+    public void setShape(String shape) {
+        this.shape = shape;
+    }
+    public String getShape() {
+        return shape;
+    }
     public int getWidth() {
         return width;
     }
@@ -52,16 +63,16 @@ public class World {
         return tiles.get(randomCoordinate);
     }
 
-    public void createLake(int lakesNbs){
-        for(int i = 0; i <= lakesNbs; i++) {
+    public void createLake(){
+        for(int i = 0; i <= nbsWaterSrc; i++) {
             Tile tile = findRandomTile(vegetation.getTiles());
             Aquifer lake = new Lake(tile, vegetation.getTiles());
             applyHumidityEffect(lake.getTiles());
         }
     }
 
-    public void createNape(int napeNbs){
-        for(int i = 0; i <= napeNbs; i++) {
+    public void createNape(){
+        for(int i = 0; i <= nbsWaterSrc; i++) {
             Tile tile = findRandomTile(vegetation.getTiles());
             Aquifer nape = new Nape(tile, vegetation.getTiles());
             applyHumidityEffect(nape.getTiles());
