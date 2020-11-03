@@ -7,8 +7,6 @@ import java.util.Optional;
 import ca.uqam.info.inf5153.ptg.Controller;
 
 public class MeshFileReader implements Reader {
-
-
     @Override
     public void readFile(String fileName){
         Structs.Mesh startMesh = null;
@@ -39,10 +37,6 @@ public class MeshFileReader implements Reader {
             }
         }
     }
-
-
-
-
     private static String readMetadata(Structs.Mesh m, String key) {
 
         Optional<Structs.Property> prop = m.getPropertiesList().stream().filter(p -> p.getKey().equals(key)).findFirst();

@@ -10,7 +10,7 @@ import reader.Reader;
 import static writer.Writer.generateEndMesh;
 
 public class Controller {
-    private static World world = new World();
+    private static World world;
     private static MODE m;
     private enum MODE{
         NORMAL,
@@ -21,6 +21,7 @@ public class Controller {
     private static Mode mode = null;
 
     public static void createWorld(String[] args) {
+        world = new World();
         UserArgs parsedArgs = new UserArgs(args);
         String fileName = parsedArgs.getInputFile();
         String outFileName = parsedArgs.getOutputFile();
@@ -33,7 +34,7 @@ public class Controller {
         world.setSoil(parsedArgs.getSoilType());
         world = WorldGenerator.generateWorld(parsedArgs, world);
 
-        generateEndMesh(outFileName, fileName, world);
+        generateEndMesh(outFileName, fileName);
     }
 
     public static void setWorldHeight(int height){

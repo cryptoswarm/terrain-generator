@@ -1,14 +1,93 @@
 @startuml
-UserInterface -> writer : generateCarte(Mesh world)
-writer --> Traductor : CreateCarte(Mesh world)
-Traductor --> world : new world(Mesh world)
-Traductor <-- world : world world
-writer <-- Traductor : world world
-writer --> world : enrich()
-writer <-- world : world enrichCarte
-writer --> Traductor : CreateMesh(world enrichCarte)
-writer <-- Traductor : enrichMesh
-UserInterface <-- writer : enrichMesh
+participant Controller as C
+activate C
+    create participant "ag: UserArgs" as AG
+    C -> AG: new UserArgs()
+    activate AG
+        C <-- AG: ag
+    deactivate AG
+
+    == Initialization ==
+
+    create participant "w: World" as WO
+    C -> WO
+    activate WO
+        WO <-- C
+    deactivate WO
+    create participant "r: MeshFileReader" as R
+    C -> R: new MeshFileReader()
+    activate R
+        R -> C: setWorldWidth(w)
+        activate C
+            C -> WO: setWidth(w)
+            activate WO
+                C <-- WO
+            deactivate WO
+            C --> R
+        deactivate C
+        R -> C: setWorldHeight(h)
+        activate C
+            C -> WO: setWidth(w)
+            activate WO
+                C <-- WO
+            deactivate WO
+            C --> R
+        deactivate C
+        loop for all polygone
+        R -> C: addTile(x,y)
+            activate C
+                C -> WO: addTile(new Tile(new Coordinate(x,y,0)))
+                activate WO
+                    C <-- WO
+                deactivate WO
+                C --> R
+            deactivate C
+        end
+        loop for all polygone
+            loop for all neighbor
+                R -> C: addNeighbor(x,y,nx,ny)
+                activate C
+                    C -> WO: getTile(new Coordinate(x,y))
+                    activate WO
+                        C <-- WO: t1
+                    deactivate WO
+                    C -> WO: getTile(new Coordinate(nx,ny))
+                    activate WO
+                        C <-- WO: t2
+                    deactivate WO
+                        C -> WO: t1 addNeighbor(t2)
+                    activate WO
+                        C <-- WO
+                    deactivate WO
+                    C --> R
+                deactivate C
+             end
+        end
+        C <-- R
+    deactivate R
+
+    == Create world feature ==
+
+    participant worldGenerator as WG
+    C -> WG : createWorld(world)
+    activate WG
+        C <-- WG : world
+    deactivate WG
+
+    == Write End mesh ==
+
+    participant "Writer" as W
+    C -> W
+    activate W
+        loop for all polygone
+            W -> C: getTileColor(x,y)
+            activate C
+                W <-- C
+            deactivate C
+        end
+        C <-- W
+    deactivate W
+
 
 
 @enduml
