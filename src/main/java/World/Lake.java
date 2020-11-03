@@ -20,7 +20,8 @@ public class Lake implements Aquifer {
         }
         for(Tile i: lake.values()) {
             i.setBackgroundColor(color);
-            i.setHumidityLevel(1);
+            i.setHumidityLevel(5);
+            vegetation.remove(i.getCenter());
         }
     }
 

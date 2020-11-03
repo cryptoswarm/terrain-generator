@@ -1,26 +1,29 @@
 package World;
 
-import UserInterface.UserArgs;
 import geometrie.Coordinate;
+
+import java.util.Random;
 
 public class WorldGenerator {
     private static World world;
     private static Mode mode;
+    private static Random random;
+
 
 
     public static World generateWorld() {
+        random = new Random();
         Island island = null;
 
         if (world.getShape().equals("atoll")) {
-            island = new Atoll(world);
+            island = new Atoll(world, random);
         } else if (world.getShape().equals("tortuga")) {
             island = new Tortuga(world);
         }
 
         island.defineAltitude();
         world.createBiome(island);
-        world.createLake();
-        world.createNape();
+        world.createWaterSource();
 
         return world;
     }
@@ -56,18 +59,17 @@ public class WorldGenerator {
         return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
 
     }
-
     public static void setMode(String s){
-        if(s != null){
-            if (s.equals("altitude")){
-                mode = new Altitude();
-            }else if (s.equals("humidity")){
-                mode = new Humidity();
-            } else {
-                mode = new Normal();
-            }
+        if (s == null) {
+            mode = new Normal();
+        } else if (s.equals("altitude")){
+            mode = new Altitude();
+        }else if (s.equals("humidity")){
+            mode = new Humidity();
         }
     };
-
+    public static Random getRandom() {
+        return random;
+    }
 }
 

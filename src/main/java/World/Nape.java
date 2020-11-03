@@ -5,7 +5,7 @@ import java.util.HashMap;
 import static World.TileColor.DARKGREEN;
 
 public class Nape implements Aquifer{
-    private HashMap<Coordinate, Tile> nape = new HashMap<Coordinate, Tile>();
+    private HashMap<Coordinate, Tile> nape = new HashMap<>();
     TileColor color = DARKGREEN;
 
     public Nape(Tile tile, HashMap<Coordinate, Tile> vegetation) {
@@ -17,7 +17,8 @@ public class Nape implements Aquifer{
         }
         for(Tile i: nape.values()) {
             i.setBackgroundColor(color);
-            i.setHumidityLevel(1);
+            i.setHumidityLevel(5);
+            vegetation.remove(i.getCenter());
         }
     }
 
