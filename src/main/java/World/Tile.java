@@ -2,13 +2,13 @@ package World;
 
 
 import Geometry.Coordinate;
-
 import java.util.HashMap;
 import java.util.Objects;
 
 public class Tile {
 
     final private Coordinate center;
+    private Biome biome;
     private TileColor backgroundColor;
     private int humidityLevel;
     private double altitude;
@@ -31,7 +31,10 @@ public class Tile {
         backgroundColor = c;
     }
     public TileColor getBackgroundColor() {
-        return backgroundColor;
+        if(backgroundColor != null) {
+            return backgroundColor;
+        }
+        return biome.getColor();
     }
     public Coordinate getCenter() {
         return this.center;
@@ -47,6 +50,13 @@ public class Tile {
     }
     public void setAltitude(double altitude) {
         this.altitude = altitude;
+    }
+
+    public void setBiome(Biome biome) {
+        this.biome = biome;
+    }
+    public Biome getBiome() {
+        return biome;
     }
 
     @Override

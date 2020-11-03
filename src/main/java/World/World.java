@@ -13,19 +13,11 @@ public class World {
     private int nbsWaterSrc;
     private String shape;
     private HashMap<Coordinate, Tile> tiles;
-    private Biome plage;
-    private Biome ocean;
-    private Biome lagoon;
-    private Biome vegetation;
 
 
 
     public World() {
         this.tiles = new LinkedHashMap<>();
-        plage = new Plage();
-        ocean = new Ocean();
-        vegetation = new Vegetation();
-        lagoon = new Lagoon();
     }
 
     public void setWidth(int width) {
@@ -67,9 +59,10 @@ public class World {
         Coordinate randomCoordinate = coordinates.get( getRandom().nextInt( coordinates.size()) );
         return tiles.get(randomCoordinate);
     }
-
+    /*
     private void createLake(int nbsLake){
         for(int i = 0; i < nbsLake; i++) {
+
             Tile tile = findRandomTile(vegetation.getTiles());
             Aquifer lake = new Lake(tile, vegetation.getTiles());
             applyHumidityEffect(lake.getTiles());
@@ -87,15 +80,18 @@ public class World {
         createLake(nbsWaterSrc - i);
         createNape(i);
     }
-
+*/
     private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
-        for(Tile i: vegetation.getTiles().values()) {
-            Float distance = getDistanceFromWaterSource(i, waterSource);
-            if( distance < soil.getAffectedDistance()) {
-                if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
-                    i.setHumidityLevel(Math.round(distance));
+        for(Tile i: tiles.values()) {
+            if(i.getBiome() instanceof Vegetation){
+                Float distance = getDistanceFromWaterSource(i, waterSource);
+                if( distance < soil.getAffectedDistance()) {
+                    if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
+                        i.setHumidityLevel(Math.round(distance));
+                    }
                 }
             }
+
         }
     }
 
@@ -109,45 +105,6 @@ public class World {
     }
 
 
-    private boolean isTileInBiomes(Tile tile){
-        Coordinate tileCenter = tile.getCenter();
-        if (ocean.getTiles().get(tileCenter) != null) return true;
-        if (plage.getTiles().get(tileCenter) != null) return true;
-        if (lagoon.getTiles().get(tileCenter) != null) return true;
-        if (vegetation.getTiles().get(tileCenter) != null) return true;
-        return false;
-    }
-
-    public void createBiome(Island island) {
-        //Ocean
-        for (Tile tile : tiles.values()) {
-            if(!island.isOnIsland(tile)) ocean.addToBiome(tile);
-        }
-
-        //lagon
-        if(island instanceof Atoll) {
-            for (Tile tile : island.getTiles().values()) {
-                if (((Atoll)island).isInLagon(tile)) lagoon.addToBiome(tile);
-            }
-        }
-
-        //plage
-        for (Tile tile : island.getTiles().values()) {
-            if(!isTileInBiomes(tile)) {
-                for (Tile neighbors : tile.getNeighbors().values()) {
-                    if (ocean.getTiles().get(neighbors.getCenter()) != null || lagoon.getTiles().get(neighbors.getCenter()) != null) {
-                        plage.addToBiome(tile);
-                        break;
-                    }
-                }
-            }
-        }
-
-        //vegetation
-        for (Tile tile : island.getTiles().values()) {
-            if(!isTileInBiomes(tile)) vegetation.addToBiome(tile);
-        }
-    }
 
 
 

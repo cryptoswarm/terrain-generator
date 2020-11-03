@@ -22,8 +22,9 @@ public class WorldGenerator {
         }
 
         island.defineAltitude();
-        world.createBiome(island);
-        world.createWaterSource();
+        Generator bg = new BiomeGenerator();
+        bg.generate(world.getTiles(), island);
+        //world.createWaterSource();
     }
     public static void newWorld(){
         world = new World();

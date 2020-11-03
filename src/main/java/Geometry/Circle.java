@@ -15,11 +15,11 @@ public class Circle {
         do {
             c1 = random.nextFloat();
             c2 = 1 - c1;
-        } while (c1 < c2 + 0.2 && c2 < 0.2);
+        } while (c1 < c2 + 0.3 && c2 < 0.2);
 
         this.shortestSide = Math.min(width, height);
-        this.bRadius = (shortestSide/2)*c1;
-        this.sRadius = (shortestSide/2)*c2;
+        this.bRadius = (shortestSide/2)*0.7;
+        this.sRadius = (shortestSide/2)*0.4;
         this.center = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
     }
 
