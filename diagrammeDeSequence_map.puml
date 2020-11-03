@@ -1,0 +1,76 @@
+@startuml
+participant worldGenerator as C
+[->C: generateWorld()
+activate C
+    create participant "i:Atoll" as A
+    C -> A: new Atoll(w, r)
+    activate A
+        create participant "c: Circle" as CI
+        A -> CI: new Circle(width,height,r)
+        activate CI
+            A <-- CI: c
+        deactivate CI
+        C <-- A: i
+    deactivate A
+    C -> A: i.defineAltitude()
+    activate A
+        C <-- A
+    deactivate A
+    participant "w: World" as W
+    C -> W: w.createBiome()
+    activate W
+        loop for t in w
+            W -> A: isOnIsland(t)
+            activate A
+                W <--A
+            deactivate A
+            participant "o:Ocean" as O
+            W -> O: addToBiome(t)
+            activate O
+                W <-- O
+            deactivate O
+        end
+        W -> A: i.getTiles()
+        activate A
+            W <-- A: tiles
+        deactivate A
+        loop for t in tiles
+            W -> A: isOnLagoon()
+            activate A
+                W <-- A
+            deactivate A
+            participant "l:Lagoon" as L
+            W -> L: addToBiome(t)
+            activate L
+                W <-- L
+            deactivate L
+        end
+        loop for t in tiles
+            W -> W: isTileInBiome(t)
+            participant "p: Plage" as P
+            W -> P: addToBiome(t)
+            activate P
+                W <-- P
+            deactivate P
+        end
+        loop for t in tiles
+            W -> W: isTileInBiome(t)
+            participant "v: Vegetation" as V
+            W -> V: addToBiome(t)
+            activate V
+                W <-- V
+            deactivate V
+        end
+        C <-- W
+    deactivate W
+    C -> W: w.createWaterSource()
+    activate W
+        W -> W: createNape()
+        W -> W: applyHumidityEffect()
+        W -> W: getDistanceFromWaterSource()
+        C <-- W
+    deactivate W
+    [<--C
+deactivate C
+
+@enduml

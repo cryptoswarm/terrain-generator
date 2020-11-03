@@ -1,9 +1,10 @@
 package World;
 
-import geometrie.Coordinate;
-import geometrie.Ellipse;
+import Geometry.Coordinate;
+import Geometry.Ellipse;
 
 import java.util.HashMap;
+import java.util.Random;
 
 public class Tortuga implements Island {
 
@@ -11,13 +12,12 @@ public class Tortuga implements Island {
     private HashMap<Coordinate, Tile> tortuga = new HashMap<Coordinate, Tile>();
 
 
-    public Tortuga(World world){
-        this.ellipse = new Ellipse(world.getWidth(), world.getHeight());
+    public Tortuga(World world, Random random){
+        this.ellipse = new Ellipse(world.getWidth(), world.getHeight(), random);
         HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (java.util.Map.Entry<Coordinate, Tile> entry : tiles.entrySet()) {
-            Tile tile = entry.getValue();
-            Coordinate tileCenter = entry.getKey();
-            if (ellipse.isOutEllipse(tile)){
+        for (Tile tile : tiles.values()) {
+            Coordinate tileCenter = tile.getCenter();
+            if (ellipse.isInEllipse(tileCenter)) {
                 tortuga.put(tileCenter,tile);
             }
         }

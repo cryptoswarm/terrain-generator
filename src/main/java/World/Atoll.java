@@ -1,7 +1,7 @@
 package World;
 
-import geometrie.Circle;
-import geometrie.Coordinate;
+import Geometry.Circle;
+import Geometry.Coordinate;
 
 import java.util.HashMap;
 import java.util.Random;

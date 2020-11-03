@@ -51,10 +51,35 @@ Package World {
      Interface Biome
 }
 
+Package Geometry {
+    class Circle {
+        - Coordinate center
+        - double bRadius
+        - double sRadius
+        - double shortestSide
+    }
+    class Coordinate {
+        - float x
+        - float y
+        - float z
+    }
+    class Ellipse {
+        - Random random
+        - Coordinate ellipseCenter
+        - double a
+        - double b
+        - double defineShape(width: int, height: int)
+        - double findMinorAxis(majorAxis: double)
+        - Coordinate setNewCenter(width: int, height: int)
+        + boolean isInEllipse(c: Coordinate)
+    }
+}
+
 Translator -- Legacy
 Translator -- ca.uqam.info.inf5153.ptg
 ca.uqam.info.inf5153.ptg -- World
 ca.uqam.info.inf5153.ptg -- UserInterface
+World -- Geometry
 
 
 @enduml

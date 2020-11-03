@@ -1,7 +1,6 @@
 package ca.uqam.info.inf5153.ptg;
 
 import UserInterface.UserArgs;
-import geometrie.Coordinate;
 import World.*;
 import Translator.Reader;
 
@@ -31,11 +30,11 @@ public class Controller {
         generateEndMesh(outFileName, fileName);
     }
 
-    public static void setWorldHeight(int height){
-        setHeight(height);
+    public static void setWorldHeight(int h){
+        setHeight(h);
     }
-    public static void setWorldWidth(int width){
-        setWidth(width);
+    public static void setWorldWidth(int w){
+        setWidth(w);
     }
     public static void addWorldTile(float x, float y){
         addTile(x,y);
