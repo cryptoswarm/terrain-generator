@@ -3,15 +3,15 @@ package World;
 import Geometry.Coordinate;
 
 import java.util.HashMap;
+import java.util.HashSet;
 
 public class BiomeGenerator implements Generator {
-    private HashMap<Coordinate, Tile> tiles;
-    public BiomeGenerator(HashMap<Coordinate, Tile> tiles) {
-        this.tiles = tiles;
-    }
 
-    public void generate() {
-        for (Tile tile : tiles.values()) {
+    public BiomeGenerator() {}
+
+    public void generate(World w) {
+        HashSet<Tile> tiles = w.getTiles();
+        for (Tile tile : tiles) {
             if(!tile.isOnIsland()) {
                 tile.setBiome(new Ocean());
                 tile.setBackgroundColor(tile.getBiome().getColor());

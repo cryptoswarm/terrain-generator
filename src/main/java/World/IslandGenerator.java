@@ -1,30 +1,30 @@
 package World;
 
-import Geometry.Coordinate;
-
-import java.util.HashMap;
+import World.Island.Atoll;
+import World.Island.IslandStrategy;
+import World.Island.Tortuga;
+import java.util.HashSet;
 
 import static World.WorldGenerator.getRandom;
 
 public class IslandGenerator implements Generator {
-    private HashMap<Coordinate, Tile> tiles;
     private String islandType;
     private int width;
     private int height;
-    public IslandGenerator(HashMap<Coordinate, Tile> tiles, String islandType, int width, int height) {
-        this.tiles = tiles;
+    public IslandGenerator(String islandType, int width, int height) {
         this.islandType = islandType;
         this.width = width;
         this.height = height;
     }
 
     @Override
-    public void generate() {
-        Island island;
+    public void generate(World w) {
+        IslandStrategy island;
+        HashSet<Tile> tiles = w.getTiles();
         if (islandType.equals("atoll")) {
-            island = new Atoll(tiles, getRandom(), width, height);
+            island = new Atoll(100);
         } else if (islandType.equals("tortuga")) {
-            island = new Tortuga(tiles, getRandom(), width, height);
+            island = new Tortuga(100);
         }
     }
 }

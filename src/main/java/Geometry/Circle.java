@@ -1,37 +1,25 @@
 package Geometry;
 
-import java.util.Random;
+public class Circle implements Shape {
 
-public class Circle {
 
-    private Coordinate center;
-    private double bRadius;
-    private double sRadius;
-    private double shortestSide;
+    Coordinate center;
+    double radius;
 
-    public Circle(int width, int height, Random random) {
-        float c1;
-        float c2;
-        do {
-            c1 = random.nextFloat();
-            c2 = 1 - c1;
-        } while (c1 < c2 + 0.3 && c2 < 0.2);
+    public Circle(Coordinate center, double radius){
 
-        this.shortestSide = Math.min(width, height);
-        this.bRadius = (shortestSide/2)*0.7;
-        this.sRadius = (shortestSide/2)*0.4;
-        this.center = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
+        this.center = center;
+        this.radius = radius;
+
     }
 
-
-    public Coordinate getCenter() {
-        return center;
+    @Override
+    public boolean isInArea(Coordinate c) {
+        return c.distance(this.center) <= radius;
     }
 
-    public double getBigRadius() {
-        return bRadius;
-    }
-    public double getSmallRadius() {
-        return sRadius;
+    @Override
+    public int getDistanceFrom(Coordinate c) {
+        return Math.abs((int)radius - (int) c.distance(center));
     }
 }

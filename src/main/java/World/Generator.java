@@ -1,5 +1,6 @@
 package World;
 
 public interface Generator {
-    void generate();
+
+    void generate(World w);
 }

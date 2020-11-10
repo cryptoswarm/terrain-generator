@@ -10,12 +10,12 @@ public class World {
     private int width;
     private int height;
     private String shape;
-    private HashMap<Coordinate, Tile> tiles;
+    private HashSet<Tile> tiles;
 
 
 
     public World() {
-        this.tiles = new LinkedHashMap<>();
+        this.tiles = new HashSet<>();
     }
 
     public void setWidth(int width) {
@@ -36,14 +36,12 @@ public class World {
     public int getHeight() {
         return height;
     }
-    public HashMap<Coordinate, Tile> getTiles() {
+    public HashSet<Tile> getTiles() {
         return tiles;
     }
 
-
-
     public void addTile(Tile tile) {
-        tiles.put(tile.getCenter(),tile);
+        tiles.add(tile);
     }
 
 

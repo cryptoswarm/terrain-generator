@@ -1,8 +1,7 @@
 package World;
 
-import Geometry.Coordinate;
-import java.util.HashMap;
+import java.util.HashSet;
 
 public interface Aquifer {
-    HashMap<Coordinate, Tile> getTiles();
+    HashSet<Tile> getTiles();
 }

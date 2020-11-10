@@ -19,13 +19,11 @@ public class WorldGenerator {
     public static void generateWorld() {
         random = new Random();
 
-        //island.defineAltitude();
-        Generator i = new IslandGenerator(world.getTiles(), islandType, width, height);
-        i.generate();
-        Generator bg = new BiomeGenerator(world.getTiles());
-        bg.generate();
-        Generator ws = new LakeGenerator(world.getTiles(), nbsWaterSource, soil);
-        ws.generate();
+        Handler h = new Handler();
+        h.addGenerator(new IslandGenerator(islandType, width, height));
+        h.addGenerator(new BiomeGenerator());
+        h.addGenerator(new LakeGenerator(nbsWaterSource, soil));
+        h.process(world);
     }
     public static void newWorld(){
         world = new World();
@@ -45,12 +43,30 @@ public class WorldGenerator {
         world.addTile(new Tile(new Coordinate(x,y,0)));
     }
     public static void addNeighbor(float x, float y, float nx, float ny) {
-        Tile tile = world.getTiles().get(new Coordinate(x,y,0));
-        Tile tileNeighbor = world.getTiles().get(new Coordinate(nx,ny,0));
-        tile.addNeighbor(tileNeighbor);
+        Tile tile = null;
+        Tile neighbor = null;
+        for (Tile t : world.getTiles()) {
+            if(t.equals(new Tile(new Coordinate(x,y,0)))) {
+                tile = t;
+                break;
+            }
+        }
+        for (Tile n : world.getTiles()) {
+            if(n.equals(new Tile(new Coordinate(nx,ny,0)))) {
+                neighbor = n;
+                break;
+            }
+        }
+        tile.addNeighbor(neighbor);
     }
     public static String getTileColor(float x, float y){
-        Tile tile = world.getTiles().get(new Coordinate(x,y,0));
+        Tile tile = null;
+        for (Tile t : world.getTiles()) {
+            if(t.equals(new Tile(new Coordinate(x,y,0)))) {
+                tile = t;
+                break;
+            }
+        }
         TileColor color = tile.getBackgroundColor();
         int factor = 0;
         if(mode instanceof Normal || mode instanceof Humidity) factor = tile.getHumidityLevel();

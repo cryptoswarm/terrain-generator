@@ -1,21 +1,20 @@
 package World;
 
-import Geometry.Coordinate;
-import java.util.HashMap;
+import java.util.HashSet;
 import static World.TileColor.DARKGREEN;
 
 public class Nape implements Aquifer{
-    private HashMap<Coordinate, Tile> nape = new HashMap<>();
+    private HashSet<Tile> nape = new HashSet<>();
     TileColor color = DARKGREEN;
 
     public Nape(Tile tile) {
-        nape.put(tile.getCenter(), tile);
+        nape.add(tile);
         for(Tile i : tile.getNeighbors().values()) {
             if(i.getBiome() instanceof Vegetation) {
-                nape.put(i.getCenter(), i);
+                nape.add(i);
             }
         }
-        for(Tile i: nape.values()) {
+        for(Tile i: nape) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
             //vegetation.remove(i.getCenter());
@@ -23,7 +22,7 @@ public class Nape implements Aquifer{
     }
 
     @Override
-    public HashMap<Coordinate, Tile> getTiles() {
+    public HashSet<Tile> getTiles() {
         return nape;
     }
 }
