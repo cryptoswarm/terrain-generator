@@ -32,6 +32,7 @@ public class Atoll implements IslandStrategy {
 
     @Override
     public boolean contains(Tile tile) {
+
         return islandShape.isInArea(tile.getCenter());
     }
 

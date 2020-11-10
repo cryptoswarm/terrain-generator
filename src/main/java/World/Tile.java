@@ -3,6 +3,7 @@ package World;
 
 import Geometry.Coordinate;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Tile {
@@ -12,23 +13,21 @@ public class Tile {
     private TileColor backgroundColor;
     private int humidityLevel;
     private double altitude;
-    private boolean isOnIsland;
     private boolean isInLagoon;
-    private HashMap<Coordinate, Tile> neighbors;
+    private HashSet<Tile> neighbors;
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.neighbors = new HashMap<>();
+        this.neighbors = new HashSet<>();
         humidityLevel = 0;
         isInLagoon = false;
-        isOnIsland = false;
     }
 
     public void addNeighbor(Tile neighbor) {
-        this.neighbors.put(neighbor.getCenter(), neighbor);
+        this.neighbors.add(neighbor);
     }
 
-    public HashMap<Coordinate, Tile> getNeighbors() {
+    public HashSet<Tile> getNeighbors() {
         return neighbors;
     }
     public void setBackgroundColor(TileColor c) {
@@ -52,11 +51,8 @@ public class Tile {
     public void setAltitude(double altitude) {
         this.altitude = altitude;
     }
-    public void setOnIsland(boolean onIsland) {
-        isOnIsland = onIsland;
-    }
     public boolean isOnIsland() {
-        return isOnIsland;
+        return altitude > 0;
     }
     public void setInLagoon(boolean inLagoon) {
         isInLagoon = inLagoon;

@@ -20,7 +20,7 @@ public class BiomeGenerator implements Generator {
                     tile.setBiome(new Lagoon());
                     tile.setBackgroundColor(tile.getBiome().getColor());
                 } else {
-                    for (Tile neighbor : tile.getNeighbors().values()) {
+                    for (Tile neighbor : tile.getNeighbors()) {
                         if (neighbor.getBiome() instanceof Ocean || neighbor.getBiome() instanceof Lagoon) {
                             tile.setBiome(new Plage());
                             tile.setBackgroundColor(tile.getBiome().getColor());

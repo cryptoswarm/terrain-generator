@@ -16,6 +16,7 @@ public class Controller {
         String outFileName = parsedArgs.getOutputFile();
 
         newWorld();
+        setSeed(parsedArgs.getSeed());
         setMode(parsedArgs.getHeatmap());
         setSoil(parsedArgs.getSoilType());
         setNbsWaterSource(parsedArgs.getNbWaterSources());

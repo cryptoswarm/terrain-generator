@@ -9,7 +9,7 @@ public class Nape implements Aquifer{
 
     public Nape(Tile tile) {
         nape.add(tile);
-        for(Tile i : tile.getNeighbors().values()) {
+        for(Tile i : tile.getNeighbors()) {
             if(i.getBiome() instanceof Vegetation) {
                 nape.add(i);
             }

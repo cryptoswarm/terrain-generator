@@ -1,13 +1,14 @@
 package World;
 
 import Geometry.Coordinate;
+import RandomStrategy.RandomContexte;
 
 import java.util.Random;
 
 public class WorldGenerator {
     private static World world;
     private static Mode mode;
-    private static Random random;
+    private static RandomContexte random;
     private static int nbsWaterSource;
     private static soilType soil;
     private static String islandType;
@@ -17,7 +18,6 @@ public class WorldGenerator {
 
 
     public static void generateWorld() {
-        random = new Random();
 
         Handler h = new Handler();
         h.addGenerator(new IslandGenerator(islandType, width, height));
@@ -41,6 +41,9 @@ public class WorldGenerator {
     public static void setShape(String s){ islandType = s;}
     public static void addTile(float x, float y){
         world.addTile(new Tile(new Coordinate(x,y,0)));
+    }
+    public static void setSeed(int seed){
+        random = new RandomContexte(seed);
     }
     public static void addNeighbor(float x, float y, float nx, float ny) {
         Tile tile = null;
@@ -84,7 +87,7 @@ public class WorldGenerator {
             mode = new Humidity();
         }
     };
-    public static Random getRandom() {
+    public static RandomContexte getRandom() {
         return random;
     }
 }

@@ -25,7 +25,7 @@ public class LakeGenerator implements Generator{
     }
     private Tile findRandomTile(HashSet<Tile> Htiles){
         ArrayList<Tile> tiles = new ArrayList<>(Htiles);
-        Tile randomTile = tiles.get( getRandom().nextInt( tiles.size()) );
+        Tile randomTile = tiles.get( getRandom().getRandomInt( tiles.size()) );
         return randomTile;
     }
     private void createLake(int nbsLake){
@@ -50,7 +50,7 @@ public class LakeGenerator implements Generator{
         }
     }
     public void createWaterSource() {
-        int i  = getRandom().nextInt(nbsWaterSrc+1);
+        int i  = getRandom().getRandomInt(nbsWaterSrc+1);
         createLake(nbsWaterSrc - i);
         createNape(i);
     }

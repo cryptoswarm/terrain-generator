@@ -2,6 +2,8 @@
 package World;
 
 import Geometry.Coordinate;
+import Geometry.Shape;
+
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -10,14 +12,14 @@ import static World.TileColor.WATERBLUE;
 public class Lake implements Aquifer {
     private HashSet<Tile> lake = new HashSet<>();
     final private TileColor color = WATERBLUE;
+    Shape lakeShape;
 
     public Lake(Tile tile) {
         lake.add(tile);
-        for(Tile i : tile.getNeighbors().values()) {
+        for(Tile i : tile.getNeighbors()) {
             if(i.getBiome() instanceof Vegetation) {
                 lake.add(i);
             }
-
         }
         for(Tile i: lake) {
             i.setBackgroundColor(color);
