@@ -3,15 +3,22 @@ package World.Aquifer;
 import World.Biome.Vegetation;
 import World.Tile;
 import World.TileColor;
+import World.World;
 
 import java.util.HashSet;
 import static World.TileColor.DARKGREEN;
 
-public class Nape implements Aquifer {
-    private HashSet<Tile> nape = new HashSet<>();
+public class Nape extends Aquifer {
+    final private Tile tile;
+    final private HashSet<Tile> nape = new HashSet<>();
     TileColor color = DARKGREEN;
 
     public Nape(Tile tile) {
+        this.tile = tile;
+    }
+
+    @Override
+    public void apply(World w) {
         nape.add(tile);
         for(Tile i : tile.getNeighbors()) {
             if(i.getBiome() instanceof Vegetation) {
@@ -21,8 +28,9 @@ public class Nape implements Aquifer {
         for(Tile i: nape) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
-            //vegetation.remove(i.getCenter());
         }
+        this.applyHumidityEffect(w, nape);
+
     }
 
     @Override

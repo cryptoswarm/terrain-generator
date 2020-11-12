@@ -1,21 +1,25 @@
 
 package World.Aquifer;
 
-import Geometry.Shape;
 import World.Biome.Vegetation;
 import World.TileColor;
 import World.Tile;
+import World.World;
 
 import java.util.HashSet;
-
 import static World.TileColor.WATERBLUE;
 
-public class Lake implements Aquifer {
+public class Lake extends Aquifer {
+    private Tile tile;
     private HashSet<Tile> lake = new HashSet<>();
     final private TileColor color = WATERBLUE;
-    Shape lakeShape;
 
     public Lake(Tile tile) {
+        this.tile = tile;
+    }
+
+    @Override
+    public void apply(World w) {
         lake.add(tile);
         for(Tile i : tile.getNeighbors()) {
             if(i.getBiome() instanceof Vegetation) {
@@ -25,8 +29,8 @@ public class Lake implements Aquifer {
         for(Tile i: lake) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
-            //vegetation.remove(i.getCenter());
         }
+        this.applyHumidityEffect(w,lake);
     }
 
     @Override
