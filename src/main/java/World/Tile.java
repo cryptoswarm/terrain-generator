@@ -2,7 +2,8 @@ package World;
 
 
 import Geometry.Coordinate;
-import java.util.HashMap;
+import World.Biome.Biome;
+
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -19,8 +20,10 @@ public class Tile {
     public Tile(Coordinate center) {
         this.center = center;
         this.neighbors = new HashSet<>();
-        humidityLevel = 0;
-        isInLagoon = false;
+        this.humidityLevel = 0;
+        this.isInLagoon = false;
+        this.altitude = -1;
+
     }
 
     public void addNeighbor(Tile neighbor) {
@@ -50,9 +53,6 @@ public class Tile {
     }
     public void setAltitude(double altitude) {
         this.altitude = altitude;
-    }
-    public boolean isOnIsland() {
-        return altitude > 0;
     }
     public void setInLagoon(boolean inLagoon) {
         isInLagoon = inLagoon;

@@ -1,16 +1,13 @@
-package World;
+package World.Biome;
 
-import Geometry.Coordinate;
-import java.util.*;
+import World.TileColor;
 
 public class Vegetation implements Biome {
 
     TileColor color = TileColor.LIGHTGREEN;
 
 
-    public Vegetation(){
-
-    }
+    public Vegetation(){}
 
     @Override
     public TileColor getColor() {

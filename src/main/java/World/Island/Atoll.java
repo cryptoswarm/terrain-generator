@@ -5,45 +5,44 @@ import Geometry.Coordinate;
 import Geometry.Shape;
 import RandomStrategy.RandomContexte;
 import World.Tile;
+import World.World;
 
-public class Atoll implements IslandStrategy {
-
-    int spaceCoverage;
+public class Atoll extends Island {
     Shape lagoonShape;
     Shape islandShape;
-    Coordinate center;
     RandomContexte random;
 
-    public Atoll(int spaceCoverage){
-
-        this.spaceCoverage = spaceCoverage;
+    public Atoll(RandomContexte r, int height, int width){
+        this.random = r;
+        int spaceCoverage = 90;
+        int min = Math.min(width,height);
+        double smallRadius = (min/2) * (((float) spaceCoverage - 50)/100.0);
+        double bigRadius = (min/2) * (((float) spaceCoverage)/100.0);
+        Coordinate center = new Coordinate(width/2, height/2,0);
+        this.lagoonShape = new Circle(center, smallRadius);
+        this.islandShape = new Circle(center, bigRadius);
     }
 
-    @Override
-    public void setPosition(int width, int height, Coordinate c, RandomContexte random) {
-
-        int min = Math.min(width, height);
-        this.center = c;
-        this.random = random;
-
-        this.lagoonShape = new Circle(c,  (min/2) * (((float) spaceCoverage - 50)/100.0));
-        this.islandShape = new Circle(c, (min/2) * (((float) spaceCoverage)/100.0));
+    public void apply(World w) {
+        for(Tile t: w.getTiles()){
+            if(this.isInLagoon(t)) t.setInLagoon(true);
+            t.setAltitude(this.getAltitudeProfile(t));
+        }
     }
 
-    @Override
-    public boolean contains(Tile tile) {
 
+    private boolean contains(Tile tile) {
         return islandShape.isInArea(tile.getCenter());
     }
 
-    @Override
-    public boolean isInLagoon(Tile tile) {
+    private boolean isInLagoon(Tile tile) {
         return lagoonShape.isInArea(tile.getCenter());
     }
 
-    @Override
-    public int getAltitudeProfile(Tile tile) {
-        return Math.min(islandShape.getDistanceFrom(tile.getCenter()), lagoonShape.getDistanceFrom(tile.getCenter()));
+    private int getAltitudeProfile(Tile tile) {
+        if(isInLagoon(tile) || !contains(tile)) return 0;
+        return Math.min(islandShape.getDistanceFrom(tile.getCenter()),
+                lagoonShape.getDistanceFrom(tile.getCenter()));
     }
 
 

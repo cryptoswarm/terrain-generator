@@ -6,45 +6,44 @@ import Translator.Reader;
 
 
 import static Translator.Writer.generateEndMesh;
-import static World.WorldGenerator.*;
 
 public class Controller {
-
-    public static void createWorld(String[] args) {
+    private  World world;
+    public  void createWorld(String[] args) {
         UserArgs parsedArgs = new UserArgs(args);
         String fileName = parsedArgs.getInputFile();
         String outFileName = parsedArgs.getOutputFile();
 
-        newWorld();
-        setSeed(parsedArgs.getSeed());
-        setMode(parsedArgs.getHeatmap());
-        setSoil(parsedArgs.getSoilType());
-        setNbsWaterSource(parsedArgs.getNbWaterSources());
-        setShape(parsedArgs.getShape());
+        world = new World();
+        world.setSeed(parsedArgs.getSeed());
+        world.setMode(parsedArgs.getHeatmap());
+        world.setSoil(parsedArgs.getSoilType());
+        world.setNbsWaterSource(parsedArgs.getNbWaterSources());
+        world.setShape(parsedArgs.getShape());
 
 
         Reader reader = new Reader();
-        reader.readFile(fileName);
+        reader.readFile(this, fileName);
 
-        WorldGenerator.generateWorld();
+        world.generateWorld();
 
-        generateEndMesh(outFileName, fileName);
+        generateEndMesh(this,outFileName, fileName);
     }
 
-    public static void setWorldHeight(int h){
-        setHeight(h);
+    public  void setWorldHeight(int h){
+        world.setHeight(h);
     }
-    public static void setWorldWidth(int w){
-        setWidth(w);
+    public  void setWorldWidth(int w){
+        world.setWidth(w);
     }
-    public static void addWorldTile(float x, float y){
-        addTile(x,y);
+    public  void addWorldTile(float x, float y){
+        world.addTile(x,y);
     }
-    public static void addWorldNeighbor(float x, float y, float nx, float ny) {
-        addNeighbor(x,y,nx,ny);
+    public  void addWorldNeighbor(float x, float y, float nx, float ny) {
+        world.addNeighbor(x,y,nx,ny);
     }
-    public static String getWorldTileColor(float x, float y){
-        return getTileColor(x,y);
+    public  String getWorldTileColor(float x, float y){
+        return world.getTileColor(x,y);
     }
 
 }

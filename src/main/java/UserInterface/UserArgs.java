@@ -121,16 +121,12 @@ public class UserArgs {
 
     private String setHeatmap(String heatmap) {
         if (heatmap != null){
-
             if(heatmap.equals("altitude") || heatmap.equals("humidity")){
-
                 return heatmap;
-            }else {
-
+            } else {
                 throw new IllegalArgumentException("Undefined heatmap");
             }
-        }else {
-
+        } else {
             return "normal";
         }
     }

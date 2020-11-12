@@ -1,10 +1,11 @@
 
-package World;
+package World.Aquifer;
 
-import Geometry.Coordinate;
 import Geometry.Shape;
+import World.Biome.Vegetation;
+import World.TileColor;
+import World.Tile;
 
-import java.util.HashMap;
 import java.util.HashSet;
 
 import static World.TileColor.WATERBLUE;

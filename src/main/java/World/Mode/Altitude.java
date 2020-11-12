@@ -1,4 +1,6 @@
-package World;
+package World.Mode;
+
+import World.TileColor;
 
 public class Altitude implements Mode {
     TileColor color = TileColor.BROWN;

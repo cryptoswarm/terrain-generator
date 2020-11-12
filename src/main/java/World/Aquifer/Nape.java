@@ -1,9 +1,13 @@
-package World;
+package World.Aquifer;
+
+import World.Biome.Vegetation;
+import World.Tile;
+import World.TileColor;
 
 import java.util.HashSet;
 import static World.TileColor.DARKGREEN;
 
-public class Nape implements Aquifer{
+public class Nape implements Aquifer {
     private HashSet<Tile> nape = new HashSet<>();
     TileColor color = DARKGREEN;
 

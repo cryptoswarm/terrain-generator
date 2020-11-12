@@ -1,17 +1,17 @@
-package World;
+package World.Aquifer;
 
-import Geometry.Coordinate;
+import RandomStrategy.RandomContexte;
+import World.Biome.Vegetation;
+import World.*;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
-import static World.WorldGenerator.getRandom;
-
-public class LakeGenerator implements Generator{
+public class LakeGenerator implements Generator {
     private HashSet<Tile> tiles;
     private int nbsWaterSrc;
     private soilType soil;
+    private RandomContexte r;
 
     public LakeGenerator(int nbsWaterSrc, soilType soil) {
         this.nbsWaterSrc = nbsWaterSrc;
@@ -20,12 +20,13 @@ public class LakeGenerator implements Generator{
 
     @Override
     public void generate(World w) {
+        this.r = w.getRandom();
         tiles = w.getTiles();
         createWaterSource();
     }
     private Tile findRandomTile(HashSet<Tile> Htiles){
         ArrayList<Tile> tiles = new ArrayList<>(Htiles);
-        Tile randomTile = tiles.get( getRandom().getRandomInt( tiles.size()) );
+        Tile randomTile = tiles.get(r.getRandomInt(tiles.size()-1));
         return randomTile;
     }
     private void createLake(int nbsLake){
@@ -50,7 +51,7 @@ public class LakeGenerator implements Generator{
         }
     }
     public void createWaterSource() {
-        int i  = getRandom().getRandomInt(nbsWaterSrc+1);
+        int i  = r.getRandomInt(nbsWaterSrc+1);
         createLake(nbsWaterSrc - i);
         createNape(i);
     }

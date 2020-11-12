@@ -15,25 +15,25 @@ public class Writer {
     /**
      * @return
      */
-    public static void generateEndMesh(String outFileName, String fileName){
+    public static void generateEndMesh(Controller c, String outFileName, String fileName){
         Structs.Mesh startMesh = null;
         try {
             startMesh = new MeshReader().readFromFile(fileName);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Structs.Mesh endMesh = syncMeshBuilderWithMap(startMesh);
+        Structs.Mesh endMesh = syncMeshBuilderWithMap(c, startMesh);
         createOutputFile(endMesh, outFileName);
     }
 
 
-    public static Structs.Mesh syncMeshBuilderWithMap(Structs.Mesh startMesh) {
+    public static Structs.Mesh syncMeshBuilderWithMap(Controller c, Structs.Mesh startMesh) {
         Structs.Mesh.Builder builder = startMesh.toBuilder();
         for (int i = 0; i < builder.getPolygonsCount(); i++) {
             Structs.Polygon p = builder.getPolygons(i);
             float x = builder.getPoints(p.getCentroidIdx()).getX();
             float y = builder.getPoints(p.getCentroidIdx()).getY();
-            String tileColor = Controller.getWorldTileColor(x, y);
+            String tileColor = c.getWorldTileColor(x, y);
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
             builder.getPolygonsBuilder(i).addProperties(color);
         }

@@ -5,60 +5,43 @@ import Geometry.Coordinate;
 import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
+import World.World;
 
-public class Tortuga implements IslandStrategy {
-
-    Ellipse island;
+public class Tortuga extends Island {
+    Ellipse ellipse;
     int spacePercentage;
     Coordinate position;
     RandomContexte random;
 
 
 
-    public Tortuga(int spacePercentage){
-
-        this.spacePercentage = spacePercentage;
+    public Tortuga(RandomContexte r, int h, int w){
+        this.spacePercentage = 90;
+        this.random = r;
+        this.position = new Coordinate(w/2, h/2,0);
+        this.ellipse = new Ellipse((int)((float)w/1.5), (int)((float)h/3), position, random.getRandomInt(120));
     }
 
-    @Override
-    public void setPosition(int width, int height, Coordinate c, RandomContexte random) {
-
-        this.position = c;
-        island = new Ellipse((int)((float)width/1.5), (int)((float)height/3), c, random.getRandomInt(120));
-        this.random = random;
+    public void apply(World w) {
+        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(t));
     }
 
-    @Override
-    public boolean contains(Tile tile) {
-        return island.isInArea(tile.getCenter());
+    private boolean contains(Tile tile) {
+        return ellipse.isInArea(tile.getCenter());
     }
 
-    @Override
-    public boolean isInLagoon(Tile tile) {
-        return false;
-    }
-
-    @Override
-    public int getAltitudeProfile(Tile tile) {
-
-        int altitude = 0;
-
-        if(island.isInArea(tile.getCenter())){
-            Ellipse altitudeProfile = null;
-            int i = 0;
-            do{
-                i++;
-                if(!(island.getMajorAxis() - i <= 0) || !(island.getMajorAxis() - i <= 0)){
-
-                    altitudeProfile = new Ellipse((int)(island.getMajorAxis()-i), (int)(island.getMinorAxis()-i), position, island.getAngle());
-                }else{
-                    break;
-                }
-
-            }while(altitudeProfile.isInArea(tile.getCenter()) || i < 100);
-            altitude = i;
-        }
-
-        return altitude;
+    private int getAltitudeProfile(Tile tile) {
+        if(!contains(tile)) return 0;
+        Ellipse altitudeProfile = null;
+        int i = 0;
+        do{
+            i++;
+            if(!(ellipse.getMajorAxis() - i <= 0) || !(ellipse.getMajorAxis() - i <= 0)) {
+                altitudeProfile = new Ellipse((int)(ellipse.getMajorAxis()-i), (int)(ellipse.getMinorAxis()-i), position, ellipse.getAngle());
+            } else {
+                break;
+            }
+        } while(altitudeProfile.isInArea(tile.getCenter()) || i < 100);
+        return i;
     }
 }

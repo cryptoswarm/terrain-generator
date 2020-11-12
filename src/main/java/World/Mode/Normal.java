@@ -1,4 +1,7 @@
-package World;
+package World.Mode;
+
+import World.Mode.Mode;
+import World.World;
 
 public class Normal implements Mode {
     @Override

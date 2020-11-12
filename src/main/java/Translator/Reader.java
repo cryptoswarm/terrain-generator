@@ -7,7 +7,7 @@ import java.util.Optional;
 import ca.uqam.info.inf5153.ptg.Controller;
 
 public class Reader {
-    public void readFile(String fileName){
+    public void readFile(Controller c,String fileName){
         Structs.Mesh startMesh = null;
         try {
             startMesh = new MeshReader().readFromFile(fileName);
@@ -16,13 +16,13 @@ public class Reader {
         }
 
 
-        Controller.setWorldWidth(Integer.parseInt(readMetadata(startMesh, "width")));
-        Controller.setWorldHeight(Integer.parseInt(readMetadata(startMesh, "height")));
+        c.setWorldWidth(Integer.parseInt(readMetadata(startMesh, "width")));
+        c.setWorldHeight(Integer.parseInt(readMetadata(startMesh, "height")));
 
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = startMesh.getPoints(polygon.getCentroidIdx());
-            Controller.addWorldTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
+            c.addWorldTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
         }
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
@@ -31,7 +31,7 @@ public class Reader {
                 Structs.Point neighborCenterCoordinate =
                         startMesh.getPoints(startMesh.getPolygons(neighborId).getCentroidIdx());
 
-                Controller.addWorldNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
+                c.addWorldNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
                         neighborCenterCoordinate.getX(), neighborCenterCoordinate.getY());
             }
         }

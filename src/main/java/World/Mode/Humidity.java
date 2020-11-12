@@ -1,6 +1,8 @@
-package World;
+package World.Mode;
 
-public class Humidity implements Mode{
+import World.TileColor;
+
+public class Humidity implements Mode {
     TileColor color = TileColor.DARKBLUE;
     @Override
     public String getColor(int R, int G, int B, int A, int factor) {
