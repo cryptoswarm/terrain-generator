@@ -1,4 +1,4 @@
-package World.Island;
+package World.Generator.Island;
 
 import Geometry.Circle;
 import Geometry.Coordinate;
@@ -11,14 +11,17 @@ public class Atoll extends Island {
     Shape lagoonShape;
     Shape islandShape;
     RandomContexte random;
+    double smallRadius;
+    double bigRadius;
+    Coordinate center;
 
     public Atoll(RandomContexte r, int height, int width){
         this.random = r;
         int spaceCoverage = 90;
         int min = Math.min(width,height);
-        double smallRadius = (min/2) * (((float) spaceCoverage - 50)/100.0);
-        double bigRadius = (min/2) * (((float) spaceCoverage)/100.0);
-        Coordinate center = new Coordinate(width/2, height/2,0);
+        this.smallRadius = (min/2) * (((float) spaceCoverage - 50)/100.0);
+        this.bigRadius = (min/2) * (((float) spaceCoverage)/100.0);
+        this.center = new Coordinate(width/2, height/2,0);
         this.lagoonShape = new Circle(center, smallRadius);
         this.islandShape = new Circle(center, bigRadius);
     }
@@ -26,7 +29,7 @@ public class Atoll extends Island {
     public void apply(World w) {
         for(Tile t: w.getTiles()){
             if(this.isInLagoon(t)) t.setInLagoon(true);
-            t.setAltitude(this.getAltitudeProfile(t));
+            t.setAltitude(this.getAltitudeProfile(w.getMaxAltitude(), t));
         }
     }
 
@@ -39,10 +42,13 @@ public class Atoll extends Island {
         return lagoonShape.isInArea(tile.getCenter());
     }
 
-    private int getAltitudeProfile(Tile tile) {
+    private double getAltitudeProfile(int maxAltitude, Tile tile) {
         if(isInLagoon(tile) || !contains(tile)) return 0;
-        return Math.min(islandShape.getDistanceFrom(tile.getCenter()),
-                lagoonShape.getDistanceFrom(tile.getCenter()));
+        double mediumRadius = bigRadius - (bigRadius-smallRadius)/2;
+        Circle maxHeightCircle = new Circle(center, mediumRadius);
+        double altitude = maxAltitude - maxHeightCircle.getDistanceFrom(tile.getCenter());
+        if (altitude <= 1) return 1;
+        return altitude;
     }
 
 

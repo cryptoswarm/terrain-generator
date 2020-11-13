@@ -8,14 +8,14 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 
 public class UserArgs {
-    private String inputFile;
-    private String outputFile;
-    private String shape;
-    private int nbWaterSources;
-    private String soilType;
-    private String heatmap;
-    private int seed;
-    private int maxAltitude;
+    final private String inputFile;
+    final private String outputFile;
+    final private String shape;
+    final private int nbWaterSources;
+    final private String soilType;
+    final private String heatmap;
+    final private int seed;
+    final private int maxAltitude;
 
 
     public UserArgs(String[] args){
@@ -36,21 +36,7 @@ public class UserArgs {
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
     }
 
-    public int getMaxAltitude() {
-        return maxAltitude;
-    }
 
-    private int setAltitude(String altitude) {
-
-        if(altitude == null){
-
-            return 0;
-        }else{
-
-            return Integer.parseInt(altitude);
-
-        }
-    }
 
 
     private static CommandLine configure(String[] args) throws ParseException {
@@ -68,8 +54,7 @@ public class UserArgs {
 
 
         CommandLineParser parser = new DefaultParser();
-        CommandLine cl = parser.parse(opts, args);
-        return cl;
+        return parser.parse(opts, args);
     }
 
     private String setInputFile(String inputFile) {
@@ -81,44 +66,34 @@ public class UserArgs {
         }
 
     }
-
     private String setOutputFile(String outputFile) {
         if(inputFile != null){
-
             return outputFile;
         }else {
             throw new IllegalArgumentException("-o must be provided!");
         }
 
     }
-
     private String setShape(String shape){
         if(shape != null){
             if(shape.equals("atoll") || shape.equals("tortuga") || shape.equals("archipelago")){
-
                 return shape;
             }else {
-
                 throw new IllegalArgumentException("Undefined island shape");
             }
-
         }else {
             return "atoll";
         }
 
     }
-
     private int setWaterSources(String nbWaterSources) {
-
         if (nbWaterSources != null){
             return Integer.parseInt(nbWaterSources);
         }else {
-
             return 0;
         }
 
     }
-
     private String setHeatmap(String heatmap) {
         if (heatmap != null){
             if(heatmap.equals("altitude") || heatmap.equals("humidity")){
@@ -130,7 +105,13 @@ public class UserArgs {
             return "normal";
         }
     }
-
+    private int setAltitude(String altitude) {
+        if(altitude == null){
+            return 100;
+        }else{
+            return Integer.parseInt(altitude);
+        }
+    }
     private String setSoilType(String soil){
 
         if (soil != null){
@@ -148,7 +129,6 @@ public class UserArgs {
         }
 
     }
-
     private int setSeed(String seed){
 
         if (seed != null){
@@ -178,7 +158,9 @@ public class UserArgs {
     public String getHeatmap() {
         return heatmap;
     }
-
+    public int getMaxAltitude() {
+        return maxAltitude;
+    }
     public int getSeed(){
 
         return seed;

@@ -1,4 +1,6 @@
-package World;
+package World.Generator;
+
+import World.World;
 
 public interface Generator {
 

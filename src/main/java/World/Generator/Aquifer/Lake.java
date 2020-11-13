@@ -1,7 +1,7 @@
 
-package World.Aquifer;
+package World.Generator.Aquifer;
 
-import World.Biome.Vegetation;
+import World.Generator.Biome.Vegetation;
 import World.TileColor;
 import World.Tile;
 import World.World;
@@ -20,13 +20,20 @@ public class Lake extends Aquifer {
 
     @Override
     public void apply(World w) {
+        double lowestAltitude;
+        lowestAltitude = tile.getAltitude();
         lake.add(tile);
+
         for(Tile i : tile.getNeighbors()) {
-            if(i.getBiome() instanceof Vegetation) {
+            if(i.getBiome().getType().equals("vegetation")) {
                 lake.add(i);
+                if(i.getAltitude() < lowestAltitude) {
+                    lowestAltitude = i.getAltitude();
+                }
             }
         }
         for(Tile i: lake) {
+            i.setAltitude(lowestAltitude);
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
         }

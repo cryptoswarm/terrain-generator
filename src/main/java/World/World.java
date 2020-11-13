@@ -2,10 +2,11 @@ package World;
 
 import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
-import World.Aquifer.LakeGenerator;
-import World.Biome.BiomeGenerator;
-import World.Biome.Vegetation;
-import World.Island.IslandGenerator;
+import World.Generator.Aquifer.RiverGenerator;
+import World.Generator.Biome.BiomeGenerator;
+import World.Generator.Biome.Vegetation;
+import World.Generator.Island.IslandGenerator;
+import World.Generator.Aquifer.LakeGenerator;
 import World.Mode.Altitude;
 import World.Mode.Humidity;
 import World.Mode.Mode;
@@ -21,6 +22,7 @@ public class World {
     private  String islandType;
     private  int width;
     private  int height;
+    private int maxAltitude;
     final private HashSet<Tile> tiles;
 
 
@@ -29,6 +31,9 @@ public class World {
         this.tiles = new HashSet<>();
     }
 
+    public void setMaxAltitude(int maxAltitude) {
+        this.maxAltitude = maxAltitude;
+    }
     public void setWidth(int width) {
         this.width = width;
     }
@@ -90,6 +95,9 @@ public class World {
     public soilType getSoil() {
         return soil;
     }
+    public int getMaxAltitude() {
+        return maxAltitude;
+    }
 
     public void addTile(float x, float y) {
         tiles.add(new Tile(new Coordinate(x,y,0)));
@@ -98,7 +106,10 @@ public class World {
         Handler h = new Handler();
         h.addGenerator(new IslandGenerator(islandType, width, height));
         h.addGenerator(new BiomeGenerator());
-        h.addGenerator(new LakeGenerator(nbsWaterSource, random));
+        if(nbsWaterSource != 0) {
+            h.addGenerator(new LakeGenerator(nbsWaterSource, random));
+        }
+        h.addGenerator(new RiverGenerator(5));
         h.process(this);
     }
     public  void addNeighbor(float x, float y, float nx, float ny) {

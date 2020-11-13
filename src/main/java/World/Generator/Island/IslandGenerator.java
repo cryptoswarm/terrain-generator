@@ -1,8 +1,8 @@
-package World.Island;
+package World.Generator.Island;
 
 import RandomStrategy.RandomContexte;
 import World.World;
-import World.Generator;
+import World.Generator.Generator;
 
 
 public class IslandGenerator implements Generator {

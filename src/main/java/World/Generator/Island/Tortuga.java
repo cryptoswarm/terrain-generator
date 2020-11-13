@@ -1,4 +1,4 @@
-package World.Island;
+package World.Generator.Island;
 
 
 import Geometry.Coordinate;

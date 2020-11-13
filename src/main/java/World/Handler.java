@@ -1,5 +1,6 @@
 package World;
 
+import World.Generator.Generator;
 import java.util.LinkedList;
 
 public class Handler {

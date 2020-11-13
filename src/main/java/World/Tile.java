@@ -2,7 +2,7 @@ package World;
 
 
 import Geometry.Coordinate;
-import World.Biome.Biome;
+import World.Generator.Biome.Biome;
 
 import java.util.HashSet;
 import java.util.Objects;

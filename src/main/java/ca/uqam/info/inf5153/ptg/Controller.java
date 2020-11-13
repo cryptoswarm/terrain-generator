@@ -20,7 +20,7 @@ public class Controller {
         world.setSoil(parsedArgs.getSoilType());
         world.setNbsWaterSource(parsedArgs.getNbWaterSources());
         world.setShape(parsedArgs.getShape());
-
+        world.setMaxAltitude(parsedArgs.getMaxAltitude());
 
         Reader reader = new Reader();
         reader.readFile(this, fileName);

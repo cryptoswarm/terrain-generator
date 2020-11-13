@@ -1,7 +1,7 @@
-package World.Biome;
+package World.Generator.Biome;
 
 import World.World;
-import World.Generator;
+import World.Generator.Generator;
 import World.Tile;
 import java.util.HashSet;
 

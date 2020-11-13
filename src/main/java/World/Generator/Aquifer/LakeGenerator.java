@@ -1,7 +1,8 @@
-package World.Aquifer;
+package World.Generator.Aquifer;
 
 import RandomStrategy.RandomContexte;
 import World.*;
+import World.Generator.Generator;
 
 public class LakeGenerator implements Generator {
     final private int nbsWaterSrc;

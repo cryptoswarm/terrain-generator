@@ -1,13 +1,14 @@
-package World.Aquifer;
+package World.Generator.Aquifer;
 
-import World.Biome.Vegetation;
 import World.*;
+import World.Generator.Biome.Vegetation;
+
 import java.util.HashSet;
 
 public abstract class Aquifer {
     abstract public HashSet<Tile> getTiles();
     abstract public void apply(World w);
-    protected void applyHumidityEffect(World world, HashSet<Tile> waterSource){
+    public void applyHumidityEffect(World world, HashSet<Tile> waterSource){
         soilType soil = world.getSoil();
         for(Tile i: world.getTiles()) {
             if(i.getBiome() instanceof Vegetation){
