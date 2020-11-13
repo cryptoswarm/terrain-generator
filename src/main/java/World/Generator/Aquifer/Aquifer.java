@@ -2,7 +2,6 @@ package World.Generator.Aquifer;
 
 import World.*;
 import World.Generator.Biome.Vegetation;
-
 import java.util.HashSet;
 
 public abstract class Aquifer {
