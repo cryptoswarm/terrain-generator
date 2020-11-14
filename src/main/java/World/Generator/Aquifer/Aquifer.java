@@ -18,13 +18,14 @@ public abstract class Aquifer {
                     }
                 }
             }
-
         }
     }
     private float getDistanceFromWaterSource(Tile tile, HashSet<Tile> waterSource) {
         float distance = (float)10000;
         for(Tile i: waterSource){
             float tmp = tile.getCenter().distance(i.getCenter());
+            double altitudeDifference =  i.getAltitude() - tile.getAltitude();
+            tmp = tmp - (float) altitudeDifference;
             if( tmp < distance) distance = tmp;
         }
         return distance;

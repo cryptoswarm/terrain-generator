@@ -23,25 +23,32 @@ public class Tortuga extends Island {
     }
 
     public void apply(World w) {
-        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(t));
+        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(w.getMaxAltitude(), t));
     }
 
     private boolean contains(Tile tile) {
         return ellipse.isInArea(tile.getCenter());
     }
 
-    private int getAltitudeProfile(Tile tile) {
+    private int getAltitudeProfile(int maxAltitude, Tile tile) {
         if(!contains(tile)) return 0;
         Ellipse altitudeProfile = null;
-        int i = 0;
+        int i = (int) ellipse.getMajorAxis()/3;
         do{
             i++;
-            if(!(ellipse.getMajorAxis() - i <= 0) || !(ellipse.getMajorAxis() - i <= 0)) {
-                altitudeProfile = new Ellipse((int)(ellipse.getMajorAxis()-i), (int)(ellipse.getMinorAxis()-i), position, ellipse.getAngle());
-            } else {
-                break;
+            altitudeProfile = new Ellipse((int)(i), (int)(i - ellipse.getMajorAxis()/3), position, ellipse.getAngle());
+        } while(!altitudeProfile.isInArea(tile.getCenter()));
+
+        if(maxAltitude - i <= 0){
+            return 1;
+        }
+
+        if(altitudeProfile.getMajorAxis() + ellipse.getMajorAxis()/3 + 10 > ellipse.getMajorAxis()){
+            if(maxAltitude - i > 50){
+                System.out.println("BAD ALTITUDE");
             }
-        } while(altitudeProfile.isInArea(tile.getCenter()) || i < 100);
-        return i;
+        }
+
+        return maxAltitude - i;
     }
 }
