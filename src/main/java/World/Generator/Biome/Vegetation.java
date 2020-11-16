@@ -1,9 +1,10 @@
 package World.Generator.Biome;
 
+import Geometry.Coordinate;
 import World.TileColor;
 import World.World;
 import World.Tile;
-import java.util.HashSet;
+import java.util.HashMap;
 
 public class Vegetation extends Biome {
 
@@ -25,8 +26,8 @@ public class Vegetation extends Biome {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> tiles = world.getTiles();
-        for (Tile tile: tiles) {
+        HashMap<Coordinate, Tile> tiles = world.getTiles();
+        for (Tile tile: tiles.values()) {
             if(tile.getBiome() == null){
                 tile.setBiome(new Vegetation());
                 tile.setBackgroundColor(color);

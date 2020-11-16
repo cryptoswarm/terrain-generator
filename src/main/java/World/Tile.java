@@ -4,6 +4,7 @@ package World;
 import Geometry.Coordinate;
 import World.Generator.Biome.Biome;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -15,12 +16,12 @@ public class Tile {
     private int humidityLevel;
     private double altitude;
     private boolean isInLagoon;
-    private HashSet<Tile> neighbors;
+    private HashMap<Coordinate, Tile> neighbors;
     private HashSet<Coordinate> corner;
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.neighbors = new HashSet<>();
+        this.neighbors = new HashMap<>();
         this.humidityLevel = 0;
         this.isInLagoon = false;
         this.altitude = -1;
@@ -28,10 +29,10 @@ public class Tile {
     }
 
     public void addNeighbor(Tile neighbor) {
-        this.neighbors.add(neighbor);
+        this.neighbors.put(neighbor.getCenter(), neighbor);
     }
 
-    public HashSet<Tile> getNeighbors() {
+    public HashMap<Coordinate, Tile> getNeighbors() {
         return neighbors;
     }
     public void setBackgroundColor(TileColor c) {

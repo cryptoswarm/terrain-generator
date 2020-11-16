@@ -84,9 +84,9 @@ Tortuga -up-|> Island
 
 ''' Aquifer '''
 Abstract Aquifer {
-        + abstract getTiles(): HashSet<Tile>
-        + applyHumidityEffect(world: World, waterSource: HashSet<Tile>): void
-        - getDistanceFromWaterSource(tile: Tile, waterSource: HashSet<Tile>): float
+        + abstract getTiles(): HashMap<Coordinate, Tile>
+        + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
+        - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
 }
 
 class Lake

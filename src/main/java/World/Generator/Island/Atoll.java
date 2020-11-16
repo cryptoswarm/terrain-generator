@@ -29,7 +29,7 @@ public class Atoll extends Island {
     }
 
     public void apply(World w) {
-        for(Tile t: w.getTiles()){
+        for(Tile t: w.getTiles().values()){
             if(this.isInLagoon(t)) t.setInLagoon(true);
             t.setAltitude(this.getAltitudeProfile(altitude, t));
         }

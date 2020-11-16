@@ -24,12 +24,12 @@ public class World {
     private  int width;
     private  int height;
     private int maxAltitude;
-    final private HashSet<Tile> tiles;
+    final private HashMap<Coordinate, Tile> tiles;
 
 
 
     public World() {
-        this.tiles = new HashSet<>();
+        this.tiles = new HashMap<>();
     }
 
     public void setMaxAltitude(int maxAltitude) {
@@ -44,7 +44,7 @@ public class World {
     public void setShape(String islandType) {
         this.islandType = islandType;
     }
-    public HashSet<Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }
     public void setSoil(String s){
@@ -55,13 +55,7 @@ public class World {
         random = new RandomContexte(seed);
     }
     public String getTileColor(float x, float y){
-        Tile tile = null;
-        for (Tile t : tiles) {
-            if(t.equals(new Tile(new Coordinate(x,y,0)))) {
-                tile = t;
-                break;
-            }
-        }
+        Tile tile = tiles.get(new Coordinate(x,y,0));
         TileColor color = tile.getBackgroundColor();
         int factor = 0;
         if(mode instanceof Normal || mode instanceof Humidity) factor = tile.getHumidityLevel();
@@ -92,7 +86,9 @@ public class World {
     }
 
     public void addTile(float x, float y) {
-        tiles.add(new Tile(new Coordinate(x,y,0)));
+        Coordinate c = new Coordinate(x,y,0);
+        Tile t = new Tile(c);
+        tiles.put(c,t);
     }
     public void generateWorld() {
         Handler h = new Handler();
@@ -106,25 +102,13 @@ public class World {
         h.process(this);
     }
     public  void addNeighbor(float x, float y, float nx, float ny) {
-        Tile tile = null;
-        Tile neighbor = null;
-        for (Tile t : tiles) {
-            if(t.equals(new Tile(new Coordinate(x,y,0)))) {
-                tile = t;
-                break;
-            }
-        }
-        for (Tile n : tiles) {
-            if(n.equals(new Tile(new Coordinate(nx,ny,0)))) {
-                neighbor = n;
-                break;
-            }
-        }
+        Tile tile = tiles.get(new Coordinate(x,y,0));
+        Tile neighbor = tiles.get(new Coordinate(nx,ny,0));
         tile.addNeighbor(neighbor);
     }
 
     private Tile findRandomTile(){
-        ArrayList<Tile> tiles = new ArrayList<>(this.tiles);
+        ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());
         return tiles.get(random.getRandomInt(tiles.size()-1));
 
     }

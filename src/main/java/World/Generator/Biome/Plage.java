@@ -1,10 +1,11 @@
 package World.Generator.Biome;
 
+import Geometry.Coordinate;
 import World.TileColor;
 import World.World;
 import World.Tile;
 
-import java.util.HashSet;
+import java.util.HashMap;
 
 import static World.TileColor.SAND;
 
@@ -27,9 +28,9 @@ public class Plage extends Biome {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> tiles = world.getTiles();
-        for (Tile tile: tiles) {
-            for (Tile neighbor : tile.getNeighbors()) {
+        HashMap<Coordinate, Tile> tiles = world.getTiles();
+        for (Tile tile: tiles.values()) {
+            for (Tile neighbor : tile.getNeighbors().values()) {
                 if (tile.getAltitude() !=0 && neighbor.getAltitude() == 0) {
                     tile.setBiome(new Plage());
                     tile.setBackgroundColor(color);

@@ -1,17 +1,17 @@
 package World.Generator.Aquifer;
 
-import World.Generator.Biome.Vegetation;
+import Geometry.Coordinate;
 import World.Tile;
 import World.World;
 import World.TileColor;
 
-import java.util.HashSet;
+import java.util.HashMap;
 
 import static World.TileColor.*;
 
 public class River extends Aquifer {
     private Tile tile;
-    private HashSet<Tile> river = new HashSet<>();
+    private HashMap<Coordinate, Tile> river = new HashMap<>();
     final private TileColor riverColor = WATERBLUE;
     final private TileColor riverSideColor = BROWN;
 
@@ -20,18 +20,18 @@ public class River extends Aquifer {
     }
 
     @Override
-    public HashSet<Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return null;
     }
 
     @Override
     public void apply(World w) {
-        river.add(tile);
+        river.put(tile.getCenter(), tile);
         double riverHeight = tile.getAltitude();
         Tile tmp = tile;
 
         do {
-            for(Tile i : tile.getNeighbors()) {
+            for(Tile i : tile.getNeighbors().values()) {
                 if(i.getAltitude() < riverHeight) {
                     riverHeight = i.getAltitude();
                     tmp = i;
@@ -40,11 +40,11 @@ public class River extends Aquifer {
             if(tile == tmp) break;
             if(tile != tmp) {
                 tile = tmp;
-                river.add(tile);
+                river.put(tile.getCenter(), tile);
             }
         } while (true);
 
-        for(Tile i: river) {
+        for(Tile i: river.values()) {
             i.setBackgroundColor(riverSideColor);
             i.setHumidityLevel(5);
         }

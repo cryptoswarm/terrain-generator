@@ -1,16 +1,17 @@
 package World.Generator.Aquifer;
 
+import Geometry.Coordinate;
 import World.Generator.Biome.Vegetation;
 import World.Tile;
 import World.TileColor;
 import World.World;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import static World.TileColor.DARKGREEN;
 
 public class Nape extends Aquifer {
     final private Tile tile;
-    final private HashSet<Tile> nape = new HashSet<>();
+    final private HashMap<Coordinate, Tile> nape = new HashMap<>();
     TileColor color = DARKGREEN;
 
     public Nape(Tile tile) {
@@ -19,13 +20,13 @@ public class Nape extends Aquifer {
 
     @Override
     public void apply(World w) {
-        nape.add(tile);
-        for(Tile i : tile.getNeighbors()) {
+        nape.put(tile.getCenter(), tile);
+        for(Tile i : tile.getNeighbors().values()) {
             if(i.getBiome() instanceof Vegetation) {
-                nape.add(i);
+                nape.put(i.getCenter(), i);
             }
         }
-        for(Tile i: nape) {
+        for(Tile i: nape.values()) {
             i.setBackgroundColor(color);
             i.setHumidityLevel(5);
         }
@@ -34,7 +35,7 @@ public class Nape extends Aquifer {
     }
 
     @Override
-    public HashSet<Tile> getTiles() {
+    public HashMap<Coordinate, Tile> getTiles() {
         return nape;
     }
 }

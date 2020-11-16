@@ -1,10 +1,11 @@
 package World.Generator.Biome;
 
+import Geometry.Coordinate;
 import World.TileColor;
 import World.World;
 import  World.Tile;
 
-import java.util.HashSet;
+import java.util.HashMap;
 
 public class Lagoon extends Biome {
     final private TileColor color = TileColor.WATERBLUE;
@@ -23,8 +24,8 @@ public class Lagoon extends Biome {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> tiles = world.getTiles();
-        for (Tile tile : tiles) {
+        HashMap<Coordinate, Tile> tiles = world.getTiles();
+        for (Tile tile : tiles.values()) {
             if(tile.isInLagoon()){
                 tile.setBiome(new Lagoon());
                 tile.setBackgroundColor(color);

@@ -24,7 +24,7 @@ public class Tortuga extends Island {
     }
 
     public void apply(World w) {
-        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(altitude, t));
+        for(Tile t: w.getTiles().values()) t.setAltitude(getAltitudeProfile(altitude, t));
     }
 
     private boolean contains(Tile tile) {
