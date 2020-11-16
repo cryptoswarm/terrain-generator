@@ -18,6 +18,7 @@ public class World {
     private Mode mode;
     private  RandomContexte random;
     private  int nbsWaterSource;
+    private int nbsRiversSrc;
     private  soilType soil;
     private  String islandType;
     private  int width;
@@ -98,6 +99,9 @@ public class World {
     public int getMaxAltitude() {
         return maxAltitude;
     }
+    public void setNbsRiversSrc(int nbsRiversSrc) {
+        this.nbsRiversSrc = nbsRiversSrc;
+    }
 
     public void addTile(float x, float y) {
         tiles.add(new Tile(new Coordinate(x,y,0)));
@@ -109,6 +113,7 @@ public class World {
         if(nbsWaterSource != 0) {
             h.addGenerator(new LakeGenerator(nbsWaterSource, random));
         }
+
         h.addGenerator(new RiverGenerator(3));
         h.process(this);
     }

@@ -16,6 +16,7 @@ public class UserArgs {
     final private String heatmap;
     final private int seed;
     final private int maxAltitude;
+    final private int rivers;
 
 
     public UserArgs(String[] args){
@@ -34,6 +35,7 @@ public class UserArgs {
         heatmap = setHeatmap(options.getOptionValue("heatmap"));
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
+        rivers = setRivers(options.getOptionValue("rivers"));
     }
 
 
@@ -51,6 +53,9 @@ public class UserArgs {
         opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
         opts.addOption(new Option("seed", "seed", true,"seed"));
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
+        opts.addOption(new Option("rivers", "rivers", true,"rivers"));
+
+
 
 
         CommandLineParser parser = new DefaultParser();
@@ -130,14 +135,18 @@ public class UserArgs {
 
     }
     private int setSeed(String seed){
-
         if (seed != null){
             return Integer.parseInt(seed);
         }else {
-
             return 0;
         }
-
+    }
+    private int setRivers(String rivers) {
+        if (rivers != null){
+            return Integer.parseInt(rivers);
+        }else {
+            return 0;
+        }
     }
 
     public String getOutputFile() {
@@ -162,9 +171,9 @@ public class UserArgs {
         return maxAltitude;
     }
     public int getSeed(){
-
         return seed;
     }
+    public int getRivers() {return rivers;}
 
 
 }

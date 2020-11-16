@@ -8,7 +8,7 @@ import Translator.Reader;
 import static Translator.Writer.generateEndMesh;
 
 public class Controller {
-    private  World world;
+    private World world;
     public  void createWorld(String[] args) {
         UserArgs parsedArgs = new UserArgs(args);
         String fileName = parsedArgs.getInputFile();
@@ -21,6 +21,7 @@ public class Controller {
         world.setNbsWaterSource(parsedArgs.getNbWaterSources());
         world.setShape(parsedArgs.getShape());
         world.setMaxAltitude(parsedArgs.getMaxAltitude());
+        world.setNbsRiversSrc(parsedArgs.getRivers());
 
         Reader reader = new Reader();
         reader.readFile(this, fileName);
