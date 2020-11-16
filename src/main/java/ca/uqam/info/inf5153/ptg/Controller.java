@@ -43,6 +43,9 @@ public class Controller {
     public  void addWorldNeighbor(float x, float y, float nx, float ny) {
         world.addNeighbor(x,y,nx,ny);
     }
+    public void addWorldCorner(float x, float y, float cx, float cy) {
+        world.addCorner(x,y,cx,cy);
+    }
     public  String getWorldTileColor(float x, float y){
         return world.getTileColor(x,y);
     }

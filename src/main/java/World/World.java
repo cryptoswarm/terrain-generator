@@ -90,6 +90,20 @@ public class World {
         Tile t = new Tile(c);
         tiles.put(c,t);
     }
+    public void addNeighbor(float x, float y, float nx, float ny) {
+        Tile tile = tiles.get(new Coordinate(x,y,0));
+        Tile neighbor = tiles.get(new Coordinate(nx,ny,0));
+        tile.addNeighbor(neighbor);
+    }
+    public void addCorner(float x, float y, float cx, float cy) {
+        Coordinate c = null;
+        for (Tile tile: tiles.values()){
+            c = tile.getCorner().get(new Coordinate(cx,cy,0));
+            if(c != null) break;
+        }
+        if(c == null) c = new Coordinate(cx,cy,0);
+        tiles.get(new Coordinate(x,y,0)).addCorner(c);
+    }
     public void generateWorld() {
         Handler h = new Handler();
         h.addGenerator(new IslandGenerator(islandType, width, height, maxAltitude));
@@ -101,11 +115,7 @@ public class World {
         h.addGenerator(new RiverGenerator(nbsRiversSrc));
         h.process(this);
     }
-    public  void addNeighbor(float x, float y, float nx, float ny) {
-        Tile tile = tiles.get(new Coordinate(x,y,0));
-        Tile neighbor = tiles.get(new Coordinate(nx,ny,0));
-        tile.addNeighbor(neighbor);
-    }
+
 
     private Tile findRandomTile(){
         ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());

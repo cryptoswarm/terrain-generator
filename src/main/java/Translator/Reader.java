@@ -23,6 +23,7 @@ public class Reader {
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = startMesh.getPoints(polygon.getCentroidIdx());
             c.addWorldTile(tileCenterCoordinate.getX(), tileCenterCoordinate.getY());
+
         }
 
         for (Structs.Polygon polygon: startMesh.getPolygonsList()) {
