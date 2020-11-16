@@ -42,7 +42,7 @@ public class River extends Aquifer {
                 tile = tmp;
                 river.add(tile);
             }
-        } while (true); //how do I do that -__-
+        } while (true);
 
         for(Tile i: river) {
             i.setBackgroundColor(riverSideColor);

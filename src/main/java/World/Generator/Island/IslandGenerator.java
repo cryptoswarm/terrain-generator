@@ -18,11 +18,13 @@ public class IslandGenerator implements Generator {
     @Override
     public void generate(World w) {
         RandomContexte random = w.getRandom();
-        Island island = null;
+        Island island;
         if (islandType.equals("atoll")) {
             island = new Atoll(random, height,width);
         } else if (islandType.equals("tortuga")) {
             island = new Tortuga(random, height, width);
+        } else {
+            island = new Atoll(random, height,width);
         }
         island.apply(w);
         try {

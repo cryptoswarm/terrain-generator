@@ -5,7 +5,7 @@ import World.World;
 import World.Tile;
 import java.util.HashSet;
 
-public class Vegetation implements Biome {
+public class Vegetation extends Biome {
 
     TileColor color = TileColor.LIGHTGREEN;
     final private String type = "vegetation";

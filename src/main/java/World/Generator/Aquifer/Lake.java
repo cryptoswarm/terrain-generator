@@ -1,7 +1,6 @@
 
 package World.Generator.Aquifer;
 
-import World.Generator.Biome.Vegetation;
 import World.TileColor;
 import World.Tile;
 import World.World;

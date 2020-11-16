@@ -6,7 +6,7 @@ import  World.Tile;
 
 import java.util.HashSet;
 
-public class Lagoon implements Biome {
+public class Lagoon extends Biome {
     final private TileColor color = TileColor.WATERBLUE;
     final private String type = "lagoon";
     public Lagoon() {}

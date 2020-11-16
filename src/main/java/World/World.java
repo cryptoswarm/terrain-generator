@@ -109,7 +109,7 @@ public class World {
         if(nbsWaterSource != 0) {
             h.addGenerator(new LakeGenerator(nbsWaterSource, random));
         }
-        h.addGenerator(new RiverGenerator(5));
+        h.addGenerator(new RiverGenerator(3));
         h.process(this);
     }
     public  void addNeighbor(float x, float y, float nx, float ny) {

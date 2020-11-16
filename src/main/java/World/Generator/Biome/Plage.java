@@ -8,7 +8,7 @@ import java.util.HashSet;
 
 import static World.TileColor.SAND;
 
-public class Plage implements Biome {
+public class Plage extends Biome {
 
     final private TileColor color = SAND;
     final private String type = "plage";

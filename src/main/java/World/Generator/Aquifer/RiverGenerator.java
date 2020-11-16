@@ -1,6 +1,7 @@
 package World.Generator.Aquifer;
 
 import World.Generator.Generator;
+import World.Generator.WorldProcessor;
 import World.World;
 
 public class RiverGenerator implements Generator {
@@ -13,7 +14,7 @@ public class RiverGenerator implements Generator {
         @Override
         public void generate(World w) {
             for (int i = nbsRiverSrc; i > 0; i--) {
-                Aquifer river = new River(w.findRandomVegetationTile());
+                WorldProcessor river = new River(w.findRandomVegetationTile());
                 river.apply(w);
             }
         }

@@ -2,11 +2,12 @@ package World.Generator.Aquifer;
 
 import World.*;
 import World.Generator.Biome.Vegetation;
+import World.Generator.WorldProcessor;
+
 import java.util.HashSet;
 
-public abstract class Aquifer {
+public abstract class Aquifer implements WorldProcessor {
     abstract public HashSet<Tile> getTiles();
-    abstract public void apply(World w);
     public void applyHumidityEffect(World world, HashSet<Tile> waterSource){
         soilType soil = world.getSoil();
         for(Tile i: world.getTiles()) {

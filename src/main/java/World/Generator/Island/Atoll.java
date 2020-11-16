@@ -8,12 +8,12 @@ import World.Tile;
 import World.World;
 
 public class Atoll extends Island {
-    Shape lagoonShape;
-    Shape islandShape;
-    RandomContexte random;
-    double smallRadius;
-    double bigRadius;
-    Coordinate center;
+    final private Shape lagoonShape;
+    final private Shape islandShape;
+    final private RandomContexte random;
+    final private double smallRadius;
+    final private double bigRadius;
+    final private Coordinate center;
 
     public Atoll(RandomContexte r, int height, int width){
         this.random = r;

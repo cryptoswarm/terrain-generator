@@ -1,13 +1,12 @@
 package World.Generator.Island;
 
 
+import World.Generator.WorldProcessor;
 import World.Tile;
 import World.World;
 
 
-public abstract class Island {
-
-    public abstract void apply(World w);
+public abstract class Island implements WorldProcessor {
     public void validate(World w) throws Exception{
         for(Tile t: w.getTiles()){
             if(t.getAltitude() < 0){
@@ -15,5 +14,4 @@ public abstract class Island {
             }
         }
     }
-
 }

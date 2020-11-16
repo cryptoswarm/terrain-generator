@@ -8,10 +8,10 @@ import World.Tile;
 import World.World;
 
 public class Tortuga extends Island {
-    Ellipse ellipse;
-    int spacePercentage;
-    Coordinate position;
-    RandomContexte random;
+    final private Ellipse ellipse;
+    final private int spacePercentage;
+    final private Coordinate position;
+    final private RandomContexte random;
 
 
 

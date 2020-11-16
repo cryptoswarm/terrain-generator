@@ -3,6 +3,7 @@ package World.Generator.Aquifer;
 import RandomStrategy.RandomContexte;
 import World.*;
 import World.Generator.Generator;
+import World.Generator.WorldProcessor;
 
 public class LakeGenerator implements Generator {
     final private int nbsWaterSrc;
@@ -16,13 +17,14 @@ public class LakeGenerator implements Generator {
     @Override
     public void generate(World w) {
         int nbsNape  = random.getRandomInt(nbsWaterSrc+1);
+        WorldProcessor wp;
         for (int i = nbsNape ;i >= 0; i--) {
-            Aquifer nape = new Nape(w.findRandomVegetationTile());
-            nape.apply(w);
+            wp = new Nape(w.findRandomVegetationTile());
+            wp.apply(w);
         }
         for (int i = nbsWaterSrc-nbsNape; i >= 0; i--) {
-            Aquifer lake = new Lake(w.findRandomVegetationTile());
-            lake.apply(w);
+            wp = new Lake(w.findRandomVegetationTile());
+            wp.apply(w);
         }
     }
 }
