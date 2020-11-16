@@ -12,18 +12,19 @@ public class Tortuga extends Island {
     final private int spacePercentage;
     final private Coordinate position;
     final private RandomContexte random;
+    final private int altitude;
 
 
-
-    public Tortuga(RandomContexte r, int h, int w){
+    public Tortuga(RandomContexte r, int h, int w, int altitude){
         this.spacePercentage = 90;
+        this.altitude = altitude;
         this.random = r;
         this.position = new Coordinate(w/2, h/2,0);
         this.ellipse = new Ellipse((int)((float)w/1.5), (int)((float)h/3), position, random.getRandomInt(120));
     }
 
     public void apply(World w) {
-        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(w.getMaxAltitude(), t));
+        for(Tile t: w.getTiles()) t.setAltitude(getAltitudeProfile(altitude, t));
     }
 
     private boolean contains(Tile tile) {

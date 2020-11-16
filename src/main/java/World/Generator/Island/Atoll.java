@@ -14,9 +14,11 @@ public class Atoll extends Island {
     final private double smallRadius;
     final private double bigRadius;
     final private Coordinate center;
+    final private int altitude;
 
-    public Atoll(RandomContexte r, int height, int width){
+    public Atoll(RandomContexte r, int height, int width, int altitude){
         this.random = r;
+        this.altitude = altitude;
         int spaceCoverage = 90;
         int min = Math.min(width,height);
         this.smallRadius = (min/2) * (((float) spaceCoverage - 50)/100.0);
@@ -29,7 +31,7 @@ public class Atoll extends Island {
     public void apply(World w) {
         for(Tile t: w.getTiles()){
             if(this.isInLagoon(t)) t.setInLagoon(true);
-            t.setAltitude(this.getAltitudeProfile(w.getMaxAltitude(), t));
+            t.setAltitude(this.getAltitudeProfile(altitude, t));
         }
     }
 

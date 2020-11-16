@@ -44,15 +44,6 @@ public class World {
     public void setShape(String islandType) {
         this.islandType = islandType;
     }
-    public String getShape() {
-        return islandType;
-    }
-    public int getWidth() {
-        return width;
-    }
-    public int getHeight() {
-        return height;
-    }
     public HashSet<Tile> getTiles() {
         return tiles;
     }
@@ -96,9 +87,6 @@ public class World {
     public soilType getSoil() {
         return soil;
     }
-    public int getMaxAltitude() {
-        return maxAltitude;
-    }
     public void setNbsRiversSrc(int nbsRiversSrc) {
         this.nbsRiversSrc = nbsRiversSrc;
     }
@@ -108,13 +96,13 @@ public class World {
     }
     public void generateWorld() {
         Handler h = new Handler();
-        h.addGenerator(new IslandGenerator(islandType, width, height));
+        h.addGenerator(new IslandGenerator(islandType, width, height, maxAltitude));
         h.addGenerator(new BiomeGenerator());
         if(nbsWaterSource != 0) {
             h.addGenerator(new LakeGenerator(nbsWaterSource, random));
         }
 
-        h.addGenerator(new RiverGenerator(3));
+        h.addGenerator(new RiverGenerator(nbsRiversSrc));
         h.process(this);
     }
     public  void addNeighbor(float x, float y, float nx, float ny) {

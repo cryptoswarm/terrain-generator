@@ -9,10 +9,12 @@ public class IslandGenerator implements Generator {
     final private String islandType;
     final private int width;
     final private int height;
-    public IslandGenerator(String islandType, int width, int height) {
+    final private int altitude;
+    public IslandGenerator(String islandType, int width, int height, int altitude) {
         this.islandType = islandType;
         this.width = width;
         this.height = height;
+        this.altitude = altitude;
     }
 
     @Override
@@ -20,11 +22,11 @@ public class IslandGenerator implements Generator {
         RandomContexte random = w.getRandom();
         Island island;
         if (islandType.equals("atoll")) {
-            island = new Atoll(random, height,width);
+            island = new Atoll(random, height,width,altitude);
         } else if (islandType.equals("tortuga")) {
-            island = new Tortuga(random, height, width);
+            island = new Tortuga(random, height, width, altitude);
         } else {
-            island = new Atoll(random, height,width);
+            island = new Atoll(random, height,width,altitude);
         }
         island.apply(w);
         try {
