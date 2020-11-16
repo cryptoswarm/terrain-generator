@@ -142,7 +142,7 @@ Normal -up-|> Mode
 Class Tile{
     - Coordinate center
     - TileColor backgroundColor
-    - HashMap<Coordinate, Tile> neighbors
+    - neighbors: HashMap<Coordinate, Tile>
     - int humidityLevel
     + addNeighbor(Tile tile)
 }
@@ -163,12 +163,12 @@ Enum soilType {
     WET ("wet", 400);
 }
 
-World -- Tile
+World "1" --> "*" Tile
 World ..> Generator
 World ..> Handler
 World "1" -- "1" soilType
-World "1" -- "1" RandomContexte
-World "1" -- "1" Mode
+World "1" ..> "1" RandomContexte
+World "1" ..> "1" Mode
 
 Biome .up.|> WorldProcessor
 Island .up.|> WorldProcessor
