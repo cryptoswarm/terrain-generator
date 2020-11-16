@@ -16,6 +16,7 @@ public class Tile {
     private double altitude;
     private boolean isInLagoon;
     private HashSet<Tile> neighbors;
+    private HashSet<Coordinate> corner;
 
     public Tile(Coordinate center) {
         this.center = center;
@@ -65,6 +66,12 @@ public class Tile {
     }
     public Biome getBiome() {
         return biome;
+    }
+    public HashSet<Coordinate> getCorner() {
+        return corner;
+    }
+    public void addCorner(Coordinate corner) {
+        this.corner.add(corner);
     }
 
     @Override
