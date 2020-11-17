@@ -111,8 +111,8 @@ public class World {
         if(nbsWaterSource != 0) {
             h.addGenerator(new LakeGenerator(nbsWaterSource, random));
         }
-
         h.addGenerator(new RiverGenerator(nbsRiversSrc));
+
         h.process(this);
     }
 
