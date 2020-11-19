@@ -29,6 +29,7 @@ public class Lagoon extends Biome {
             if(tile.isInLagoon()){
                 tile.setBiome(new Lagoon());
                 tile.setBackgroundColor(color);
+                tile.setHumidityLevel(-1);
             }
         }
     }

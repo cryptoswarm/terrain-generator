@@ -30,6 +30,7 @@ public class Ocean extends Biome {
             if(tile.getAltitude() == 0 && !tile.isInLagoon()){
                 tile.setBiome(new Ocean());
                 tile.setBackgroundColor(color);
+                tile.setHumidityLevel(-1);
             }
         }
     }

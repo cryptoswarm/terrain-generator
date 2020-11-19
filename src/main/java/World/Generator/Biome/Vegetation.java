@@ -30,6 +30,7 @@ public class Vegetation extends Biome {
             if(tile.getBiome() == null){
                 tile.setBiome(new Vegetation());
                 tile.setBackgroundColor(color);
+                tile.setHumidityLevel(0);
             }
         }
     }

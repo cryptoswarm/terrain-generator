@@ -1,10 +1,8 @@
 package World.Generator.Aquifer;
 
-import Geometry.Coordinate;
 import World.World;
 import World.Tile;
 import World.soilType;
-
 import World.Generator.WorldProcessor;
 import java.util.HashSet;
 
@@ -18,10 +16,11 @@ public abstract class Aquifer implements WorldProcessor {
                         i.setHumidityLevel(Math.round(distance));
                     }
                 }
+                if(waterSource.contains(i)) i.setHumidityLevel(5);
             }
-            if(waterSource.contains(i)) i.setHumidityLevel(5);
         }
     }
+
     private float getDistanceFromWaterSource(Tile tile, HashSet<Tile> waterSource) {
         float distance = (float)10000;
         for(Tile i: waterSource){

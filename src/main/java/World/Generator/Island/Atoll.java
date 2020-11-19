@@ -35,7 +35,6 @@ public class Atoll extends Island {
         for(Tile t: w.getTiles().values()){
             if(this.isInLagoon(t)) t.setInLagoon(true);
             t.setAltitude(this.getAltitudeProfile(altitude, t));
-            if(t.isInLagoon() == false && contains(t)) t.setHumidityLevel(0);
             for(Line line: t.getBorder()){
                 Coordinate c1 = line.getC1();
                 Coordinate c2 = line.getC2();

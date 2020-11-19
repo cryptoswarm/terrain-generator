@@ -162,6 +162,7 @@ Class Coordinate {
 
 Tile "1" *--> "*" Line
 Tile "1" *--> "1" Coordinate
+Tile "1" *--> "1" Biome
 
 Line "1" *--> "2" Coordinate
 ''' Enum '''
@@ -197,8 +198,8 @@ Handler ..> Generator
 
 
 Biome .up.|> WorldProcessor
-Island .up.|> WorldProcessor
 Aquifer .up.|> WorldProcessor
+Island ..up.|> WorldProcessor
 
 
 BiomeGenerator ..> WorldProcessor

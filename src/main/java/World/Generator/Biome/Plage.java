@@ -34,6 +34,7 @@ public class Plage extends Biome {
                 if (tile.getAltitude() != 0 && neighbor.getAltitude() == 0) {
                     tile.setBiome(new Plage());
                     tile.setBackgroundColor(color);
+                    tile.setHumidityLevel(255);
                     break;
                 }
             }
