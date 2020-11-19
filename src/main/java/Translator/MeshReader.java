@@ -3,13 +3,13 @@ package Translator;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import java.io.IOException;
 import java.util.Optional;
-import ca.uqam.info.inf5153.ptg.Controller;
+import ca.uqam.info.inf5153.ptg.WorldGenerator;
 
 public class MeshReader implements Reader {
     private Structs.Mesh mesh;
-    final private Controller c;
+    final private WorldGenerator c;
 
-    public MeshReader(String fileName, Controller c) {
+    public MeshReader(String fileName, WorldGenerator c) {
         try {
             this.mesh = new ca.uqam.ace.inf5153.mesh.io.MeshReader().readFromFile(fileName);
         } catch (IOException e) {

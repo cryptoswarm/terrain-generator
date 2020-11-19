@@ -3,16 +3,16 @@ package Translator;
 
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
-import ca.uqam.info.inf5153.ptg.Controller;
+import ca.uqam.info.inf5153.ptg.WorldGenerator;
 import java.io.IOException;
 
 
 public class MeshWriter implements Writer{
-    private Controller c;
+    private WorldGenerator c;
     private Structs.Mesh mesh;
     private String outFileName;
 
-    public MeshWriter(Controller c, String fileName, String outFileName) {
+    public MeshWriter(WorldGenerator c, String fileName, String outFileName) {
         this.c = c;
         this.outFileName = outFileName;
         try {

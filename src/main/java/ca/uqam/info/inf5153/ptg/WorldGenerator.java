@@ -13,7 +13,7 @@ import World.Generator.Island.IslandGenerator;
 import World.Mode.*;
 
 
-public class Controller {
+public class WorldGenerator {
     final private World world;
     final private Mode mode;
     final private RandomContexte random;
@@ -27,7 +27,7 @@ public class Controller {
     private int width;
     private int height;
 
-    public Controller(UserArgs parsedArgs) {
+    public WorldGenerator(UserArgs parsedArgs) {
         this.random = new RandomContexte(parsedArgs.getSeed());
         this.world = new World(random);
         this.nbsWaterSource = parsedArgs.getNbWaterSources();
