@@ -6,7 +6,6 @@ import World.Tile;
 import World.World;
 import World.TileColor;
 import World.soilType;
-import java.util.HashMap;
 import java.util.HashSet;
 import static World.TileColor.*;
 
@@ -19,11 +18,6 @@ public class River extends Aquifer {
     public River(Coordinate c, soilType soil) {
         this.coordinate = c;
         this.soil = soil;
-    }
-
-    @Override
-    public HashMap<Coordinate, Tile> getTiles() {
-        return null;
     }
 
     @Override
@@ -58,14 +52,9 @@ public class River extends Aquifer {
             }
         }
 
-        HashMap<Coordinate, Tile> wetZone = new HashMap<>();
+        HashSet<Tile> wetZone = new HashSet<>();
         for(Line i: river) {
-            for(Tile tile: w.getNeighbor(i.getC1())) {
-                wetZone.put(tile.getCenter(),tile);
-            }
-            for(Tile tile: w.getNeighbor(i.getC2())) {
-                wetZone.put(tile.getCenter(),tile);
-            }
+            wetZone.addAll(w.getNeighbor(i));
             i.setColor(riverColor);
             i.increaseFlow();
         }

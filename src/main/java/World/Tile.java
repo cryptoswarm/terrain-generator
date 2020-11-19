@@ -4,13 +4,11 @@ package World;
 import Geometry.Coordinate;
 import Geometry.Line;
 import World.Generator.Biome.Biome;
-
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
 public class Tile {
-
+    final int invalid = -1;
     final private Coordinate center;
     private Biome biome;
     private TileColor backgroundColor;
@@ -22,9 +20,9 @@ public class Tile {
     public Tile(Coordinate center) {
         this.center = center;
         this.border = new HashSet<>();
-        this.humidityLevel = 0;
+        this.humidityLevel = invalid;
         this.isInLagoon = false;
-        this.altitude = -1;
+        this.altitude = invalid;
 
     }
 

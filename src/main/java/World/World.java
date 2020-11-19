@@ -49,6 +49,14 @@ public class World {
         }
         return neighbor;
     }
+    public HashSet<Tile> getNeighbor(Line l) {
+        HashSet<Tile> neighbor = new HashSet<>();
+
+        neighbor.addAll(getNeighbor(l.getC1()));
+        neighbor.addAll(getNeighbor(l.getC2()));
+
+        return neighbor;
+    }
     public HashSet<Tile> getNeighbor(Tile t) {
         HashSet<Coordinate> coordinate = new HashSet<>();
         HashSet<Tile> neighbor = new HashSet<>();

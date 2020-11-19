@@ -1,16 +1,17 @@
 package World.Generator.Aquifer;
 
 import Geometry.Coordinate;
-import World.*;
-import World.Generator.Biome.Vegetation;
+import World.World;
+import World.Tile;
+import World.soilType;
+
 import World.Generator.WorldProcessor;
-import java.util.HashMap;
+import java.util.HashSet;
 
 public abstract class Aquifer implements WorldProcessor {
-    abstract public HashMap<Coordinate, Tile> getTiles();
-    public void applyHumidityEffect(World world, HashMap<Coordinate, Tile> waterSource, soilType soil){
+    public void applyHumidityEffect(World world, HashSet<Tile> waterSource, soilType soil){
         for(Tile i: world.getTiles().values()) {
-            if(i.getBiome() instanceof Vegetation){
+            if(i.getBiome().getType().equals("vegetation")){
                 float distance = getDistanceFromWaterSource(i, waterSource);
                 if( distance < soil.getAffectedDistance()) {
                     if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
@@ -18,11 +19,12 @@ public abstract class Aquifer implements WorldProcessor {
                     }
                 }
             }
+            if(waterSource.contains(i)) i.setHumidityLevel(5);
         }
     }
-    private float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource) {
+    private float getDistanceFromWaterSource(Tile tile, HashSet<Tile> waterSource) {
         float distance = (float)10000;
-        for(Tile i: waterSource.values()){
+        for(Tile i: waterSource){
             float tmp = tile.getCenter().distance(i.getCenter());
             double altitudeDifference =  i.getAltitude() - tile.getAltitude();
             tmp = tmp - (float) altitudeDifference;
