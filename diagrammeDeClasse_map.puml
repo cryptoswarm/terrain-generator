@@ -1,108 +1,171 @@
 @startuml
-left to right direction
-
-Class WorldGenerator {
+class Controller {
     - world
     - mode
-    - random
-    + generateWorld()
-    + void newWorld()
-    + setHeight(height: int)
-    + void setWidth(width: int)
-    + void setSoil(s: String)
-    + void setNbsWaterSource(i: int)
-    + void setShape(s: String)
-    + void addTile(x: float, y: float)
-    + void addNeighbor(float x, float y, float nx, float ny)
-    + String getTileColor(float x, float y)
-    + void setMode(String s)
-    + Random getRandom()
-}
+    - width: int
+    - height: int
+    - soilType soil;
 
-Interface Aquifer {
-    HashMap<Coordinate, Tile> getTiles()
-}
+    + generateWorld(world: World): void
 
-Interface Biome {
-    void addToBiome(Tile tile)
-    HashMap<Coordinate, Tile> getTiles()
-}
-
-Interface Island {
-    HashMap<Coordinate, Tile> getTiles()
-    boolean isOnIsland(Tile tile)
-}
-
-class Atoll {
-    - HashMap<Coordinate, Tile> atoll
-    - Circle circle
-    + HashMap<Coordinate, Tile> getTiles()
-    + boolean isOnAtoll(Tile tile)
-    + boolean isOnIsland(Tile tile)
 }
 
 class World {
-    - int width;
-    - int height;
-    - soilType soil;
-    - HashMap<Coordinate, Tile> tiles;
-    - Biome plage;
-    - Biome ocean;
-    - Biome lagoon;
-    - Biome vegetation;
-    + void addTile(Tile tile)
-    - Tile findRandomTile(HashMap<Coordinate, Tile> tiles)
-    - void createLake(int lakesNbs)
-    - void createNape(int napeNbs)
-    + createWaterSource()
-    - void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource)
-    - Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource)
+    + addTile(x: float, y: float): void
+    + addNeighbor(float x, float y, float nx, float ny): void
+    - findRandomTile(): Tile
+}
+
+class Handler
+
+class RandomContexte
+
+Interface WorldProcessor {
+    apply(world: World)
+}
+
+''' Generator '''
+Interface Generator {
+    generate(w: World): void
+}
+
+Class BiomeGenerator
+
+Class RiverGenerator {
+    - nbsRiverSrc: int
+}
+
+Class LakeGenerator {
+    - nbsWaterSrc: int
+    - random: RandomContexte
+}
+
+Class IslandGenerator {
+    - width: w
+    - height: h
+    - islandType: String
+}
+
+BiomeGenerator .up.|> Generator
+IslandGenerator .up.|> Generator
+RiverGenerator .up.|> Generator
+LakeGenerator .up.|> Generator
+
+
+
+''' Island '''
+Abstract Island {
+    + validate(World w): void
+}
+
+class Atoll {
+    - islandShape: Shape
+    - lagoonShape: Shape
+    - random: RandomContexte
+    - smallRadius: double
+    - bigRadius: double
+    - center: Coordinate
     + HashMap<Coordinate, Tile> getTiles()
-    - boolean isTileInBiomes(Tile tile)
-    + void createBiome(Island island)
+    - isInLagoon(tile: Tile): boolean
+    - contains(tile: Tile): boolean
+    - getAltitudeProfile(maxAltitude: int, tile: Tile) double
+}
+
+Class Tortuga{
+    - elypse: Elypse
+    - random: RandomContexte
+    - spacePercentage: int
+    - position: Coordinate
+    - contains(tile: Tile): boolean
+    - getAltitudeProfile(maxAltitude: int, tile: Tile) double
+}
+
+Atoll -up-|> Island
+Tortuga -up-|> Island
+
+
+
+''' Aquifer '''
+Abstract Aquifer {
+        + abstract getTiles(): HashMap<Coordinate, Tile>
+        + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
+        - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
+}
+
+class Lake
+
+class Nape
+
+Lake -up-|> Aquifer
+Nape -up-|> Aquifer
+River -up-|> Aquifer
+
+''' Biome '''
+Abstract Biome {
+    getColor(): TileColor
+    getType(): String
 }
 
 class Lagoon {
-    - HashMap<Coordinate, Tile> lagoon
-    - TileColor color
-    + void addToBiome(Tile tile)
-    + HashMap<Coordinate, Tile> getTiles()
+    - type: String
 }
-
-class Lake{
-    - HashMap<Coordinate, Tile> lake
-    - TileColor color
-    + HashMap<Coordinate, Tile> getTiles()
-}
-
-class Nape{
-    - HashMap<Coordinate, Tile> nape
-    - TileColor color
-    + HashMap<Coordinate, Tile> getTiles()
-}
-
 
 class Ocean{
-    - HashMap<Coordinate, Tile> ocean
-    - TileColor color
-    + void addToBiome(Tile tile)
-    + HashMap<Coordinate, Tile> getTiles()
+    - type: String
 }
 
 class Plage{
-    - HashMap<Coordinate, Tile> ocean
-    - TileColor color
-    + void addToBiome(Tile tile)
-    + HashMap<Coordinate, Tile> getTiles()
+    - type: String
 }
+
+class Vegetation{
+    - type: String
+}
+
+Vegetation -up-|> Biome
+Lagoon -up-|> Biome
+Ocean -up-|> Biome
+Plage -up-|> Biome
+
+''' Mode '''
+
+Abstract Mode {
+    + abstract getColor(): String
+    + applyFactor(c: int, factor: int): int
+}
+
+class Altitude
+class Humidity
+class Normal
+
+Altitude -up-|> Mode
+Humidity -up-|> Mode
+Normal -up-|> Mode
+
+''' World component '''
 
 Class Tile{
     - Coordinate center
     - TileColor backgroundColor
-    - HashMap<Coordinate, Tile> neighbors
+    - neighbors: HashMap<Coordinate, Tile>
     - int humidityLevel
     + addNeighbor(Tile tile)
 }
+
+Class Line {
+
+}
+
+Class Coordinate {
+
+}
+
+Tile "1" *--> "*" Line
+Tile "1" *--> "1" Coordinate
+Tile "1" *--> "1" Biome
+
+Line "1" *--> "2" Coordinate
+''' Enum '''
 
 Enum TileColor{
     OCEANBLUE (0,64,128,255)
@@ -120,52 +183,38 @@ Enum soilType {
     WET ("wet", 400);
 }
 
-Class Tortuga{
-    - Elypse elypse
-    + isOnIsland(Tile tile)
-}
-
-class Vegetation{
-    - HashMap<Coordinate, Tile> ocean
-    - TileColor color
-    + void addToBiome(Tile tile)
-    + HashMap<Coordinate, Tile> getTiles()
-}
-
-WorldGenerator -- World
-WorldGenerator -- Island
-
-World -- Tile
-World -- Aquifer
-World -- Biome
-World -- soilType
-
-Aquifer --- Tile
-Biome -- Tile
-
-Atoll -up-|> Island
-
-Tortuga -up-|> Island
+Controller ..> World
+Controller ..> Generator
+Controller ..> Handler
+Controller "1" ..> "1" RandomContexte
+Controller "1" ..> "1" Mode
 
 
-Lake --|> Aquifer
-Lake -- TileColor
+World "1" *--> "*" Tile
+World "1" -- "1" soilType
+World "1" ..> "1" RandomContexte
 
-Nape --|> Aquifer
-Nape -- TileColor
+Handler ..> Generator
 
 
-Plage -up-|> Biome
-Plage -- TileColor
+Biome .up.|> WorldProcessor
+Aquifer .up.|> WorldProcessor
+Island ..up.|> WorldProcessor
 
-Ocean -up-|> Biome
-Ocean -- TileColor
 
-Vegetation -up-|> Biome
-Vegetation -- TileColor
+BiomeGenerator ..> WorldProcessor
+IslandGenerator ..> WorldProcessor
+RiverGenerator ..> WorldProcessor
+LakeGenerator ..> WorldProcessor
 
-Lagoon -up-|> Biome
-Lagoon -- TileColor
+Lake "1" -- "1" TileColor
+Nape "1" -- "1" TileColor
+River "1" -- "2" TileColor
+
+Plage "1" -- "1" TileColor
+Ocean "1" -- "1" TileColor
+Vegetation "1" -- "1" TileColor
+Lagoon "1" -- "1" TileColor
 
 
 

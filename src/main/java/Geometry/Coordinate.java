@@ -3,8 +3,8 @@ package Geometry;
 import java.util.Objects;
 
 public class Coordinate {
-    private  float x;
-    private float y;
+    final private  float x;
+    final private float y;
     private float z;
 
     public Coordinate(float x, float y, float z) {
@@ -16,11 +16,9 @@ public class Coordinate {
     public float getX() {
         return x;
     }
-
     public float getY() {
         return y;
     }
-
     public float getZ() {
         return z;
     }
@@ -37,7 +35,7 @@ public class Coordinate {
 
     @Override
     public String toString() {
-        return "Coordonnee{" +
+        return "Coordinate {" +
                 "x=" + x +
                 ", y=" + y +
                 ", z=" + z +
@@ -55,6 +53,6 @@ public class Coordinate {
 
     @Override
     public int hashCode() {
-        return Objects.hash(x, y, z);
+        return Objects.hash(x, y);
     }
 }

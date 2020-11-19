@@ -1,154 +1,120 @@
 package World;
 
 import Geometry.Coordinate;
-
+import Geometry.Line;
+import RandomStrategy.RandomContexte;
 import java.util.*;
 
-import static World.WorldGenerator.getRandom;
-
 public class World {
-    private int width;
-    private int height;
-    private soilType soil;
-    private int nbsWaterSrc;
-    private String shape;
-    private HashMap<Coordinate, Tile> tiles;
-    private Biome plage;
-    private Biome ocean;
-    private Biome lagoon;
-    private Biome vegetation;
+    final private RandomContexte random;
+    final private HashMap<Coordinate, Tile> tiles;
 
-
-
-    public World() {
-        this.tiles = new LinkedHashMap<>();
-        plage = new Plage();
-        ocean = new Ocean();
-        vegetation = new Vegetation();
-        lagoon = new Lagoon();
+    public World(RandomContexte random) {
+        this.tiles = new HashMap<>();
+        this.random = random;
     }
 
-    public void setWidth(int width) {
-        this.width = width;
-    }
-    public void setHeight(int height) {
-        this.height = height;
-    }
-    public void setSoil(String soil) {
-        this.soil = soilType.getSoilType(soil);
-    }
-    public void setNbsWaterSrc(int nbsWaterSrc) {
-        this.nbsWaterSrc = nbsWaterSrc;
-    }
-    public void setShape(String shape) {
-        this.shape = shape;
-    }
-    public String getShape() {
-        return shape;
-    }
-    public int getWidth() {
-        return width;
-    }
-    public int getHeight() {
-        return height;
-    }
     public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }
-
-
-
-    public void addTile(Tile tile) {
-        tiles.put(tile.getCenter(),tile);
+    public Tile getTile(float x, float y){
+        return tiles.get(new Coordinate(x,y,0));
     }
+    public String getLineColor(float x1, float y1, float x2, float y2){
+        Line line = new Line(new Coordinate(x1,y1,0), new Coordinate(x2,y2,0));
 
-    private Tile findRandomTile(HashMap<Coordinate, Tile> tiles){
-        ArrayList<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
-        Coordinate randomCoordinate = coordinates.get( getRandom().nextInt( coordinates.size()) );
-        return tiles.get(randomCoordinate);
-    }
-
-    private void createLake(int nbsLake){
-        for(int i = 0; i < nbsLake; i++) {
-            Tile tile = findRandomTile(vegetation.getTiles());
-            Aquifer lake = new Lake(tile, vegetation.getTiles());
-            applyHumidityEffect(lake.getTiles());
-        }
-    }
-    private void createNape(int nbsNapes){
-        for(int i = 0; i < nbsNapes; i++) {
-            Tile tile = findRandomTile(vegetation.getTiles());
-            Aquifer nape = new Nape(tile, vegetation.getTiles());
-            applyHumidityEffect(nape.getTiles());
-        }
-    }
-    public void createWaterSource() {
-        int i  = getRandom().nextInt(nbsWaterSrc+1);
-        createLake(nbsWaterSrc - i);
-        createNape(i);
-    }
-
-    private void applyHumidityEffect(HashMap<Coordinate, Tile> waterSource){
-        for(Tile i: vegetation.getTiles().values()) {
-            Float distance = getDistanceFromWaterSource(i, waterSource);
-            if( distance < soil.getAffectedDistance()) {
-                if (i.getHumidityLevel() == 0 || i.getHumidityLevel() > Math.round(distance)) {
-                    i.setHumidityLevel(Math.round(distance));
+        for(Tile tile: tiles.values()){
+            for(Line l: tile.getBorder()){
+                if(l.equals(line) && l.getColor() != null) {
+                    line = l;
+                    break;
                 }
             }
         }
-    }
-
-    private Float getDistanceFromWaterSource(Tile tile, HashMap<Coordinate, Tile> waterSource) {
-        Float distance = (float)10000;
-        for(Tile i: waterSource.values()){
-            Float tmp = tile.getCenter().distance(i.getCenter());
-            if( tmp < distance) distance = tmp;
-        }
-        return distance;
-    }
-
-
-    private boolean isTileInBiomes(Tile tile){
-        Coordinate tileCenter = tile.getCenter();
-        if (ocean.getTiles().get(tileCenter) != null) return true;
-        if (plage.getTiles().get(tileCenter) != null) return true;
-        if (lagoon.getTiles().get(tileCenter) != null) return true;
-        if (vegetation.getTiles().get(tileCenter) != null) return true;
-        return false;
-    }
-
-    public void createBiome(Island island) {
-        //Ocean
-        for (Tile tile : tiles.values()) {
-            if(!island.isOnIsland(tile)) ocean.addToBiome(tile);
+        TileColor color = line.getColor();
+        if(color != null) {
+            return color.toString();
         }
 
-        //lagon
-        if(island instanceof Atoll) {
-            for (Tile tile : island.getTiles().values()) {
-                if (((Atoll)island).isInLagon(tile)) lagoon.addToBiome(tile);
-            }
-        }
-
-        //plage
-        for (Tile tile : island.getTiles().values()) {
-            if(!isTileInBiomes(tile)) {
-                for (Tile neighbors : tile.getNeighbors().values()) {
-                    if (ocean.getTiles().get(neighbors.getCenter()) != null || lagoon.getTiles().get(neighbors.getCenter()) != null) {
-                        plage.addToBiome(tile);
-                        break;
-                    }
+        return "0:0:0:0";
+    }
+    public HashSet<Tile> getNeighbor(Coordinate c) {
+        HashSet<Tile> neighbor = new HashSet<>();
+        for(Tile tile: tiles.values()){
+            for(Line line: tile.getBorder()){
+                if(c.equals(line.getC1()) || c.equals(line.getC2())){
+                    neighbor.add(tile);
                 }
             }
         }
+        return neighbor;
+    }
+    public HashSet<Tile> getNeighbor(Line l) {
+        HashSet<Tile> neighbor = new HashSet<>();
 
-        //vegetation
-        for (Tile tile : island.getTiles().values()) {
-            if(!isTileInBiomes(tile)) vegetation.addToBiome(tile);
+        neighbor.addAll(getNeighbor(l.getC1()));
+        neighbor.addAll(getNeighbor(l.getC2()));
+
+        return neighbor;
+    }
+    public HashSet<Tile> getNeighbor(Tile t) {
+        HashSet<Coordinate> coordinate = new HashSet<>();
+        HashSet<Tile> neighbor = new HashSet<>();
+
+        for(Line line: t.getBorder()){
+            coordinate.add(line.getC1());
+            coordinate.add(line.getC2());
         }
+        for(Coordinate c: coordinate) {
+            neighbor.addAll(getNeighbor(c));
+        }
+        return neighbor;
+    }
+    public HashSet<Line> getLine(Coordinate c){
+        HashSet<Line> lines = new HashSet<>();
+        for(Tile tile: tiles.values()){
+            for(Line line: tile.getBorder()){
+                if(line.getC1().equals(c) || line.getC2().equals(c)){
+                    lines.add(line);
+                }
+            }
+        }
+        return lines;
     }
 
+    public void addTile(float x, float y) {
+        Coordinate c = new Coordinate(x,y,0);
+        Tile t = new Tile(c);
+        tiles.put(c,t);
+    }
+    public void addLine(float x, float y, float x1, float y1, float x2, float y2){
+        Coordinate c1 = new Coordinate(x1,y1,0);
+        Coordinate c2 = new Coordinate(x2,y2,0);
+        Tile t = tiles.get(new Coordinate(x,y,0));
+        t.addBorder(new Line(c1,c2));
+    }
 
+    private Tile findRandomTile(){
+        ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());
+        return tiles.get(random.getRandomInt(tiles.size()-1));
+
+    }
+    public Tile findRandomVegetationTile(){
+        Tile tile;
+        do {
+            tile = findRandomTile();
+        } while (!(tile.getBiome().getType().equals("vegetation")));
+        return tile;
+    }
+    public Coordinate findRandomCoordinate(){
+        Tile tile = findRandomVegetationTile();
+        HashSet<Coordinate> coordinates = new HashSet();
+        for(Line line: tile.getBorder()) {
+            coordinates.add(line.getC1());
+            coordinates.add(line.getC2());
+        }
+        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
+        return c.get(random.getRandomInt(c.size()-1));
+    }
 
 }

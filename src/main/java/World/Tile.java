@@ -2,31 +2,30 @@ package World;
 
 
 import Geometry.Coordinate;
-
-import java.util.HashMap;
+import Geometry.Line;
+import World.Generator.Biome.Biome;
+import java.util.HashSet;
 import java.util.Objects;
 
 public class Tile {
-
+    final int invalid = -1;
     final private Coordinate center;
+    private Biome biome;
     private TileColor backgroundColor;
     private int humidityLevel;
     private double altitude;
-    private HashMap<Coordinate, Tile> neighbors;
+    private boolean isInLagoon;
+    final private HashSet<Line> border;
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.neighbors = new HashMap<>();
-        humidityLevel = 0;
+        this.border = new HashSet<>();
+        this.humidityLevel = invalid;
+        this.isInLagoon = false;
+        this.altitude = invalid;
+
     }
 
-    public void addNeighbor(Tile neighbor) {
-        this.neighbors.put(neighbor.getCenter(), neighbor);
-    }
-
-    public HashMap<Coordinate, Tile> getNeighbors() {
-        return neighbors;
-    }
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
     }
@@ -47,6 +46,25 @@ public class Tile {
     }
     public void setAltitude(double altitude) {
         this.altitude = altitude;
+    }
+    public void setInLagoon(boolean inLagoon) {
+        isInLagoon = inLagoon;
+    }
+    public boolean isInLagoon() {
+        return isInLagoon;
+    }
+    public void setBiome(Biome biome) {
+        this.biome = biome;
+    }
+    public Biome getBiome() {
+        return biome;
+    }
+    public HashSet<Line> getBorder() {
+        return border;
+    }
+
+    public void addBorder(Line l){
+        border.add(l);
     }
 
     @Override
