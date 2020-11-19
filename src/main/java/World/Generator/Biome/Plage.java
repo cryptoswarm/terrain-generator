@@ -30,8 +30,8 @@ public class Plage extends Biome {
     public void apply(World world) {
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
-            for (Tile neighbor : tile.getNeighbors().values()) {
-                if (tile.getAltitude() !=0 && neighbor.getAltitude() == 0) {
+            for (Tile neighbor : world.getNeighbor(tile)) {
+                if (tile.getAltitude() != 0 && neighbor.getAltitude() == 0) {
                     tile.setBiome(new Plage());
                     tile.setBackgroundColor(color);
                     break;

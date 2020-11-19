@@ -1,13 +1,16 @@
 @startuml
-
-class World {
+class Controller {
     - world
     - mode
     - width: int
     - height: int
     - soilType soil;
 
-    + generateWorld(): void
+    + generateWorld(world: World): void
+
+}
+
+class World {
     + addTile(x: float, y: float): void
     + addNeighbor(float x, float y, float nx, float ny): void
     - findRandomTile(): Tile
@@ -139,6 +142,8 @@ Altitude -up-|> Mode
 Humidity -up-|> Mode
 Normal -up-|> Mode
 
+''' World component '''
+
 Class Tile{
     - Coordinate center
     - TileColor backgroundColor
@@ -146,6 +151,20 @@ Class Tile{
     - int humidityLevel
     + addNeighbor(Tile tile)
 }
+
+Class Line {
+
+}
+
+Class Coordinate {
+
+}
+
+Tile "1" *--> "*" Line
+Tile "1" *--> "1" Coordinate
+
+Line "1" *--> "2" Coordinate
+''' Enum '''
 
 Enum TileColor{
     OCEANBLUE (0,64,128,255)
@@ -163,12 +182,19 @@ Enum soilType {
     WET ("wet", 400);
 }
 
-World "1" --> "*" Tile
-World ..> Generator
-World ..> Handler
+Controller ..> World
+Controller ..> Generator
+Controller ..> Handler
+Controller "1" ..> "1" RandomContexte
+Controller "1" ..> "1" Mode
+
+
+World "1" *--> "*" Tile
 World "1" -- "1" soilType
 World "1" ..> "1" RandomContexte
-World "1" ..> "1" Mode
+
+Handler ..> Generator
+
 
 Biome .up.|> WorldProcessor
 Island .up.|> WorldProcessor

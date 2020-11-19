@@ -8,7 +8,7 @@ import ca.uqam.info.inf5153.ptg.Controller;
 
 public class Reader {
     private Structs.Mesh mesh;
-    private Controller c;
+    final private Controller c;
 
     public Reader(String fileName, Controller c) {
         try {
@@ -20,11 +20,8 @@ public class Reader {
     }
 
     public void readFile(){
-
-
         setWorldWidth(Integer.parseInt(readMetadata(mesh, "width")));
         setWorldHeight(Integer.parseInt(readMetadata(mesh, "height")));
-
 
         for (Structs.Polygon polygon: mesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = mesh.getPoints(polygon.getCentroidIdx());
@@ -35,17 +32,6 @@ public class Reader {
 
             for(int segmentId: polygon.getSegmentIdxList()) {
                addSegmentToWorld(segmentId,tileCenterX,tileCenterY);
-            }
-        }
-
-        for (Structs.Polygon polygon: mesh.getPolygonsList()) {
-            Structs.Point tileCenterCoordinate = mesh.getPoints(polygon.getCentroidIdx());
-            for (int neighborId : polygon.getNeighborsList()) {
-                Structs.Point neighborCenterCoordinate =
-                        mesh.getPoints(mesh.getPolygons(neighborId).getCentroidIdx());
-
-                c.addWorldNeighbor(tileCenterCoordinate.getX(), tileCenterCoordinate.getY(),
-                        neighborCenterCoordinate.getX(), neighborCenterCoordinate.getY());
             }
         }
     }

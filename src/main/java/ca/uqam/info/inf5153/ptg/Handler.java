@@ -1,6 +1,8 @@
-package World;
+package ca.uqam.info.inf5153.ptg;
 
 import World.Generator.Generator;
+import World.World;
+
 import java.util.LinkedList;
 
 public class Handler {

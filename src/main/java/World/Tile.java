@@ -17,12 +17,10 @@ public class Tile {
     private int humidityLevel;
     private double altitude;
     private boolean isInLagoon;
-    private HashMap<Coordinate, Tile> neighbors;
-    private HashSet<Line> border;
+    final private HashSet<Line> border;
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.neighbors = new HashMap<>();
         this.border = new HashSet<>();
         this.humidityLevel = 0;
         this.isInLagoon = false;
@@ -30,13 +28,6 @@ public class Tile {
 
     }
 
-    public void addNeighbor(Tile neighbor) {
-        this.neighbors.put(neighbor.getCenter(), neighbor);
-    }
-
-    public HashMap<Coordinate, Tile> getNeighbors() {
-        return neighbors;
-    }
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
     }

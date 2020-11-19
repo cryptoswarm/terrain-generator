@@ -8,8 +8,7 @@ import java.util.HashMap;
 
 public abstract class Aquifer implements WorldProcessor {
     abstract public HashMap<Coordinate, Tile> getTiles();
-    public void applyHumidityEffect(World world, HashMap<Coordinate, Tile> waterSource){
-        soilType soil = world.getSoil();
+    public void applyHumidityEffect(World world, HashMap<Coordinate, Tile> waterSource, soilType soil){
         for(Tile i: world.getTiles().values()) {
             if(i.getBiome() instanceof Vegetation){
                 float distance = getDistanceFromWaterSource(i, waterSource);

@@ -10,16 +10,18 @@ public class IslandGenerator implements Generator {
     final private int width;
     final private int height;
     final private int altitude;
-    public IslandGenerator(String islandType, int width, int height, int altitude) {
+    final private RandomContexte random;
+    public IslandGenerator(String islandType, int width, int height, int altitude, RandomContexte random) {
         this.islandType = islandType;
         this.width = width;
         this.height = height;
         this.altitude = altitude;
+        this.random = random;
+
     }
 
     @Override
     public void generate(World w) {
-        RandomContexte random = w.getRandom();
         Island island;
         if (islandType.equals("atoll")) {
             island = new Atoll(random, height,width,altitude);

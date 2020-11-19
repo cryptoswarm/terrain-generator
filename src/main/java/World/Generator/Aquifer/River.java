@@ -5,17 +5,20 @@ import Geometry.Line;
 import World.Tile;
 import World.World;
 import World.TileColor;
+import World.soilType;
 import java.util.HashMap;
 import java.util.HashSet;
 import static World.TileColor.*;
 
 public class River extends Aquifer {
     private Coordinate coordinate;
-    private HashSet<Line> river = new HashSet<>();
+    final private soilType soil;
+    final private HashSet<Line> river = new HashSet<>();
     final private TileColor riverColor = WATERBLUE;
 
-    public River(Coordinate c) {
+    public River(Coordinate c, soilType soil) {
         this.coordinate = c;
+        this.soil = soil;
     }
 
     @Override
@@ -68,6 +71,6 @@ public class River extends Aquifer {
         }
 
 
-        this.applyHumidityEffect(w,wetZone);
+        this.applyHumidityEffect(w,wetZone, soil);
     }
 }
