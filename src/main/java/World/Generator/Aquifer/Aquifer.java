@@ -4,7 +4,6 @@ import Geometry.Coordinate;
 import World.*;
 import World.Generator.Biome.Vegetation;
 import World.Generator.WorldProcessor;
-
 import java.util.HashMap;
 
 public abstract class Aquifer implements WorldProcessor {
@@ -32,4 +31,5 @@ public abstract class Aquifer implements WorldProcessor {
         }
         return distance;
     }
+
 }

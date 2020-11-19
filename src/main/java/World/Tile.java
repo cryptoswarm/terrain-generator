@@ -2,6 +2,7 @@ package World;
 
 
 import Geometry.Coordinate;
+import Geometry.Line;
 import World.Generator.Biome.Biome;
 
 import java.util.HashMap;
@@ -17,11 +18,12 @@ public class Tile {
     private double altitude;
     private boolean isInLagoon;
     private HashMap<Coordinate, Tile> neighbors;
-    private HashMap<Coordinate, Coordinate> corner;
+    private HashSet<Line> border;
 
     public Tile(Coordinate center) {
         this.center = center;
         this.neighbors = new HashMap<>();
+        this.border = new HashSet<>();
         this.humidityLevel = 0;
         this.isInLagoon = false;
         this.altitude = -1;
@@ -68,11 +70,12 @@ public class Tile {
     public Biome getBiome() {
         return biome;
     }
-    public HashMap<Coordinate, Coordinate> getCorner() {
-        return corner;
+    public HashSet<Line> getBorder() {
+        return border;
     }
-    public void addCorner(Coordinate corner) {
-        this.corner.put(corner, corner);
+
+    public void addBorder(Line l){
+        border.add(l);
     }
 
     @Override

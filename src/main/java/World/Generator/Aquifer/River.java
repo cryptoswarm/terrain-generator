@@ -1,22 +1,21 @@
 package World.Generator.Aquifer;
 
 import Geometry.Coordinate;
+import Geometry.Line;
 import World.Tile;
 import World.World;
 import World.TileColor;
-
 import java.util.HashMap;
-
+import java.util.HashSet;
 import static World.TileColor.*;
 
 public class River extends Aquifer {
-    private Tile tile;
-    private HashMap<Coordinate, Tile> river = new HashMap<>();
+    private Coordinate coordinate;
+    private HashSet<Line> river = new HashSet<>();
     final private TileColor riverColor = WATERBLUE;
-    final private TileColor riverSideColor = BROWN;
 
-    public River(Tile tile) {
-        this.tile = tile;
+    public River(Coordinate c) {
+        this.coordinate = c;
     }
 
     @Override
@@ -26,28 +25,49 @@ public class River extends Aquifer {
 
     @Override
     public void apply(World w) {
-        river.put(tile.getCenter(), tile);
-        double riverHeight = tile.getAltitude();
-        Tile tmp = tile;
-
-        do {
-            for(Tile i : tile.getNeighbors().values()) {
-                if(i.getAltitude() < riverHeight) {
-                    riverHeight = i.getAltitude();
-                    tmp = i;
+        double riverHeight = coordinate.getZ();
+        Coordinate tmpC = coordinate;
+        boolean b = true;
+        while (b){
+            Line tmpL = null;
+            for(Line i : w.getLine(coordinate)) {
+                Coordinate c1 = i.getC1();
+                Coordinate c2 = i.getC2();
+                if(c1.getZ() < riverHeight) {
+                    riverHeight = c1.getZ();
+                    tmpC = c1;
+                    tmpL = i;
+                }
+                if(c2.getZ() < riverHeight) {
+                    riverHeight = c2.getZ();
+                    tmpC = c2;
+                    tmpL = i;
                 }
             }
-            if(tile == tmp) break;
-            if(tile != tmp) {
-                tile = tmp;
-                river.put(tile.getCenter(), tile);
+            if(coordinate == tmpC) break;
+            coordinate = tmpC;
+            river.add(tmpL);
+            for(Tile tile: w.getNeighbor(coordinate)){
+                String s = tile.getBiome().getType();
+                if(s.equals("ocean") || s.equals("lagoon")|| s.equals("plage")) {
+                    b = false;
+                }
             }
-        } while (true);
-
-        for(Tile i: river.values()) {
-            i.setBackgroundColor(riverSideColor);
-            i.setHumidityLevel(5);
         }
-        this.applyHumidityEffect(w,river);
+
+        HashMap<Coordinate, Tile> wetZone = new HashMap<>();
+        for(Line i: river) {
+            for(Tile tile: w.getNeighbor(i.getC1())) {
+                wetZone.put(tile.getCenter(),tile);
+            }
+            for(Tile tile: w.getNeighbor(i.getC2())) {
+                wetZone.put(tile.getCenter(),tile);
+            }
+            i.setColor(riverColor);
+            i.increaseFlow();
+        }
+
+
+        this.applyHumidityEffect(w,wetZone);
     }
 }

@@ -7,8 +7,7 @@ import World.Tile;
 import java.util.HashMap;
 
 public class Vegetation extends Biome {
-
-    TileColor color = TileColor.LIGHTGREEN;
+    final private TileColor color = TileColor.LIGHTGREEN;
     final private String type = "vegetation";
 
 

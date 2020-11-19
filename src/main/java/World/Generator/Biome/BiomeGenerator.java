@@ -5,7 +5,6 @@ import World.World;
 import World.Generator.Generator;
 
 public class BiomeGenerator implements Generator {
-
     public BiomeGenerator() {}
 
     public void generate(World w) {

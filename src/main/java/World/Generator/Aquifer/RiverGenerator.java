@@ -14,7 +14,7 @@ public class RiverGenerator implements Generator {
         @Override
         public void generate(World w) {
             for (int i = nbsRiverSrc; i > 0; i--) {
-                WorldProcessor river = new River(w.findRandomVegetationTile());
+                WorldProcessor river = new River(w.findRandomCoordinate());
                 river.apply(w);
             }
         }

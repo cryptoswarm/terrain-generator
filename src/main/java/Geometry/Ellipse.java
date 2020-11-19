@@ -5,15 +5,14 @@ import RandomStrategy.RandomContexte;
 
 public class Ellipse implements Shape {
 
-    private double majorAxis;
-    private double minorAxis;
-    private Coordinate ellipseCenter;
-    private double majorRadius;
-    private double minorRadius;
+    final private double majorAxis;
+    final private double minorAxis;
+    final private Coordinate ellipseCenter;
+    final private double majorRadius;
+    final private double minorRadius;
     private int angle;
 
-    public Ellipse(  int width, int height, RandomContexte random){
-
+    public Ellipse(int width, int height, RandomContexte random){
         this.majorAxis = findMajorAxis(width, height, random);
         this.minorAxis = findMinorAxis(majorAxis, random);
         this.ellipseCenter = setNewCenter(width, height, random);
@@ -22,16 +21,13 @@ public class Ellipse implements Shape {
     }
 
     public Ellipse(int majorAxis, int minorAxis, Coordinate center, int angle){
-
         this.majorAxis = majorAxis;
         this.minorAxis = minorAxis;
         this.ellipseCenter = center;
         this.angle = angle;
         this.majorRadius = majorAxis/2 ;
         this.minorRadius = minorAxis/2 ;
-
     }
-
 
     public double findMajorAxis(int width, int height, RandomContexte r){
         double major = Math.max(width, height);
@@ -40,22 +36,16 @@ public class Ellipse implements Shape {
 
     private double findMinorAxis(double majorAxis, RandomContexte r ){
         return  r.getRandomInt((int)(majorAxis )/4) + majorAxis/2;
-
     }
 
     private Coordinate setNewCenter(int width, int height, RandomContexte r ){
-
-
         Coordinate perfectCenter = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
 
         float x = r.getRandomInt((int)perfectCenter.getX() )+  perfectCenter.getX()/2;
-
         float y = r.getRandomInt( (int)perfectCenter.getY() )+  perfectCenter.getY() /2 ;
 
         return  new Coordinate(x, y, 0);
-
     }
-
 
     @Override
     public boolean isInArea(Coordinate c) {
@@ -77,14 +67,6 @@ public class Ellipse implements Shape {
 
     public int getAngle() {
         return angle;
-    }
-
-    public Coordinate getEllipseCenter() {
-        return ellipseCenter;
-    }
-
-    public double getMinorAxis() {
-        return minorAxis;
     }
 
     @Override

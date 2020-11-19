@@ -7,10 +7,8 @@ public class Circle implements Shape {
     double radius;
 
     public Circle(Coordinate center, double radius){
-
         this.center = center;
         this.radius = radius;
-
     }
 
     @Override

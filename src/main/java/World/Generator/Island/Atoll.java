@@ -2,10 +2,13 @@ package World.Generator.Island;
 
 import Geometry.Circle;
 import Geometry.Coordinate;
+import Geometry.Line;
 import Geometry.Shape;
 import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
+
+import java.util.HashSet;
 
 public class Atoll extends Island {
     final private Shape lagoonShape;
@@ -32,6 +35,13 @@ public class Atoll extends Island {
         for(Tile t: w.getTiles().values()){
             if(this.isInLagoon(t)) t.setInLagoon(true);
             t.setAltitude(this.getAltitudeProfile(altitude, t));
+            for(Line line: t.getBorder()){
+                Coordinate c1 = line.getC1();
+                Coordinate c2 = line.getC2();
+                c1.setZ(getAltitudeProfileCoordinate(w,altitude,c1));
+                c2.setZ(getAltitudeProfileCoordinate(w,altitude,c2));
+
+            }
         }
     }
 
@@ -53,5 +63,17 @@ public class Atoll extends Island {
         return altitude;
     }
 
+    private float getAltitudeProfileCoordinate(World w, int maxAltitude, Coordinate coordinate) {
+        HashSet<Tile> tiles = new HashSet<>();
+        for(Tile tile: tiles) {
+            if(isInLagoon(tile) || !contains(tile)) return 0;
+        }
+
+        double mediumRadius = bigRadius - (bigRadius-smallRadius)/2;
+        Circle maxHeightCircle = new Circle(center, mediumRadius);
+        float altitude = maxAltitude - maxHeightCircle.getDistanceFrom(coordinate);
+        if (altitude <= 1) return 1;
+        return altitude;
+    }
 
 }

@@ -23,7 +23,7 @@ public class Plage extends Biome {
 
     @Override
     public String getType() {
-        return null;
+        return type;
     }
 
     @Override

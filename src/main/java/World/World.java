@@ -1,6 +1,7 @@
 package World;
 
 import Geometry.Coordinate;
+import Geometry.Line;
 import RandomStrategy.RandomContexte;
 import World.Generator.Aquifer.RiverGenerator;
 import World.Generator.Biome.BiomeGenerator;
@@ -54,13 +55,8 @@ public class World {
     public void setSeed(int seed){
         random = new RandomContexte(seed);
     }
-    public String getTileColor(float x, float y){
-        Tile tile = tiles.get(new Coordinate(x,y,0));
-        TileColor color = tile.getBackgroundColor();
-        int factor = 0;
-        if(mode instanceof Normal || mode instanceof Humidity) factor = tile.getHumidityLevel();
-        if(mode instanceof Altitude) factor = (int)tile.getAltitude();
-        return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
+    public void setNbsRiversSrc(int nbsRiversSrc) {
+        this.nbsRiversSrc = nbsRiversSrc;
     }
     public void setMode(String s){
         switch (s) {
@@ -75,14 +71,60 @@ public class World {
                 break;
         }
     }
+
+    public String getTileColor(float x, float y){
+        Tile tile = tiles.get(new Coordinate(x,y,0));
+        TileColor color = tile.getBackgroundColor();
+        int factor = 0;
+        if(mode instanceof Normal || mode instanceof Humidity) factor = tile.getHumidityLevel();
+        if(mode instanceof Altitude) factor = (int)tile.getAltitude();
+        return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
+    }
+    public String getLineColor(float x1, float y1, float x2, float y2){
+        Line line = new Line(new Coordinate(x1,y1,0), new Coordinate(x2,y2,0));
+
+        for(Tile tile: tiles.values()){
+            for(Line l: tile.getBorder()){
+                if(l.equals(line) && l.getColor() != null) {
+                    line = l;
+                    break;
+                }
+            }
+        }
+        TileColor color = line.getColor();
+        if(color != null) {
+            return color.toString();
+        }
+
+        return "0:0:0:0";
+    }
     public RandomContexte getRandom() {
         return random;
     }
     public soilType getSoil() {
         return soil;
     }
-    public void setNbsRiversSrc(int nbsRiversSrc) {
-        this.nbsRiversSrc = nbsRiversSrc;
+    public HashSet<Tile> getNeighbor(Coordinate c) {
+        HashSet<Tile> neighbor = new HashSet<>();
+        for(Tile tile: tiles.values()){
+            for(Line line: tile.getBorder()){
+                if(c.equals(line.getC1()) || c.equals(line.getC2())){
+                    neighbor.add(tile);
+                }
+            }
+        }
+        return neighbor;
+    }
+    public HashSet<Line> getLine(Coordinate c){
+        HashSet<Line> lines = new HashSet<>();
+        for(Tile tile: tiles.values()){
+            for(Line line: tile.getBorder()){
+                if(line.getC1().equals(c) || line.getC2().equals(c)){
+                    lines.add(line);
+                }
+            }
+        }
+        return lines;
     }
 
     public void addTile(float x, float y) {
@@ -95,14 +137,11 @@ public class World {
         Tile neighbor = tiles.get(new Coordinate(nx,ny,0));
         tile.addNeighbor(neighbor);
     }
-    public void addCorner(float x, float y, float cx, float cy) {
-        Coordinate c = null;
-        for (Tile tile: tiles.values()){
-            c = tile.getCorner().get(new Coordinate(cx,cy,0));
-            if(c != null) break;
-        }
-        if(c == null) c = new Coordinate(cx,cy,0);
-        tiles.get(new Coordinate(x,y,0)).addCorner(c);
+    public void addLine(float x, float y, float x1, float y1, float x2, float y2){
+        Coordinate c1 = new Coordinate(x1,y1,0);
+        Coordinate c2 = new Coordinate(x2,y2,0);
+        Tile t = tiles.get(new Coordinate(x,y,0));
+        t.addBorder(new Line(c1,c2));
     }
     public void generateWorld() {
         Handler h = new Handler();
@@ -128,6 +167,16 @@ public class World {
             tile = findRandomTile();
         } while (!(tile.getBiome() instanceof Vegetation));
         return tile;
+    }
+    public Coordinate findRandomCoordinate(){
+        Tile tile = findRandomVegetationTile();
+        HashSet<Coordinate> coordinates = new HashSet();
+        for(Line line: tile.getBorder()) {
+            coordinates.add(line.getC1());
+            coordinates.add(line.getC2());
+        }
+        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
+        return c.get(random.getRandomInt(c.size()-1));
     }
 
 

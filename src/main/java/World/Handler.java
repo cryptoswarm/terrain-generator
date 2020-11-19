@@ -7,7 +7,7 @@ public class Handler {
     LinkedList<Generator> chain;
 
     public Handler(){
-        chain = new LinkedList<Generator>();
+        chain = new LinkedList<>();
     }
 
     public void addGenerator(Generator g){

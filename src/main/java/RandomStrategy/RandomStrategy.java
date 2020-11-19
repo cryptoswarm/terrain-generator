@@ -1,6 +1,5 @@
 package RandomStrategy;
 
-public interface RandomStategy {
-
+public interface RandomStrategy {
     int getRandom(int range);
 }
