@@ -51,13 +51,13 @@ public class Controller {
     }
 
     public  void createWorld() {
-        Reader reader = new Reader(fileName, this);
-        reader.readFile();
+        MeshReader meshReader = new MeshReader(fileName, this);
+        meshReader.readFile();
 
         generateWorld(world);
 
-        Writer writer = new Writer(this, fileName, outFileName);
-        writer.generateEndMesh();
+        MeshWriter meshWriter = new MeshWriter(this, fileName, outFileName);
+        meshWriter.generateEndMesh();
     }
 
     public void setWorldHeight(int h){
