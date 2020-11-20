@@ -1,76 +1,48 @@
 package Geometry;
 
-
 import RandomStrategy.RandomContexte;
 
-public class Ellipse implements Shape {
+import java.util.Random;
 
+public class Ellipse {
     final private double majorAxis;
-    final private double minorAxis;
     final private Coordinate ellipseCenter;
-    final private double majorRadius;
+    final private int angle;
     final private double minorRadius;
-    private int angle;
+    final private double majorRadius;
 
-    public Ellipse(int width, int height, RandomContexte random){
-        this.majorAxis = findMajorAxis(width, height, random);
-        this.minorAxis = findMinorAxis(majorAxis, random);
-        this.ellipseCenter = setNewCenter(width, height, random);
-        this.majorRadius = majorAxis/2 ;
-        this.minorRadius = minorAxis/2 ;
-    }
-
-    public Ellipse(int majorAxis, int minorAxis, Coordinate center, int angle){
+    public Ellipse(int majorAxis, RandomContexte random, int angle, Coordinate center){
         this.majorAxis = majorAxis;
-        this.minorAxis = minorAxis;
         this.ellipseCenter = center;
         this.angle = angle;
-        this.majorRadius = majorAxis/2 ;
-        this.minorRadius = minorAxis/2 ;
+        this.majorRadius = (double)majorAxis/2;
+        this.minorRadius = (random.getRandomInt(majorAxis/4) + (double)majorAxis/2 ) / 2;
     }
 
-    public double findMajorAxis(int width, int height, RandomContexte r){
-        double major = Math.max(width, height);
-        return r.getRandomInt((int)(major /4) ) + major/4;
+    public double getMajorRadius(){
+        return   majorRadius;
     }
 
-    private double findMinorAxis(double majorAxis, RandomContexte r ){
-        return  r.getRandomInt((int)(majorAxis )/4) + majorAxis/2;
+    public double getMinorRadius(){
+        return minorRadius;
     }
 
-    private Coordinate setNewCenter(int width, int height, RandomContexte r ){
-        Coordinate perfectCenter = new Coordinate((float) (width / 2.0), (float) (height / 2.0), 0 );
-
-        float x = r.getRandomInt((int)perfectCenter.getX() )+  perfectCenter.getX()/2;
-        float y = r.getRandomInt( (int)perfectCenter.getY() )+  perfectCenter.getY() /2 ;
-
-        return  new Coordinate(x, y, 0);
-    }
-
-    @Override
-    public boolean isInArea(Coordinate c) {
-
+    public boolean isInEllipse(Coordinate c){
         float x = c.getX();
         float y = c.getY();
+        float h = ellipseCenter.getX();
+        float k = ellipseCenter.getY();
 
-        return c.distance(ellipseCenter) <= majorRadius &&
-
-                (  ( Math.pow( ( (x-ellipseCenter.getX())*Math.cos(angle) + (y-ellipseCenter.getY())*Math.sin(angle)), 2) / Math.pow(majorRadius, 2) ) +
-                        (  Math.pow( ( (x-ellipseCenter.getX())*Math.sin(angle) - (y-ellipseCenter.getY())*Math.cos(angle)), 2) / Math.pow(minorRadius, 2) ) ) <=1;
-
-
+        return c.distance(ellipseCenter) <= majorAxis/2 &&
+                ((Math.pow(((x-h)*Math.cos(angle) + (y-k)*Math.sin(angle)), 2) / Math.pow( majorAxis/2, 2)) +
+                        (Math.pow(((x-h)*Math.sin(angle) - (y-k)*Math.cos(angle)), 2) / Math.pow(minorRadius, 2))) <= 1;
     }
 
-    public double getMajorAxis() {
-        return majorAxis;
+    public Coordinate getEllipseCenter() {
+        return ellipseCenter;
     }
 
     public int getAngle() {
         return angle;
-    }
-
-    @Override
-    public int getDistanceFrom(Coordinate c) {
-        return 0;
     }
 }
