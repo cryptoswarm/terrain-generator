@@ -1,24 +1,26 @@
 package World.Generator.Island;
 
-
-
 import Geometry.Coordinate;
 import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
-
+import World.World;
 import java.util.*;
 
-public class EllipticIsland implements IslandShape {
+public class EllipticIsland extends IslandShape {
     HashMap<Coordinate, Tile> tiles;
+    int height;
+    int width;
 
-    public EllipticIsland(HashMap<Coordinate, Tile> tiles) {
+    public EllipticIsland(HashMap<Coordinate, Tile> tiles, int height, int width) {
         this.tiles = tiles;
+        this.height = height;
+        this.width = width;
     }
-    
 
     @Override
     public boolean inArea(Tile tile, Tile islandCenter, int diameter, int angle) {
+        double majorRadius = (double)diameter;
         double minorRadius = (double)diameter / 2;
         float x = tile.getCenter().getX();
         float y = tile.getCenter().getY();
@@ -30,64 +32,32 @@ public class EllipticIsland implements IslandShape {
     }
 
     @Override
-    public boolean createIsland(RandomContexte random, int maxAltitude, Coordinate coordinate){
+    public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border){
         boolean created = false;
         int angle = random.getRandomInt(359) + 1;
-        Tile tile = findRandomTile(angle, coordinate);
 
-        if(tile != null) {
-            Ellipse ellipse = new Ellipse((int)coordinate.getX(), random, angle, tile.getCenter());
-            Island island = new Tortuga(tiles, ellipse, random, maxAltitude);
-            created = true;
-        }
+        List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
+        Ellipse ellipse = null;
+        Boolean validIslandFound = false;
 
-        return created;
-    }
-
-    @Override
-    public Tile findRandomTile( int angle, Coordinate coordinate){
-        Random random = new Random();
-        Tile randtile = null;
-        HashMap<Coordinate, Tile> temp = new LinkedHashMap<>(tiles);
-
-        Coordinate randomCoordinate;
-        List<Coordinate> coordinates = new ArrayList<>(temp.keySet());
-
-        while (!temp.isEmpty()) {
-            randomCoordinate = coordinates.get(random.nextInt(coordinates.size()));
-
-            if (checkTilePosition(temp.get(randomCoordinate), coordinate) &&
-                    checkBorders(temp.get(randomCoordinate), (int)coordinate.getX(), angle)) {
-
-                randtile = temp.get(randomCoordinate);
+        while (!coordinates.isEmpty()) {
+            Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
+            ellipse = new Ellipse((int)border.getX(), random, angle, c);
+            Tile t = tiles.get(c);
+            if (validIsland(tiles, t, ellipse,height,width)){
+                validIslandFound = true;
                 break;
             }
-            temp.remove(randomCoordinate);
+            coordinates.remove(c);
         }
-        return randtile;
-    }
 
-    @Override
-    public boolean checkTilePosition(Tile tile, Coordinate coordinate){
-        boolean ans = false;
-        if(tile != null) {
-            ans = tile.getCenter().getX() > coordinate.getX() && tile.getCenter().getX() < coordinate.getY()
-                    && tile.getCenter().getY() > coordinate.getX() && tile.getCenter().getY() < coordinate.getY();
-        }
-        return ans;
-    }
 
-    public boolean checkBorders(Tile tileCenter, int diametre, int angle){
-        boolean isInside = true;
-        for (Tile tile : tiles.values()) {
-            if(inArea(tile, tileCenter, diametre, angle)){
-                if(tile.getAltitude() == -1) {
-                    isInside = false;
-                    break;
-                }
-            }
+        if(validIslandFound) {
+            Island island = new Tortuga(tiles, ellipse, random, maxAltitude);
+            island.apply(world);
+            created = true;
         }
-        return isInside;
+        return created;
     }
 
 }

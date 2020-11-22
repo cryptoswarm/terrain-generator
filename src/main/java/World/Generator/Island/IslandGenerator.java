@@ -4,6 +4,7 @@ import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
 import World.Generator.Generator;
 import World.World;
+import World.Tile;
 
 public class IslandGenerator implements Generator {
     final private int width;
@@ -25,31 +26,38 @@ public class IslandGenerator implements Generator {
 
     @Override
     public void generate(World w) {
-        Coordinate border = generateRandomCoordinate();
+        Coordinate border = generateBorder();
         int islandNotGenerated = 0;
         IslandShape islandShape = null;
         switch (shape){
             case "tortuga":
-                islandShape = new EllipticIsland(w.getTiles());
+                islandShape = new EllipticIsland(w.getTiles(),height,width);
                 break;
             default:
-                islandShape = new CircularIsland(w.getTiles());
+                islandShape = new CircularIsland(w.getTiles(),height,width);
         }
 
         for(int n=0; n<nbIsland; n++) {
-            if( !islandShape.createIsland(random, maxAltitude, border) ){
+            if( !islandShape.createIsland(w, random, maxAltitude, border) ){
                 ++islandNotGenerated;
             }
+        }
+
+        for(Tile tile: w.getTiles().values()){
+            if(tile.getAltitude() == -1) tile.setAltitude(0);
         }
         if(islandNotGenerated > 0){
             System.out.println("Nombre d'ile non construit à cause du manque de tuiles est : "+islandNotGenerated);
         }
     }
 
-    public Coordinate generateRandomCoordinate(){
+    public Coordinate generateBorder(){
         int shortest = Math.min(width, height);
-        float x = random.getRandomInt(shortest / 16) + (float)shortest*3 / 8;
-        float y = random.getRandomInt(shortest / 16) + (float)shortest*3 / 4;
+        //WTF calcul with magic everywhere
+        float x = random.getRandomInt(shortest / 16) + (float)shortest*3/8;
+        float y = random.getRandomInt(shortest / 16) + (float)shortest*3/4;
         return new Coordinate(x, y, 0);
     }
+
+
 }

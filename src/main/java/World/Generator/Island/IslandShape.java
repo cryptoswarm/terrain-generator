@@ -1,62 +1,50 @@
 package World.Generator.Island;
 
+import Geometry.Circle;
 import Geometry.Coordinate;
+import Geometry.Ellipse;
+import Geometry.Line;
 import RandomStrategy.RandomContexte;
 import World.Tile;
+import World.World;
+import java.util.*;
 
-import java.util.Random;
+public abstract class IslandShape {
+    abstract boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border);
+    abstract boolean inArea(Tile tile, Tile tileCenter, int diameter, int angle );
 
-public interface IslandShape {
-    /**
-     *
-     * @param random  seed
-     * @param maxAltitude  altitude maximale
-     * @param x  coordonné sur l'axe des abscice
-     * @param y  coordonné sur l'axe des ordonnées
-     * @return True si l'ile est crée, False sinom
-     */
-    boolean createIsland(RandomContexte random, int maxAltitude, Coordinate coordinate);
+    public Tile findRandomTile(HashMap<Coordinate, Tile> tiles, int angle, Coordinate border, int h, int w){
+        Random random = new Random();
+        List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
 
-    /**
-     *
-     * @param tile une tuile
-     * @param tileCenter la tuile au centre de l'ile
-     * @param diametre le diametre de l'ile
-     * @param angle l'angle de rotation de l'ile
-     * @return True si la tuile est à l'interieur de la nouvelle ile
-     */
-    boolean inArea(Tile tile, Tile tileCenter, int diametre, int angle );
+        int diameter = (int)border.getX();
+        Coordinate c = null;
+        while (!coordinates.isEmpty()) {
+            c = coordinates.get(random.nextInt(coordinates.size()));
+            Tile t = tiles.get(c);
+            //if (validIsland(tiles, t, diameter, angle,h,w)) break;
+            coordinates.remove(c);
+        }
+        return tiles.get(c);
+    }
 
-    /**
-     * La tuile à générée doit respecter deux conditions
-     * la premiere : cette tuile doit etre à l'interieur de l'espace definit par x et y
-     * la deuxieme : il doit avoir suffisament de tuiles autour d'elle pour pouvoir crée une ile
-     *
-     * @param x   coordonné sur l'axe des abscice
-     * @param y   coordonné sur l'axe des ordonnées
-     * @param angle  angle de rotation
-     * @return  une tuile qui va etre le centre de la nouvelle ile
-     */
-    Tile findRandomTile(int angle, Coordinate coordinate);
 
-    /**
-     *
-     * @param tile une tuile
-     * @param x coordonné sur l'axe des abscice
-     * @param y coordonné sur l'axe des ordonnées
-     * @return True si la tuile est à l'interieur de l'espace, False sinon
-     */
-    boolean checkTilePosition(Tile tile, Coordinate coordinate);
-
-    /**
-     *
-     * @param tileCenter tuile au centre de l'ile
-     * @param diametre le diametre de l'ile
-     * @param angle l'angle de rotation
-     * @return True si la tuile est à l'interieur de l'espace; cet espace depend de la forme que l'ile va avoir
-     */
-    boolean checkBorders(Tile tileCenter, int diametre, int angle);
-
+    public boolean validIsland(HashMap<Coordinate, Tile> tiles, Tile tileCenter, Ellipse e, int h, int w) {
+        for (Tile tile : tiles.values()) {
+            if(e.isInEllipse(tileCenter.getCenter())) {
+                //is ocean
+                if(tile.getAltitude() != -1) return false;
+                //is not on world border
+                for(Line l: tile.getBorder()){
+                    if(l.getC1().getY() == 0 || l.getC1().getY() == h) return false;
+                    if(l.getC1().getX() == 0 || l.getC1().getX() == w) return false;
+                    if(l.getC2().getY() == 0 || l.getC2().getY() == h) return false;
+                    if(l.getC2().getX() == 0 || l.getC2().getX() == w) return false;
+                }
+            }
+        }
+        return true;
+    }
 
 
 }

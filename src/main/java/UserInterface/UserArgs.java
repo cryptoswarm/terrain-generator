@@ -137,7 +137,7 @@ public class UserArgs {
     }
     private int setNbsIsland(String nbsIsland){
         if(nbsIsland != null) return Integer.parseInt(nbsIsland);
-        return 0;
+        return 1;
     }
 
 

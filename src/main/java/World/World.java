@@ -94,7 +94,7 @@ public class World {
         t.addBorder(new Line(c1,c2));
     }
 
-    private Tile findRandomTile(){
+    public Tile findRandomTile(){
         ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());
         return tiles.get(random.getRandomInt(tiles.size()-1));
 

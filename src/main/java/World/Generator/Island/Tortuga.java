@@ -29,19 +29,19 @@ public class Tortuga  extends Island {
     @Override
     public void defineAltitude(int maxAltitude){
         TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
-        IslandShape islandShape = new EllipticIsland(tiles);
+        IslandShape islandShape = new EllipticIsland(tiles,0,0);
         Tile tileCenter = tiles.get( ellipse.getEllipseCenter() );
         double distance;
         int nbIslandTiles = 0;
-        Ellipse ellipse1 = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
+        Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
 
         for(Tile tile: tiles.values()){
-            if(tile.getAltitude() == 1) {
+            if(ellipse.isInEllipse(tile.getCenter())) {
                 ++nbIslandTiles;
-                if (!islandShape.inArea(tile, tileCenter, (int) ellipse1.getMajorRadius(), ellipse1.getAngle())) {
-                    distance = Math.abs(tile.getCenter().distance(ellipse1.getEllipseCenter()));
-                    if (distance > ellipse1.getMinorRadius()) {
-                        distance = Math.abs(distance - ellipse1.getMinorRadius());
+                if (!islandTop.isInEllipse(tile.getCenter())) {
+                    distance = Math.abs(tile.getCenter().distance(islandTop.getEllipseCenter()));
+                    if (distance > islandTop.getMinorRadius()) {
+                        distance = Math.abs(distance - islandTop.getMinorRadius());
                     }
                     addTile(temp1, distance, tile);
                 } else {
@@ -61,7 +61,7 @@ public class Tortuga  extends Island {
         }
     }
 
-    public void applyProfilAltimetriqueBetweenFoyers(TreeMap< Double,  List<Tile> > temp, float tileAlt, int maxAltitude) {
+    public void applyProfilAltimetriqueBetweenFoyers(TreeMap<Double, List<Tile>> temp, float tileAlt, int maxAltitude) {
         float alt2 = (float) maxAltitude;
 
         for (List<Tile> tileList : temp.values()) {
@@ -71,16 +71,7 @@ public class Tortuga  extends Island {
     }
 
     @Override
-    public  void setBorders(){
-        for (Tile tile : tiles.values()) {
-            if(tile.getAltitude() == -1) {
-                if (ellipse.isInEllipse(tile.getCenter())) {
-                    tile.setAltitude(1);
-                }
-            }
-        }
-    }
-
+    public  void setBorders(){}
 
     public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){
         if (temp.containsKey(distance)) {

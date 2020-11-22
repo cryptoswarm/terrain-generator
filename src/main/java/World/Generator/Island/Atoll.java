@@ -71,7 +71,7 @@ public class Atoll extends Island {
                     tile.setAltitude(1);
                 }
                 if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
-                    tile.setAltitude(0);
+                    tile.setInLagoon(true);
                 }
             }
         }
