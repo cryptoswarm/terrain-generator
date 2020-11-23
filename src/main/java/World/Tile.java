@@ -13,19 +13,16 @@ public class Tile {
     private Biome biome;
     private TileColor backgroundColor;
     private int humidityLevel;
-    private double altitude;
     private boolean isInLagoon;
     final private HashSet<Line> border;
 
     public Tile(Coordinate center) {
         this.center = center;
+        center.setZ(invalid);
         this.border = new HashSet<>();
         this.humidityLevel = invalid;
         this.isInLagoon = false;
-        this.altitude = invalid;
-
     }
-
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
     }
@@ -42,10 +39,18 @@ public class Tile {
         this.humidityLevel = humidityLevel;
     }
     public double getAltitude() {
-        return altitude;
+        HashSet<Coordinate> coordinates = this.getCorner();
+        float altitude = 0;
+        for(Coordinate c: coordinates){
+            altitude = altitude + c.getZ();
+        }
+        return (double)altitude/coordinates.size();
     }
     public void setAltitude(double altitude) {
-        this.altitude = altitude;
+        for (Line line: border){
+            line.getC1().setZ((float)altitude);
+            line.getC2().setZ((float)altitude);
+        }
     }
     public void setInLagoon(boolean inLagoon) {
         isInLagoon = inLagoon;
@@ -61,6 +66,14 @@ public class Tile {
     }
     public HashSet<Line> getBorder() {
         return border;
+    }
+    public HashSet<Coordinate> getCorner() {
+        HashSet<Coordinate> c = new HashSet<>();
+        for(Line l: border){
+            c.add(l.getC1());
+            c.add(l.getC2());
+        }
+        return c;
     }
 
     public void addBorder(Line l){

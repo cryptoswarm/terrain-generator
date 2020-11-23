@@ -17,7 +17,7 @@ public class UserArgs {
     final private int seed;
     final private int maxAltitude;
     final private int rivers;
-
+    final private int nbsIsland;
 
     public UserArgs(String[] args){
         CommandLine options = null;
@@ -36,10 +36,8 @@ public class UserArgs {
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
+        nbsIsland = setNbsIsland(options.getOptionValue("archipelago"));
     }
-
-
-
 
     private static CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
@@ -54,9 +52,7 @@ public class UserArgs {
         opts.addOption(new Option("seed", "seed", true,"seed"));
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
         opts.addOption(new Option("rivers", "rivers", true,"rivers"));
-
-
-
+        opts.addOption(new Option("archipelago", "archipelago", true,"archipelago"));
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(opts, args);
@@ -92,12 +88,8 @@ public class UserArgs {
 
     }
     private int setWaterSources(String nbWaterSources) {
-        if (nbWaterSources != null){
-            return Integer.parseInt(nbWaterSources);
-        }else {
-            return 0;
-        }
-
+        if (nbWaterSources != null) return Integer.parseInt(nbWaterSources);
+        return 0;
     }
     private String setHeatmap(String heatmap) {
         if (heatmap != null){
@@ -118,18 +110,13 @@ public class UserArgs {
         }
     }
     private String setSoilType(String soil){
-
         if (soil != null){
-
             if(soil.equals("wet") || soil.equals("dry") || soil.equals("regular")){
-
                 return soil;
             }else {
-
                 throw new IllegalArgumentException("Undefined soil type");
             }
         }else {
-
             return "regular";
         }
 
@@ -148,6 +135,11 @@ public class UserArgs {
             return 0;
         }
     }
+    private int setNbsIsland(String nbsIsland){
+        if(nbsIsland != null) return Integer.parseInt(nbsIsland);
+        return 1;
+    }
+
 
     public String getOutputFile() {
         return outputFile;
@@ -174,6 +166,7 @@ public class UserArgs {
         return seed;
     }
     public int getRivers() {return rivers;}
-
-
+    public int getNbsIsland() {
+        return nbsIsland;
+    }
 }

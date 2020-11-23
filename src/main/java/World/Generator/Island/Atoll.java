@@ -2,78 +2,81 @@ package World.Generator.Island;
 
 import Geometry.Circle;
 import Geometry.Coordinate;
-import Geometry.Line;
-import Geometry.Shape;
-import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
 
-import java.util.HashSet;
+import java.util.*;
 
 public class Atoll extends Island {
-    final private Shape lagoonShape;
-    final private Shape islandShape;
-    final private RandomContexte random;
-    final private double smallRadius;
-    final private double bigRadius;
-    final private Coordinate center;
-    final private int altitude;
+    final private Circle circle;
+    final private HashMap<Coordinate, Tile> tiles;
+    final private int maxAltitude;
 
-    public Atoll(RandomContexte r, int height, int width, int altitude){
-        this.random = r;
-        this.altitude = altitude;
-        int spaceCoverage = 90;
-        int min = Math.min(width,height);
-        this.smallRadius = (min/2) * (((float) spaceCoverage - 50)/100.0);
-        this.bigRadius = (min/2) * (((float) spaceCoverage)/100.0);
-        this.center = new Coordinate(width/2, height/2,0);
-        this.lagoonShape = new Circle(center, smallRadius);
-        this.islandShape = new Circle(center, bigRadius);
+    public Atoll(HashMap<Coordinate, Tile> tiles, Circle circle, int maxAltitude){
+        this.circle = circle;
+        this.tiles = tiles;
+        this.maxAltitude = maxAltitude;
     }
 
-    public void apply(World w) {
-        for(Tile t: w.getTiles().values()){
-            if(this.isInLagoon(t)) t.setInLagoon(true);
-            t.setAltitude(this.getAltitudeProfile(altitude, t));
-            for(Line line: t.getBorder()){
-                Coordinate c1 = line.getC1();
-                Coordinate c2 = line.getC2();
-                c1.setZ(getAltitudeProfileCoordinate(w,altitude,c1));
-                c2.setZ(getAltitudeProfileCoordinate(w,altitude,c2));
+    @Override
+    public void apply(World world) {
+        setBorders();
+        defineAltitude(maxAltitude);
+    }
 
+    @Override
+    public void defineAltitude(int maxAltitude){
+        TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
+        for(Tile tile: tiles.values()){
+            double distance;
+            if(tile.getAltitude() == 1) {
+                distance = tile.getCenter().distance(circle.getCenter());
+                if (treeMap.containsKey(distance)) {
+                    treeMap.get(distance).add(tile);
+                } else {
+                    List<Tile> tiles = new ArrayList<>();
+                    tiles.add(tile);
+                    treeMap.put(distance, tiles);
+                }
+            }
+        }
+        applyProfilAltimetrique(treeMap, maxAltitude);
+    }
+
+    public void applyProfilAltimetrique(TreeMap<Double, List<Tile>> temp, int maxAlt){
+       int milieu = temp.size()/2;
+       float tileAlt = (float)maxAlt/milieu;
+       float alt = tileAlt;
+       int i = 0;
+
+       for(List<Tile> tileList: temp.values()) {
+           if(i < milieu) {
+               for (Tile tile : tileList) tile.setAltitude(alt);
+               alt = alt + tileAlt;
+               ++i;
+           } else if (i >= milieu) {
+               for (Tile tile : tileList) tile.setAltitude(alt);
+               alt = alt - tileAlt;
+           }
+       }
+    }
+
+    @Override
+    public void setBorders(){
+        for (Tile tile : tiles.values()) {
+            if(tile.getAltitude() == -1) {
+                Coordinate c = tile.getCenter();
+                if ( c.distance(circle.getCenter()) > circle.getSmallRadius() &&
+                        c.distance(circle.getCenter()) <= circle.getBigRadius()) {
+                    tile.setAltitude(1);
+                }
+                if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
+                    tile.setInLagoon(true);
+                }
             }
         }
     }
 
 
-    private boolean contains(Tile tile) {
-        return islandShape.isInArea(tile.getCenter());
-    }
-
-    private boolean isInLagoon(Tile tile) {
-        return lagoonShape.isInArea(tile.getCenter());
-    }
-
-    private double getAltitudeProfile(int maxAltitude, Tile tile) {
-        if(isInLagoon(tile) || !contains(tile)) return 0;
-        double mediumRadius = bigRadius - (bigRadius-smallRadius)/2;
-        Circle maxHeightCircle = new Circle(center, mediumRadius);
-        double altitude = maxAltitude - maxHeightCircle.getDistanceFrom(tile.getCenter());
-        if (altitude <= 1) return 1;
-        return altitude;
-    }
-
-    private float getAltitudeProfileCoordinate(World w, int maxAltitude, Coordinate coordinate) {
-        HashSet<Tile> tiles = new HashSet<>();
-        for(Tile tile: tiles) {
-            if(isInLagoon(tile) || !contains(tile)) return 0;
-        }
-
-        double mediumRadius = bigRadius - (bigRadius-smallRadius)/2;
-        Circle maxHeightCircle = new Circle(center, mediumRadius);
-        float altitude = maxAltitude - maxHeightCircle.getDistanceFrom(coordinate);
-        if (altitude <= 1) return 1;
-        return altitude;
-    }
 
 }

@@ -1,40 +1,62 @@
 package World.Generator.Island;
 
+import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
-import World.World;
 import World.Generator.Generator;
-
+import World.World;
+import World.Tile;
 
 public class IslandGenerator implements Generator {
-    final private String islandType;
     final private int width;
     final private int height;
-    final private int altitude;
     final private RandomContexte random;
-    public IslandGenerator(String islandType, int width, int height, int altitude, RandomContexte random) {
-        this.islandType = islandType;
-        this.width = width;
-        this.height = height;
-        this.altitude = altitude;
-        this.random = random;
+    final private int maxAltitude;
+    final private int nbIsland;
+    final private String shape;
 
+
+    public IslandGenerator(String shape, int w, int h, int maxAltitude, RandomContexte r, int nbIsland) {
+        this.width = w;
+        this.height = h;
+        this.random = r;
+        this.maxAltitude = maxAltitude;
+        this.nbIsland = nbIsland;
+        this.shape = shape;
     }
 
     @Override
     public void generate(World w) {
-        Island island;
-        if (islandType.equals("atoll")) {
-            island = new Atoll(random, height,width,altitude);
-        } else if (islandType.equals("tortuga")) {
-            island = new Tortuga(random, height, width, altitude);
+        Coordinate border = generateBorder();
+        int islandNotGenerated = 0;
+        IslandShape islandShape;
+        if ("tortuga".equals(shape)) {
+            islandShape = new EllipticIsland(w.getTiles(), height, width);
         } else {
-            island = new Atoll(random, height,width,altitude);
+            islandShape = new CircularIsland(w.getTiles(), height, width);
         }
-        island.apply(w);
-        try {
-            island.validate(w);
-        } catch (Exception e) {
-            System.out.println("Invalid altitude for the island");
+
+        for(int n=0; n<nbIsland; n++) {
+            if( !islandShape.createIsland(w, random, maxAltitude, border) ){
+                ++islandNotGenerated;
+            }
+        }
+
+        for(Tile tile: w.getTiles().values()){
+            if(tile.getAltitude() == -1) tile.setAltitude(0);
+        }
+
+        if(islandNotGenerated > 0){
+            System.out.println("Nombre d'ile non construit à cause du manque de tuiles est : "+islandNotGenerated);
         }
     }
+
+    public Coordinate generateBorder(){
+        int shortest = Math.min(width, height);
+        //magic
+        float x = random.getRandomInt(shortest / 16) + (float)shortest*3/8;
+        float y = random.getRandomInt(shortest / 16) + (float)shortest*3/4;
+        return new Coordinate(x, y, 0);
+    }
+
+
 }

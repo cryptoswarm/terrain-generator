@@ -17,13 +17,14 @@ public class WorldGenerator {
     final private World world;
     final private Mode mode;
     final private RandomContexte random;
-    final private  int nbsWaterSource;
+    final private int nbsWaterSource;
     final private int nbsRiversSrc;
-    final private  soilType soil;
-    final private  String islandType;
+    final private soilType soil;
+    final private String shape;
     final private int maxAltitude;
     final private String fileName;
     final private String outFileName;
+    final private int nbsIsland;
     private int width;
     private int height;
 
@@ -31,12 +32,13 @@ public class WorldGenerator {
         this.random = new RandomContexte(parsedArgs.getSeed());
         this.world = new World(random);
         this.nbsWaterSource = parsedArgs.getNbWaterSources();
-        this.islandType = parsedArgs.getShape();
+        this.shape = parsedArgs.getShape();
         this.maxAltitude = parsedArgs.getMaxAltitude();
         this.nbsRiversSrc = parsedArgs.getRivers();
         this.soil = soilType.getSoilType(parsedArgs.getSoilType());
         this.fileName = parsedArgs.getInputFile();
         this.outFileName = parsedArgs.getOutputFile();
+        this.nbsIsland = parsedArgs.getNbsIsland();
         switch (parsedArgs.getHeatmap()) {
             case "altitude":
                 this.mode = new Altitude();
@@ -88,7 +90,7 @@ public class WorldGenerator {
 
     private void generateWorld(World world) {
         Handler h = new Handler();
-        h.addGenerator(new IslandGenerator(islandType, width, height, maxAltitude, random));
+        h.addGenerator(new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland));
         h.addGenerator(new BiomeGenerator());
         if(nbsWaterSource != 0) {
             h.addGenerator(new LakeGenerator(nbsWaterSource, random, soil));
