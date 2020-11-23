@@ -8,9 +8,9 @@ import World.World;
 import java.util.*;
 
 public class Atoll extends Island {
-    private Circle circle;
-    private HashMap<Coordinate, Tile> tiles;
-    private int maxAltitude;
+    final private Circle circle;
+    final private HashMap<Coordinate, Tile> tiles;
+    final private int maxAltitude;
 
     public Atoll(HashMap<Coordinate, Tile> tiles, Circle circle, int maxAltitude){
         this.circle = circle;

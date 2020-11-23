@@ -2,7 +2,7 @@ package Geometry;
 
 import RandomStrategy.RandomContexte;
 
-public class Circle {
+public class Circle implements Shape{
 
     private Coordinate center;
     private double bRadius;
@@ -39,5 +39,11 @@ public class Circle {
         this.bRadius = ((double) diameter/2)*c1;
         this.sRadius = ((double) diameter/2)*c2;
 
+    }
+
+    @Override
+    public boolean isInShape(Coordinate c) {
+        return Math.pow((c.getX() - center.getX()), 2) +
+                Math.pow((c.getY() - center.getY()), 2) <= Math.pow(bRadius, 2);
     }
 }

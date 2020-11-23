@@ -5,7 +5,6 @@ import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
-
 import java.util.*;
 
 public class CircularIsland extends IslandShape {
@@ -19,31 +18,27 @@ public class CircularIsland extends IslandShape {
         this.width = width;
     }
 
-    @Override
-    public boolean inArea(Tile tile, Tile tileCenter, int diameter, int angle ){
-        double radius = (double)diameter/2;
+    public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate coordinate) {
+        boolean created = false;
+        Circle circle = findValidCircle(world, random, (int)coordinate.getX());
 
-        return Math.pow((tile.getCenter().getX() - tileCenter.getCenter().getX()), 2) +
-                Math.pow((tile.getCenter().getY() - tileCenter.getCenter().getY()), 2) <= Math.pow(radius, 2);
+        if (circle != null) {
+            Island island = new Atoll(tiles, circle, maxAltitude);
+            island.apply(world);
+            created = true;
+        }
+        return created;
     }
 
-    public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate coordinate) {
-        Island island;
-        boolean created = true;
-        Circle circle;
-        int angle = 360;
+    private Circle findValidCircle(World world, RandomContexte random, int diameter){
+        List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
 
-
-
-        Tile tile = findRandomTile(tiles, angle, coordinate, height,width);
-        if (tile != null) {
-            circle = new Circle((int)coordinate.getX(), random, tile.getCenter());
-            island = new Atoll(tiles, circle, maxAltitude);
-            island.apply(world);
-        } else {
-            created = false;
+        while (!coordinates.isEmpty()) {
+            Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
+            Circle circle = new Circle(diameter, random, c);
+            if (validIsland(world, circle,height,width)) return circle;
+            coordinates.remove(c);
         }
-
-        return created;
+        return null;
     }
 }

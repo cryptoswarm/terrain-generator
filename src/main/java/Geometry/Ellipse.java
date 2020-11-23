@@ -2,22 +2,17 @@ package Geometry;
 
 import RandomStrategy.RandomContexte;
 
-import java.util.Random;
-
-public class Ellipse {
-    final private int majorAxis;
+public class Ellipse implements Shape{
     final private Coordinate ellipseCenter;
     final private int angle;
     final private double minorRadius;
     final private double majorRadius;
 
     public Ellipse(int diameter, RandomContexte random, int angle, Coordinate center){
-        this.majorAxis = diameter;
         this.ellipseCenter = center;
         this.angle = angle;
-        this.majorRadius = (double)majorAxis/2;
-        random = new RandomContexte(0);
-        this.minorRadius = (random.getRandomInt(majorAxis/4) + (double)majorAxis/2 ) / 2;
+        this.majorRadius = (double)diameter/2;
+        this.minorRadius = (random.getRandomInt(diameter/4) + (double)diameter/2) / 2;
 
     }
 
@@ -29,7 +24,7 @@ public class Ellipse {
         return minorRadius;
     }
 
-    public boolean isInEllipse(Coordinate c){
+    public boolean isInShape(Coordinate c){
         float x = c.getX();
         float y = c.getY();
         float h = ellipseCenter.getX();

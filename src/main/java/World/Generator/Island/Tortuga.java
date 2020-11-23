@@ -28,22 +28,23 @@ public class Tortuga  extends Island {
 
     @Override
     public void defineAltitude(int maxAltitude){
-        TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
-        IslandShape islandShape = new EllipticIsland(tiles,0,0);
-        Tile tileCenter = tiles.get( ellipse.getEllipseCenter() );
+        TreeMap<Double, List<Coordinate>> temp1 = new TreeMap<>();
+        Tile tileCenter = tiles.get(ellipse.getEllipseCenter());
         double distance;
         int nbIslandTiles = 0;
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
 
         for(Tile tile: tiles.values()){
-            if(ellipse.isInEllipse(tile.getCenter())) {
+            if(ellipse.isInShape(tile.getCenter())) {
                 ++nbIslandTiles;
-                if (!islandTop.isInEllipse(tile.getCenter())) {
-                    distance = Math.abs(tile.getCenter().distance(islandTop.getEllipseCenter()));
-                    if (distance > islandTop.getMinorRadius()) {
-                        distance = Math.abs(distance - islandTop.getMinorRadius());
+                if (!islandTop.isInShape(tile.getCenter())) {
+                    for(Coordinate c: tile.getCorner()){
+                        distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
+                        if (distance > islandTop.getMinorRadius()) {
+                            distance = Math.abs(distance - islandTop.getMinorRadius());
+                        }
+                        addTile(temp1, distance, c);
                     }
-                    addTile(temp1, distance, tile);
                 } else {
                     tile.setAltitude(maxAltitude);
                 }
@@ -51,7 +52,7 @@ public class Tortuga  extends Island {
         }
 
         float altMinimum = calculateTileAlt(nbIslandTiles, maxAltitude);
-        applyProfilAltimetriqueBetweenFoyers(temp1, altMinimum, maxAltitude);
+        applyAltitude(temp1, altMinimum, maxAltitude);
 
         try {
             verifierPente(tileCenter , altMinimum);
@@ -61,25 +62,25 @@ public class Tortuga  extends Island {
         }
     }
 
-    public void applyProfilAltimetriqueBetweenFoyers(TreeMap<Double, List<Tile>> temp, float tileAlt, int maxAltitude) {
+    public void applyAltitude(TreeMap<Double, List<Coordinate>> temp, float tileAlt, int maxAltitude) {
         float alt2 = (float) maxAltitude;
 
-        for (List<Tile> tileList : temp.values()) {
+        for (List<Coordinate> cList : temp.values()) {
             alt2 -= tileAlt;
-            for (Tile tile : tileList) tile.setAltitude(alt2);
+            for (Coordinate c: cList) c.setZ(alt2);
         }
     }
 
     @Override
     public  void setBorders(){}
 
-    public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){
+    public void addTile(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate c){
         if (temp.containsKey(distance)) {
-            temp.get(distance).add(tile);
+            temp.get(distance).add(c);
         } else {
-            List<Tile> tiles1 = new ArrayList<>();
-            tiles1.add(tile);
-            temp.put(distance, tiles1);
+            List<Coordinate> tmp = new ArrayList<>();
+            tmp.add(c);
+            temp.put(distance, tmp);
         }
     }
 
