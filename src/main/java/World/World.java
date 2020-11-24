@@ -2,6 +2,7 @@ package World;
 
 import Geometry.Coordinate;
 import Geometry.Line;
+import Geometry.Shape;
 import RandomStrategy.RandomContexte;
 import java.util.*;
 
@@ -39,6 +40,7 @@ public class World {
         return "0:0:0:0";
     }
     public HashSet<Tile> getNeighbor(Coordinate c) {
+
         HashSet<Tile> neighbor = new HashSet<>();
         for(Tile tile: tiles.values()){
             for(Line line: tile.getBorder()){
@@ -91,8 +93,9 @@ public class World {
         tiles.put(c,t);
     }
     public void addLine(float x, float y, float x1, float y1, float x2, float y2){
-        Coordinate c1 = new Coordinate(x1,y1,-1);
-        Coordinate c2 = new Coordinate(x2,y2,-1);
+
+        Coordinate c1 = new Coordinate(x1,y1,0);
+        Coordinate c2 = new Coordinate(x2,y2,0);
         Tile t = tiles.get( new Coordinate(x,y,0) );
         t.addBorder(new Line(c1,c2));
     }
@@ -122,5 +125,22 @@ public class World {
         ArrayList<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
     }
+
+    /**
+     *
+     * @param s  La forme de l'ile qu'on veut créer
+     * @return   les tuiles qui composaent l'ile
+     */
+    public List<Tile> getIslandTiles( Shape s){
+
+        List<Tile> tileList = new ArrayList<Tile>();
+        for (Tile tile : tiles.values() ) {
+            if( s.isInShape(tile.getCenter()) ){
+                tileList.add(tile);
+            }
+        }
+        return tileList;
+    }
+
 
 }

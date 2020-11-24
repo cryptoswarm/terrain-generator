@@ -4,7 +4,6 @@ import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
 import World.Generator.Generator;
 import World.World;
-import World.Tile;
 
 public class IslandGenerator implements Generator {
 
@@ -27,6 +26,7 @@ public class IslandGenerator implements Generator {
 
     @Override
     public void generate(World w) {
+
         Coordinate border = generateBorder();
         int islandNotGenerated = 0;
         IslandShape islandShape;
@@ -41,11 +41,6 @@ public class IslandGenerator implements Generator {
                 ++islandNotGenerated;
             }
         }
-
-        for(Tile tile: w.getTiles().values()){
-            if(tile.getAltitude() == -1) tile.setAltitude(0);
-        }
-
 
         if(islandNotGenerated > 0){
             System.out.println("Nombre d'ile non construit à cause du manque de tuiles est : "+islandNotGenerated);

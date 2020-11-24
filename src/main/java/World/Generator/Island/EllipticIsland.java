@@ -35,6 +35,7 @@ public class EllipticIsland extends IslandShape {
     }
 
     private Ellipse findValidEllipse(World world, RandomContexte random, int diameter){
+
         Ellipse ellipse = null;
         int angle = random.getRandomInt(359) + 1;
         List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());

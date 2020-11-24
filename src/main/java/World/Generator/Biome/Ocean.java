@@ -27,10 +27,12 @@ public class Ocean extends Biome {
     public void apply(World world) {
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile : tiles.values()) {
-            if(tile.getAltitude() == 0 && !tile.isInLagoon()){
+
+            if ( tile.isInOcean() ) {
                 tile.setBiome(new Ocean());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(-1);
+                tile.setAltitude(0);
             }
         }
     }

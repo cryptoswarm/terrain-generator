@@ -29,7 +29,8 @@ public class Atoll extends Island {
         TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
         for(Tile tile: tiles.values()){
             double distance;
-            if(tile.getAltitude() == 1) {
+            if(!tile.isInOcean()) {
+
                 distance = tile.getCenter().distance(circle.getCenter());
                 if (treeMap.containsKey(distance)) {
                     treeMap.get(distance).add(tile);
@@ -64,19 +65,20 @@ public class Atoll extends Island {
     @Override
     public void setBorders(){
         for (Tile tile : tiles.values()) {
-            if(tile.getAltitude() == -1) {
+            if(  tile.isInOcean() ) {
                 Coordinate c = tile.getCenter();
+
                 if ( c.distance(circle.getCenter()) > circle.getSmallRadius() &&
                         c.distance(circle.getCenter()) <= circle.getBigRadius()) {
-                    tile.setAltitude(1);
+                    tile.setOnIsland(true);
+                    tile.setInOcean(false);
                 }
                 if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
                     tile.setInLagoon(true);
+                    tile.setInOcean(false);
                 }
             }
         }
     }
-
-
 
 }

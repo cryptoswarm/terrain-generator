@@ -31,14 +31,20 @@ public class CircularIsland extends IslandShape {
     }
 
     private Circle findValidCircle(World world, RandomContexte random, int diameter){
+        Circle circle = null;
         List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
+        boolean isValide = false;
 
-        while (!coordinates.isEmpty()) {
-            Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
-            Circle circle = new Circle(diameter, random, c);
-            if (validIsland(world, circle,height,width)) return circle;
-            coordinates.remove(c);
+        while (!coordinates.isEmpty()  && !isValide ) {
+            Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
+            Circle cir= new Circle(diameter, random, coordinate);
+            if (validIsland(world, cir,height,width)){
+                isValide = true;
+                circle = cir;
+            }else{
+                coordinates.remove(coordinate);
+            }
         }
-        return null;
+        return circle;
     }
 }

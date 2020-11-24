@@ -15,14 +15,18 @@ public class Tile {
     private TileColor backgroundColor;
     private int humidityLevel;
     private boolean isInLagoon;
+    private boolean isInOcean;
+    private boolean isOnIsland;
     final private HashSet<Line> border;
+
 
     public Tile(Coordinate center) {
         this.center = center;
-        center.setZ(invalid);
         this.border = new HashSet<>();
         this.humidityLevel = invalid;
         this.isInLagoon = false;
+        this.isOnIsland = false;
+        this.isInOcean = true;
     }
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
@@ -59,6 +63,23 @@ public class Tile {
     public boolean isInLagoon() {
         return isInLagoon;
     }
+
+    public boolean isInOcean() {
+        return isInOcean;
+    }
+
+    public void setOnIsland(boolean onIsland ){
+        isOnIsland = onIsland;
+    }
+
+    public boolean isOnIsland() {
+        return isOnIsland;
+    }
+
+    public void setInOcean(boolean inOcean) {
+        isInOcean = inOcean;
+    }
+
     public void setBiome(Biome biome) {
         this.biome = biome;
     }

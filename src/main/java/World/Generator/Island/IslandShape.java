@@ -7,7 +7,6 @@ import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class IslandShape {
@@ -15,59 +14,44 @@ public abstract class IslandShape {
 
     abstract boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border);
 
-    /*
-    public boolean validIsland(World world, Shape s, int h, int w) {
-        for (Tile tile : world.getTiles().values()) {
-            if(s.isInShape(tile.getCenter())) {
-                //is ocean
-                if(tile.getAltitude() != -1) return false;
-                for(Tile n: world.getNeighbor(tile)){
-                    if(n.getAltitude() != -1) return false;
-                }
-
-                //is not on world border
-                for(Line l: tile.getBorder()){
-                    if(l.getC1().getY() == 0 || l.getC1().getY() == h) return false;
-                    if(l.getC1().getX() == 0 || l.getC1().getX() == w) return false;
-                    if(l.getC2().getY() == 0 || l.getC2().getY() == h) return false;
-                    if(l.getC2().getX() == 0 || l.getC2().getX() == w) return false;
-                }
-            }
-        }
-        return true;
-    }
-
+    /**
+     *
+     * @param world  world object permetter d'acceder au methodes publiques
+     * @param s      La forme de l'ile qu'on veut créer
+     * @param h      La hauteur du monde
+     * @param w      la largeur du monde
+     * @return       True si l'ile est valide, False sinon
      */
-
 
     public boolean validIsland(World world, Shape s, int h, int w) {
         boolean valid = true;
         boolean validAlt;
         boolean validLines;
-        boolean validNeighbor;
+        boolean validBiom;
 
         List<Tile> islandTiles = islandTiles(world, s);
 
-        for (Tile tile : islandTiles) {
+        for (Tile tile : islandTiles) {  //get all tiles belonging to the new island
 
-            validAlt = (tile.getAltitude()  == -1) ;
+            validBiom = tile.isInOcean();  //if it other than ocean then it belongs already to another island
+            validAlt = (tile.getAltitude() == 0);  // may be redundant but we will leave it for now
+            validLines = validateLines(tile, h, w);  // based of the dimension of the new island, we check if all tiles are inside world
 
-            //is not on world border
-            validLines = validateLines(tile, h, w);
-            // if neighbor does not belong to another island
-            validNeighbor = validateNeighborAltitude(world, tile);
-
-
-            if (!validAlt || !validLines || !validNeighbor) {
+            if (!validAlt || !validLines || !validBiom ){
                 valid = false;
                 break;
             }
         }
-        
         return valid;
     }
 
-
+    /**
+     *
+     * @param tile  la tuile qu'on veut vérifier si elle est à l'interieur du monde
+     * @param h     La hauteur du monde
+     * @param w     la largeur du monde
+     * @return      True si la tuile est à l'interieur, false sinon
+     */
     public boolean validateLines(Tile tile, int h, int w ){
         boolean valid = true;
 
@@ -88,28 +72,14 @@ public abstract class IslandShape {
         return valid;
     }
 
-    public boolean validateNeighborAltitude(World world, Tile tile){
-        boolean valid = true;
-        for (Tile n : world.getNeighbor(tile)) {
-            if (n.getAltitude() != -1) {
-                valid = false;
-                break;
-            }
-        }
-        return valid;
-    }
-    
+    /**
+     *
+     * @param world  world object permetter d'acceder au methodes publiques
+     * @param s      la forme de la nouvelle ile.
+     * @return       l'ensemble des tuiles composant la nouvelle ile
+     */
     public List<Tile> islandTiles(World world, Shape s){
-        
-        List<Tile> tileList = new ArrayList<Tile>();
-        for (Tile tile : world.getTiles().values() ) {
-            if( s.isInShape(tile.getCenter()) ){
-                tileList.add(tile);
-            }
-        }
-        return tileList;
+
+        return  world.getIslandTiles( s);
     }
-    
-
-
 }

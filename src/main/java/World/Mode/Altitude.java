@@ -16,7 +16,7 @@ public class Altitude extends Mode {
     @Override
     public String getColor(int R, int G, int B, int A, int factor) {
 
-        int value = applyFactor(0, (int)factor);
+        int value = applyFactor(0, factor);
         if (value == 0){
             return 0 + ":" + 0 + ":" + 0 + ":" + 255;
         }else{

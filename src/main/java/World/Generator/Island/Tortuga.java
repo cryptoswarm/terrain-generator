@@ -35,7 +35,7 @@ public class Tortuga  extends Island {
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
 
         for(Tile tile: tiles.values()){
-            if(ellipse.isInShape(tile.getCenter())) {
+            if(ellipse.isInShape(tile.getCenter()) && !tile.isInOcean() ) {
                 ++nbIslandTiles;
                 if (!islandTop.isInShape(tile.getCenter())) {
                     for(Coordinate c: tile.getCorner()){
@@ -72,7 +72,18 @@ public class Tortuga  extends Island {
     }
 
     @Override
-    public  void setBorders(){}
+    public  void setBorders(){
+
+        for (Tile tile : tiles.values()) {
+
+            if(tile.isInOcean()) {
+                if (ellipse.isInShape(tile.getCenter())) {
+                    tile.setOnIsland(true);
+                    tile.setInOcean(false);
+                }
+            }
+        }
+    }
 
     public void addTile(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate c){
         if (temp.containsKey(distance)) {

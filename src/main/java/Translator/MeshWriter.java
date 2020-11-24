@@ -60,7 +60,7 @@ public class MeshWriter implements Writer{
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(lineColor).build();
             builder.getSegmentsBuilder(i).addProperties(color);
 
-            Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setValue("7").build();
+            Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setValue("1").build();
             builder.getSegmentsBuilder(i).addProperties(thickness);
         }
     }

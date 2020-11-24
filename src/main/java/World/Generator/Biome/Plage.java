@@ -30,12 +30,16 @@ public class Plage extends Biome {
     public void apply(World world) {
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
-            for (Tile neighbor : world.getNeighbor(tile)) {
-                if (tile.getAltitude() != 0 && neighbor.getAltitude() == 0) {
-                    tile.setBiome(new Plage());
-                    tile.setBackgroundColor(color);
-                    tile.setHumidityLevel(255);
-                    break;
+            if ( tile.isOnIsland()  ) {
+                for (Tile neighbor : world.getNeighbor(tile)) {
+
+                    if (neighbor.isInOcean() || neighbor.isInLagoon() ) {
+                        tile.setBiome(new Plage());
+                        tile.setBackgroundColor(color);
+                        tile.setHumidityLevel(255);
+                        tile.setInOcean(false);
+                        break;
+                    }
                 }
             }
         }
