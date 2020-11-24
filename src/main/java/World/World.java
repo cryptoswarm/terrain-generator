@@ -1,10 +1,15 @@
 package World;
 
+import Geometry.Circle;
 import Geometry.Coordinate;
 import Geometry.Line;
 import Geometry.Shape;
 import RandomStrategy.RandomContexte;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 
 public class World {
     final private RandomContexte random;
@@ -18,6 +23,8 @@ public class World {
     public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }
+
+
     public Tile getTile(float x, float y){
         return tiles.get(new Coordinate(x,y,0));
     }
@@ -142,5 +149,46 @@ public class World {
         return tileList;
     }
 
+    public Tile getAtile(Coordinate coordinate){
+        return tiles.get(coordinate);
+    }
+
+
+    public void setEllipticIslandBorders(Shape shape){
+
+        for (Tile tile : tiles.values()) {
+
+            if(tile.isInOcean()) {
+                if (shape.isInShape(tile.getCenter())) {
+                    tile.setOnIsland(true);
+                    tile.setInOcean(false);
+                }
+            }
+        }
+    }
+
+    public void setCircularIslandBorders(Circle circle){
+
+        for (Tile tile : tiles.values()) {
+            if(  tile.isInOcean() ) {
+                Coordinate c = tile.getCenter();
+
+                if ( c.distance(circle.getCenter()) > circle.getSmallRadius() &&
+                        c.distance(circle.getCenter()) <= circle.getBigRadius()) {
+                    tile.setOnIsland(true);
+                    tile.setInOcean(false);
+                }
+                if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
+                    tile.setInLagoon(true);
+                    tile.setInOcean(false);
+                }
+            }
+        }
+    }
+
+
+    public  List<Coordinate> getAllCordinates() {
+        return new ArrayList<>(tiles.keySet());
+    }
 
 }

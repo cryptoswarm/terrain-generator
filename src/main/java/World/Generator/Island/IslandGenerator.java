@@ -31,9 +31,9 @@ public class IslandGenerator implements Generator {
         int islandNotGenerated = 0;
         IslandShape islandShape;
         if ("tortuga".equals(shape)) {
-            islandShape = new EllipticIsland(w.getTiles(), height, width);
+            islandShape = new EllipticIsland( height, width);
         } else {
-            islandShape = new CircularIsland(w.getTiles(), height, width);
+            islandShape = new CircularIsland( height, width);
         }
 
         for(int n=0; n<nbIsland; n++) {
