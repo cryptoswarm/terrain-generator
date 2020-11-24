@@ -1,19 +1,25 @@
 package ca.uqam.info.inf5153.ptg;
 
 import RandomStrategy.RandomContexte;
-import Translator.*;
+import Translator.MeshReader;
+import Translator.MeshWriter;
+import Translator.Reader;
+import Translator.Writer;
 import UserInterface.UserArgs;
-import World.World;
-import World.soilType;
+import World.Generator.Aquifer.LakeGenerator;
+import World.Generator.Aquifer.RiverGenerator;
+import World.Generator.Biome.BiomeGenerator;
+import World.Generator.Generator;
+import World.Generator.Island.IslandGenerator;
+import World.Mode.Mode;
 import World.Tile;
 import World.TileColor;
-import World.Generator.Aquifer.*;
-import World.Generator.Biome.BiomeGenerator;
-import World.Generator.Island.IslandGenerator;
-import World.Mode.*;
+import World.World;
+import World.soilType;
 
 
 public class WorldGenerator {
+
     final private World world;
     final private Mode mode;
     final private RandomContexte random;
@@ -29,6 +35,7 @@ public class WorldGenerator {
     private int height;
 
     public WorldGenerator(UserArgs parsedArgs) {
+
         this.random = new RandomContexte(parsedArgs.getSeed());
         this.world = new World(random);
         this.nbsWaterSource = parsedArgs.getNbWaterSources();
@@ -39,26 +46,17 @@ public class WorldGenerator {
         this.fileName = parsedArgs.getInputFile();
         this.outFileName = parsedArgs.getOutputFile();
         this.nbsIsland = parsedArgs.getNbsIsland();
-        switch (parsedArgs.getHeatmap()) {
-            case "altitude":
-                this.mode = new Altitude();
-                break;
-            case "humidity":
-                this.mode = new Humidity();
-                break;
-            default:
-                this.mode = new Normal();
-                break;
-        }
+        this.mode = parsedArgs.getHeatmap();
+
     }
 
     public  void createWorld() {
-        MeshReader meshReader = new MeshReader(fileName, this);
+        Reader meshReader = new MeshReader(fileName, this);
         meshReader.readFile();
 
         generateWorld(world);
 
-        MeshWriter meshWriter = new MeshWriter(this, fileName, outFileName);
+        Writer meshWriter = new MeshWriter(this, fileName, outFileName);
         meshWriter.generateEndMesh();
     }
 
@@ -77,27 +75,35 @@ public class WorldGenerator {
     }
 
     public  String getWorldTileColor(float x, float y){
+
         Tile tile = world.getTile(x,y);
         TileColor color = tile.getBackgroundColor();
-        int factor = 0;
-        if(mode instanceof Normal || mode instanceof Humidity) factor = tile.getHumidityLevel();
-        if(mode instanceof Altitude) factor = (int)tile.getAltitude();
+        int factor;
+        factor = mode.getFactor(tile);
         return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
+
     }
+
     public String getWorldLineColor(float x1, float y1, float x2, float y2){
         return world.getLineColor(x1,y1,x2,y2);
     }
 
     private void generateWorld(World world) {
-        Handler h = new Handler();
-        h.addGenerator(new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland));
-        h.addGenerator(new BiomeGenerator());
-        if(nbsWaterSource != 0) {
-            h.addGenerator(new LakeGenerator(nbsWaterSource, random, soil));
-        }
-        h.addGenerator(new RiverGenerator(nbsRiversSrc, soil));
 
-        h.process(world);
+        Generator IslGenerator = new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland);
+        IslGenerator.generate(world);
+
+        Generator biomeGenerator = new BiomeGenerator();
+        biomeGenerator.generate(world);
+
+        if(nbsWaterSource != 0) {
+            Generator lakeGenerator  = new LakeGenerator(nbsWaterSource, random, soil);
+            lakeGenerator.generate(world);
+        }
+
+        Generator riverGenerator= new RiverGenerator(nbsRiversSrc, soil);
+        riverGenerator.generate(world);
+
     }
 
 }

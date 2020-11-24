@@ -58,6 +58,7 @@ public class World {
         return neighbor;
     }
     public HashSet<Tile> getNeighbor(Tile t) {
+
         HashSet<Coordinate> coordinate = new HashSet<>();
         HashSet<Tile> neighbor = new HashSet<>();
 
@@ -69,8 +70,10 @@ public class World {
             neighbor.addAll(getNeighbor(c));
         }
         return neighbor;
+
     }
     public HashSet<Line> getLine(Coordinate c){
+
         HashSet<Line> lines = new HashSet<>();
         for(Tile tile: tiles.values()){
             for(Line line: tile.getBorder()){
@@ -90,7 +93,7 @@ public class World {
     public void addLine(float x, float y, float x1, float y1, float x2, float y2){
         Coordinate c1 = new Coordinate(x1,y1,-1);
         Coordinate c2 = new Coordinate(x2,y2,-1);
-        Tile t = tiles.get(new Coordinate(x,y,0));
+        Tile t = tiles.get( new Coordinate(x,y,0) );
         t.addBorder(new Line(c1,c2));
     }
 
@@ -106,9 +109,12 @@ public class World {
         } while (!(tile.getBiome().getType().equals("vegetation")));
         return tile;
     }
+
+
     public Coordinate findRandomCoordinate(){
+
         Tile tile = findRandomVegetationTile();
-        HashSet<Coordinate> coordinates = new HashSet();
+        HashSet<Coordinate> coordinates = new HashSet<>();
         for(Line line: tile.getBorder()) {
             coordinates.add(line.getC1());
             coordinates.add(line.getC2());

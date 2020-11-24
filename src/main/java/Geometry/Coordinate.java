@@ -3,6 +3,7 @@ package Geometry;
 import java.util.Objects;
 
 public class Coordinate {
+
     final private  float x;
     final private float y;
     private float z;

@@ -7,6 +7,7 @@ import World.World;
 import World.Tile;
 
 public class IslandGenerator implements Generator {
+
     final private int width;
     final private int height;
     final private RandomContexte random;
@@ -44,6 +45,7 @@ public class IslandGenerator implements Generator {
         for(Tile tile: w.getTiles().values()){
             if(tile.getAltitude() == -1) tile.setAltitude(0);
         }
+
 
         if(islandNotGenerated > 0){
             System.out.println("Nombre d'ile non construit à cause du manque de tuiles est : "+islandNotGenerated);

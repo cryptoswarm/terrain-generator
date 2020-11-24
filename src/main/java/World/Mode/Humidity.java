@@ -1,10 +1,17 @@
 package World.Mode;
 
+import World.Tile;
 import World.TileColor;
 
 public class Humidity extends Mode {
     final private int invalid = -1;
     TileColor color = TileColor.DARKBLUE;
+
+    @Override
+    public int getFactor(Tile tile){
+        return tile.getHumidityLevel();
+    }
+
     @Override
     public String getColor(int R, int G, int B, int A, int factor) {
         int value = applyFactor(G, factor);

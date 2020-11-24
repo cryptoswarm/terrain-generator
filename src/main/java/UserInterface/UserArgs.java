@@ -1,11 +1,10 @@
 package UserInterface;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import World.Mode.Altitude;
+import World.Mode.Humidity;
+import World.Mode.Mode;
+import World.Mode.Normal;
+import org.apache.commons.cli.*;
 
 public class UserArgs {
     final private String inputFile;
@@ -156,9 +155,21 @@ public class UserArgs {
     public String getSoilType() {
         return soilType;
     }
-    public String getHeatmap() {
-        return heatmap;
+
+    public Mode getHeatmap() {
+
+        Mode mode;
+
+        if( heatmap.equals("altitude")){
+            mode = new Altitude();
+        }else if( heatmap.equals("humidity")){
+            mode = new Humidity();
+        }else{
+            mode = new Normal();
+        }
+        return mode;
     }
+
     public int getMaxAltitude() {
         return maxAltitude;
     }

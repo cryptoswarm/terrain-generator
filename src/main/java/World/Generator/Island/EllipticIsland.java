@@ -5,7 +5,10 @@ import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class EllipticIsland extends IslandShape {
     HashMap<Coordinate, Tile> tiles;
@@ -32,17 +35,24 @@ public class EllipticIsland extends IslandShape {
     }
 
     private Ellipse findValidEllipse(World world, RandomContexte random, int diameter){
+        Ellipse ellipse = null;
         int angle = random.getRandomInt(359) + 1;
         List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
+        boolean isValide = false;
 
-        while (!coordinates.isEmpty()) {
+        while ( !coordinates.isEmpty() && !isValide ) {
+
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            if (validIsland(world, e, height, width)) return e;
-            coordinates.remove(c);
-        }
-        return null;
 
+            if ( validIsland(world, e, height, width) ) {
+                isValide = true;
+                ellipse = e;
+            }else {
+                coordinates.remove(c);
+            }
+        }
+        return ellipse;
     }
 
 }

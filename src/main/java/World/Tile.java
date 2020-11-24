@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public class Tile {
+
     final int invalid = -1;
     final private Coordinate center;
     private Biome biome;
@@ -44,7 +45,7 @@ public class Tile {
         for(Coordinate c: coordinates){
             altitude = altitude + c.getZ();
         }
-        return (double)altitude/coordinates.size();
+        return (double)altitude / coordinates.size();
     }
     public void setAltitude(double altitude) {
         for (Line line: border){
