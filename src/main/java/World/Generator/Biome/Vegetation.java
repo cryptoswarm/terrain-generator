@@ -27,10 +27,12 @@ public class Vegetation extends Biome {
     public void apply(World world) {
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
-            if(tile.getBiome() == null){
+
+            if( tile.isOnIsland() ) {
                 tile.setBiome(new Vegetation());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
+                tile.setInOcean(false);
             }
         }
     }

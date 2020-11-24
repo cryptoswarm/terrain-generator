@@ -3,17 +3,19 @@ package World.Generator.Island;
 import Geometry.Circle;
 import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
-import World.Tile;
 import World.World;
-import java.util.*;
+
+import java.util.List;
 
 public class CircularIsland extends IslandShape {
-    HashMap<Coordinate, Tile> tiles;
+
+    //HashMap<Coordinate, Tile> tiles;
+
     int height;
     int width;
 
-    public CircularIsland(HashMap<Coordinate, Tile> tiles, int height, int width) {
-        this.tiles = tiles;
+    public CircularIsland( int height, int width) {
+        //this.tiles = tiles;
         this.height = height;
         this.width = width;
     }
@@ -23,7 +25,7 @@ public class CircularIsland extends IslandShape {
         Circle circle = findValidCircle(world, random, (int)coordinate.getX());
 
         if (circle != null) {
-            Island island = new Atoll(tiles, circle, maxAltitude);
+            Island island = new Atoll( circle, maxAltitude);
             island.apply(world);
             created = true;
         }
@@ -31,14 +33,20 @@ public class CircularIsland extends IslandShape {
     }
 
     private Circle findValidCircle(World world, RandomContexte random, int diameter){
-        List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
+        Circle circle = null;
+        List<Coordinate> coordinates = world.getAllCordinates(); //new ArrayList<>(tiles.keySet());
+        boolean isValide = false;
 
-        while (!coordinates.isEmpty()) {
-            Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
-            Circle circle = new Circle(diameter, random, c);
-            if (validIsland(world, circle,height,width)) return circle;
-            coordinates.remove(c);
+        while (!coordinates.isEmpty()  && !isValide ) {
+            Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
+            Circle cir= new Circle(diameter, random, coordinate);
+            if (validIsland(world, cir,height,width)){
+                isValide = true;
+                circle = cir;
+            }else{
+                coordinates.remove(coordinate);
+            }
         }
-        return null;
+        return circle;
     }
 }

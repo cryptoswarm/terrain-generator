@@ -1,6 +1,6 @@
 package World.Generator.Aquifer;
 
-import RandomStrategy.RandomContexte;
+import Geometry.Coordinate;
 import World.Generator.Generator;
 import World.Generator.WorldProcessor;
 import World.World;
@@ -18,7 +18,8 @@ public class RiverGenerator implements Generator {
         @Override
         public void generate(World w) {
             for (int i = nbsRiverSrc; i > 0; i--) {
-                WorldProcessor river = new River(w.findRandomCoordinate(), soil);
+                Coordinate coordinate = w.findRandomCoordinate();
+                WorldProcessor river = new River(coordinate, soil);
                 river.apply(w);
             }
         }

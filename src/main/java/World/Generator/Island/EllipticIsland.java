@@ -3,17 +3,17 @@ package World.Generator.Island;
 import Geometry.Coordinate;
 import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
-import World.Tile;
 import World.World;
-import java.util.*;
+
+import java.util.List;
 
 public class EllipticIsland extends IslandShape {
-    HashMap<Coordinate, Tile> tiles;
+
     int height;
     int width;
 
-    public EllipticIsland(HashMap<Coordinate, Tile> tiles, int height, int width) {
-        this.tiles = tiles;
+    public EllipticIsland( int height, int width) {
+
         this.height = height;
         this.width = width;
     }
@@ -24,7 +24,7 @@ public class EllipticIsland extends IslandShape {
         Ellipse ellipse = findValidEllipse(world,random,(int)border.getX());
 
         if(ellipse != null) {
-            Island island = new Tortuga(tiles, ellipse, random, maxAltitude);
+            Island island = new Tortuga( ellipse, random, maxAltitude);
             island.apply(world);
             created = true;
         }
@@ -32,17 +32,25 @@ public class EllipticIsland extends IslandShape {
     }
 
     private Ellipse findValidEllipse(World world, RandomContexte random, int diameter){
-        int angle = random.getRandomInt(359) + 1;
-        List<Coordinate> coordinates = new ArrayList<>(tiles.keySet());
 
-        while (!coordinates.isEmpty()) {
+        Ellipse ellipse = null;
+        int angle = random.getRandomInt(359) + 1;
+        List<Coordinate> coordinates = world.getAllCordinates();
+        boolean isValide = false;
+
+        while ( !coordinates.isEmpty() && !isValide ) {
+
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            if (validIsland(world, e, height, width)) return e;
-            coordinates.remove(c);
-        }
-        return null;
 
+            if ( validIsland(world, e, height, width) ) {
+                isValide = true;
+                ellipse = e;
+            }else {
+                coordinates.remove(c);
+            }
+        }
+        return ellipse;
     }
 
 }

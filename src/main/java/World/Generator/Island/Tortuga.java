@@ -5,49 +5,57 @@ import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
-import java.util.*;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Tortuga  extends Island {
     final private Ellipse ellipse;
-    final private HashMap<Coordinate, Tile> tiles;
+
     final private RandomContexte random;
     final private int maxAltitude;
 
-    public Tortuga(HashMap<Coordinate, Tile> tiles, Ellipse ellipse, RandomContexte random, int maxAltitude){
+    public Tortuga( Ellipse ellipse, RandomContexte random, int maxAltitude){
         this.ellipse = ellipse;
-        this.tiles = tiles;
+
         this.random = random;
         this.maxAltitude = maxAltitude;
     }
 
     @Override
     public void apply(World world) {
-        this.setBorders();
-        this.defineAltitude(maxAltitude);
+        setBorders(world);
+        defineAltitude(world, maxAltitude);
     }
 
     @Override
-    public void defineAltitude(int maxAltitude){
+    public void defineAltitude(World world, int maxAltitude){
+
+        List<Tile> islandTiles = world.getIslandTiles( ellipse );
+
         TreeMap<Double, List<Coordinate>> temp1 = new TreeMap<>();
-        Tile tileCenter = tiles.get(ellipse.getEllipseCenter());
+        Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
+
         double distance;
         int nbIslandTiles = 0;
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
 
-        for(Tile tile: tiles.values()){
-            if(ellipse.isInShape(tile.getCenter())) {
-                ++nbIslandTiles;
-                if (!islandTop.isInShape(tile.getCenter())) {
-                    for(Coordinate c: tile.getCorner()){
-                        distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
-                        if (distance > islandTop.getMinorRadius()) {
-                            distance = Math.abs(distance - islandTop.getMinorRadius());
-                        }
-                        addTile(temp1, distance, c);
+        for(Tile tile: islandTiles){
+
+            ++nbIslandTiles;
+
+            if (!islandTop.isInShape(tile.getCenter())) {
+
+                for(Coordinate c: tile.getCorner()){
+                    distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
+                    if (distance > islandTop.getMinorRadius()) {
+                        distance = Math.abs(distance - islandTop.getMinorRadius());
                     }
-                } else {
-                    tile.setAltitude(maxAltitude);
+                    addTile(temp1, distance, c);
                 }
+            } else {
+                tile.setAltitude(maxAltitude);
             }
         }
 
@@ -72,7 +80,10 @@ public class Tortuga  extends Island {
     }
 
     @Override
-    public  void setBorders(){}
+    public  void setBorders(World world){
+
+        world.setEllipticIslandBorders(ellipse);
+    }
 
     public void addTile(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate c){
         if (temp.containsKey(distance)) {

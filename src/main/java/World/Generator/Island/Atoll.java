@@ -1,43 +1,46 @@
 package World.Generator.Island;
 
 import Geometry.Circle;
-import Geometry.Coordinate;
 import World.Tile;
 import World.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Atoll extends Island {
     final private Circle circle;
-    final private HashMap<Coordinate, Tile> tiles;
+    //final private HashMap<Coordinate, Tile> tiles;
     final private int maxAltitude;
 
-    public Atoll(HashMap<Coordinate, Tile> tiles, Circle circle, int maxAltitude){
+    public Atoll( Circle circle, int maxAltitude){
         this.circle = circle;
-        this.tiles = tiles;
+        //this.tiles = tiles;
         this.maxAltitude = maxAltitude;
     }
 
     @Override
     public void apply(World world) {
-        setBorders();
-        defineAltitude(maxAltitude);
+        setBorders(world);
+        defineAltitude(world, maxAltitude);
     }
 
     @Override
-    public void defineAltitude(int maxAltitude){
+    public void defineAltitude(World world, int maxAltitude){
+
         TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
-        for(Tile tile: tiles.values()){
+        List<Tile> islandTiles = world.getIslandTiles( circle);
+
+        for(Tile tile:islandTiles){
             double distance;
-            if(tile.getAltitude() == 1) {
-                distance = tile.getCenter().distance(circle.getCenter());
-                if (treeMap.containsKey(distance)) {
-                    treeMap.get(distance).add(tile);
-                } else {
-                    List<Tile> tiles = new ArrayList<>();
-                    tiles.add(tile);
-                    treeMap.put(distance, tiles);
-                }
+
+            distance = tile.getCenter().distance(circle.getCenter());
+            if (treeMap.containsKey(distance)) {
+                treeMap.get(distance).add(tile);
+            } else {
+                List<Tile> tiles = new ArrayList<>();
+                tiles.add(tile);
+                treeMap.put(distance, tiles);
             }
         }
         applyProfilAltimetrique(treeMap, maxAltitude);
@@ -62,21 +65,8 @@ public class Atoll extends Island {
     }
 
     @Override
-    public void setBorders(){
-        for (Tile tile : tiles.values()) {
-            if(tile.getAltitude() == -1) {
-                Coordinate c = tile.getCenter();
-                if ( c.distance(circle.getCenter()) > circle.getSmallRadius() &&
-                        c.distance(circle.getCenter()) <= circle.getBigRadius()) {
-                    tile.setAltitude(1);
-                }
-                if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
-                    tile.setInLagoon(true);
-                }
-            }
-        }
+    public void setBorders(World world){
+        world.setCircularIslandBorders(circle);
     }
-
-
 
 }

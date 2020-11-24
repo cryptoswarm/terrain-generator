@@ -1,6 +1,7 @@
 package RandomStrategy;
 
 public class RandomContexte {
+
     RandomStrategy strategy;
 
     public RandomContexte(int seed){

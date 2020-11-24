@@ -8,20 +8,25 @@ import java.util.HashSet;
 import java.util.Objects;
 
 public class Tile {
+
     final int invalid = -1;
     final private Coordinate center;
     private Biome biome;
     private TileColor backgroundColor;
     private int humidityLevel;
     private boolean isInLagoon;
+    private boolean isInOcean;
+    private boolean isOnIsland;
     final private HashSet<Line> border;
+
 
     public Tile(Coordinate center) {
         this.center = center;
-        center.setZ(invalid);
         this.border = new HashSet<>();
         this.humidityLevel = invalid;
         this.isInLagoon = false;
+        this.isOnIsland = false;
+        this.isInOcean = true;
     }
     public void setBackgroundColor(TileColor c) {
         backgroundColor = c;
@@ -44,7 +49,7 @@ public class Tile {
         for(Coordinate c: coordinates){
             altitude = altitude + c.getZ();
         }
-        return (double)altitude/coordinates.size();
+        return (double)altitude / coordinates.size();
     }
     public void setAltitude(double altitude) {
         for (Line line: border){
@@ -58,6 +63,23 @@ public class Tile {
     public boolean isInLagoon() {
         return isInLagoon;
     }
+
+    public boolean isInOcean() {
+        return isInOcean;
+    }
+
+    public void setOnIsland(boolean onIsland ){
+        isOnIsland = onIsland;
+    }
+
+    public boolean isOnIsland() {
+        return isOnIsland;
+    }
+
+    public void setInOcean(boolean inOcean) {
+        isInOcean = inOcean;
+    }
+
     public void setBiome(Biome biome) {
         this.biome = biome;
     }

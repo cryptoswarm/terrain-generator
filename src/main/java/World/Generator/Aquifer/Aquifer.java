@@ -7,8 +7,11 @@ import World.Generator.WorldProcessor;
 import java.util.HashSet;
 
 public abstract class Aquifer implements WorldProcessor {
+
     public void applyHumidityEffect(World world, HashSet<Tile> waterSource, soilType soil){
+
         for(Tile i: world.getTiles().values()) {
+
             if(i.getBiome().getType().equals("vegetation")){
                 float distance = getDistanceFromWaterSource(i, waterSource);
                 if( distance < soil.getAffectedDistance()) {

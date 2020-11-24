@@ -4,9 +4,9 @@ import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
 import World.Generator.Generator;
 import World.World;
-import World.Tile;
 
 public class IslandGenerator implements Generator {
+
     final private int width;
     final private int height;
     final private RandomContexte random;
@@ -26,23 +26,20 @@ public class IslandGenerator implements Generator {
 
     @Override
     public void generate(World w) {
+
         Coordinate border = generateBorder();
         int islandNotGenerated = 0;
         IslandShape islandShape;
         if ("tortuga".equals(shape)) {
-            islandShape = new EllipticIsland(w.getTiles(), height, width);
+            islandShape = new EllipticIsland( height, width);
         } else {
-            islandShape = new CircularIsland(w.getTiles(), height, width);
+            islandShape = new CircularIsland( height, width);
         }
 
         for(int n=0; n<nbIsland; n++) {
             if( !islandShape.createIsland(w, random, maxAltitude, border) ){
                 ++islandNotGenerated;
             }
-        }
-
-        for(Tile tile: w.getTiles().values()){
-            if(tile.getAltitude() == -1) tile.setAltitude(0);
         }
 
         if(islandNotGenerated > 0){

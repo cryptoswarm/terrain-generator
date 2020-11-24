@@ -10,6 +10,7 @@ import java.util.HashSet;
 import static World.TileColor.*;
 
 public class River extends Aquifer {
+
     private Coordinate coordinate;
     final private soilType soil;
     final private HashSet<Line> river = new HashSet<>();
@@ -27,7 +28,7 @@ public class River extends Aquifer {
         boolean b = true;
         while (b){
             Line tmpL = null;
-            for(Line i : w.getLine(coordinate)) {
+            for( Line i : w.getLine(coordinate) ) { // a hash set of lines
                 Coordinate c1 = i.getC1();
                 Coordinate c2 = i.getC2();
                 if(c1.getZ() < riverHeight) {
