@@ -25,6 +25,7 @@ public class Ellipse implements Shape{
     }
 
     public boolean isInShape(Coordinate c){
+
         float x = c.getX();
         float y = c.getY();
         float h = ellipseCenter.getX();

@@ -38,25 +38,25 @@ public class Tortuga  extends Island {
         Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
 
         double distance;
-        int nbIslandTiles = 0;
+        int nbIslandTiles = islandTiles.size();
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
+        List<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
+        islandTiles.removeAll(islandSummitTiles);
 
         for(Tile tile: islandTiles){
 
-            ++nbIslandTiles;
-
-            if (!islandTop.isInShape(tile.getCenter())) {
-
-                for(Coordinate c: tile.getCorner()){
-                    distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
-                    if (distance > islandTop.getMinorRadius()) {
-                        distance = Math.abs(distance - islandTop.getMinorRadius());
-                    }
-                    addTile(temp1, distance, c);
+            for(Coordinate c: tile.getCorner()){
+                distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
+                if (distance > islandTop.getMinorRadius() && distance < islandTop.getMajorRadius() ) {
+                    addTile(temp1,  Math.abs(distance - islandTop.getMinorRadius() ), c);
+                }else{
+                    addTile(temp1, Math.abs(distance - islandTop.getMajorRadius()), c);
                 }
-            } else {
-                tile.setAltitude(maxAltitude);
+
             }
+        }
+        for(Tile tile: islandSummitTiles){
+            tile.setAltitude(maxAltitude);
         }
 
         float altMinimum = calculateTileAlt(nbIslandTiles, maxAltitude);

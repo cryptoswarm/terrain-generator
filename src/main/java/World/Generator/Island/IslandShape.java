@@ -35,7 +35,7 @@ public abstract class IslandShape {
 
             validBiom = tile.isInOcean();  //if it other than ocean then it belongs already to another island
             validAlt = (tile.getAltitude() == 0);  // may be redundant but we will leave it for now
-            validLines = validateLines(tile, h, w);  // based of the dimension of the new island, we check if all tiles are inside world
+            validLines = validateLines(tile, h, w);  // based on the dimension of the new island, we check if all tiles are inside world
 
             if (!validAlt || !validLines || !validBiom ){
                 valid = false;

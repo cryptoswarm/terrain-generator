@@ -9,13 +9,11 @@ import java.util.List;
 
 public class CircularIsland extends IslandShape {
 
-    //HashMap<Coordinate, Tile> tiles;
-
     int height;
     int width;
 
     public CircularIsland( int height, int width) {
-        //this.tiles = tiles;
+
         this.height = height;
         this.width = width;
     }
