@@ -20,6 +20,7 @@ public class CircularIsland extends IslandShape {
         this.width = width;
     }
 
+    @Override
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate coordinate) {
         boolean created = false;
 
@@ -35,22 +36,25 @@ public class CircularIsland extends IslandShape {
 
     private List<Tile> findValidIsland(World world, RandomContexte random, int diameter){
 
-        List<Tile> islandTiles = new ArrayList<Tile>();
+
+        List<Tile> validIslandTiles = new ArrayList<Tile>();
         List<Coordinate> coordinates = world.getAllCordinates(); //new ArrayList<>(tiles.keySet());
         boolean isValide = false;
 
         while (!coordinates.isEmpty()  && !isValide ) {
+
             Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Circle cir= new Circle(diameter, random, coordinate);
-            islandTiles = world.getIslandTiles( cir);
+            List<Tile> islandTiles = world.getIslandTiles( cir);
 
             if (validIsland( islandTiles,height,width)){
                 isValide = true;
+                validIslandTiles = islandTiles;
                 this.circle = cir;
             }else{
                 coordinates.remove(coordinate);
             }
         }
-        return islandTiles;
+        return validIslandTiles;
     }
 }

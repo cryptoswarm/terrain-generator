@@ -49,12 +49,19 @@ public class Tile {
         for(Coordinate c: coordinates){
             altitude = altitude + c.getZ();
         }
+
         return (double)altitude / coordinates.size();
     }
     public void setAltitude(double altitude) {
+        /*
         for (Line line: border){
             line.getC1().setZ((float)altitude);
             line.getC2().setZ((float)altitude);
+        }
+
+         */
+        for(Coordinate c:getCorner()){
+            c.setZ((float)altitude);
         }
     }
     public void setInLagoon(boolean inLagoon) {

@@ -101,8 +101,10 @@ public class World {
     }
     public void addLine(float x, float y, float x1, float y1, float x2, float y2){
 
-        Coordinate c1 = new Coordinate(x1,y1,0);
-        Coordinate c2 = new Coordinate(x2,y2,0);
+        //Coordinate c1 = new Coordinate(x1,y1,0);
+        //Coordinate c2 = new Coordinate(x2,y2,0);
+        Coordinate c1 = new Coordinate(x1,y1,-1);
+        Coordinate c2 = new Coordinate(x2,y2,-1);
         Tile t = tiles.get( new Coordinate(x,y,0) );
         t.addBorder(new Line(c1,c2));
     }
@@ -171,14 +173,13 @@ public class World {
 
         for (Tile tile : tiles.values()) {
             if(  tile.isInOcean() ) {
-                Coordinate c = tile.getCenter();
 
-                if ( c.distance(circle.getCenter()) > circle.getSmallRadius() &&
-                        c.distance(circle.getCenter()) <= circle.getBigRadius()) {
+                if ( tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
+                        tile.getCenter().distance(circle.getCenter()) <= circle.getBigRadius()) {
                     tile.setOnIsland(true);
                     tile.setInOcean(false);
                 }
-                if (c.distance(circle.getCenter()) <= circle.getSmallRadius()){
+                if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
                     tile.setInLagoon(true);
                     tile.setInOcean(false);
                 }

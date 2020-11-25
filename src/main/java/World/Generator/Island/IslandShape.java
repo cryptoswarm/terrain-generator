@@ -11,6 +11,13 @@ import java.util.List;
 public abstract class IslandShape {
 
 
+    /**
+     * @param world
+     * @param random
+     * @param maxAltitude
+     * @param border
+     * @return
+     */
     abstract boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border);
 
     /**
@@ -32,7 +39,7 @@ public abstract class IslandShape {
         for (Tile tile : islandTiles) {  //get all tiles belonging to the new island
 
             validBiom = tile.isInOcean();  //if it other than ocean then it belongs already to another island
-            validAlt = (tile.getAltitude() == 0);  // may be redundant but we will leave it for now
+            validAlt = (tile.getAltitude() == -1);  // may be redundant but we will leave it for now
             validLines = validateLines(tile, h, w);  // based on the dimension of the new island, we check if all tiles are inside world
 
             if (!validAlt || !validLines || !validBiom ){

@@ -30,7 +30,6 @@ public class Atoll extends Island {
     public void defineAltitude(World world, int maxAltitude){
 
         TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
-        //List<Tile> islandTiles = world.getIslandTiles( circle);
 
         for(Tile tile:islandTiles){
             double distance;
@@ -48,26 +47,39 @@ public class Atoll extends Island {
     }
 
     public void applyProfilAltimetrique(TreeMap<Double, List<Tile>> temp, int maxAlt){
-       int milieu = temp.size()/2;
-       float tileAlt = (float)maxAlt/milieu;
-       float alt = tileAlt;
-       int i = 0;
+        int milieu = temp.size()/2;
+        float tileAlt = (float)maxAlt/milieu;
+        float alt = tileAlt;
+        int i = 0;
 
-       for(List<Tile> tileList: temp.values()) {
-           if(i < milieu) {
-               for (Tile tile : tileList) tile.setAltitude(alt);
-               alt = alt + tileAlt;
-               ++i;
-           } else if (i >= milieu) {
-               for (Tile tile : tileList) tile.setAltitude(alt);
-               alt = alt - tileAlt;
-           }
-       }
+        for(List<Tile> tileList: temp.values()) {
+            if(i < milieu) {
+                for (Tile tile : tileList) tile.setAltitude(alt);
+                alt = alt + tileAlt;
+                ++i;
+            } else if (i >= milieu) {
+                for (Tile tile : tileList) tile.setAltitude(alt);
+                alt = alt - tileAlt;
+            }
+        }
     }
 
     @Override
     public void setBorders(World world){
-        world.setCircularIslandBorders(circle);
+        //world.setCircularIslandBorders(circle);
+
+        for (Tile tile : islandTiles) {
+
+            if ( tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
+                    tile.getCenter().distance(circle.getCenter()) <= circle.getBigRadius()) {
+                tile.setOnIsland(true);
+                tile.setInOcean(false);
+            }
+            if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
+                tile.setInLagoon(true);
+                tile.setInOcean(false);
+            }
+        }
     }
 
 }

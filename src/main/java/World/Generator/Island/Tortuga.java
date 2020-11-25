@@ -1,5 +1,6 @@
 package World.Generator.Island;
 
+import Geometry.Coordinate;
 import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
@@ -43,28 +44,22 @@ public class Tortuga  extends Island {
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        //List<Tile> islandTiles = world.getIslandTiles( ellipse );
-
         TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
-        Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
+
+        //Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
 
         double distance;
         int nbIslandTiles = islandTiles.size();
-        Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter());
+        Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
         List<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
         islandTiles.removeAll(islandSummitTiles);
 
         for(Tile tile: islandTiles){
 
-                distance = Math.abs(tile.getCenter().distance(islandTop.getEllipseCenter()));
 
-                if (distance > islandTop.getMinorRadius()  ) {
-                    distance =  Math.abs(distance - islandTop.getMinorRadius() );
-                }
-                if (distance > islandTop.getMajorRadius()  ) {
-                    distance =  Math.abs(distance - islandTop.getMajorRadius() );
-                }
-                addTile(temp1, distance, tile);
+            distance = Math.abs(tile.getCenter().distance( ellipse.getEllipseCenter() ));
+
+            addTile(temp1, distance, tile);
         }
 
         for(Tile tile: islandSummitTiles){
@@ -74,8 +69,9 @@ public class Tortuga  extends Island {
         float altMinimum = calculateTileAlt(nbIslandTiles, maxAltitude);
         applyAltitude(temp1, altMinimum, maxAltitude);
 
+
         try {
-            verifierPente(tileCenter , altMinimum);
+            verifierPente(ellipse.getEllipseCenter() , altMinimum);
         } catch (Exception e) {
             System.out.println("Une pente trop importante. impossible de generer un terrain");
             System.exit(0);
@@ -88,35 +84,86 @@ public class Tortuga  extends Island {
         for (List<Tile> tileList : temp.values()) {
             alt2 -= tileAlt;
             for(Tile tile:tileList){
-                //for (Coordinate c: tile) c.setZ(alt2);
+                for (Coordinate c: tile.getCorner()){
+                    c.setZ(alt2);
+                }
                 //for()
-                tile.setAltitude(alt2);
+                //tile.setAltitude(alt2);
             }
         }
+    }
+
+
+
+    private List<Tile> sortTileCorner( Tile tile ){
+
+        for(Coordinate c: tile.getCorner()){
+            double dist = c.distance(ellipse.getEllipseCenter() );
+        }
+        return null;
     }
 
     @Override
     public  void setBorders(World world){
 
-        world.setEllipticIslandBorders(ellipse);
+        for(Tile tile:islandTiles){
+            tile.setOnIsland(true);
+            tile.setInOcean(false);
+        }
+
+
+        //world.setEllipticIslandBorders(ellipse);
     }
 
     public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){
+
         if (temp.containsKey(distance)) {
             temp.get(distance).add(tile);
+
         } else {
             List<Tile> tmp = new ArrayList<>();
             tmp.add(tile);
             temp.put(distance, tmp);
         }
+
     }
+
+    public void addCoordinate(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate coordinate){
+
+        if (temp.containsKey(distance)) {
+
+            if( !containsSameCoordinate( temp.get(distance), coordinate)){
+                temp.get(distance).add(coordinate);
+            }
+
+        } else {
+            List<Coordinate> tmp = new ArrayList<>();
+            tmp.add(coordinate);
+            temp.put(distance, tmp);
+        }
+
+    }
+
+    private boolean containsSameCoordinate( List<Coordinate> coordinateList, Coordinate coordinate ){
+        boolean isFound = false;
+        for(Coordinate c:coordinateList){
+            if(c.equals(coordinate)){
+                System.out.println("same coordinate found");
+                isFound = true;
+                break;
+            }
+        }
+        return isFound;
+    }
+
 
     public float calculateTileAlt(int tilesNb, int altMax){
         return (float) altMax / tilesNb;
     }
 
-    public void verifierPente(Tile tileCenter, float altMinimum ) throws Exception{
-        double alt = tileCenter.getAltitude();
+    public void verifierPente(Coordinate coordinate, float altMinimum ) throws Exception{
+        //double alt = tileCenter.getAltitude();
+        double alt = coordinate.getZ();
         double denivellation;
         denivellation = Math.abs( alt - (double) altMinimum);
         double pente = denivellation  / ( ellipse.getMajorRadius()*100 );

@@ -37,8 +37,8 @@ public class EllipticIsland extends IslandShape {
 
     private List<Tile> findValidIsland(World world, RandomContexte random, int diameter){
 
+        List<Tile> validIslandTiles = new ArrayList<Tile>();
 
-        List<Tile> islandTiles = new ArrayList<Tile>();
         int angle = random.getRandomInt(359) + 1;
         List<Coordinate> coordinates = world.getAllCordinates();
         boolean isValide = false;
@@ -47,16 +47,17 @@ public class EllipticIsland extends IslandShape {
 
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            islandTiles = world.getIslandTiles( e );
+            List<Tile> islandTiles = world.getIslandTiles( e );
 
             if ( validIsland( islandTiles, height, width) ) {
                 isValide = true;
+                validIslandTiles = islandTiles;
                 this.ellipse = e;
             }else {
                 coordinates.remove(c);
             }
         }
-        return islandTiles;
+        return validIslandTiles;
     }
 
 }

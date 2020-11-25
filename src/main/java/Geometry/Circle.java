@@ -42,8 +42,9 @@ public class Circle implements Shape{
     }
 
     @Override
+
     public boolean isInShape(Coordinate c) {
         return Math.pow((c.getX() - center.getX()), 2) +
-                Math.pow((c.getY() - center.getY()), 2) <= Math.pow(bRadius, 2);
+                Math.pow((c.getY() - center.getY()), 2) < Math.pow(bRadius, 2);
     }
 }
