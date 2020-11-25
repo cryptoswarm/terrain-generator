@@ -2,7 +2,6 @@ package World.Generator.Island;
 
 import Geometry.Coordinate;
 import Geometry.Line;
-import Geometry.Shape;
 import RandomStrategy.RandomContexte;
 import World.Tile;
 import World.World;
@@ -16,20 +15,19 @@ public abstract class IslandShape {
 
     /**
      *
-     * @param world  world object permetter d'acceder au methodes publiques
-     * @param s      La forme de l'ile qu'on veut créer
+     * @param islandTiles les tuiles composant la nouvelle ile
      * @param h      La hauteur du monde
      * @param w      la largeur du monde
      * @return       True si l'ile est valide, False sinon
+     *
      */
 
-    public boolean validIsland(World world, Shape s, int h, int w) {
+    public boolean validIsland(List<Tile> islandTiles, int h, int w) {
         boolean valid = true;
         boolean validAlt;
         boolean validLines;
         boolean validBiom;
 
-        List<Tile> islandTiles = islandTiles(world, s);
 
         for (Tile tile : islandTiles) {  //get all tiles belonging to the new island
 
@@ -72,14 +70,4 @@ public abstract class IslandShape {
         return valid;
     }
 
-    /**
-     *
-     * @param world  world object permetter d'acceder au methodes publiques
-     * @param s      la forme de la nouvelle ile.
-     * @return       l'ensemble des tuiles composant la nouvelle ile
-     */
-    public List<Tile> islandTiles(World world, Shape s){
-
-        return  world.getIslandTiles( s );
-    }
 }

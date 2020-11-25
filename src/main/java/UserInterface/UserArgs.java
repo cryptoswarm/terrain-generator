@@ -108,6 +108,7 @@ public class UserArgs {
             return Integer.parseInt(altitude);
         }
     }
+
     private String setSoilType(String soil){
         if (soil != null){
             if(soil.equals("wet") || soil.equals("dry") || soil.equals("regular")){
@@ -139,7 +140,6 @@ public class UserArgs {
         return 1;
     }
 
-
     public String getOutputFile() {
         return outputFile;
     }
@@ -149,6 +149,7 @@ public class UserArgs {
     public String getShape() {
         return shape;
     }
+
     public int getNbWaterSources() {
         return nbWaterSources;
     }

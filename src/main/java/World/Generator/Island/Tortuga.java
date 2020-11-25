@@ -1,6 +1,5 @@
 package World.Generator.Island;
 
-import Geometry.Coordinate;
 import Geometry.Ellipse;
 import RandomStrategy.RandomContexte;
 import World.Tile;
@@ -11,14 +10,17 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Tortuga  extends Island {
+
     final private Ellipse ellipse;
 
     final private RandomContexte random;
     final private int maxAltitude;
+    private List<Tile> islandTiles;
 
-    public Tortuga( Ellipse ellipse, RandomContexte random, int maxAltitude){
+    public Tortuga( List<Tile> islandTiles, Ellipse  ellipse, RandomContexte random, int maxAltitude){
+
+        this.islandTiles = islandTiles;
         this.ellipse = ellipse;
-
         this.random = random;
         this.maxAltitude = maxAltitude;
     }
@@ -29,12 +31,21 @@ public class Tortuga  extends Island {
         defineAltitude(world, maxAltitude);
     }
 
+    /**
+     * On commence par la creation d'une ellipse qui va servire à trouver les tuiles se trouvant sur le sommet de l'ile.
+     * Pour le reste des tuiles, on les ordonne  en fonction de leur distance du centre de l'ellipse
+     * La plus proche au centre aura une altitude maximal
+     * Autant qu'on s'eloigne du centre autant que l'altitude dimune
+     *
+     * @param world objet World permettant d'acceder aux methodes publiques
+     * @param maxAltitude l'altitude maximale que l'ile va avoir
+     */
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        List<Tile> islandTiles = world.getIslandTiles( ellipse );
+        //List<Tile> islandTiles = world.getIslandTiles( ellipse );
 
-        TreeMap<Double, List<Coordinate>> temp1 = new TreeMap<>();
+        TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
         Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
 
         double distance;
@@ -45,16 +56,17 @@ public class Tortuga  extends Island {
 
         for(Tile tile: islandTiles){
 
-            for(Coordinate c: tile.getCorner()){
-                distance = Math.abs(c.distance(islandTop.getEllipseCenter()));
-                if (distance > islandTop.getMinorRadius() && distance < islandTop.getMajorRadius() ) {
-                    addTile(temp1,  Math.abs(distance - islandTop.getMinorRadius() ), c);
-                }else{
-                    addTile(temp1, Math.abs(distance - islandTop.getMajorRadius()), c);
-                }
+                distance = Math.abs(tile.getCenter().distance(islandTop.getEllipseCenter()));
 
-            }
+                if (distance > islandTop.getMinorRadius()  ) {
+                    distance =  Math.abs(distance - islandTop.getMinorRadius() );
+                }
+                if (distance > islandTop.getMajorRadius()  ) {
+                    distance =  Math.abs(distance - islandTop.getMajorRadius() );
+                }
+                addTile(temp1, distance, tile);
         }
+
         for(Tile tile: islandSummitTiles){
             tile.setAltitude(maxAltitude);
         }
@@ -70,12 +82,16 @@ public class Tortuga  extends Island {
         }
     }
 
-    public void applyAltitude(TreeMap<Double, List<Coordinate>> temp, float tileAlt, int maxAltitude) {
+    public void applyAltitude(TreeMap<Double, List<Tile>> temp, float tileAlt, int maxAltitude) {
         float alt2 = (float) maxAltitude;
-
-        for (List<Coordinate> cList : temp.values()) {
+        //for(Coordinate c: tile.getCorner()){}
+        for (List<Tile> tileList : temp.values()) {
             alt2 -= tileAlt;
-            for (Coordinate c: cList) c.setZ(alt2);
+            for(Tile tile:tileList){
+                //for (Coordinate c: tile) c.setZ(alt2);
+                //for()
+                tile.setAltitude(alt2);
+            }
         }
     }
 
@@ -85,12 +101,12 @@ public class Tortuga  extends Island {
         world.setEllipticIslandBorders(ellipse);
     }
 
-    public void addTile(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate c){
+    public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){
         if (temp.containsKey(distance)) {
-            temp.get(distance).add(c);
+            temp.get(distance).add(tile);
         } else {
-            List<Coordinate> tmp = new ArrayList<>();
-            tmp.add(c);
+            List<Tile> tmp = new ArrayList<>();
+            tmp.add(tile);
             temp.put(distance, tmp);
         }
     }

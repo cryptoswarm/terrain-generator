@@ -9,14 +9,15 @@ import java.util.List;
 import java.util.TreeMap;
 
 public class Atoll extends Island {
-    final private Circle circle;
-    //final private HashMap<Coordinate, Tile> tiles;
-    final private int maxAltitude;
 
-    public Atoll( Circle circle, int maxAltitude){
+    final private Circle circle;
+    final private int maxAltitude;
+    private List<Tile> islandTiles;
+
+    public Atoll( List<Tile> islandTiles, Circle circle, int maxAltitude){
         this.circle = circle;
-        //this.tiles = tiles;
         this.maxAltitude = maxAltitude;
+        this.islandTiles = islandTiles;
     }
 
     @Override
@@ -29,7 +30,7 @@ public class Atoll extends Island {
     public void defineAltitude(World world, int maxAltitude){
 
         TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
-        List<Tile> islandTiles = world.getIslandTiles( circle);
+        //List<Tile> islandTiles = world.getIslandTiles( circle);
 
         for(Tile tile:islandTiles){
             double distance;

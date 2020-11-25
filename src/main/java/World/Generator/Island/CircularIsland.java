@@ -3,12 +3,14 @@ package World.Generator.Island;
 import Geometry.Circle;
 import Geometry.Coordinate;
 import RandomStrategy.RandomContexte;
+import World.Tile;
 import World.World;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CircularIsland extends IslandShape {
-
+    private Circle circle;
     int height;
     int width;
 
@@ -20,31 +22,35 @@ public class CircularIsland extends IslandShape {
 
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate coordinate) {
         boolean created = false;
-        Circle circle = findValidCircle(world, random, (int)coordinate.getX());
 
-        if (circle != null) {
-            Island island = new Atoll( circle, maxAltitude);
+        List<Tile> islandTiles = findValidIsland(world, random, (int)coordinate.getX());
+
+        if(!islandTiles.isEmpty()){
+            Island island = new Atoll( islandTiles, circle, maxAltitude);
             island.apply(world);
             created = true;
         }
         return created;
     }
 
-    private Circle findValidCircle(World world, RandomContexte random, int diameter){
-        Circle circle = null;
+    private List<Tile> findValidIsland(World world, RandomContexte random, int diameter){
+
+        List<Tile> islandTiles = new ArrayList<Tile>();
         List<Coordinate> coordinates = world.getAllCordinates(); //new ArrayList<>(tiles.keySet());
         boolean isValide = false;
 
         while (!coordinates.isEmpty()  && !isValide ) {
             Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Circle cir= new Circle(diameter, random, coordinate);
-            if (validIsland(world, cir,height,width)){
+            islandTiles = world.getIslandTiles( cir);
+
+            if (validIsland( islandTiles,height,width)){
                 isValide = true;
-                circle = cir;
+                this.circle = cir;
             }else{
                 coordinates.remove(coordinate);
             }
         }
-        return circle;
+        return islandTiles;
     }
 }

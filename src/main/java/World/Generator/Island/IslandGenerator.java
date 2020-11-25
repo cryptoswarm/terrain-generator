@@ -30,6 +30,7 @@ public class IslandGenerator implements Generator {
         Coordinate border = generateBorder();
         int islandNotGenerated = 0;
         IslandShape islandShape;
+
         if ("tortuga".equals(shape)) {
             islandShape = new EllipticIsland( height, width);
         } else {
