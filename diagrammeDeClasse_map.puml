@@ -6,11 +6,11 @@ class Controller {
     - height: int
     - soilType soil;
 
-    + generateWorld(world: World): void
+    + generateWorld(world: world): void
 
 }
 
-class World {
+class world {
     + addTile(x: float, y: float): void
     + addNeighbor(float x, float y, float nx, float ny): void
     - findRandomTile(): Tile
@@ -21,12 +21,12 @@ class Handler
 class RandomContexte
 
 Interface WorldProcessor {
-    apply(world: World)
+    apply(world: world)
 }
 
 ''' Generator '''
 Interface Generator {
-    generate(w: World): void
+    generate(w: world): void
 }
 
 Class BiomeGenerator
@@ -55,7 +55,7 @@ LakeGenerator .up.|> Generator
 
 ''' Island '''
 Abstract Island {
-    + validate(World w): void
+    + validate(world w): void
 }
 
 class Atoll {
@@ -88,7 +88,7 @@ Tortuga -up-|> Island
 ''' Aquifer '''
 Abstract Aquifer {
         + abstract getTiles(): HashMap<Coordinate, Tile>
-        + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
+        + applyHumidityEffect(world: world, waterSource: HashMap<Coordinate, Tile>): void
         - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
 }
 
@@ -142,7 +142,7 @@ Altitude -up-|> Mode
 Humidity -up-|> Mode
 Normal -up-|> Mode
 
-''' World component '''
+''' world component '''
 
 Class Tile{
     - Coordinate center
@@ -183,16 +183,16 @@ Enum soilType {
     WET ("wet", 400);
 }
 
-Controller ..> World
+Controller ..> world
 Controller ..> Generator
 Controller ..> Handler
 Controller "1" ..> "1" RandomContexte
 Controller "1" ..> "1" Mode
 
 
-World "1" *--> "*" Tile
-World "1" -- "1" soilType
-World "1" ..> "1" RandomContexte
+world "1" *--> "*" Tile
+world "1" -- "1" soilType
+world "1" ..> "1" RandomContexte
 
 Handler ..> Generator
 

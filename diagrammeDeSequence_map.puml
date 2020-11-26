@@ -16,7 +16,7 @@ activate C
     activate A
         C <-- A
     deactivate A
-    participant "w: World" as W
+    participant "w: world" as W
     C -> W: w.createBiome()
     activate W
         loop for t in w

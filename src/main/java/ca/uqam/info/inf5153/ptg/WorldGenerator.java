@@ -1,36 +1,36 @@
 package ca.uqam.info.inf5153.ptg;
 
-import RandomStrategy.RandomContexte;
-import Translator.MeshReader;
-import Translator.MeshWriter;
-import Translator.Reader;
-import Translator.Writer;
-import UserInterface.UserArgs;
-import World.Generator.Aquifer.LakeGenerator;
-import World.Generator.Aquifer.RiverGenerator;
-import World.Generator.Biome.BiomeGenerator;
-import World.Generator.Generator;
-import World.Generator.Island.IslandGenerator;
-import World.Mode.Mode;
-import World.Tile;
-import World.TileColor;
-import World.World;
-import World.soilType;
+import randomStrategy.RandomContexte;
+import translator.MeshReader;
+import translator.MeshWriter;
+import translator.Reader;
+import translator.Writer;
+import userInterface.UserArgs;
+import world.generator.aquifer.LakeGenerator;
+import world.generator.aquifer.RiverGenerator;
+import world.generator.biome.BiomeGenerator;
+import world.generator.Generator;
+import world.generator.island.IslandGenerator;
+import world.mode.Mode;
+import world.Tile;
+import world.TileColor;
+import world.World;
+import world.soilType;
 
 
 public class WorldGenerator {
 
-    final private World world;
-    final private Mode mode;
-    final private RandomContexte random;
-    final private int nbsWaterSource;
-    final private int nbsRiversSrc;
-    final private soilType soil;
-    final private String shape;
-    final private int maxAltitude;
-    final private String fileName;
-    final private String outFileName;
-    final private int nbsIsland;
+    private final World world;
+    private final Mode mode;
+    private final RandomContexte random;
+    private final int nbsWaterSource;
+    private final int nbsRiversSrc;
+    private final soilType soil;
+    private final String shape;
+    private final int maxAltitude;
+    private final String fileName;
+    private final String outFileName;
+    private final int nbsIsland;
     private int width;
     private int height;
 
