@@ -39,8 +39,11 @@ public abstract class Island implements WorldProcessor {
         for(Coordinate c: tile.getCorner()){
             double dist = c.distance( centerOfShape );
             if( dist > distance){
-
-                c.setZ((float) Math.abs(alt - (dist - distance) ));
+                if(alt >= ( dist - distance) )
+                    c.setZ((float) Math.abs(alt - (dist - distance) ));
+                else {
+                    c.setZ((float) alt);
+                }
             }else if( dist < distance ){
                 c.setZ((float) Math.abs(alt + ( Math.abs( dist - distance) ) ));
 
