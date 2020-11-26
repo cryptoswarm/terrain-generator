@@ -48,7 +48,7 @@ public class Tortuga  extends Island {
 
         double distance;
         int nbIslandTiles = islandTiles.size();
-        Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
+        Ellipse islandTop = new Ellipse((int)Math.ceil(0.5*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
         List<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
         islandTiles.removeAll(islandSummitTiles);
 
