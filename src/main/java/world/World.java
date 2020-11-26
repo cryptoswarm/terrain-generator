@@ -20,6 +20,10 @@ public class World {
         this.random = random;
     }
 
+    /**
+     *
+     * @return  la listes des tuiles (Should be private but we have no other choice other than use it)
+     */
     public HashMap<Coordinate, Tile> getTiles() {
         return tiles;
     }
