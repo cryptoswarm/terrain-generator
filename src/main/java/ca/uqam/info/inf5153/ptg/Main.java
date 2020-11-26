@@ -1,7 +1,7 @@
 package ca.uqam.info.inf5153.ptg;
 
 
-import UserInterface.UserArgs;
+import userInterface.UserArgs;
 
 public class Main {
 

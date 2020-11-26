@@ -1,6 +1,6 @@
 @startuml
 
-package UserInterface {
+package userInterface {
     class UserArgs {
         - String inputFile
         - String outputFile
@@ -11,7 +11,7 @@ package UserInterface {
     }
 }
 
-Package Translator {
+Package translator {
     class Reader {
         + void readFile(String : fileName)
         - String readMetadata(m : Structs.Mesh , key: String)
@@ -44,14 +44,14 @@ Package ca.uqam.info.inf5153.ptg {
     }
 }
 
-Package World {
+Package world {
      class world
      class Tuile
      class Coordinate
      Interface Biome
 }
 
-Package Geometry {
+Package geometry {
     class Circle {
         - Coordinate center
         - double bRadius
@@ -75,11 +75,11 @@ Package Geometry {
     }
 }
 
-Translator -- Legacy
-Translator -- ca.uqam.info.inf5153.ptg
-ca.uqam.info.inf5153.ptg -- World
-ca.uqam.info.inf5153.ptg -- UserInterface
-World -- Geometry
+translator -- Legacy
+translator -- ca.uqam.info.inf5153.ptg
+ca.uqam.info.inf5153.ptg -- world
+ca.uqam.info.inf5153.ptg -- userInterface
+world -- geometry
 
 
 @enduml
