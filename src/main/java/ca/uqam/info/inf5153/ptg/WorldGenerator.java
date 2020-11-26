@@ -85,6 +85,7 @@ public class WorldGenerator {
     }
 
     public String getWorldLineColor(float x1, float y1, float x2, float y2){
+
         return world.getLineColor(x1,y1,x2,y2);
     }
 

@@ -24,10 +24,25 @@ public class World {
         return tiles;
     }
 
+    /**
+     *
+     * @param x la coordonnée sur l'axe des abscice
+     * @param y la coordonnée sur l'axe des ordonnées
+     * @return  la tuile equivalente
+     */
 
     public Tile getTile(float x, float y){
         return tiles.get(new Coordinate(x,y,0));
     }
+
+    /**
+     * Une ligne possede deux coordonnées
+     * @param x1  est la coordonnée sur l'axe des abscice du premier point
+     * @param y1  est la coordonnée sur l'axe des ordonnées du premier point
+     * @param x2  est la coordonnée sur l'axe des abscice du deuxiem point
+     * @param y2  est la coordonnée sur l'axe des ordonnées du deuxiem point
+     * @return   la couleur de la ligne
+     */
     public String getLineColor(float x1, float y1, float x2, float y2){
         Line line = new Line(new Coordinate(x1,y1,0), new Coordinate(x2,y2,0));
 
@@ -46,6 +61,12 @@ public class World {
 
         return "0:0:0:0";
     }
+
+    /**
+     *
+     * @param c une coordonnée
+     * @return la liste des tuiles qui ont la meme coordonnée
+     */
     public HashSet<Tile> getNeighbor(Coordinate c) {
 
         HashSet<Tile> neighbor = new HashSet<>();
@@ -58,6 +79,13 @@ public class World {
         }
         return neighbor;
     }
+
+    /**
+     *
+     * @param l est la ligne en commun entre deux tuiles
+     * @return la liste des tuiles qui ont la meme ligne
+     */
+
     public HashSet<Tile> getNeighbor(Line l) {
         HashSet<Tile> neighbor = new HashSet<>();
 
@@ -66,6 +94,13 @@ public class World {
 
         return neighbor;
     }
+
+    /**
+     *
+     * @param t une tuile
+     * @return la liste des tuiles qui intersectent à une quelconque coordonnée  de  la tuile t
+     */
+
     public HashSet<Tile> getNeighbor(Tile t) {
 
         HashSet<Coordinate> coordinate = new HashSet<>();
@@ -76,11 +111,17 @@ public class World {
             coordinate.add(line.getC2());
         }
         for(Coordinate c: coordinate) {
-            neighbor.addAll(getNeighbor(c));
+            neighbor.addAll( getNeighbor(c) );
         }
         return neighbor;
 
     }
+
+    /**
+     *
+     * @param c une coordonnée
+     * @return la liste des lignes dont la coordonnée c est une de leurs coordonnées
+     */
     public HashSet<Line> getLine(Coordinate c){
 
         HashSet<Line> lines = new HashSet<>();
@@ -94,26 +135,55 @@ public class World {
         return lines;
     }
 
+    /**
+     * Ajouter une tuile à la fois
+     * A partir des coordonnées de la tuile on l'ajoute à la liste des tuiles composant la carte ( AKA WORLD )
+     * @param x la coordonnée sur l'axe des abscice
+     * @param y la coordonnée sur l'axe des ordonnées
+     */
     public void addTile(float x, float y) {
         Coordinate c = new Coordinate(x,y,0);
         Tile t = new Tile(c);
         tiles.put(c,t);
     }
+
+    /**
+     * Pour pouvoir associer une ligne aux bordures d'une tuile
+     * On doit trouver la tuile en question, pour cela on a besoin des coordonnées de la tuile
+     * Aussi, on a besoin des coordonnees de la ligne
+     *
+     *
+     * @param x est la coordonnée sur l'axe des abscice  d'une quelconque tuile
+     * @param y est la coordonnée sur l'axe des ordonnées  d'une quelconque tuile
+     *          Permetant de trouver la tuile équivalente
+     *
+     * @param x1  est la coordonnée sur l'axe des abscice du premier point
+     * @param y1  est la coordonnée sur l'axe des ordonnées du premier point
+     * @param x2  est la coordonnée sur l'axe des abscice du deuxiem point
+     * @param y2  est la coordonnée sur l'axe des ordonnées du deuxiem point
+     */
     public void addLine(float x, float y, float x1, float y1, float x2, float y2){
 
-        //Coordinate c1 = new Coordinate(x1,y1,0);
-        //Coordinate c2 = new Coordinate(x2,y2,0);
         Coordinate c1 = new Coordinate(x1,y1,-1);
         Coordinate c2 = new Coordinate(x2,y2,-1);
         Tile t = tiles.get( new Coordinate(x,y,0) );
         t.addBorder(new Line(c1,c2));
     }
 
+    /**
+     *
+     * @return une tuile généré aleatoirement a partir de la listes des tuiles composant la carte
+     */
     public Tile findRandomTile(){
         ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());
         return tiles.get(random.getRandomInt(tiles.size()-1));
 
     }
+
+    /**
+     *
+     * @return  une tuile généré aleatoirement appartenant au biome vegetation
+     */
     public Tile findRandomVegetationTile(){
         Tile tile;
         do {
@@ -122,7 +192,10 @@ public class World {
         return tile;
     }
 
-
+    /**
+     *
+     * @return  une coordonnée généré aleatoirement a partir de la listes des tuiles composant la carte
+     */
     public Coordinate findRandomCoordinate(){
 
         Tile tile = findRandomVegetationTile();
@@ -138,7 +211,7 @@ public class World {
     /**
      *
      * @param s  La forme de l'ile qu'on veut créer
-     * @return   les tuiles qui composaent l'ile
+     * @return   les tuiles qui composent l'ile
      */
     public List<Tile> getIslandTiles( Shape s){
 
@@ -187,7 +260,10 @@ public class World {
         }
     }
 
-
+    /**
+     *
+     * @return toutes le coordonnées composant la carte
+     */
     public  List<Coordinate> getAllCordinates() {
         return new ArrayList<>(tiles.keySet());
     }

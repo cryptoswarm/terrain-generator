@@ -54,13 +54,21 @@ public class Atoll extends Island {
 
         for(List<Tile> tileList: temp.values()) {
             if(i < milieu) {
-                for (Tile tile : tileList) tile.setAltitude(alt);
+
+                applyAltToEachListOfTiles(tileList, alt);
                 alt = alt + tileAlt;
                 ++i;
             } else if (i >= milieu) {
-                for (Tile tile : tileList) tile.setAltitude(alt);
+
+                applyAltToEachListOfTiles(tileList, alt);
                 alt = alt - tileAlt;
             }
+        }
+    }
+
+    private void applyAltToEachListOfTiles(List<Tile> tileList, double alt ){
+        for (Tile tile : tileList){
+            applyAltitudeToTileCorners(tile, alt, circle.getCenter() );
         }
     }
 

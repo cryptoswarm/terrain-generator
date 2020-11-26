@@ -54,7 +54,7 @@ public class MeshWriter implements Writer{
             Structs.Point p1 = mesh.getPoints(segment.getV1Idx());
             Structs.Point p2 = mesh.getPoints(segment.getV2Idx());
 
-            String lineColor = c.getWorldLineColor(p1.getX(), p1.getY(), p2.getX(), p2.getY());
+            String lineColor = c.getWorldLineColor( p1.getX(), p1.getY(), p2.getX(), p2.getY());
 
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(lineColor).build();
             builder.getSegmentsBuilder(i).addProperties(color);

@@ -46,8 +46,6 @@ public class Tortuga  extends Island {
 
         TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
 
-        //Tile tileCenter = world.getAtile( ellipse.getEllipseCenter() );
-
         double distance;
         int nbIslandTiles = islandTiles.size();
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.75*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
@@ -86,28 +84,11 @@ public class Tortuga  extends Island {
             alt2 -= tileAlt;
             for(Tile tile:tileList){
 
-                applyAltitudeToTileCorners( tile, alt2 );
+                applyAltitudeToTileCorners(tile, alt2, ellipse.getEllipseCenter() );
             }
         }
     }
 
-
-
-    private void applyAltitudeToTileCorners( Tile tile, double alt ){
-        double distance = Math.abs(tile.getCenter().distance(ellipse.getEllipseCenter()));
-        for(Coordinate c: tile.getCorner()){
-            double dist = c.distance(ellipse.getEllipseCenter() );
-            if( dist > distance){
-
-                c.setZ((float) Math.abs(alt - (dist - distance) ));
-            }else if( dist < distance ){
-                c.setZ((float) Math.abs(alt + (dist - distance) ));
-
-            }else{
-                c.setZ((float) Math.abs(alt ));
-            }
-        }
-    }
 
     @Override
     public  void setBorders(World world){
@@ -116,8 +97,6 @@ public class Tortuga  extends Island {
             tile.setOnIsland(true);
             tile.setInOcean(false);
         }
-
-
         //world.setEllipticIslandBorders(ellipse);
     }
 
@@ -131,44 +110,14 @@ public class Tortuga  extends Island {
             tmp.add(tile);
             temp.put(distance, tmp);
         }
-
     }
-
-    public void addCoordinate(TreeMap<Double, List<Coordinate>> temp, double distance, Coordinate coordinate){
-
-        if (temp.containsKey(distance)) {
-
-            if( !containsSameCoordinate( temp.get(distance), coordinate)){
-                temp.get(distance).add(coordinate);
-            }
-
-        } else {
-            List<Coordinate> tmp = new ArrayList<>();
-            tmp.add(coordinate);
-            temp.put(distance, tmp);
-        }
-
-    }
-
-    private boolean containsSameCoordinate( List<Coordinate> coordinateList, Coordinate coordinate ){
-        boolean isFound = false;
-        for(Coordinate c:coordinateList){
-            if(c.equals(coordinate)){
-                System.out.println("same coordinate found");
-                isFound = true;
-                break;
-            }
-        }
-        return isFound;
-    }
-
 
     public float calculateTileAlt(int tilesNb, int altMax){
         return (float) altMax / tilesNb;
     }
 
     public void verifierPente(Coordinate coordinate, float altMinimum ) throws Exception{
-        //double alt = tileCenter.getAltitude();
+
         double alt = coordinate.getZ();
         double denivellation;
         denivellation = Math.abs( alt - (double) altMinimum);
