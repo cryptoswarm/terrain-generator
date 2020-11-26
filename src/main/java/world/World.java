@@ -219,7 +219,7 @@ public class World {
      */
     public List<Tile> getIslandTiles( Shape s){
 
-        List<Tile> tileList = new ArrayList<Tile>();
+        List<Tile> tileList = new ArrayList<>();
         for (Tile tile : tiles.values() ) {
             if( s.isInShape(tile.getCenter()) ){
                 tileList.add(tile);

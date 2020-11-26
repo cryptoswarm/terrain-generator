@@ -180,6 +180,11 @@ public class Tile {
         return c;
     }
 
+    /**
+     *
+     * @param l ajouter une ligne aux bordures de la tuile
+     */
+
     public void addBorder(Line l){
         border.add(l);
     }

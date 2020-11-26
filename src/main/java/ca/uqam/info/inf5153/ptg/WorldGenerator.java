@@ -50,6 +50,11 @@ public class WorldGenerator {
 
     }
 
+    /**
+     * Lire le fichier
+     * Applique la logique d'affaire
+     * Ecrire dans le fichier de sortie
+     */
     public  void createWorld() {
         Reader meshReader = new MeshReader(fileName, this);
         meshReader.readFile();
@@ -60,12 +65,28 @@ public class WorldGenerator {
         meshWriter.generateEndMesh();
     }
 
+    /**
+     *
+     * @param h definier la longueur de la carte
+     */
+
     public void setWorldHeight(int h){
         this.height = h;
     }
+
+    /**
+     *
+     * @param w definir la largeur de la carte
+     */
     public void setWorldWidth(int w){
         this.width = w;
     }
+
+    /**
+     *
+     * @param x est la coordonnée sur l'axe des abscice  d'une quelconque tuile
+     * @param y est la coordonnée sur l'axe des ordonnées  d'une quelconque tuile
+     */
 
     public void addWorldTile(float x, float y){
         world.addTile(x,y);

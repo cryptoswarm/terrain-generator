@@ -7,12 +7,25 @@ public class Altitude extends Mode {
 
     TileColor color = TileColor.BROWN;
 
-
+    /**
+     *
+     * @param tile une quelconque tuile
+     * @return l'altitude moyenne  de la tuile
+     */
     @Override
     public int getFactor(Tile tile){
         return (int)tile.getAltitude();
     }
 
+    /**
+     *
+     * @param R red
+     * @param G green
+     * @param B bleu
+     * @param A
+     * @param factor l'altitude moyenne  de la tuile
+     * @return  le code RGBA equivalent
+     */
     @Override
     public String getColor(int R, int G, int B, int A, int factor) {
 
