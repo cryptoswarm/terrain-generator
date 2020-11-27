@@ -76,15 +76,15 @@ public class Tortuga  extends Island {
         }
     }
 
-    public void applyAltitude(TreeMap<Double, List<Tile>> temp, float tileAlt, int maxAltitude) {
+    public void applyAltitude(TreeMap<Double, List<Tile>> temp, float diffrenceAltEachtile, int maxAltitude) {
 
-        float alt2 = (float) maxAltitude;
+        float currentAlt = (float) maxAltitude;
 
         for (List<Tile> tileList : temp.values()) {
-            alt2 -= tileAlt;
+            currentAlt -= diffrenceAltEachtile;
             for(Tile tile:tileList){
 
-                applyAltitudeToTileCorners(tile, alt2, ellipse.getEllipseCenter() );
+                applyAltitudeToTileCorners(tile, currentAlt, ellipse.getEllipseCenter(), diffrenceAltEachtile );
             }
         }
     }

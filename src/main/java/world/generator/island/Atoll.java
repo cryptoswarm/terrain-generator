@@ -1,6 +1,7 @@
 package world.generator.island;
 
 import geometry.Circle;
+import geometry.Coordinate;
 import world.Tile;
 import world.World;
 
@@ -29,46 +30,78 @@ public class Atoll extends Island {
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        TreeMap<Double, List<Tile>> treeMap = new TreeMap<>();
+        TreeMap<Double, List<Tile>> tileListDistance = new TreeMap<>();
 
         for(Tile tile:islandTiles){
             double distance;
 
             distance = tile.getCenter().distance(circle.getCenter());
-            if (treeMap.containsKey(distance)) {
-                treeMap.get(distance).add(tile);
-            } else {
-                List<Tile> tiles = new ArrayList<>();
-                tiles.add(tile);
-                treeMap.put(distance, tiles);
-            }
+            orderTilesBasedOnDistanceFromCenter( tileListDistance, distance, tile);
+
         }
-        applyProfilAltimetrique(treeMap, maxAltitude);
+
+        applyProfilAltimetrique(tileListDistance, maxAltitude);
+        adjustProfile(tileListDistance);
+
     }
 
-    public void applyProfilAltimetrique(TreeMap<Double, List<Tile>> temp, int maxAlt){
+    private void orderTilesBasedOnDistanceFromCenter( TreeMap<Double, List<Tile>> tileListDistance, Double distance, Tile tile){
+
+        if (tileListDistance.containsKey(distance)) {
+            tileListDistance.get(distance).add(tile);
+        } else {
+            List<Tile> tiles = new ArrayList<>();
+            tiles.add(tile);
+            tileListDistance.put(distance, tiles);
+        }
+    }
+
+    /**
+     *
+     * @param temp pour la meme coordonnée, il se peut qu'elle a différentes altitudes
+     */
+    public void adjustProfile(TreeMap<Double, List<Tile> > temp ){
+
+        TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
+
+        for(List<Tile> tileList:temp.values()){
+            for(Tile tile:tileList){
+                for(Coordinate coordinate:tile.getCorner()){
+
+                    if(!uniqeCoordinates.containsKey(coordinate)){
+                        uniqeCoordinates.put(coordinate, coordinate.getZ());
+                    }else{
+                        coordinate.setZ( uniqeCoordinates.get(coordinate) );
+                    }
+                }
+            }
+        }
+    }
+
+    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > temp, int maxAlt){
         int milieu = temp.size()/2;
-        float tileAlt = (float)maxAlt/milieu;
-        float alt = tileAlt;
+        float diffrenceAltEachtile = (float)maxAlt/milieu;
+        float currentAlt = diffrenceAltEachtile;
         int i = 0;
 
         for(List<Tile> tileList: temp.values()) {
             if(i < milieu) {
 
-                applyAltToEachListOfTiles(tileList, alt);
-                alt = alt + tileAlt;
+                applyAltToEachListOfTiles(tileList, currentAlt, diffrenceAltEachtile);
+                currentAlt += diffrenceAltEachtile;
                 ++i;
             } else if (i >= milieu) {
 
-                applyAltToEachListOfTiles(tileList, alt);
-                alt = alt - tileAlt;
+                applyAltToEachListOfTiles(tileList, currentAlt, diffrenceAltEachtile);
+                currentAlt -= diffrenceAltEachtile;
             }
         }
+
     }
 
-    private void applyAltToEachListOfTiles(List<Tile> tileList, double alt ){
+    private void applyAltToEachListOfTiles(List<Tile> tileList, double currentAlt, float diffrenceAltEachtile ){
         for (Tile tile : tileList){
-            applyAltitudeToTileCorners(tile, alt, circle.getCenter() );
+            applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
         }
     }
 
@@ -78,15 +111,14 @@ public class Atoll extends Island {
 
         for (Tile tile : islandTiles) {
 
-            if ( tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
+            if (tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
                     tile.getCenter().distance(circle.getCenter()) < circle.getBigRadius()) {
                 tile.setOnIsland(true);
-                tile.setInOcean(false);
             }
-            if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
+            if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()) {
                 tile.setInLagoon(true);
-                tile.setInOcean(false);
             }
+            tile.setInOcean(false);
         }
     }
 

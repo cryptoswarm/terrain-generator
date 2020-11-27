@@ -7,6 +7,8 @@ import world.generator.WorldProcessor;
 
 public abstract class Island implements WorldProcessor {
 
+    public static final int INVALIDE_ALT = -1;
+
     /**
      * Le profil altimetrique prend en conséderation la forme de l'ile et l'altitude maximale
      * Example: Pour une ile circulaire, ce profil n'est appliqué que dans le biome vegetation
@@ -27,29 +29,46 @@ public abstract class Island implements WorldProcessor {
     abstract void setBorders( World world );
 
     /**
-     * Le coin de la tuile le plus lointain du centre de la tuile par rapport au centre de l'ile aura une altitude
-     * plus petite que celle donnée au coin le plus proche au centre de l'ile
+     * Le coin de la tuile le plus lointain du centre de la tuile
+     * par rapport au centre de l'ile aura une altitude
+     * plus petite que celle donnée au coin de la tuile le plus proche au centre de l'ile.
+     *
+     * la diffrence d'altitude entre un coin et l'autre est le resultat
+     *  de la division de l'altitude moyenne par le nombre de coins.
      *
      * @param tile La tuile auquelle on veut appliquer l'altitude à ses coins
-     * @param alt  l'altitude donnée à la tuile
+     * @param currentAlt  l'altitude donnée à la tuile
      * @param centerOfShape  la coordonnée du centre de l'ile
      */
-    public void applyAltitudeToTileCorners(Tile tile, double alt, Coordinate centerOfShape){
-        double distance = Math.abs(tile.getCenter().distance( centerOfShape ));
+    public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile){
+
+        double distance = tile.getCenter().distance( centerOfShape );
+        int nbCorners = tile.getCorner().size();
+        float diffrenceAltEachCorner = diffrenceAltEachtile / nbCorners;
+
         for(Coordinate c: tile.getCorner()){
             double dist = c.distance( centerOfShape );
+
             if( dist > distance){
-                if(alt >= ( dist - distance) )
-                    c.setZ((float) Math.abs(alt - (dist - distance) ));
-                else {
-                    c.setZ((float) alt);
+
+                if( c.getZ() == INVALIDE_ALT) {
+                    c.setZ((float) currentAlt - diffrenceAltEachCorner);
                 }
+
             }else if( dist < distance ){
-                c.setZ((float) Math.abs(alt + ( Math.abs( dist - distance) ) ));
+
+                if(c.getZ() == INVALIDE_ALT ) {
+                    c.setZ((float) currentAlt + diffrenceAltEachCorner);
+                }
 
             }else{
-                c.setZ( (float) alt );
+
+                if(c.getZ() == INVALIDE_ALT ) {
+                    c.setZ((float) currentAlt);
+                }
             }
         }
     }
+
+
 }

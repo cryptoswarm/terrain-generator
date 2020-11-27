@@ -2,16 +2,24 @@ package geometry;
 
 import java.util.Objects;
 
-public class Coordinate {
+public class Coordinate implements  Comparable<Coordinate>{
 
     private final  float x;
     private final float y;
     private float z;
+    private boolean altSet;
+
+    public int compareTo(Coordinate o){
+         return this.equals(o) ? 0 : 1;
+    }
+
 
     public Coordinate(float x, float y, float z) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.altSet = false;
+
     }
 
     public float getX() {
@@ -22,6 +30,14 @@ public class Coordinate {
     }
     public float getZ() {
         return z;
+    }
+
+    public boolean isAltSet() {
+        return altSet;
+    }
+
+    public void setAltIndicator(boolean altSet) {
+        this.altSet = altSet;
     }
 
     public void setZ(float z) {

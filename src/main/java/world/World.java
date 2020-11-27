@@ -130,8 +130,9 @@ public class World {
 
         HashSet<Line> lines = new HashSet<>();
         for(Tile tile: tiles.values()){
-            for(Line line: tile.getBorder()){
-                if(line.getC1().equals(c) || line.getC2().equals(c)){
+
+            for (Line line : tile.getBorder()) {
+                if (line.getC1().equals(c) || line.getC2().equals(c)) {
                     lines.add(line);
                 }
             }
@@ -145,8 +146,8 @@ public class World {
      * @param x la coordonnée sur l'axe des abscice
      * @param y la coordonnée sur l'axe des ordonnées
      */
-    public void addTile(float x, float y) {
-        Coordinate c = new Coordinate(x,y,0);
+    public void addTile(float x, float y, float z) {
+        Coordinate c = new Coordinate(x,y,z);
         Tile t = new Tile(c);
         tiles.put(c,t);
     }
@@ -170,7 +171,7 @@ public class World {
 
         Coordinate c1 = new Coordinate(x1,y1,-1);
         Coordinate c2 = new Coordinate(x2,y2,-1);
-        Tile t = tiles.get( new Coordinate(x,y,0) );
+        Tile t = tiles.get( new Coordinate(x,y,-1) );
         t.addBorder(new Line(c1,c2));
     }
 
@@ -204,10 +205,14 @@ public class World {
 
         Tile tile = findRandomVegetationTile();
         HashSet<Coordinate> coordinates = new HashSet<>();
+        /*
         for(Line line: tile.getBorder()) {
             coordinates.add(line.getC1());
             coordinates.add(line.getC2());
         }
+
+         */
+        coordinates.addAll( tile.getCorner() );
         ArrayList<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
     }

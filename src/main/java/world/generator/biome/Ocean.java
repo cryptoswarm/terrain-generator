@@ -9,6 +9,8 @@ import world.Tile;
 import java.util.HashMap;
 
 public class Ocean extends Biome {
+    public static final int HUMIDITY_LEVEL = -1;
+    public static final int ALTITUDE = 0;
     private final  TileColor color = TileColor.OCEANBLUE;
     private final  String type = "ocean";
 
@@ -31,8 +33,8 @@ public class Ocean extends Biome {
             if ( tile.isInOcean() ) {
                 tile.setBiome(new Ocean());
                 tile.setBackgroundColor(color);
-                tile.setHumidityLevel(-1);
-                tile.setAltitude(0);
+                tile.setHumidityLevel(HUMIDITY_LEVEL);
+                tile.setAltitude(ALTITUDE);
                 tile.setOnIsland(false);
                 tile.setInLagoon(false);
             }
