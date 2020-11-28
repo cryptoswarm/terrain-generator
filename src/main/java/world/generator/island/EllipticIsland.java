@@ -49,7 +49,7 @@ public class EllipticIsland extends IslandShape {
             Ellipse e = new Ellipse(diameter, random, angle, c);
             List<Tile> islandTiles = world.getIslandTiles( e );
 
-            if ( validIsland( islandTiles, height, width) ) {
+            if ( validIsland( islandTiles, height, width, world) ) {
                 isValide = true;
                 validIslandTiles = islandTiles;
                 this.ellipse = e;
@@ -59,5 +59,8 @@ public class EllipticIsland extends IslandShape {
         }
         return validIslandTiles;
     }
+
+
+
 
 }

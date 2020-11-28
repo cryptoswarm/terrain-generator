@@ -31,6 +31,7 @@ public class Lagoon extends Biome {
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(-1);
                 tile.setInOcean(false);
+                tile.setOnIsland(false);
             }
         }
     }

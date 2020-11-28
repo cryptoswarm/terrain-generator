@@ -47,7 +47,7 @@ public class CircularIsland extends IslandShape {
             Circle cir = new Circle(diameter, random, coordinate);
             List<Tile> islandTiles = world.getIslandTiles( cir);
 
-            if (validIsland( islandTiles,height,width)){
+            if (validIsland( islandTiles,height,width, world)){
                 isValide = true;
                 validIslandTiles = islandTiles;
                 this.circle = cir;

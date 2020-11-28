@@ -111,25 +111,22 @@ public class Atoll extends Island {
 
     @Override
     public void setBorders(World world){
-        //world.setCircularIslandBorders(circle);
 
         for (Tile tile : islandTiles) {
 
-            if( circle.isInShape(tile.getCenter()) ) { //this is surely rudendante
+            double distance = tile.getCenter().distance(circle.getCenter());
 
-                double distance = tile.getCenter().distance(circle.getCenter());
+            if (distance > circle.getSmallRadius() && distance < circle.getBigRadius()) {
 
-                if (distance > circle.getSmallRadius() && distance < circle.getBigRadius()) {
+                tile.setOnIsland(true);
+                tile.setInOcean(false);
 
-                    tile.setOnIsland(true);
+            } else if (distance <= circle.getSmallRadius()) {
 
-                } else if (distance <= circle.getSmallRadius()) {
-
-                    tile.setInLagoon(true);
-                }
-
+                tile.setInLagoon(true);
                 tile.setInOcean(false);
             }
+
         }
     }
 

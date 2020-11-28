@@ -29,6 +29,7 @@ public class Vegetation extends Biome {
         for (Tile tile: tiles.values()) {
 
             if( tile.isOnIsland() ) {
+
                 tile.setBiome(new Vegetation());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
@@ -37,4 +38,7 @@ public class Vegetation extends Biome {
             }
         }
     }
+
+
+
 }
