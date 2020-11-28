@@ -8,6 +8,7 @@ public class BiomeGenerator implements Generator {
     public BiomeGenerator() {}
 
     public void generate(World w) {
+
         WorldProcessor wp;
         wp = new Ocean();
         wp.apply(w);

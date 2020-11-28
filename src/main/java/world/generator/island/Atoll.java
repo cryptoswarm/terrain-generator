@@ -27,32 +27,35 @@ public class Atoll extends Island {
         defineAltitude(world, maxAltitude);
     }
 
+
+
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        TreeMap<Double, List<Tile>> tileListDistance = new TreeMap<>();
+        TreeMap<Double, List<Tile>> sortedListTiles = new TreeMap<>();
 
         for(Tile tile:islandTiles){
             double distance;
 
             distance = tile.getCenter().distance(circle.getCenter());
-            orderTilesBasedOnDistanceFromCenter( tileListDistance, distance, tile);
+            orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
 
         }
 
-        applyProfilAltimetrique(tileListDistance, maxAltitude);
-        adjustProfile(tileListDistance);
+        applyProfilAltimetrique(sortedListTiles, maxAltitude);
+        adjustProfile(sortedListTiles);
 
     }
 
-    private void orderTilesBasedOnDistanceFromCenter( TreeMap<Double, List<Tile>> tileListDistance, Double distance, Tile tile){
 
-        if (tileListDistance.containsKey(distance)) {
-            tileListDistance.get(distance).add(tile);
+    private void orderTilesBasedOnDistanceFromCenter( TreeMap<Double, List<Tile>> sortedListTiles, Double distance, Tile tile){
+
+        if (sortedListTiles.containsKey(distance)) {
+            sortedListTiles.get(distance).add(tile);
         } else {
             List<Tile> tiles = new ArrayList<>();
             tiles.add(tile);
-            tileListDistance.put(distance, tiles);
+            sortedListTiles.put(distance, tiles);
         }
     }
 
@@ -78,13 +81,14 @@ public class Atoll extends Island {
         }
     }
 
-    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > temp, int maxAlt){
-        int milieu = temp.size()/2;
+    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
+
+        int milieu = sortedListTiles.size()/2;
         float diffrenceAltEachtile = (float)maxAlt/milieu;
         float currentAlt = diffrenceAltEachtile;
         int i = 0;
 
-        for(List<Tile> tileList: temp.values()) {
+        for(List<Tile> tileList: sortedListTiles.values()) {
             if(i < milieu) {
 
                 applyAltToEachListOfTiles(tileList, currentAlt, diffrenceAltEachtile);
@@ -111,14 +115,21 @@ public class Atoll extends Island {
 
         for (Tile tile : islandTiles) {
 
-            if (tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
-                    tile.getCenter().distance(circle.getCenter()) < circle.getBigRadius()) {
-                tile.setOnIsland(true);
+            if( circle.isInShape(tile.getCenter()) ) { //this is surely rudendante
+
+                double distance = tile.getCenter().distance(circle.getCenter());
+
+                if (distance > circle.getSmallRadius() && distance < circle.getBigRadius()) {
+
+                    tile.setOnIsland(true);
+
+                } else if (distance <= circle.getSmallRadius()) {
+
+                    tile.setInLagoon(true);
+                }
+
+                tile.setInOcean(false);
             }
-            if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()) {
-                tile.setInLagoon(true);
-            }
-            tile.setInOcean(false);
         }
     }
 

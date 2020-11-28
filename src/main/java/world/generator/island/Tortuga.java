@@ -94,6 +94,7 @@ public class Tortuga  extends Island {
     public  void setBorders(World world){
 
         for(Tile tile:islandTiles){
+
             tile.setOnIsland(true);
             tile.setInOcean(false);
         }

@@ -226,7 +226,7 @@ public class World {
 
         List<Tile> tileList = new ArrayList<>();
         for (Tile tile : tiles.values() ) {
-            if( s.isInShape(tile.getCenter()) ){
+            if( s.isInShape( tile.getCenter() ) ){
                 tileList.add(tile);
             }
         }

@@ -44,7 +44,7 @@ public class CircularIsland extends IslandShape {
         while (!coordinates.isEmpty()  && !isValide ) {
 
             Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
-            Circle cir= new Circle(diameter, random, coordinate);
+            Circle cir = new Circle(diameter, random, coordinate);
             List<Tile> islandTiles = world.getIslandTiles( cir);
 
             if (validIsland( islandTiles,height,width)){
