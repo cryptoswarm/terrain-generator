@@ -33,11 +33,13 @@ public class Plage extends Biome {
             if ( tile.isOnIsland()  ) {
                 for (Tile neighbor : world.getNeighbor(tile)) {
 
-                    if (neighbor.isInOcean() || neighbor.isInLagoon() ) {
+                    if ( neighbor.isInOcean() || neighbor.isInLagoon() ) {
+
                         tile.setBiome(new Plage());
                         tile.setBackgroundColor(color);
                         tile.setHumidityLevel(255);
                         tile.setInOcean(false);
+                        tile.setInPlage(true);
                         tile.setOnIsland(false); //add
                         break;
                     }

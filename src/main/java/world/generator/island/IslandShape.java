@@ -29,11 +29,12 @@ public abstract class IslandShape {
      *
      */
 
-    public boolean validIsland(List<Tile> islandTiles, int h, int w) {
+    public boolean validIsland(List<Tile> islandTiles, int h, int w, World world) {
         boolean valid = true;
         boolean validAlt;
         boolean validLines;
         boolean validBiom;
+        boolean validNeighbor;
 
 
         for (Tile tile : islandTiles) {  //get all tiles belonging to the new island
@@ -41,8 +42,9 @@ public abstract class IslandShape {
             validBiom = tile.isInOcean();  //if it other than ocean then it belongs already to another island
             validAlt = (tile.getAltitude() == -1);  // may be redundant but we will leave it for now
             validLines = validateLines(tile, h, w);  // based on the dimension of the new island, we check if all tiles are inside world
+            validNeighbor = checkNeighbor(world, tile);
 
-            if (!validAlt || !validLines || !validBiom ){
+            if (!validAlt || !validLines || !validBiom || !validNeighbor ){
                 valid = false;
                 break;
             }
@@ -76,5 +78,18 @@ public abstract class IslandShape {
         }
         return valid;
     }
+
+    public boolean checkNeighbor(World world, Tile tile){
+        boolean isValid = true;
+        for(Tile neighbor:world.getNeighbor(tile)){
+            if( !neighbor.isInOcean() ){
+                isValid = false;
+                break;
+            }
+        }
+        return  isValid;
+    }
+
+
 
 }

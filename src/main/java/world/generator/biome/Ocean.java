@@ -31,6 +31,7 @@ public class Ocean extends Biome {
         for (Tile tile : tiles.values()) {
 
             if ( tile.isInOcean() ) {
+
                 tile.setBiome(new Ocean());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(HUMIDITY_LEVEL);

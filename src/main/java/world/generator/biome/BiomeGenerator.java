@@ -14,10 +14,13 @@ public class BiomeGenerator implements Generator {
         wp.apply(w);
         wp = new Lagoon();
         wp.apply(w);
+
         wp = new Vegetation();
         wp.apply(w);
+
         wp = new Plage();
         wp.apply(w);
+
     }
 
 }
