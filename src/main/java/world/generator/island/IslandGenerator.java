@@ -2,10 +2,15 @@ package world.generator.island;
 
 import geometry.Coordinate;
 import randomStrategy.RandomContexte;
-import world.generator.Generator;
+import world.Tile;
 import world.World;
+import world.generator.Generator;
+import world.generator.calculator.TileCaracteristicCalculator;
 
-public class IslandGenerator implements Generator {
+import java.util.NavigableMap;
+import java.util.TreeMap;
+
+public class IslandGenerator extends TileCaracteristicCalculator implements Generator {
 
     private final int width;
     private final int height;
@@ -27,7 +32,10 @@ public class IslandGenerator implements Generator {
     @Override
     public void generate(World w) {
 
+        int diameter = calculateDiameter(w);
+        System.out.println("diameter = "+diameter);
         Coordinate border = generateBorder();
+
         int islandNotGenerated = 0;
         IslandShape islandShape;
 
@@ -54,6 +62,44 @@ public class IslandGenerator implements Generator {
         float x = random.getRandomInt(shortest / 16) + (float)shortest*3/8;
         float y = random.getRandomInt(shortest / 16) + (float)shortest*3/4;
         return new Coordinate(x, y, 0);
+    }
+
+    public int calculateDiameter(World world){
+        int nbTiles = world.getTilesNb();
+        int islandNbTiles = random.getRandomInt(20)+200;
+        double area = 0;
+        double tileSurface;
+        int i = 0;
+        //TreeMap<Double, Tile> surfaceEachTile = new TreeMap<>();
+        NavigableMap<Double, Tile> reverseOrder =  new TreeMap<>();
+        for(Tile tile:world.getTiles().values()){
+            tileSurface = findTileSurface(tile);
+            /*
+            area += tileSurface;
+            ++i;
+            if(i == islandNbTiles){
+                break;
+            }
+
+             */
+            //surfaceEachTile.put(tileSurface, tile);
+            reverseOrder.put(tileSurface, tile);
+        }
+        //reverseOrder.descendingKeyMap();
+        for(NavigableMap.Entry<Double, Tile> entry:reverseOrder.entrySet()){
+           /*
+            area += entry.getKey();
+            ++i;
+            if(i == islandNbTiles){
+                break;
+            }
+
+            */
+            System.out.println(entry.getKey());
+        }
+
+
+        return  (int)( 2* Math.sqrt( area / Math.PI) );
     }
 
 

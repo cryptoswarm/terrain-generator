@@ -298,4 +298,8 @@ public class World {
         }
     }
 
+    public int getTilesNb(){
+        return tiles.size();
+    }
+
 }
