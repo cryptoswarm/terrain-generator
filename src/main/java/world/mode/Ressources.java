@@ -1,0 +1,26 @@
+package world.mode;
+
+import world.Tile;
+import world.TileColor;
+
+public class Ressources extends Mode {
+
+    TileColor color = TileColor.CHESTNUT;
+
+    @Override
+    public int getFactor(Tile tile){
+        return (int)tile.getRichiness();
+    }
+
+    @Override
+    public String getColor(int R, int G, int B, int A, int factor) {
+
+        if (factor == 0){
+            return 0 + ":" + 0 + ":" + 0 + ":" + 255;
+        }else{
+            return color.getR() + ":" + color.getG() + ":" + color.getB() + ":" + factor;
+
+        }
+    }
+
+}

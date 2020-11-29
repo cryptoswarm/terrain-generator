@@ -6,15 +6,16 @@ import translator.MeshWriter;
 import translator.Reader;
 import translator.Writer;
 import userInterface.UserArgs;
-import world.generator.aquifer.LakeGenerator;
-import world.generator.aquifer.RiverGenerator;
-import world.generator.biome.BiomeGenerator;
-import world.generator.Generator;
-import world.generator.island.IslandGenerator;
-import world.mode.Mode;
 import world.Tile;
 import world.TileColor;
 import world.World;
+import world.generator.Generator;
+import world.generator.aquifer.LakeGenerator;
+import world.generator.aquifer.RiverGenerator;
+import world.generator.biome.BiomeGenerator;
+import world.generator.island.IslandGenerator;
+import world.generator.ressourcesProduction.RessourceGenerator;
+import world.mode.Mode;
 import world.soilType;
 
 
@@ -33,6 +34,7 @@ public class WorldGenerator {
     private final int nbsIsland;
     private int width;
     private int height;
+    private boolean production;
 
     public WorldGenerator(UserArgs parsedArgs) {
 
@@ -47,6 +49,7 @@ public class WorldGenerator {
         this.outFileName = parsedArgs.getOutputFile();
         this.nbsIsland = parsedArgs.getNbsIsland();
         this.mode = parsedArgs.getHeatmap();
+        this.production = parsedArgs.isProductionActivated();
 
     }
 
@@ -125,6 +128,11 @@ public class WorldGenerator {
 
         Generator riverGenerator= new RiverGenerator(nbsRiversSrc, soil);
         riverGenerator.generate(world);
+
+        if( production ){
+            Generator ressourcesGenerator = new RessourceGenerator();
+            ressourcesGenerator.generate(world);
+        }
 
     }
 

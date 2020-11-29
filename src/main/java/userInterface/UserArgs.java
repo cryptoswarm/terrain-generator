@@ -1,9 +1,6 @@
 package userInterface;
 
-import world.mode.Altitude;
-import world.mode.Humidity;
-import world.mode.Mode;
-import world.mode.Normal;
+import world.mode.*;
 import org.apache.commons.cli.*;
 
 public class UserArgs  {
@@ -17,6 +14,7 @@ public class UserArgs  {
     private final int maxAltitude;
     private final int rivers;
     private final int nbsIsland;
+    private boolean productionActivated;
 
     public UserArgs(String[] args) {
         CommandLine options = null;
@@ -33,6 +31,7 @@ public class UserArgs  {
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
         heatmap = setHeatmap(options.getOptionValue("heatmap"));
+        productionActivated = isProductionActivated(options.getOptionValue("production"));
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
@@ -48,11 +47,12 @@ public class UserArgs  {
         opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
         opts.addOption(new Option("water", "water", true,"generation des aquifères" ));
         opts.addOption(new Option("soil", "soil", true,"soil type" ));
-        opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
         opts.addOption(new Option("seed", "seed", true,"seed"));
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
         opts.addOption(new Option("rivers", "rivers", true,"rivers"));
         opts.addOption(new Option("archipelago", "archipelago", true,"archipelago"));
+        opts.addOption(new Option("production", "production", true,"heatmap ressources"));
+        opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(opts, args);
@@ -101,6 +101,10 @@ public class UserArgs  {
         } else {
             return "normal";
         }
+    }
+
+    private boolean isProductionActivated(String production){
+        return production != null;
     }
     private int setAltitude(String altitude) {
         if(altitude == null){
@@ -164,8 +168,10 @@ public class UserArgs  {
 
         if( heatmap.equals("altitude")){
             mode = new Altitude();
-        }else if( heatmap.equals("humidity")){
+        }else if( heatmap.equals("humidity")) {
             mode = new Humidity();
+        }else if( heatmap.equals("ressources")){
+            mode = new Ressources();
         }else{
             mode = new Normal();
         }
@@ -181,5 +187,9 @@ public class UserArgs  {
     public int getRivers() {return rivers;}
     public int getNbsIsland() {
         return nbsIsland;
+    }
+
+    public boolean isProductionActivated() {
+        return productionActivated;
     }
 }
