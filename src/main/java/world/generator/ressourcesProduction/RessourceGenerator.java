@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+
 public class RessourceGenerator  implements Generator {
 
     public static final int MAX = 255;
@@ -22,9 +23,10 @@ public class RessourceGenerator  implements Generator {
         for(Isle isle:world.getIsleList() ){
             List<Tile> tileList = isle.getVegetationTiles();
             int nb = tileList.size();
-            //TreeMap<Double, Tile> tileSurfaceList = orderIslesBasedOnSurface( tileList );
+
             TreeMap<Double, List<Tile>> tileSurfaceList = orderIslesBasedOnSurface( tileList );
-            applyRichiness( tileSurfaceList, nb);
+            TreeMap<Double, List<Tile>> steepEachTile = orderIslesBasedOnSteep(tileSurfaceList);
+            applyRichiness( steepEachTile, nb);
 
         }
         world.reInitiliseTileColor();
@@ -34,14 +36,7 @@ public class RessourceGenerator  implements Generator {
 
         float ecartEachTile =  255f / nbTiles;
         float richiness;
-        /*
-        for(Tile tile:tileSurfaceList.values() ){
-            richiness = ecartEachTile;
-            tile.setRichiness(richiness);
-            ++ ecartEachTile;
-        }
 
-         */
         for(List<Tile> list:tileSurfaceList.values()){
             for(Tile tile:list ){
                 richiness = ecartEachTile;
@@ -50,8 +45,6 @@ public class RessourceGenerator  implements Generator {
             }
             ++ ecartEachTile;
         }
-
-
     }
 
 
@@ -61,15 +54,27 @@ public class RessourceGenerator  implements Generator {
 
         double surface;
 
-        //TreeMap<Double, Tile> surfaceEachTile = new TreeMap<>();
+
         TreeMap<Double, List<Tile>> surfaceEachTile = new TreeMap<>();
         for(Tile tile:tileList){
             tile.setBackgroundColor(color);
             surface = findTileSurface(tile);
-            //surfaceEachTile.put(surface, tile);
+
             addTile(surfaceEachTile, surface, tile);
         }
         return surfaceEachTile;
+    }
+
+    public TreeMap<Double, List<Tile>> orderIslesBasedOnSteep( TreeMap<Double, List<Tile>> surfaceEachTile ){
+        TreeMap<Double, List<Tile>> steepEachTile = new TreeMap<>();
+        double tileSteep;
+        for(List<Tile> tileList:surfaceEachTile.values()){
+            for(Tile tile:tileList){
+                tileSteep = findTileSteep(tile);
+                addTile(steepEachTile, tileSteep, tile);
+            }
+        }
+        return steepEachTile;
     }
 
     public void addTile(TreeMap<Double, List<Tile>> surfaceEachTile, double surface, Tile tile){
@@ -84,9 +89,7 @@ public class RessourceGenerator  implements Generator {
         }
     }
 
-    public void orderIslesBasedOnSteep(){
 
-    }
 
     public double findTileSurface(Tile tile){
 
@@ -95,6 +98,25 @@ public class RessourceGenerator  implements Generator {
         double sum1 = multiplyXByYNextCoordinate(coordinateList);
         double sum2 = multiplyYByXNextCoordinate(coordinateList);
         return  substractAndDivide(sum1, sum2);
+    }
+
+    public double findTileSteep(Tile tile){
+
+        TreeMap<Float, Coordinate> altitudeTilesListe = new TreeMap<>();
+        for(Coordinate coordinate:tile.getCorner()){
+            float alt = coordinate.getZ();
+            altitudeTilesListe.put(alt, coordinate);
+        }
+        Coordinate lowestAlt = altitudeTilesListe.get( altitudeTilesListe.firstKey() );
+        Coordinate highestAlt = altitudeTilesListe.get( altitudeTilesListe.lastKey() );
+
+        double distance = distanceHeighestToLowest( highestAlt, lowestAlt );
+        double denivellation = highestAlt.getZ() - lowestAlt.getZ();
+        return denivellation / distance;
+    }
+
+    private float distanceHeighestToLowest( Coordinate highestAltCoordinate, Coordinate lowestAltCoordinate ){
+        return  highestAltCoordinate.distance( lowestAltCoordinate );
     }
 
 

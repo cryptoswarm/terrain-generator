@@ -2,6 +2,7 @@ package world.generator.island;
 
 import geometry.Coordinate;
 import geometry.Ellipse;
+import islandSet.Isle;
 import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
@@ -30,6 +31,8 @@ public class Tortuga  extends Island {
     public void apply(World world) {
         setBorders(world);
         defineAltitude(world, maxAltitude);
+        Isle isle = new Isle(islandTiles);
+        world.addArchipelago(isle);
     }
 
     /**
@@ -74,6 +77,7 @@ public class Tortuga  extends Island {
             System.out.println("Une pente trop importante. impossible de generer un terrain");
             System.exit(0);
         }
+        islandTiles.addAll(islandSummitTiles);
     }
 
     public void applyAltitude(TreeMap<Double, List<Tile>> temp, float diffrenceAltEachtile, int maxAltitude) {

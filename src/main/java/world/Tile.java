@@ -30,8 +30,6 @@ public class Tile {
         this.isOnIsland = false;
         this.isInPlage = false;
         this.isInOcean = true;
-
-
     }
 
     /**
