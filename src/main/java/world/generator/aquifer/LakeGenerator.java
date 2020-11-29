@@ -6,6 +6,8 @@ import world.generator.Generator;
 import world.generator.WorldProcessor;
 
 public class LakeGenerator implements Generator {
+
+
     final private int nbsWaterSrc;
     final private RandomContexte random;
     final private soilType soil;

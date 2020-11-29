@@ -4,6 +4,7 @@ import geometry.Circle;
 import geometry.Coordinate;
 import geometry.Line;
 import geometry.Shape;
+import islandSet.Isle;
 import randomStrategy.RandomContexte;
 
 import java.util.ArrayList;
@@ -14,10 +15,13 @@ import java.util.List;
 public class World {
     final private RandomContexte random;
     final private HashMap<Coordinate, Tile> tiles;
+    private List<Isle> isleList;
+    private final TileColor colorDark = TileColor.DARK;
 
     public World(RandomContexte random) {
         this.tiles = new HashMap<>();
         this.random = random;
+        this.isleList = new ArrayList<>();
     }
 
     /**
@@ -275,6 +279,23 @@ public class World {
      */
     public  List<Coordinate> getAllCordinates() {
         return new ArrayList<>(tiles.keySet());
+    }
+
+    public void addArchipelago(Isle isle){
+        isleList.add(isle);
+    }
+
+    public List<Isle> getIsleList(){
+        return isleList;
+    }
+
+
+    public void reInitiliseTileColor(){
+        for(Tile tile:tiles.values()){
+            if( ! tile.getBiome().getType().equals("vegetation") ){
+                tile.setBackgroundColor(colorDark);
+            }
+        }
     }
 
 }

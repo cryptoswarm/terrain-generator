@@ -2,6 +2,7 @@ package world.generator.island;
 
 import geometry.Circle;
 import geometry.Coordinate;
+import islandSet.Isle;
 import world.Tile;
 import world.World;
 
@@ -25,6 +26,9 @@ public class Atoll extends Island {
     public void apply(World world) {
         setBorders(world);
         defineAltitude(world, maxAltitude);
+        Isle isle = new Isle(islandTiles);
+        world.addArchipelago(isle);
+
     }
 
 

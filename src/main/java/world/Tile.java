@@ -19,6 +19,7 @@ public class Tile {
     private boolean isOnIsland;
     private boolean isInPlage;
     final private HashSet<Line> border;
+    private float richiness;
 
 
     public Tile(Coordinate center) {
@@ -212,5 +213,22 @@ public class Tile {
     @Override
     public int hashCode() {
         return Objects.hash(center);
+    }
+
+    /**
+     *
+     * @return le niveau de production de la tuile
+     */
+    public float getRichiness() {
+        return richiness;
+    }
+
+    /**
+     *
+     * @param richiness un facteur indiquant le niveau de production de la tuile
+     */
+
+    public void setRichiness(float richiness) {
+        this.richiness = richiness;
     }
 }

@@ -1,5 +1,5 @@
 package world;
-
+/*
 public enum Ressource {
     WOOD(1,1,1,1);
 
@@ -33,3 +33,5 @@ public enum Ressource {
         return R + ":" + G + ":" + B + ":" + A;
     }
 }
+
+ */
