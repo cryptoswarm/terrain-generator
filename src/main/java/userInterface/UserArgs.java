@@ -9,7 +9,7 @@ public class UserArgs  {
     private final String shape;
     private final int nbWaterSources;
     private final String soilType;
-    private final String heatmap;
+    private String heatmap;
     private final int seed;
     private final int maxAltitude;
     private final int rivers;
@@ -30,8 +30,8 @@ public class UserArgs  {
         shape = setShape(options.getOptionValue("shape"));
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
-        heatmap = setHeatmap(options.getOptionValue("heatmap"));
-        productionActivated = isProductionActivated(options.getOptionValue("production"));
+        productionActivated = isProductionActivated( options.getOptionValue("production"), options);
+        //heatmap = setHeatmap( options.getOptionValue("heatmap") );
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
@@ -43,8 +43,6 @@ public class UserArgs  {
         opts.addOption(new Option("i", "input", true,"Input mesh" ));
         opts.addOption(new Option("o", "output", true,"output file" ));
         opts.addOption(new Option("shape", "shape", true,"carte shape" ));
-        opts.addOption(new Option("atoll", "atoll", false,"carte shape as atoll" ));
-        opts.addOption(new Option("tortuga", "tortuga", false,"carte shape as tortuga" ));
         opts.addOption(new Option("water", "water", true,"generation des aquifères" ));
         opts.addOption(new Option("soil", "soil", true,"soil type" ));
         opts.addOption(new Option("seed", "seed", true,"seed"));
@@ -91,21 +89,54 @@ public class UserArgs  {
         if (nbWaterSources != null) return Integer.parseInt(nbWaterSources);
         return 0;
     }
+
+
+    private boolean isProductionActivated(String production, CommandLine options){
+        boolean productionActivated = true;
+        String[] tab;
+        if( production != null ){
+            //tab = production.split(" ");
+            //setHeatmap(tab[1]);
+            heatmap = setHeatmap("ressources");
+        }else {
+            heatmap = setHeatmap( options.getOptionValue("heatmap") );
+            productionActivated = false;
+        }
+        return productionActivated;
+    }
+
+
     private String setHeatmap(String heatmap) {
-        if (heatmap != null){
-            if(heatmap.equals("altitude") || heatmap.equals("humidity")){
+
+        if (heatmap != null) {
+            if (heatmap.equals("altitude") || heatmap.equals("humidity") || heatmap.equals("ressources")) {
                 return heatmap;
             } else {
                 throw new IllegalArgumentException("Undefined heatmap");
             }
         } else {
-            return "normal";
+            return  "normal";
         }
     }
 
-    private boolean isProductionActivated(String production){
-        return production != null;
+    public Mode getHeatmap() {
+
+        Mode mode;
+
+        if( heatmap.equals("altitude")){
+            mode = new Altitude();
+        }else if( heatmap.equals("humidity")) {
+            mode = new Humidity();
+        }else if( heatmap.equals("ressources")){
+            mode = new Ressources();
+        }else{
+            mode = new Normal();
+        }
+        return mode;
     }
+
+
+
     private int setAltitude(String altitude) {
         if(altitude == null){
             return 100;
@@ -162,21 +193,7 @@ public class UserArgs  {
         return soilType;
     }
 
-    public Mode getHeatmap() {
 
-        Mode mode;
-
-        if( heatmap.equals("altitude")){
-            mode = new Altitude();
-        }else if( heatmap.equals("humidity")) {
-            mode = new Humidity();
-        }else if( heatmap.equals("ressources")){
-            mode = new Ressources();
-        }else{
-            mode = new Normal();
-        }
-        return mode;
-    }
 
     public int getMaxAltitude() {
         return maxAltitude;

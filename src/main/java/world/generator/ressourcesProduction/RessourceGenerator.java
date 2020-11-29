@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
+
 public class RessourceGenerator  implements Generator {
 
     public static final int MAX = 255;
@@ -22,7 +23,7 @@ public class RessourceGenerator  implements Generator {
         for(Isle isle:world.getIsleList() ){
             List<Tile> tileList = isle.getVegetationTiles();
             int nb = tileList.size();
-            //TreeMap<Double, Tile> tileSurfaceList = orderIslesBasedOnSurface( tileList );
+
             TreeMap<Double, List<Tile>> tileSurfaceList = orderIslesBasedOnSurface( tileList );
             applyRichiness( tileSurfaceList, nb);
 
@@ -34,14 +35,7 @@ public class RessourceGenerator  implements Generator {
 
         float ecartEachTile =  255f / nbTiles;
         float richiness;
-        /*
-        for(Tile tile:tileSurfaceList.values() ){
-            richiness = ecartEachTile;
-            tile.setRichiness(richiness);
-            ++ ecartEachTile;
-        }
 
-         */
         for(List<Tile> list:tileSurfaceList.values()){
             for(Tile tile:list ){
                 richiness = ecartEachTile;
@@ -50,8 +44,6 @@ public class RessourceGenerator  implements Generator {
             }
             ++ ecartEachTile;
         }
-
-
     }
 
 
@@ -61,12 +53,12 @@ public class RessourceGenerator  implements Generator {
 
         double surface;
 
-        //TreeMap<Double, Tile> surfaceEachTile = new TreeMap<>();
+
         TreeMap<Double, List<Tile>> surfaceEachTile = new TreeMap<>();
         for(Tile tile:tileList){
             tile.setBackgroundColor(color);
             surface = findTileSurface(tile);
-            //surfaceEachTile.put(surface, tile);
+
             addTile(surfaceEachTile, surface, tile);
         }
         return surfaceEachTile;
