@@ -1,18 +1,18 @@
 package world.generator.ressourcesProduction;
 
-import geometry.Coordinate;
 import islandSet.Isle;
 import world.Tile;
 import world.TileColor;
 import world.World;
 import world.generator.Generator;
+import world.generator.calculator.TileCaracteristicCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 
-public class RessourceGenerator  implements Generator {
+public class RessourceGenerator  extends TileCaracteristicCalculator implements Generator {
 
     public static final int MAX = 255;
     private final TileColor color = TileColor.CHESTNUT;
@@ -88,9 +88,7 @@ public class RessourceGenerator  implements Generator {
             surfaceEachTile.put(surface, tmp);
         }
     }
-
-
-
+/*
     public double findTileSurface(Tile tile){
 
         List<Coordinate> coordinateList = new ArrayList<>(tile.getCorner());
@@ -147,6 +145,8 @@ public class RessourceGenerator  implements Generator {
     public double substractAndDivide(double sum1, double sum2){
         return Math.abs(sum1 - sum2) / 2;
     }
+
+ */
 
 
 

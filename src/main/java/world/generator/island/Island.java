@@ -5,7 +5,7 @@ import world.Tile;
 import world.World;
 import world.generator.WorldProcessor;
 
-public abstract class Island implements WorldProcessor {
+public abstract class Island  implements WorldProcessor {
 
     public static final int INVALIDE_ALT = -1;
 

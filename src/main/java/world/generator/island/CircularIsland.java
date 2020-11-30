@@ -23,7 +23,7 @@ public class CircularIsland extends IslandShape {
     @Override
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate coordinate) {
         boolean created = false;
-
+        System.out.println( " (int)coordinate.getX() = "+(int)coordinate.getX() );
         List<Tile> islandTiles = findValidIsland(world, random, (int)coordinate.getX());
 
         if(!islandTiles.isEmpty()){

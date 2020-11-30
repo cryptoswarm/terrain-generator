@@ -1,6 +1,5 @@
 package world;
 
-import geometry.Circle;
 import geometry.Coordinate;
 import geometry.Line;
 import geometry.Shape;
@@ -241,7 +240,7 @@ public class World {
         return tiles.get(coordinate);
     }
 
-
+/*
     public void setEllipticIslandBorders(Shape shape){
 
         for (Tile tile : tiles.values()) {
@@ -273,6 +272,8 @@ public class World {
         }
     }
 
+ */
+
     /**
      *
      * @return toutes le coordonnées composant la carte
@@ -296,6 +297,10 @@ public class World {
                 tile.setBackgroundColor(colorDark);
             }
         }
+    }
+
+    public int getTilesNb(){
+        return tiles.size();
     }
 
 }
