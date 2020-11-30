@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-public abstract  class TileCaracteristicCalculator {
+public abstract  class TileAttributesCalculator {
 
 
     public double findTileSurface(Tile tile){
@@ -16,7 +16,7 @@ public abstract  class TileCaracteristicCalculator {
         coordinateList.add(coordinateList.get(0));
         double sum1 = multiplyXByYNextCoordinate(coordinateList);
         double sum2 = multiplyYByXNextCoordinate(coordinateList);
-        return  substractAndDivide(sum1, sum2);
+        return  Math.abs(sum1 - sum2) / 2;
     }
 
     public double findTileSteep(Tile tile){
@@ -38,32 +38,26 @@ public abstract  class TileCaracteristicCalculator {
         return  highestAltCoordinate.distance( lowestAltCoordinate );
     }
 
-
-
     public double multiplyXByYNextCoordinate( List<Coordinate> coordinateList ){
         double sum1 = 0;
-        for(int i=0; i<coordinateList.size(); i++){
-            for(int j=i+1; j<coordinateList.size(); j++){
-                sum1 += coordinateList.get(i).getX() * coordinateList.get(j).getY();
-                break;
-            }
+        int j = 0;
+        for(int i=0; i<coordinateList.size() && j< coordinateList.size()-1; i++){
+            j = i+1;
+            sum1 += coordinateList.get(i).getX() * coordinateList.get(j).getY();
+
         }
         return sum1;
     }
 
     public double multiplyYByXNextCoordinate( List<Coordinate> coordinateList ){
         double sum2 = 0;
+        int j = 0;
+        for(int i=0; i<coordinateList.size() && j< coordinateList.size()-1; i++){
+            j= i+1;
+            sum2 += coordinateList.get(i).getY() * coordinateList.get(j).getX();
 
-        for(int i=0; i<coordinateList.size(); i++){
-            for(int j=i+1; j<coordinateList.size(); j++) {
-                sum2 += coordinateList.get(i).getY() * coordinateList.get(j).getX();
-                break;
-            }
         }
         return sum2;
     }
 
-    public double substractAndDivide(double sum1, double sum2){
-        return Math.abs(sum1 - sum2) / 2;
-    }
 }

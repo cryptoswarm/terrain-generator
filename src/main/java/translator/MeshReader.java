@@ -24,15 +24,16 @@ public class MeshReader implements Reader {
 
     public void readFile(){
 
-        setWorldWidth(Integer.parseInt(readMetadata(mesh, "width")));
-        setWorldHeight(Integer.parseInt(readMetadata(mesh, "height")));
+        c.setWorldWidth( Integer.parseInt(readMetadata(mesh, "width") ) );
+        c.setWorldHeight( Integer.parseInt(readMetadata(mesh, "height") ) );
 
         for (Structs.Polygon polygon: mesh.getPolygonsList()) {
             Structs.Point tileCenterCoordinate = mesh.getPoints(polygon.getCentroidIdx());
             float tileCenterX = tileCenterCoordinate.getX();
             float tileCenterY = tileCenterCoordinate.getY();
             Tile tile = new Tile(new Coordinate( tileCenterX, tileCenterY, -1) );
-            addPolygonToWorld(tile );
+
+            c.addWorldTile(tile);
 
             for(int segmentId: polygon.getSegmentIdxList()) {
                addSegmentToWorld(segmentId,tileCenterX,tileCenterY);
@@ -40,13 +41,7 @@ public class MeshReader implements Reader {
         }
     }
 
-    private void setWorldWidth(int w){
-        c.setWorldWidth(w);
-    }
-    private void setWorldHeight(int h) {c.setWorldHeight(h);}
-    private void addPolygonToWorld(Tile tile){
-        c.addWorldTile(tile);
-    }
+
     private void addSegmentToWorld(int segmentId, float tileCenterX, float tileCenterY){
         Structs.Segment segment = mesh.getSegments(segmentId);
         Structs.Point p1 = mesh.getPoints(segment.getV1Idx());

@@ -137,7 +137,6 @@ public class SurfaceCalculatorTest {
 
         assertEquals(39.44199, islandGenerator.multiplyXByYNextCoordinate( coordinateList ), 0.001 );
         assertEquals(56.09299, islandGenerator.multiplyYByXNextCoordinate(coordinateList), 0.1 );
-        assertEquals(8.3255, islandGenerator.substractAndDivide(39.44199,56.09299 ), 0.1 );
         assertEquals(8.3255, islandGenerator.findTileSurface(tile1), 0.1 );
 
 
@@ -172,7 +171,6 @@ public class SurfaceCalculatorTest {
 
         assertEquals(83, islandGenerator.multiplyXByYNextCoordinate( coordinateList ), 0.001 );
         assertEquals(33, islandGenerator.multiplyYByXNextCoordinate(coordinateList), 0.1 );
-        assertEquals(25, islandGenerator.substractAndDivide(83, 33 ), 0.1 );
         assertEquals(25, islandGenerator.findTileSurface(tile1), 0.1 );
 
     }

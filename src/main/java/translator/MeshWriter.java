@@ -4,10 +4,14 @@ package translator;
 import ca.uqam.ace.inf5153.mesh.io.MeshReader;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import ca.uqam.info.inf5153.ptg.WorldGenerator;
+import geometry.Coordinate;
+import geometry.Line;
+
 import java.io.IOException;
 
 
 public class MeshWriter implements Writer{
+
     private WorldGenerator c;
     private Structs.Mesh mesh;
     private String outFileName;
@@ -42,7 +46,7 @@ public class MeshWriter implements Writer{
             Structs.Polygon p = mesh.getPolygons(i);
             float x = builder.getPoints(p.getCentroidIdx()).getX();
             float y = builder.getPoints(p.getCentroidIdx()).getY();
-            String tileColor = c.getWorldTileColor(x, y);
+            String tileColor = c.getWorldTileColor(new Coordinate(x,y,0) );
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
             builder.getPolygonsBuilder(i).addProperties(color);
         }
@@ -54,7 +58,8 @@ public class MeshWriter implements Writer{
             Structs.Point p1 = mesh.getPoints(segment.getV1Idx());
             Structs.Point p2 = mesh.getPoints(segment.getV2Idx());
 
-            String lineColor = c.getWorldLineColor( p1.getX(), p1.getY(), p2.getX(), p2.getY());
+            Line line = new Line(new Coordinate(p1.getX(),p1.getY(),0), new Coordinate(p2.getX(),p2.getY(),0));
+            String lineColor = c.getWorldLineColor( line );
 
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(lineColor).build();
             builder.getSegmentsBuilder(i).addProperties(color);

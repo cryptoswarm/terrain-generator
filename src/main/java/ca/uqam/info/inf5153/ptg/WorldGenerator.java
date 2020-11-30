@@ -61,6 +61,7 @@ public class WorldGenerator {
      * Ecrire dans le fichier de sortie
      */
     public  void createWorld() {
+
         Reader meshReader = new MeshReader(fileName, this);
         meshReader.readFile();
 
@@ -100,9 +101,9 @@ public class WorldGenerator {
         world.addLine( coordinate, line);
     }
 
-    public  String getWorldTileColor(float x, float y){
+    public  String getWorldTileColor(Coordinate coordinate){
 
-        Tile tile = world.getTile(x,y);
+        Tile tile = world.getTile(coordinate);
         TileColor color = tile.getBackgroundColor();
         int factor;
         factor = mode.getFactor(tile);
@@ -110,9 +111,9 @@ public class WorldGenerator {
 
     }
 
-    public String getWorldLineColor(float x1, float y1, float x2, float y2){
+    public String getWorldLineColor(Line line){
 
-        return world.getLineColor(x1,y1,x2,y2);
+        return world.getLineColor(line);
     }
 
     private void generateWorld(World world) {
@@ -128,7 +129,7 @@ public class WorldGenerator {
             lakeGenerator.generate(world);
         }
 
-        Generator riverGenerator= new RiverGenerator(nbsRiversSrc, soil);
+        Generator riverGenerator= new RiverGenerator(nbsRiversSrc, soil, random);
         riverGenerator.generate(world);
 
         if( production ){
