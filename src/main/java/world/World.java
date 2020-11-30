@@ -1,6 +1,5 @@
 package world;
 
-import geometry.Circle;
 import geometry.Coordinate;
 import geometry.Line;
 import geometry.Shape;
@@ -241,7 +240,7 @@ public class World {
         return tiles.get(coordinate);
     }
 
-
+/*
     public void setEllipticIslandBorders(Shape shape){
 
         for (Tile tile : tiles.values()) {
@@ -272,6 +271,8 @@ public class World {
             }
         }
     }
+
+ */
 
     /**
      *

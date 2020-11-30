@@ -4,7 +4,9 @@ package world;
 import geometry.Coordinate;
 import geometry.Line;
 import world.generator.biome.Biome;
+
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Tile {
@@ -24,7 +26,7 @@ public class Tile {
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.border = new HashSet<>();
+        this.border = new LinkedHashSet<>();
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
@@ -183,7 +185,7 @@ public class Tile {
      * @return la listes des coordonnée des coins de la tuile
      */
     public HashSet<Coordinate> getCorner() {
-        HashSet<Coordinate> c = new HashSet<>();
+        HashSet<Coordinate> c = new LinkedHashSet<>();
         for(Line l: border){
             c.add(l.getC1());
             c.add(l.getC2());
@@ -198,19 +200,6 @@ public class Tile {
 
     public void addBorder(Line l){
         border.add(l);
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tile tile = (Tile) o;
-        return center.equals(tile.center);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(center);
     }
 
     /**
@@ -228,5 +217,18 @@ public class Tile {
 
     public void setRichiness(float richiness) {
         this.richiness = richiness;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tile tile = (Tile) o;
+        return center.equals(tile.center);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(center);
     }
 }

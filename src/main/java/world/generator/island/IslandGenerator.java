@@ -73,7 +73,9 @@ public class IslandGenerator extends TileCaracteristicCalculator implements Gene
         //TreeMap<Double, Tile> surfaceEachTile = new TreeMap<>();
         NavigableMap<Double, Tile> reverseOrder =  new TreeMap<>();
         for(Tile tile:world.getTiles().values()){
+            System.out.println(tile.getCorner().toString());
             tileSurface = findTileSurface(tile);
+            System.out.println("area = "+tileSurface);
             /*
             area += tileSurface;
             ++i;
@@ -87,16 +89,19 @@ public class IslandGenerator extends TileCaracteristicCalculator implements Gene
         }
         //reverseOrder.descendingKeyMap();
         for(NavigableMap.Entry<Double, Tile> entry:reverseOrder.entrySet()){
-           /*
+
             area += entry.getKey();
+            /*
             ++i;
             if(i == islandNbTiles){
                 break;
             }
 
             */
+
             System.out.println(entry.getKey());
         }
+        System.out.println(" area = "+area);
 
 
         return  (int)( 2* Math.sqrt( area / Math.PI) );
