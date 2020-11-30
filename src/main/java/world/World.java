@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 public class World {
+
     final private RandomContexte random;
     final private HashMap<Coordinate, Tile> tiles;
     private List<Isle> isleList;
@@ -38,8 +39,8 @@ public class World {
      * @return  la tuile equivalente
      */
 
-    public Tile getTile(float x, float y){
-        return tiles.get(new Coordinate(x,y,0));
+    public Tile getTile(Coordinate coordinate){
+        return tiles.get(coordinate);
     }
 
     /**
@@ -50,8 +51,7 @@ public class World {
      * @param y2  est la coordonnée sur l'axe des ordonnées du deuxiem point
      * @return   la couleur de la ligne
      */
-    public String getLineColor(float x1, float y1, float x2, float y2){
-        Line line = new Line(new Coordinate(x1,y1,0), new Coordinate(x2,y2,0));
+    public String getLineColor(Line line){
 
         for(Tile tile: tiles.values()){
             for(Line l: tile.getBorder()){
@@ -199,13 +199,7 @@ public class World {
 
         Tile tile = findRandomVegetationTile();
         HashSet<Coordinate> coordinates = new HashSet<>();
-        /*
-        for(Line line: tile.getBorder()) {
-            coordinates.add(line.getC1());
-            coordinates.add(line.getC2());
-        }
 
-         */
         coordinates.addAll( tile.getCorner() );
         ArrayList<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));

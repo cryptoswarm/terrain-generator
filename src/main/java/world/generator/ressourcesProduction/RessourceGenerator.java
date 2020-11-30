@@ -5,14 +5,14 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 import world.generator.Generator;
-import world.generator.calculator.TileCaracteristicCalculator;
+import world.generator.calculator.TileAttributesCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
 
-public class RessourceGenerator  extends TileCaracteristicCalculator implements Generator {
+public class RessourceGenerator  extends TileAttributesCalculator implements Generator {
 
     public static final int MAX = 255;
     private final TileColor color = TileColor.CHESTNUT;

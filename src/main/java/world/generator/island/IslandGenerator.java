@@ -5,12 +5,12 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 import world.generator.Generator;
-import world.generator.calculator.TileCaracteristicCalculator;
+import world.generator.calculator.TileAttributesCalculator;
 
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
-public class IslandGenerator extends TileCaracteristicCalculator implements Generator {
+public class IslandGenerator extends TileAttributesCalculator implements Generator {
 
     private final int width;
     private final int height;
