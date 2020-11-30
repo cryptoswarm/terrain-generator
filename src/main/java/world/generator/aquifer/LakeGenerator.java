@@ -1,9 +1,12 @@
 package world.generator.aquifer;
 
+import islandSet.Isle;
 import randomStrategy.RandomContexte;
-import world.*;
+import world.Tile;
+import world.World;
 import world.generator.Generator;
-import world.generator.WorldProcessor;
+import world.generator.IslandProcessor;
+import world.soilType;
 
 public class LakeGenerator implements Generator {
 
@@ -20,15 +23,31 @@ public class LakeGenerator implements Generator {
 
     @Override
     public void generate(World w) {
-        int nbsNape  = random.getRandomInt(nbsWaterSrc+1);
-        WorldProcessor wp;
-        for (int i = nbsNape ;i >= 0; i--) {
-            wp = new Nape(w.findRandomVegetationTile(), soil);
-            wp.apply(w);
-        }
-        for (int i = nbsWaterSrc-nbsNape; i >= 0; i--) {
-            wp = new Lake(w.findRandomVegetationTile(), soil);
-            wp.apply(w);
+
+        for(Isle isle:w.getIsleList()){
+
+            int nbsNape  = random.getRandomInt(nbsWaterSrc+1);
+
+            IslandProcessor islandProcessor;
+
+            for (int i = nbsNape ;i >= 0; i--) {
+
+                Tile centerNape = isle.findRandomVegetationTile(random);
+
+                islandProcessor = new Nape();
+                islandProcessor.setAquiferCenter(centerNape);
+                islandProcessor.setSoil(soil);
+                islandProcessor.apply(isle);
+            }
+
+            for (int i = nbsWaterSrc-nbsNape; i >= 0; i--) {
+                Tile centerLake = isle.findRandomVegetationTile(random);
+                islandProcessor = new Lake();
+                islandProcessor.setAquiferCenter(centerLake);
+                islandProcessor.setSoil(soil);
+
+                islandProcessor.apply(isle);
+            }
         }
     }
 }

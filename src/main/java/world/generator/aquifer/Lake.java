@@ -1,42 +1,75 @@
 package world.generator.aquifer;
 
-import world.TileColor;
+import islandSet.Isle;
 import world.Tile;
-import world.World;
+import world.TileColor;
+import world.generator.biome.Biome;
 import world.soilType;
+
 import java.util.HashSet;
 
 import static world.TileColor.WATERBLUE;
 
-public class Lake extends Aquifer {
-    final private Tile tile;
+public class Lake extends Aquifer implements Biome {
+
+    private Tile aquiferCenter;
     final private HashSet<Tile> lake = new HashSet<>();
     final private TileColor color = WATERBLUE;
-    final private soilType soil;
+    private soilType soil;
+    private final  String type = "lake";
 
+    /*
     public Lake(Tile tile, soilType soil) {
-        this.tile = tile;
+        this.aquiferCenter = tile;
+        this.soil = soil;
+    }
+
+     */
+
+    public Lake() {}
+
+    public void setAquiferCenter(Tile tile) {
+        this.aquiferCenter = tile;
+    }
+
+    public void setSoil(soilType soil) {
         this.soil = soil;
     }
 
     @Override
-    public void apply(World w) {
-        double lowestAltitude;
-        lowestAltitude = tile.getAltitude();
-        lake.add(tile);
+    public TileColor getColor() {
+        return color;
+    }
 
-        for(Tile i : w.getNeighbor(tile)) {
-            if(i.getBiome().getType().equals("vegetation")) {
-                lake.add(i);
-                if(i.getAltitude() < lowestAltitude) {
-                    lowestAltitude = i.getAltitude();
+    @Override
+    public String getType() {
+        return type;
+    }
+
+    @Override
+    public void apply(Isle isle) {
+
+        double lowestAltitude;
+        lowestAltitude = aquiferCenter.getAltitude();
+        lake.add(aquiferCenter);
+
+        for(Tile tile : isle.getNeighbor(aquiferCenter)) {
+            if(tile.getBiome().getType().equals("vegetation")) {
+
+                lake.add(tile);
+                if(tile.getAltitude() < lowestAltitude) {
+                    lowestAltitude = tile.getAltitude();
                 }
             }
         }
         for(Tile i: lake) {
+            i.setBiome(new Lake());
             i.setAltitude(lowestAltitude);
             i.setBackgroundColor(color);
         }
-        this.applyHumidityEffect(w,lake,soil);
+        this.applyHumidityEffect(isle,lake,soil);
     }
+
+
+
 }

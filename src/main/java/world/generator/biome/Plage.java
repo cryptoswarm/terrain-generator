@@ -1,15 +1,16 @@
 package world.generator.biome;
 
 import geometry.Coordinate;
+import world.Tile;
 import world.TileColor;
 import world.World;
-import world.Tile;
+import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
 import static world.TileColor.SAND;
 
-public class Plage extends Biome {
+public class Plage implements Biome , WorldProcessor {
 
     private  final TileColor color = SAND;
     private final  String type = "plage";

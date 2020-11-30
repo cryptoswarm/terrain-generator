@@ -1,13 +1,14 @@
 package world.generator.biome;
 
-import world.generator.WorldProcessor;
 import world.World;
 import world.generator.Generator;
+import world.generator.WorldProcessor;
 
 public class BiomeGenerator implements Generator {
-    public BiomeGenerator() {}
 
-    public void generate(World w) {
+        public BiomeGenerator() {}
+
+        public void generate(World w) {
 
         WorldProcessor wp;
         wp = new Ocean();
@@ -22,5 +23,6 @@ public class BiomeGenerator implements Generator {
         wp.apply(w);
 
     }
+
 
 }

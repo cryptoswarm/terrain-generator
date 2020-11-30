@@ -1,6 +1,5 @@
 package world.generator.island;
 
-import geometry.Coordinate;
 import geometry.Line;
 import randomStrategy.RandomContexte;
 import world.Tile;
@@ -15,10 +14,10 @@ public abstract class IslandShape {
      * @param world
      * @param random
      * @param maxAltitude
-     * @param border
+     * @param diameter
      * @return
      */
-    abstract boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border);
+    abstract boolean createIsland(World world, RandomContexte random, int maxAltitude, int diameter);
 
     /**
      *

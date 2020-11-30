@@ -2,53 +2,81 @@ package world.generator.aquifer;
 
 import geometry.Coordinate;
 import geometry.Line;
+import islandSet.Isle;
+import randomStrategy.RandomContexte;
 import world.Tile;
 import world.TileColor;
-import world.World;
 import world.soilType;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 public class River extends Aquifer {
+
+
+    private soilType soil;
+    private Tile aquiferCenter;
 
     private static final String OCEAN = "ocean";
     private static final String LAGOON = "lagoon";
     private static final String PLAGE = "plage";
 
     private Coordinate coordinate;
-    final private soilType soil;
+
     final private HashSet<Line> river = new HashSet<>();
     final private TileColor riverColor = TileColor.WATERBLUE;
+    private  RandomContexte random;
 
-    public River(Coordinate c, soilType soil) {
-        this.coordinate = c;
+    public River(RandomContexte random) {
+        this.random = random;
+    }
+
+
+    public void setAquiferCenter(Tile tile) {
+        this.aquiferCenter= tile;
+    }
+
+    public void setSoil(soilType soil) {
         this.soil = soil;
     }
 
-    @Override
-    public void apply(World world) {
+    private  Coordinate generateRandomCoordinate(Tile tile){
 
-        findRiverPath( world, coordinate, river );
-        HashSet<Tile> wetZone = applyRiverEffects( world );
-        applyHumidityToAffectedTilesByRiver( world, wetZone );
+        HashSet<Coordinate> coordinates = new HashSet<>(tile.getCorner());
+        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
+        return c.get(random.getRandomInt(c.size()-1));
 
     }
 
+
+
+    @Override
+    public void apply(Isle isle) {
+
+        this.coordinate = generateRandomCoordinate(aquiferCenter);
+        findRiverPath( isle, coordinate, river );
+        HashSet<Tile> wetZone = applyRiverEffects( isle);
+        applyHumidityToAffectedTilesByRiver( isle, wetZone );
+
+    }
+
+
+
+
+
     /**
-     *
-     * @param world  l'objet world permettant d'acceder aux methodes publiques
      * @param coordinate  une coordnnée generee aleatoirement
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(World world, Coordinate coordinate, HashSet<Line> river ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
 
         double riverHeight = coordinate.getZ();
         Coordinate coordinateStart = coordinate;
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
-        for (Line i : world.getLine(coordinate)) {
+        for (Line i : isle.getLine(coordinate)) {
             Coordinate c1 = i.getC1();
             Coordinate c2 = i.getC2();
             if (c1.getZ() < riverHeight) {
@@ -68,19 +96,19 @@ public class River extends Aquifer {
             river.add(tmpL);
         }
 
-        if (!isRiverEnded(world ) && !coordinate.equals(coordinateStart ) ) {
-            findRiverPath( world , coordinate, river);
+        if (!isRiverEnded(isle ) && !coordinate.equals(coordinateStart ) ) {
+            findRiverPath( isle , coordinate, river);
         }
     }
 
     /**
      * on fait couler la riviere jusqu'elle atteigne une sources d'eau
-     * @param w  l'objet world permettant d'acceder aux methodes publiques
+     * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( World w ){
+    private boolean isRiverEnded( Isle isle ){
         boolean end = false;
-        for(Tile tile: w.getNeighbor(coordinate)){
+        for(Tile tile: isle.getNeighbor(coordinate)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
@@ -94,14 +122,14 @@ public class River extends Aquifer {
      *  Augmneter le flow
      *  Trouver les tuiles qui sont a cote de la riviere
      *
-     * @param world l'objet world permettant d'acceder aux methodes publiques
+     * @param isle une ile
      * @return
      */
-    private HashSet<Tile> applyRiverEffects(World world){
+    private HashSet<Tile> applyRiverEffects(Isle isle){
 
         HashSet<Tile> wetZone = new HashSet<>();
         for(Line i: river) {
-            wetZone.addAll( world.getNeighbor(i) );
+            wetZone.addAll( isle.getNeighbor(i) );
             i.setColor(riverColor);
             i.increaseFlow();
         }
@@ -110,10 +138,10 @@ public class River extends Aquifer {
 
     /**
      * On applique un facteur representant l'humidité
-     * @param world
+     * @param isle est l'ile.
      * @param wetZone  les tuiles adjacentes à la riviere
      */
-    private void applyHumidityToAffectedTilesByRiver( World world, HashSet<Tile> wetZone ){
-        this.applyHumidityEffect(world,wetZone, soil);
+    private void applyHumidityToAffectedTilesByRiver( Isle isle, HashSet<Tile> wetZone ){
+        this.applyHumidityEffect(isle,wetZone, soil);
     }
 }

@@ -1,15 +1,18 @@
 package world.generator.biome;
 
 import geometry.Coordinate;
+import world.Tile;
 import world.TileColor;
 import world.World;
-import  world.Tile;
+import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Lagoon extends Biome {
+public class Lagoon implements Biome, WorldProcessor {
+
     private final  TileColor color = TileColor.WATERBLUE;
     private final  String type = "lagoon";
+
     public Lagoon() {}
 
     @Override

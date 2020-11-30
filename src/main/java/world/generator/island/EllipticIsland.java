@@ -22,10 +22,10 @@ public class EllipticIsland extends IslandShape {
     }
 
     @Override
-    public boolean createIsland(World world, RandomContexte random, int maxAltitude, Coordinate border){
+    public boolean createIsland(World world, RandomContexte random, int maxAltitude, int diameter){
         boolean created = false;
 
-        List<Tile> islandTiles = findValidIsland(world, random, (int)border.getX() );
+        List<Tile> islandTiles = findValidIsland(world, random, diameter );
 
         if(!islandTiles.isEmpty()) {
             Island island = new Tortuga( islandTiles, ellipse, random, maxAltitude);

@@ -1,6 +1,7 @@
 package islandSet;
 
 import geometry.Coordinate;
+import geometry.Line;
 import randomStrategy.RandomContexte;
 import world.Tile;
 
@@ -32,8 +33,6 @@ public class Isle {
         return tileList;
     }
 
-
-
     public Tile findRandomVegetationTile( RandomContexte random){
         Tile tile;
         do {
@@ -56,6 +55,61 @@ public class Isle {
         ArrayList<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
     }
+
+
+    public HashSet<Tile> getNeighbor(Tile t) {
+
+        HashSet<Coordinate> coordinate = new HashSet<>();
+        HashSet<Tile> neighbor = new HashSet<>();
+
+        for(Line line: t.getBorder()){
+            coordinate.add(line.getC1());
+            coordinate.add(line.getC2());
+        }
+        for(Coordinate c: coordinate) {
+            neighbor.addAll( getNeighbor(c) );
+        }
+        return neighbor;
+    }
+
+    public HashSet<Tile> getNeighbor(Coordinate c) {
+
+        HashSet<Tile> neighbor = new HashSet<>();
+        for(Tile tile: islandTiles){
+            for(Line line: tile.getBorder()){
+                if(c.equals(line.getC1()) || c.equals(line.getC2())){
+                    neighbor.add(tile);
+                }
+            }
+        }
+        return neighbor;
+    }
+
+
+    public HashSet<Line> getLine(Coordinate c){
+
+        HashSet<Line> lines = new HashSet<>();
+        for(Tile tile: islandTiles){
+
+            for (Line line : tile.getBorder()) {
+                if (line.getC1().equals(c) || line.getC2().equals(c)) {
+                    lines.add(line);
+                }
+            }
+        }
+        return lines;
+    }
+
+
+    public HashSet<Tile> getNeighbor(Line l) {
+        HashSet<Tile> neighbor = new HashSet<>();
+
+        neighbor.addAll(getNeighbor(l.getC1()));
+        neighbor.addAll(getNeighbor(l.getC2()));
+
+        return neighbor;
+    }
+
 
 
 }

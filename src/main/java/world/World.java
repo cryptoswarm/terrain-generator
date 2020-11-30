@@ -34,8 +34,7 @@ public class World {
 
     /**
      *
-     * @param x la coordonnée sur l'axe des abscice
-     * @param y la coordonnée sur l'axe des ordonnées
+     * @param coordinate une coordonnée
      * @return  la tuile equivalente
      */
 
@@ -198,9 +197,8 @@ public class World {
     public Coordinate findRandomCoordinate(){
 
         Tile tile = findRandomVegetationTile();
-        HashSet<Coordinate> coordinates = new HashSet<>();
 
-        coordinates.addAll( tile.getCorner() );
+        HashSet<Coordinate> coordinates = new HashSet<>(tile.getCorner());
         ArrayList<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
     }

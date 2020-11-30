@@ -1,12 +1,14 @@
 package world.generator.biome;
 
 import geometry.Coordinate;
+import world.Tile;
 import world.TileColor;
 import world.World;
-import world.Tile;
+import world.generator.WorldProcessor;
+
 import java.util.HashMap;
 
-public class Vegetation extends Biome {
+public class Vegetation implements Biome, WorldProcessor {
     private final  TileColor color = TileColor.LIGHTGREEN;
     private final  String type = "vegetation";
 
@@ -38,7 +40,6 @@ public class Vegetation extends Biome {
             }
         }
     }
-
 
 
 }

@@ -1,11 +1,11 @@
 package world.generator.aquifer;
 
-import geometry.Coordinate;
 import islandSet.Isle;
 import randomStrategy.RandomContexte;
+import world.Tile;
 import world.World;
 import world.generator.Generator;
-import world.generator.WorldProcessor;
+import world.generator.IslandProcessor;
 import world.soilType;
 
 public class RiverGenerator implements Generator {
@@ -27,11 +27,13 @@ public class RiverGenerator implements Generator {
         for(Isle isle:w.getIsleList() ) {
 
             for (int i = nbsRiverSrc; i > 0; i--) {
-                Coordinate coordinate = isle.findRandomCoordinate(random);
-                WorldProcessor river = new River(coordinate, soil);
-                river.apply(w);
+                Tile tile = isle.findRandomTile(random);
+                //WorldProcessor river = new River(coordinate, soil);
+                IslandProcessor river = new River(random);
+                river.setSoil(soil);
+                river.setAquiferCenter(tile);
+                river.apply(isle);
             }
         }
     }
-
 }

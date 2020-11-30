@@ -37,7 +37,7 @@ public class Atoll extends Island {
     public void defineAltitude(World world, int maxAltitude){
 
         TreeMap<Double, List<Tile>> sortedListTiles = new TreeMap<>();
-        System.out.println(" nb tiles in island atoll = "+islandTiles.size() );
+
         for(Tile tile:islandTiles){
             double distance;
 

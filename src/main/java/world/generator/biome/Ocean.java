@@ -5,10 +5,12 @@ import geometry.Coordinate;
 import world.TileColor;
 import world.World;
 import world.Tile;
+import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Ocean extends Biome {
+public class Ocean implements Biome , WorldProcessor {
+
     public static final int HUMIDITY_LEVEL = -1;
     public static final int ALTITUDE = 0;
     private final  TileColor color = TileColor.OCEANBLUE;
