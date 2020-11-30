@@ -55,7 +55,7 @@ public class SurfaceCalculatorTest {
         Line line5 = new Line(coordinate5, coordinate6);
         Line line6 = new Line(coordinate6, coordinate7);
 
-        world.addTile(0,0,0);
+        world.addTile(tile);
         tile.addBorder(line1);
         tile.addBorder(line2);
         tile.addBorder(line3);
@@ -65,7 +65,7 @@ public class SurfaceCalculatorTest {
     }
 
     @Test
-    public void checkSurface1(){
+    public void checkSurface1(){ ////unknown shape
 
 
         assertEquals(72.3671875,  islandGenerator.findTileSurface(tile), 0.001 );
@@ -73,7 +73,7 @@ public class SurfaceCalculatorTest {
 
 
     @Test
-    public void checkSurface2(){
+    public void checkSurface2(){ //unknown shape
 
         coordinateList.clear();
 
@@ -103,7 +103,7 @@ public class SurfaceCalculatorTest {
 
 
     @Test
-    public void checkSurface3(){
+    public void checkSurface3(){ //unknown shape
 
         coordinateList.clear();
 
@@ -141,6 +141,69 @@ public class SurfaceCalculatorTest {
         assertEquals(8.3255, islandGenerator.findTileSurface(tile1), 0.1 );
 
 
+
+    }
+
+
+    @Test
+    public void checkSurface4(){  //triangle
+
+        coordinateList.clear();
+
+        Tile tile1 = new Tile(new Coordinate(3,4,0));
+
+        coordinateList.add(new Coordinate(2f, 1f, 0));
+        coordinateList.add(new Coordinate(8, 9f, 0));
+        coordinateList.add(new Coordinate(1f, 8f, 0));
+
+        coordinateList.add(new Coordinate(2f, 1f, 0)); //we add this coordinate for the sake of test
+
+
+        Line line1 = new Line(new Coordinate(2f, 1f, 0), new Coordinate(8, 9f, 0));
+        Line line2 = new Line(new Coordinate(8, 9f, 0), new Coordinate(1f, 8f, 0));
+        Line line3 = new Line(new Coordinate(1f, 8f, 0), new Coordinate(2f, 1f, 0));
+
+
+        tile1.addBorder(line1);
+        tile1.addBorder(line2);
+        tile1.addBorder(line3);
+
+
+
+        assertEquals(83, islandGenerator.multiplyXByYNextCoordinate( coordinateList ), 0.001 );
+        assertEquals(33, islandGenerator.multiplyYByXNextCoordinate(coordinateList), 0.1 );
+        assertEquals(25, islandGenerator.substractAndDivide(83, 33 ), 0.1 );
+        assertEquals(25, islandGenerator.findTileSurface(tile1), 0.1 );
+
+    }
+
+    @Test
+    public void checkSurface5(){  //square
+
+        coordinateList.clear();
+
+        Tile tile1 = new Tile(new Coordinate(17,15,0));
+
+        coordinateList.add(new Coordinate(7f, 4f, 0));
+        coordinateList.add(new Coordinate(29, 4f, 0));
+        coordinateList.add(new Coordinate(29f, 26f, 0));
+        coordinateList.add(new Coordinate(7f, 26f, 0));
+
+
+
+
+        Line line1 = new Line(new Coordinate(7f, 4f, 0), new Coordinate(29, 4f, 0));
+        Line line2 = new Line(new Coordinate(29, 4f, 0), new Coordinate(29f, 26f, 0));
+        Line line3 = new Line(new Coordinate(29f, 26f, 0), new Coordinate(7f, 26f, 0));
+        Line line4 = new Line(new Coordinate(7f, 26f, 0), new Coordinate(7f, 4f, 0));
+
+
+        tile1.addBorder(line1);
+        tile1.addBorder(line2);
+        tile1.addBorder(line3);
+        tile1.addBorder(line4);
+
+        assertEquals(484, islandGenerator.findTileSurface(tile1), 0.1 );
 
     }
 

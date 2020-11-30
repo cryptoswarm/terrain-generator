@@ -1,5 +1,7 @@
 package ca.uqam.info.inf5153.ptg;
 
+import geometry.Coordinate;
+import geometry.Line;
 import randomStrategy.RandomContexte;
 import translator.MeshReader;
 import translator.MeshWriter;
@@ -87,15 +89,15 @@ public class WorldGenerator {
 
     /**
      *
-     * @param x est la coordonnée sur l'axe des abscice  d'une quelconque tuile
-     * @param y est la coordonnée sur l'axe des ordonnées  d'une quelconque tuile
+     * @param tile la tuile à ajouter dans le world
      */
-
-    public void addWorldTile(float x, float y){
-        world.addTile(x,y,-1);
+    public void addWorldTile(Tile tile){
+        world.addTile(tile);
     }
-    public void addWorldLine(float x, float y, float x1, float y1, float x2, float y2) {
-        world.addLine(x,y,x1,y1,x2,y2);
+
+    public void addWorldLine(Coordinate coordinate, Line line) {
+
+        world.addLine( coordinate, line);
     }
 
     public  String getWorldTileColor(float x, float y){
