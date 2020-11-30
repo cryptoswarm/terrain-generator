@@ -145,37 +145,28 @@ public class World {
 
     /**
      * Ajouter une tuile à la fois
-     * A partir des coordonnées de la tuile on l'ajoute à la liste des tuiles composant la carte ( AKA WORLD )
-     * @param x la coordonnée sur l'axe des abscice
-     * @param y la coordonnée sur l'axe des ordonnées
+
+     * @param  tile, la tuile à ajouter dans la listes des tuiles
+
      */
-    public void addTile(float x, float y, float z) {
-        Coordinate c = new Coordinate(x,y,z);
-        Tile t = new Tile(c);
-        tiles.put(c,t);
+    public void addTile(Tile tile) {
+
+        Coordinate c = tile.getCenter();
+        tiles.put(c,tile);
     }
 
     /**
+     *
      * Pour pouvoir associer une ligne aux bordures d'une tuile
-     * On doit trouver la tuile en question, pour cela on a besoin des coordonnées de la tuile
-     * Aussi, on a besoin des coordonnees de la ligne
+     *  On doit trouver la tuile en question, pour cela on a besoin des coordonnées de la tuile
      *
-     *
-     * @param x est la coordonnée sur l'axe des abscice  d'une quelconque tuile
-     * @param y est la coordonnée sur l'axe des ordonnées  d'une quelconque tuile
-     *          Permetant de trouver la tuile équivalente
-     *
-     * @param x1  est la coordonnée sur l'axe des abscice du premier point
-     * @param y1  est la coordonnée sur l'axe des ordonnées du premier point
-     * @param x2  est la coordonnée sur l'axe des abscice du deuxiem point
-     * @param y2  est la coordonnée sur l'axe des ordonnées du deuxiem point
+     * @param coordinate   la coordonnée au centre de la tuile
+     * @param line      la line à ajouter aux bordures de la tuile
      */
-    public void addLine(float x, float y, float x1, float y1, float x2, float y2){
+    public void addLine(Coordinate coordinate, Line line){
 
-        Coordinate c1 = new Coordinate(x1,y1,-1);
-        Coordinate c2 = new Coordinate(x2,y2,-1);
-        Tile t = tiles.get( new Coordinate(x,y,-1) );
-        t.addBorder(new Line(c1,c2));
+        Tile t = tiles.get( coordinate );
+        t.addBorder(line);
     }
 
     /**
