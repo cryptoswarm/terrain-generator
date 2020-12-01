@@ -19,7 +19,6 @@ public class Tile {
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-    private boolean isInPlage;
     final private HashSet<Line> border;
     private float richiness;
 
@@ -30,7 +29,6 @@ public class Tile {
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
-        this.isInPlage = false;
         this.isInOcean = true;
     }
 
@@ -146,14 +144,6 @@ public class Tile {
 
     public void setInOcean(boolean inOcean) {
         isInOcean = inOcean;
-    }
-
-    public void setInPlage(boolean inPlage) {
-        isInPlage = inPlage;
-    }
-
-    public boolean isInPlage() {
-        return isInPlage;
     }
 
     /**

@@ -31,8 +31,6 @@ public class Atoll extends Island {
 
     }
 
-
-
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
@@ -48,6 +46,20 @@ public class Atoll extends Island {
 
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
         adjustProfile(sortedListTiles);
+        double area = 0;
+
+        for(Tile tile:world.getTiles().values()){
+            area +=findTileSurface(tile);
+        }
+
+        System.out.println("area of world = "+area);
+        area =0;
+
+        for(Tile tile:islandTiles){
+            area += findTileSurface(tile);
+        }
+
+        System.out.println("diameter = "+circle.getDiameter()+"nb tiles in island = "+islandTiles.size()+" area = "+area);
 
     }
 

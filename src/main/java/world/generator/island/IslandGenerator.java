@@ -12,6 +12,9 @@ import java.util.TreeMap;
 
 public class IslandGenerator extends TileAttributesCalculator implements Generator {
 
+    public static final int AREA_OF_ISLAND = 92539;
+    public static final int DIAMETER_Of_Island = 500;
+
     private final int width;
     private final int height;
     private final RandomContexte random;
@@ -32,9 +35,11 @@ public class IslandGenerator extends TileAttributesCalculator implements Generat
     @Override
     public void generate(World w) {
 
-        int diameter = calculateDiameter(w);
+        //int diameter = (int)( 2* Math.sqrt( AREA_OF_ISLAND / Math.PI) );
+        //int diameter = calculateDiameter(w);
         int islandNotGenerated = 0;
         IslandShape islandShape;
+
 
         if ("tortuga".equals(shape)) {
             islandShape = new EllipticIsland( height, width);
@@ -43,7 +48,8 @@ public class IslandGenerator extends TileAttributesCalculator implements Generat
         }
 
         for(int n=0; n<nbIsland; n++) {
-            if( !islandShape.createIsland(w, random, maxAltitude, diameter) ){
+
+            if( !islandShape.createIsland(w, random, maxAltitude, DIAMETER_Of_Island) ){
                 ++islandNotGenerated;
             }
         }
@@ -52,18 +58,11 @@ public class IslandGenerator extends TileAttributesCalculator implements Generat
             System.out.println("Nombre d'ile non construit à cause du manque de tuiles est : "+islandNotGenerated);
         }
     }
-/*
-    public int generateDiameter(){
 
-        int shortest = Math.min(width, height);
-        return random.getRandomInt(shortest / 16) + shortest*3/8;
-    }
-
- */
 
     public int calculateDiameter(World world){
 
-        int islandNbTiles = 255;//random.getRandomInt(20)+240;
+        int islandNbTiles = 256;
         double area = 0;
         double tileSurface;
         int i = 0;
