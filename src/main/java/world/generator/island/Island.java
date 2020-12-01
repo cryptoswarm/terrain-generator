@@ -41,32 +41,29 @@ public abstract class Island extends TileAttributesCalculator implements WorldPr
      * @param currentAlt  l'altitude donnée à la tuile
      * @param centerOfShape  la coordonnée du centre de l'ile
      */
-    public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile){
+    public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile) {
 
-        double distance = tile.getCenter().distance( centerOfShape );
+        double distance = tile.getCenter().distance(centerOfShape);
         int nbCorners = tile.getCorner().size();
         float diffrenceAltEachCorner = diffrenceAltEachtile / nbCorners;
 
-        for(Coordinate c: tile.getCorner()){
-            double dist = c.distance( centerOfShape );
+        for (Coordinate c : tile.getCorner()) {
+            double dist = c.distance(centerOfShape);
 
-            if( dist > distance){
+            if (c.getZ() == INVALIDE_ALT) {
 
-                if( c.getZ() == INVALIDE_ALT) {
+                if (dist > distance) {
+
                     c.setZ((float) currentAlt - diffrenceAltEachCorner);
-                }
+                } else if (dist < distance) {
 
-            }else if( dist < distance ){
-
-                if(c.getZ() == INVALIDE_ALT ) {
                     c.setZ((float) currentAlt + diffrenceAltEachCorner);
+                } else {
+                    c.setZ((float) currentAlt);
                 }
 
             }else{
-
-                if(c.getZ() == INVALIDE_ALT ) {
-                    c.setZ((float) currentAlt);
-                }
+                System.out.println("alt aleardy set ");
             }
         }
     }
