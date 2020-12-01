@@ -40,7 +40,6 @@ public class Plage implements Biome , WorldProcessor {
                         tile.setBackgroundColor(color);
                         tile.setHumidityLevel(255);
                         tile.setInOcean(false);
-                        tile.setInPlage(true);
                         tile.setOnIsland(false); //add
                         break;
                     }

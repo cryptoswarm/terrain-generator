@@ -4,8 +4,9 @@ import geometry.Coordinate;
 import world.Tile;
 import world.World;
 import world.generator.WorldProcessor;
+import world.generator.calculator.TileAttributesCalculator;
 
-public abstract class Island  implements WorldProcessor {
+public abstract class Island extends TileAttributesCalculator implements WorldProcessor {
 
     public static final int INVALIDE_ALT = -1;
 
@@ -18,7 +19,7 @@ public abstract class Island  implements WorldProcessor {
      * @param maxAltitude l'altitude maximale donnée à l'ile
      */
 
-    abstract void defineAltitude(World world,  int maxAltitude );
+    public abstract void defineAltitude(World world,  int maxAltitude );
 
     /**
      * En se basant sur la position d'une tuile par rapport au centre de l'ile, on assigne une boolean identifiant le biome
@@ -26,7 +27,7 @@ public abstract class Island  implements WorldProcessor {
      *
      * @param world Objet world permettant d'acceder au methode publiques.
      */
-    abstract void setBorders( World world );
+    public abstract void setBorders( World world );
 
     /**
      * Le coin de la tuile le plus lointain du centre de la tuile
