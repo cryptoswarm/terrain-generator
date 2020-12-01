@@ -6,11 +6,10 @@ import islandSet.Isle;
 import world.Tile;
 import world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Atoll extends Island {
+
 
     private final Circle circle;
     private final int maxAltitude;
@@ -41,26 +40,11 @@ public class Atoll extends Island {
 
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
-
         }
+
 
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
         adjustProfile(sortedListTiles);
-        double area = 0;
-
-        for(Tile tile:world.getTiles().values()){
-            area +=findTileSurface(tile);
-        }
-
-        System.out.println("area of world = "+area);
-        area =0;
-
-        for(Tile tile:islandTiles){
-            area += findTileSurface(tile);
-        }
-
-        System.out.println("diameter = "+circle.getDiameter()+"nb tiles in island = "+islandTiles.size()+" area = "+area);
-
     }
 
 
@@ -74,6 +58,8 @@ public class Atoll extends Island {
             sortedListTiles.put(distance, tiles);
         }
     }
+
+
 
     /**
      *
@@ -100,7 +86,9 @@ public class Atoll extends Island {
     public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
 
         int milieu = sortedListTiles.size()/2;
-        float diffrenceAltEachtile = (float)maxAlt/milieu;
+
+        float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
+
         float currentAlt = diffrenceAltEachtile;
         int i = 0;
 
@@ -145,5 +133,6 @@ public class Atoll extends Island {
 
         }
     }
+
 
 }
