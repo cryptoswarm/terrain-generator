@@ -42,7 +42,6 @@ public class Atoll extends Island {
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
 
-
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
         adjustProfile(sortedListTiles);
     }
@@ -58,6 +57,39 @@ public class Atoll extends Island {
             sortedListTiles.put(distance, tiles);
         }
     }
+
+
+    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
+
+        int milieu = sortedListTiles.size()/2;
+        List<Coordinate> list = new ArrayList<>();
+
+        float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
+
+        float currentAlt = diffrenceAltEachtile;
+        int i = 0;
+
+        for(List<Tile> tileList: sortedListTiles.values()) {
+            if(i < milieu) {
+
+                for (Tile tile : tileList){
+
+                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
+
+                }
+                currentAlt += diffrenceAltEachtile;
+                ++i;
+            } else if (i >= milieu) {
+
+                for (Tile tile : tileList){
+                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
+                }
+                currentAlt -= diffrenceAltEachtile;
+            }
+        }
+
+    }
+
 
 
 
@@ -83,36 +115,6 @@ public class Atoll extends Island {
         }
     }
 
-    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
-
-        int milieu = sortedListTiles.size()/2;
-
-        float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
-
-        float currentAlt = diffrenceAltEachtile;
-        int i = 0;
-
-        for(List<Tile> tileList: sortedListTiles.values()) {
-            if(i < milieu) {
-
-                applyAltToEachListOfTiles(tileList, currentAlt, diffrenceAltEachtile);
-                currentAlt += diffrenceAltEachtile;
-                ++i;
-            } else if (i >= milieu) {
-
-                applyAltToEachListOfTiles(tileList, currentAlt, diffrenceAltEachtile);
-                currentAlt -= diffrenceAltEachtile;
-            }
-        }
-
-    }
-
-    private void applyAltToEachListOfTiles(List<Tile> tileList, double currentAlt, float diffrenceAltEachtile ){
-        for (Tile tile : tileList){
-            applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
-        }
-    }
-
     @Override
     public void setBorders(World world){
 
@@ -133,6 +135,5 @@ public class Atoll extends Island {
 
         }
     }
-
 
 }

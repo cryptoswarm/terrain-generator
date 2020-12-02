@@ -97,8 +97,7 @@ public class CoordinateTest {
     @Test
     public void coordinateHeighTest1(){
         coordinate10 = new Coordinate(3,6,7);
-        assertFalse(coordinate10.isAltSet());
-        coordinate10.setAltIndicator(true);
+        assertNotEquals(-1, coordinate10.getZ());
     }
 
     @Test
@@ -195,14 +194,5 @@ public class CoordinateTest {
         }
         assertEquals(2, common);
     }
-
-
-
-
-
-
-
-
-
 
 }
