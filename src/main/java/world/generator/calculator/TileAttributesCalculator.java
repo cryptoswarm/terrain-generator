@@ -7,8 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-public abstract  class TileAttributesCalculator {
+public  class TileAttributesCalculator {
 
+    public TileAttributesCalculator() {
+    }
 
     public double findTileSurface(Tile tile){
 

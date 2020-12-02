@@ -96,11 +96,6 @@ public class WorldGenerator {
         world.addTile(tile);
     }
 
-    public void addWorldLine(Coordinate coordinate, Line line) {
-
-        world.addLine( coordinate, line);
-    }
-
     public  String getWorldTileColor(Coordinate coordinate){
 
         Tile tile = world.getTile(coordinate);

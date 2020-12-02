@@ -20,12 +20,14 @@ public class Tile {
     private boolean isInOcean;
     private boolean isOnIsland;
     final private HashSet<Line> border;
+    private HashSet<Coordinate> corners;
     private float richiness;
 
 
     public Tile(Coordinate center) {
         this.center = center;
         this.border = new LinkedHashSet<>();
+        this.corners = new LinkedHashSet<>();
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
@@ -175,6 +177,20 @@ public class Tile {
      * @return la listes des coordonnée des coins de la tuile
      */
     public HashSet<Coordinate> getCorner() {
+        /*
+        HashSet<Coordinate> c = new LinkedHashSet<>();
+        for(Line l: border){
+            c.add(l.getC1());
+            c.add(l.getC2());
+        }
+        return c;
+
+         */
+        return corners;
+    }
+
+    public HashSet<Coordinate> getCornerOriginal() {
+
         HashSet<Coordinate> c = new LinkedHashSet<>();
         for(Line l: border){
             c.add(l.getC1());
@@ -190,6 +206,10 @@ public class Tile {
 
     public void addBorder(Line l){
         border.add(l);
+    }
+
+    public void addCorners(Coordinate corner1){
+        corners.add(corner1);
     }
 
     /**

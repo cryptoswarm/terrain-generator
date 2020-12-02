@@ -9,6 +9,7 @@ import world.generator.island.Atoll;
 import world.generator.island.Island;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -39,6 +40,7 @@ public class AltitudeGenerationTest {
     Circle circle;
     RandomContexte randomContexte;
     Coordinate circleCenter;
+    private HashSet<Coordinate> listOfCoordinate;
 
 
     @Before
@@ -53,6 +55,17 @@ public class AltitudeGenerationTest {
         coordinate4 = new Coordinate(2, 5, -1);
         coordinate5 = new Coordinate(5, 3, -1);
         coordinate6 = new Coordinate(4, 6, -1);
+
+        tile1.addCorners(coordinate1);
+        tile1.addCorners(coordinate2);
+        tile1.addCorners(coordinate3);
+        tile1.addCorners(coordinate4);
+
+        tile2.addCorners(coordinate2);
+        tile2.addCorners(coordinate5);
+        tile2.addCorners(coordinate6);
+        tile2.addCorners(coordinate3);
+
 
         line1 = new Line(coordinate1, coordinate2);
         line2 = new Line(coordinate2, coordinate3);
@@ -121,7 +134,7 @@ public class AltitudeGenerationTest {
         float diffrenceAltEachtile = 8;
 
 
-        island.applyAltitudeToTileCorners(tile1, currentAlt, circleCenter, diffrenceAltEachtile);
+       // island.applyAltitudeToTileCorners(tile1, currentAlt, circleCenter, diffrenceAltEachtile);
 
         assertEquals( 28, coordinate1.getZ(), 0);
         assertEquals( 28, coordinate2.getZ(), 0);
@@ -149,13 +162,12 @@ public class AltitudeGenerationTest {
         float diffrenceAltEachtile = 8;
 
 
-        island.applyAltitudeToTileCorners(tile2, currentAlt, circleCenter, diffrenceAltEachtile);
+       // island.applyAltitudeToTileCorners(tile2, currentAlt, circleCenter, diffrenceAltEachtile);
 
         assertEquals( 28, coordinate2.getZ(), 0);
         assertEquals( 32, coordinate3.getZ(), 0);
         assertEquals( 28, coordinate5.getZ(), 0);
         assertEquals( 32, coordinate6.getZ(), 0);
-
     }
 
 
@@ -165,7 +177,7 @@ public class AltitudeGenerationTest {
         double currentAlt = 30;
         float diffrenceAltEachtile = 8;
 
-        island.applyAltitudeToTileCorners(tile1, currentAlt, circleCenter, diffrenceAltEachtile);
+       // island.applyAltitudeToTileCorners(tile1, currentAlt, circleCenter, diffrenceAltEachtile);
 
 
         assertEquals( 28, coordinate1.getZ(), 0);
@@ -174,7 +186,7 @@ public class AltitudeGenerationTest {
         assertEquals( 32, coordinate4.getZ(), 0);
 
         currentAlt = 20;
-        island.applyAltitudeToTileCorners(tile2, currentAlt, circleCenter, diffrenceAltEachtile);
+       // island.applyAltitudeToTileCorners(tile2, currentAlt, circleCenter, diffrenceAltEachtile);
 
         assertEquals( 28, coordinate2.getZ(), 0);
         assertEquals( 32, coordinate3.getZ(), 0);

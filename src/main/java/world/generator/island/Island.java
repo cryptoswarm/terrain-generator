@@ -4,9 +4,10 @@ import geometry.Coordinate;
 import world.Tile;
 import world.World;
 import world.generator.WorldProcessor;
-import world.generator.calculator.TileAttributesCalculator;
 
-public abstract class Island extends TileAttributesCalculator implements WorldProcessor {
+import java.util.List;
+
+public abstract class Island  implements WorldProcessor {
 
     public static final int INVALIDE_ALT = -1;
 
@@ -43,33 +44,47 @@ public abstract class Island extends TileAttributesCalculator implements WorldPr
      */
 
 
-    public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile) {
+    public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile, List<Coordinate> uniqeCoordinates) {
 
         double distance = tile.getCenter().distance(centerOfShape);
         int nbCorners = tile.getCorner().size();
         float diffrenceAltEachCorner = diffrenceAltEachtile / nbCorners;
 
-        for (Coordinate c : tile.getCorner()) {
+        for (Coordinate c : tile.getCorner()) { //
 
-            double dist = c.distance(centerOfShape);
+            //if(!uniqeCoordinates.containsKey(c)) {
+            if(!uniqeCoordinates.contains(c) ) {
 
-            if ( c.getZ() == INVALIDE_ALT ) { //Sert à verifier si l'altitude de la coordonné est deja appliqué //c.getZ() == INVALIDE_ALT
-                                                //lorsqu'on a appliquer l'altitude d'une autre tuile.
-                if (dist > distance) {
+                double dist = c.distance(centerOfShape);
 
-                    c.setZ((float) currentAlt - diffrenceAltEachCorner);
-                } else if (dist < distance) {
+                if (c.getZ() == INVALIDE_ALT) { //Sert à verifier si l'altitude de la coordonné est deja appliqué //c.getZ() == INVALIDE_ALT
+                    //lorsqu'on a appliquer l'altitude d'une autre tuile.
+                    if (dist > distance) {
 
-                    c.setZ((float) currentAlt + diffrenceAltEachCorner);
-                } else {
-                    c.setZ((float) currentAlt);
+                        c.setZ((float) currentAlt - diffrenceAltEachCorner);
+                    } else if (dist < distance) {
+
+                        c.setZ((float) currentAlt + diffrenceAltEachCorner);
+                    } else {
+                        c.setZ((float) currentAlt);
+                    }
                 }
+            }else {
 
-            }else{
-                System.out.println("alt aleardy set ");
+                for(Coordinate coordinate:uniqeCoordinates){
+                    if(c.equals(coordinate)){
+                        c.setZ(coordinate.getZ());
+                        break;
+                    }
+                }
+                System.out.println("alt of coordinates already set ");
             }
         }
     }
+
+
+
+
 
 
 

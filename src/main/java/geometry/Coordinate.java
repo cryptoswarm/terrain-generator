@@ -14,6 +14,8 @@ public class Coordinate implements  Comparable<Coordinate> {
     }
 
 
+
+
     public Coordinate(float x, float y, float z) {
         this.x = x;
         this.y = y;

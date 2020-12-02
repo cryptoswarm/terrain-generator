@@ -14,6 +14,9 @@ public class Atoll extends Island {
     private final Circle circle;
     private final int maxAltitude;
     private List<Tile> islandTiles;
+    //private HashSet<Coordinate> listOfCoordinate = new LinkedHashSet<>();
+    //TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
+    List<Coordinate> coordinateList = new ArrayList<>();
 
     public Atoll( List<Tile> islandTiles, Circle circle, int maxAltitude){
         this.circle = circle;
@@ -27,7 +30,6 @@ public class Atoll extends Island {
         defineAltitude(world, maxAltitude);
         Isle isle = new Isle(islandTiles);
         world.addArchipelago(isle);
-
     }
 
     @Override
@@ -41,9 +43,22 @@ public class Atoll extends Island {
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
+        /*
+        System.out.println("alt before applying profile");
+        for(Tile tile:islandTiles){
+            System.out.println( tile.getCorner().toString() );
+        }
 
+         */
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
-        adjustProfile(sortedListTiles);
+        //adjustProfile(sortedListTiles);
+        /*
+        System.out.println("alt after applying profile");
+        for(Tile tile:islandTiles){
+            System.out.println( tile.getCorner().toString() );
+        }
+
+         */
     }
 
 
@@ -74,7 +89,8 @@ public class Atoll extends Island {
 
                 for (Tile tile : tileList){
 
-                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
+                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile, coordinateList );
+                    coordinateList.addAll(tile.getCorner());
 
                 }
                 currentAlt += diffrenceAltEachtile;
@@ -82,7 +98,9 @@ public class Atoll extends Island {
             } else if (i >= milieu) {
 
                 for (Tile tile : tileList){
-                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile);
+
+                    applyAltitudeToTileCorners(tile, currentAlt, circle.getCenter(), diffrenceAltEachtile, coordinateList);
+                    coordinateList.addAll(tile.getCorner());
                 }
                 currentAlt -= diffrenceAltEachtile;
             }
