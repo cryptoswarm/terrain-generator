@@ -16,8 +16,8 @@ public class Tortuga  extends Island {
     final private RandomContexte random;
     final private int maxAltitude;
     private List<Tile> islandTiles;
-    //private HashSet<Coordinate> listOfCoordinate = new LinkedHashSet<>();
-    List<Coordinate> uniqeCoordinates = new ArrayList<>();
+
+    private List<Coordinate> uniqeCoordinates = new ArrayList<>();
 
     public Tortuga( List<Tile> islandTiles, Ellipse  ellipse, RandomContexte random, int maxAltitude){
 
@@ -87,9 +87,9 @@ public class Tortuga  extends Island {
         for (List<Tile> tileList : temp.values()) {
             currentAlt -= diffrenceAltEachtile;
             for(Tile tile:tileList){
-                uniqeCoordinates.addAll(tile.getCorner());
 
                 applyAltitudeToTileCorners(tile, currentAlt, ellipse.getEllipseCenter(), diffrenceAltEachtile, uniqeCoordinates );
+                uniqeCoordinates.addAll(tile.getCorner());
             }
         }
     }
