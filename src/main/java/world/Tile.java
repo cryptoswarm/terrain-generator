@@ -3,6 +3,7 @@ package world;
 
 import geometry.Coordinate;
 import geometry.Line;
+import world.borders.Border;
 import world.generator.biome.Biome;
 
 import java.util.*;
@@ -17,19 +18,23 @@ public class Tile {
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-    final private HashSet<Line> border;
-    private HashSet<Coordinate> corners;
+
     private float richiness;
+    private Border border;
 
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.border = new LinkedHashSet<>();
-        this.corners = new LinkedHashSet<>();
+
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
         this.isInOcean = true;
+        this.border = new Border();
+    }
+
+    public void setBorder(Border border) {
+        this.border = border;
     }
 
     /**
@@ -166,9 +171,11 @@ public class Tile {
      *
      * @return la listes des coordonnée des coins de la tuile
      */
+
+
     public HashSet<Coordinate> getCorner() {
 
-        return corners;
+        return border.getCorners();
     }
 
     /**
@@ -178,43 +185,12 @@ public class Tile {
 
     public HashSet<Line> getBorder() {
 
-        HashSet<Line> tileLines = new LinkedHashSet<>();
-        List<Coordinate > temp = new ArrayList<>(corners);
-        temp.add(temp.get(0));
-        int j =0;
-        for(int i=0; i<temp.size() && j< temp.size()-1; i++){
-            j = i+1;
-            Line line = new Line(temp.get(i), temp.get(j) );
-            tileLines.add(line);
-        }
-
-        return tileLines;
+        return border.getLines();
     }
 
     public TileColor getLineColor(Line line){
-        TileColor color = null;
 
-        if(this.getBorder().contains(line) ){
-            color = line.getColor();
-        }
-        if(color != null){
-            System.out.println("color is diffrent than null");
-        }
-        return color;
-    }
-
-
-    /**
-     *
-     * @param l ajouter une ligne aux bordures de la tuile
-     */
-
-    public void addBorder(Line l){
-        border.add(l);
-    }
-
-    public void addCorners(Coordinate corner1){
-        corners.add(corner1);
+        return border.getLineColor(line);
     }
 
     /**

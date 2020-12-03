@@ -2,6 +2,7 @@ import geometry.Coordinate;
 import geometry.Line;
 import org.junit.Test;
 import world.Tile;
+import world.borders.Border;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class LineTest {
     public void addLinesTest(){
 
         Tile tile1 = new Tile(new Coordinate(3,3,0));
+        Border border = new Border();
 
         Line line1 = new Line(new Coordinate(2.66f, 4.71f, 0), new Coordinate(5, 3.5f, 0));
         Line line2 = new Line(new Coordinate(5, 3.5f, 0), new Coordinate(3.63f, 2.52f, 0));
@@ -23,14 +25,14 @@ public class LineTest {
         Line line5 = new Line(new Coordinate(1.9f, 1, 0), new Coordinate(0.72f, 2.28f, 0));
         Line line6 = new Line(new Coordinate(0.72f, 2.28f, 0), new Coordinate(2.66f, 4.71f, 0));
 
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
+        border.addTileLines(line5);
+        border.addTileLines(line6);
 
-        tile1.addCorners(new Coordinate(2.66f, 4.71f, 0));
-        tile1.addCorners(new Coordinate(5, 3.5f, 0));
-        tile1.addCorners(new Coordinate(3.63f, 2.52f, 0));
-        tile1.addCorners(new Coordinate(4, 1.6f, 0));
-        tile1.addCorners( new Coordinate(1.9f, 1, 0));
-        tile1.addCorners( new Coordinate(0.72f, 2.28f, 0));
-        tile1.addCorners(new Coordinate(2.66f, 4.71f, 0) );
+        tile1.setBorder(border);
 
 
         List<Line> lineList = new ArrayList<>();
@@ -52,6 +54,7 @@ public class LineTest {
     public void getBorderTest2(){  //square shape
 
         Tile tile1 = new Tile(new Coordinate(1,1,0));
+        Border border = new Border();
 
         Line line1 = new Line(new Coordinate(0, 0, 0), new Coordinate(2, 0, 0));
         Line line2 = new Line(new Coordinate(2, 0, 0), new Coordinate(2, 2, 0));
@@ -59,11 +62,11 @@ public class LineTest {
         Line line4 = new Line(new Coordinate(0, 2, 0), new Coordinate(0, 0, 0));
 
 
-        tile1.addCorners(new Coordinate(0, 0, 0));
-        tile1.addCorners(new Coordinate(2, 0, 0));
-        tile1.addCorners(new Coordinate(2, 2, 0));
-        tile1.addCorners(new Coordinate(0, 2, 0));
-
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
+        tile1.setBorder(border);
 
         List<Line> lineList = new ArrayList<>();
         lineList.add(line1);
@@ -88,21 +91,39 @@ public class LineTest {
     @Test
     public void testEquals2(){
         Tile tile = new Tile(new Coordinate( 1, 1, 1 ));
+        Border border = new Border();
+
         Coordinate c1 = new Coordinate(1,1,0);
         Coordinate c2 = new Coordinate(2,2,0);
         Line line1 = new Line(c1,c2);
 
-        tile.addCorners(c1);
-        tile.addCorners(c2);
+        border.addTileLines(line1);
+        tile.setBorder(border);
 
         for(Line line:tile.getBorder()){
             assertEquals(line, line1);
         }
 
+    }
+
+    @Test
+    public void testEquals3(){
+
+        Tile tile = new Tile(new Coordinate( 1, 1, 1 ));
+        Border border = new Border();
+
+        Coordinate c1 = new Coordinate(1,1,0);
+        Coordinate c2 = new Coordinate(2,2,0);
+        Line line1 = new Line(c1,c2);
+        border.addTileLines(line1);
+        tile.setBorder(border);
+
+
         for(Line line:tile.getBorder()){
             assertEquals(0, line.getC1().getZ(), 0);
             assertEquals(0, line.getC2().getZ(), 0);
         }
+
 
         c1.setZ(6);
 
@@ -110,6 +131,8 @@ public class LineTest {
             assertEquals(6, line.getC1().getZ(), 0);
             assertNotEquals(6, line.getC2().getZ(), 0);
         }
+
+
     }
 
     @Test
@@ -143,6 +166,7 @@ public class LineTest {
     public void getBorder1Test3(){  //square shape
 
         Tile tile1 = new Tile(new Coordinate(1,1,0));
+        Border border = new Border();
 
         Line line1 = new Line(new Coordinate(0, 0, 0), new Coordinate(2, 0, 0));
         Line line2 = new Line(new Coordinate(2, 0, 0), new Coordinate(2, 2, 0));
@@ -150,11 +174,12 @@ public class LineTest {
         Line line4 = new Line(new Coordinate(0, 2, 0), new Coordinate(0, 0, 0));
         Line line5 = new Line(new Coordinate(10, 2, 0), new Coordinate(12, 2, 0));
 
-        tile1.addCorners( new Coordinate(0, 0, 0));
-        tile1.addCorners( new Coordinate(2, 0, 0));
-        tile1.addCorners( new Coordinate(2, 2, 0));
-        tile1.addCorners( new Coordinate(0, 2, 0));
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
 
+        tile1.setBorder(border);
 
         assertTrue(tile1.getBorder().contains(line1));
         assertTrue(tile1.getBorder().contains(line2));

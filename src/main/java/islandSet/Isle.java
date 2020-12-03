@@ -85,26 +85,6 @@ public class Isle {
         return neighbor;
     }
 
-/*
-    public HashSet<Line> getLine(Coordinate c){
-
-        HashSet<Line> lines = new HashSet<>();
-        for(Tile tile: islandTiles){
-
-            for (Line line : tile.getBorder()) {
-                Coordinate c1 = line.getC1();
-                Coordinate c2 = line.getC2();
-                if(c1.getZ() != -1 && c2.getZ()!= -1) {
-                    if (line.getC1().equals(c) || line.getC2().equals(c)) {
-                        lines.add(line);
-                    }
-                }
-            }
-        }
-        return lines;
-    }
-
- */
 
     public HashSet<Line> getLine(Coordinate c){
 
@@ -112,10 +92,9 @@ public class Isle {
         for(Tile tile: islandTiles){
 
             for (Line line : tile.getBorder()) {
-
-                if (line.getC1().equals(c) || line.getC2().equals(c)) {
-                    lines.add(line);
-                }
+                 if(line.isCoordinateValid(c)){
+                     lines.add(line);
+                 }
             }
         }
         System.out.println("same lines = "+lines.size());

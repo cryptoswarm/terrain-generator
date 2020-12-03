@@ -46,40 +46,37 @@ public class World {
      */
     /*
     public String getLineColor(Line line){
+        TileColor color = null;
         boolean isFound = false;
-        for(Isle isle:isleList){
-            for(Tile tile:isle.getIslandTiles()){
 
-                if(isFound){
-                    break;
-                }
-            }
-            if(isFound){
-                System.out.println("line found ");
-                break;
-            }
-
-        }
-
-        for(Tile tile: tiles.values()){
-            for(Line l: tile.getBorder()){
-                if(l.equals(line) && l.getColor() != null) {
-                    line = l;
+        for(int i=0; i<isleList.size() && !isFound; i++){
+            for( Tile tile:isleList.get(i).getIslandTiles()){
+                color = tile.getLineColor(line);
+                if(color != null){
+                    isFound = true;
                     break;
                 }
             }
         }
 
+        if(isFound){
+            System.out.println("line found ");
+        }
 
-        TileColor color = line.getColor();
         if(color != null) {
             return color.toString();
         }
 
         return "0:0:0:0";
     }
-    */
 
+     */
+
+    /**
+     * On cherche la couleur de la ligne
+     * @param line est la ligne qu'on cherche à obtenir sa couleur
+     * @return   la couleur de la ligne
+     */
 
     public String getLineColor(Line line){
         TileColor color = null;
@@ -105,6 +102,8 @@ public class World {
 
         return "0:0:0:0";
     }
+
+
 
     /**
      *
@@ -192,25 +191,7 @@ public class World {
         tiles.put(c,tile);
     }
 
-    /**
-     *
-     * Pour pouvoir associer une ligne aux bordures d'une tuile
-     *  On doit trouver la tuile en question, pour cela on a besoin des coordonnées de la tuile
-     *
-     * @param coordinate   la coordonnée au centre de la tuile
-     * @param line      la line à ajouter aux bordures de la tuile
-     */
-    public void addLine(Coordinate coordinate, Line line){
 
-        Tile t = tiles.get( coordinate );
-        t.addBorder(line);
-    }
-
-    public void addCorners( Coordinate tileCenter, Coordinate  corner1, Coordinate  corner2){
-        Tile t = tiles.get( tileCenter );
-        t.addCorners(corner1);
-        t.addCorners(corner2);
-    }
 
     /**
      *
@@ -267,39 +248,6 @@ public class World {
         return tiles.get(coordinate);
     }
 
-/*
-    public void setEllipticIslandBorders(Shape shape){
-
-        for (Tile tile : tiles.values()) {
-
-            if(tile.isInOcean()) {
-                if (shape.isInShape(tile.getCenter())) {
-                    tile.setOnIsland(true);
-                    tile.setInOcean(false);
-                }
-            }
-        }
-    }
-
-    public void setCircularIslandBorders(Circle circle){
-
-        for (Tile tile : tiles.values()) {
-            if(  tile.isInOcean() ) {
-
-                if ( tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
-                        tile.getCenter().distance(circle.getCenter()) <= circle.getBigRadius()) {
-                    tile.setOnIsland(true);
-                    tile.setInOcean(false);
-                }
-                if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
-                    tile.setInLagoon(true);
-                    tile.setInOcean(false);
-                }
-            }
-        }
-    }
-
- */
 
     /**
      *

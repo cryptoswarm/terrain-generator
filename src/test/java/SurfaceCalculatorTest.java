@@ -5,6 +5,7 @@ import org.junit.Test;
 import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
+import world.borders.Border;
 import world.generator.calculator.TileAttributesCalculator;
 import world.generator.island.IslandGenerator;
 
@@ -19,6 +20,7 @@ public class SurfaceCalculatorTest {
     World world;
     IslandGenerator islandGenerator;
     Tile tile;
+    Border border;
     List<Coordinate> coordinateList;
 
     TileAttributesCalculator calculator;
@@ -28,6 +30,8 @@ public class SurfaceCalculatorTest {
 
         random = new RandomContexte( 10);
         world= new World(random);
+        tile = new Tile(new Coordinate(0,0,0));
+        border = new Border();
 
 
         String circle = "Circle";
@@ -52,15 +56,8 @@ public class SurfaceCalculatorTest {
         coordinateList.add(coordinate6);
         coordinateList.add(coordinate7);
 
-        tile = new Tile(new Coordinate(0,0,0));
 
-        tile.addCorners(coordinate1);
-        tile.addCorners(coordinate2);
-        tile.addCorners(coordinate3);
-        tile.addCorners(coordinate4);
-        tile.addCorners(coordinate5);
-        tile.addCorners(coordinate6);
-        tile.addCorners(coordinate7);
+
 
         Line line1 = new Line(coordinate1, coordinate2);
         Line line2 = new Line(coordinate2, coordinate3);
@@ -69,14 +66,16 @@ public class SurfaceCalculatorTest {
         Line line5 = new Line(coordinate5, coordinate6);
         Line line6 = new Line(coordinate6, coordinate7);
 
-        world.addTile(tile);
-        tile.addBorder(line1);
-        tile.addBorder(line2);
-        tile.addBorder(line3);
-        tile.addBorder(line4);
-        tile.addBorder(line5);
-        tile.addBorder(line6);
 
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
+        border.addTileLines(line5);
+        border.addTileLines(line6);
+        tile.setBorder(border);
+
+        world.addTile(tile);
         calculator = new TileAttributesCalculator();
     }
 
@@ -94,6 +93,7 @@ public class SurfaceCalculatorTest {
         coordinateList.clear();
 
         Tile tile1 = new Tile(new Coordinate(6,6,0));
+        Border border1 = new Border();
 
         Coordinate x1 = new Coordinate(4, 10, 0);
         Coordinate x2 = new Coordinate(9, 7, 0);
@@ -114,16 +114,11 @@ public class SurfaceCalculatorTest {
         Line line3 = new Line(new Coordinate(11, 2, 0), new Coordinate(2, 2, 0));
         Line line4 = new Line(new Coordinate(2, 2, 0), new Coordinate(4, 10, 0));
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
-
-        tile1.addCorners(x1);
-        tile1.addCorners(x2);
-        tile1.addCorners(x3);
-        tile1.addCorners(x4);
-
+        border1.addTileLines(line1);
+        border1.addTileLines(line2);
+        border1.addTileLines(line3);
+        border1.addTileLines(line4);
+        tile1.setBorder(border1);
 
         assertEquals(45.5, calculator.findTileSurface(tile1), 0.0001);
 
@@ -136,6 +131,7 @@ public class SurfaceCalculatorTest {
         coordinateList.clear();
 
         Tile tile1 = new Tile(new Coordinate(3,3,0));
+        Border border = new Border();
 
         Coordinate x1 = new Coordinate(2.66f, 4.71f, 0);
         Coordinate x2 = new Coordinate(5, 3.5f, 0);
@@ -163,20 +159,14 @@ public class SurfaceCalculatorTest {
         Line line5 = new Line(x5, x6);
         Line line6 = new Line(x6, x7);
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
-        tile1.addBorder(line5);
-        tile1.addBorder(line6);
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
+        border.addTileLines(line5);
+        border.addTileLines(line6);
 
-        tile1.addCorners(x1);
-        tile1.addCorners(x2);
-        tile1.addCorners(x3);
-        tile1.addCorners(x4);
-        tile1.addCorners(x5);
-        tile1.addCorners(x6);
-
+        tile1.setBorder(border);
 
         assertEquals(39.44199, calculator.multiplyXByYNextCoordinate( coordinateList ), 0.001 );
         assertEquals(56.09299, calculator.multiplyYByXNextCoordinate(coordinateList), 0.1 );
@@ -193,6 +183,7 @@ public class SurfaceCalculatorTest {
         coordinateList.clear();
 
         Tile tile1 = new Tile(new Coordinate(3,4,0));
+        Border border = new Border();
 
 
         Coordinate x1 = new Coordinate(2f, 1f, 0);
@@ -211,15 +202,11 @@ public class SurfaceCalculatorTest {
         Line line3 = new Line(x3, x1);
 
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
 
-        tile1.addCorners(x1);
-        tile1.addCorners(x2);
-        tile1.addCorners(x3);
-
-
+        tile1.setBorder(border);
 
         assertEquals(83, calculator.multiplyXByYNextCoordinate( coordinateList ), 0.001 );
         assertEquals(33, calculator.multiplyYByXNextCoordinate(coordinateList), 0.1 );
@@ -233,6 +220,7 @@ public class SurfaceCalculatorTest {
         coordinateList.clear();
 
         Tile tile1 = new Tile(new Coordinate(17,15,0));
+        Border border = new Border();
 
         Coordinate x1 = new Coordinate(7f, 4f, 0);
         Coordinate x2 = new Coordinate(29, 4f, 0);
@@ -251,15 +239,12 @@ public class SurfaceCalculatorTest {
         Line line4 = new Line(new Coordinate(7f, 26f, 0), new Coordinate(7f, 4f, 0));
 
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
+        border.addTileLines(line1);
+        border.addTileLines(line2);
+        border.addTileLines(line3);
+        border.addTileLines(line4);
 
-        tile1.addCorners(x1);
-        tile1.addCorners(x2);
-        tile1.addCorners(y1);
-        tile1.addCorners(y2);
+        tile1.setBorder(border);
 
 
         assertEquals(484, calculator.findTileSurface(tile1), 0.1 );

@@ -69,24 +69,23 @@ public class River extends Aquifer {
     private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
 
         double riverHeight = coordinate.getZ();
-        //Coordinate coordinateStart = coordinate;
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
         for (Line i : isle.getLine(coordinate)) {
 
-                Coordinate c1 = i.getC1();
-                Coordinate c2 = i.getC2();
-                if (c1.getZ() < riverHeight ) {
-                    riverHeight = c1.getZ();
-                    tmpC = c1;
-                    tmpL = i;
-                }
-                if (c2.getZ() < riverHeight ) {
-                    riverHeight = c2.getZ();
-                    tmpC = c2;
-                    tmpL = i;
-                }
+            Coordinate c1 = i.getC1();
+            Coordinate c2 = i.getC2();
+            if (c1.getZ() < riverHeight ) {
+                riverHeight = c1.getZ();
+                tmpC = c1;
+                tmpL = i;
+            }
+            if (c2.getZ() < riverHeight ) {
+                riverHeight = c2.getZ();
+                tmpC = c2;
+                tmpL = i;
+            }
         }
 
         coordinate = tmpC;
@@ -127,8 +126,27 @@ public class River extends Aquifer {
 
         HashSet<Tile> wetZone = new HashSet<>();
         System.out.println("size of river = "+river.size());
+
+        /*
+        for(Line line:river) {
+            for(Tile tile:isle.getIslandTiles()){
+                if(tile.getLineBorder().contains(line)){
+                    for(Line line1:tile.getLineBorder()){
+                        if(line1.getC1() == line.getC1() && line1.getC2()==line.getC2()){
+                            line1.setColor(riverColor);
+                        }
+                    }
+                }
+            }
+        }
+
+        */
+
+
+
         for(Line line: river) {
             wetZone.addAll( isle.getNeighbor(line) );
+
             line.setColor(riverColor);
             line.increaseFlow();
         }

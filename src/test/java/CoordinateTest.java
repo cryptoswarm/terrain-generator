@@ -3,6 +3,7 @@ import geometry.Line;
 import org.junit.Before;
 import org.junit.Test;
 import world.Tile;
+import world.borders.Border;
 
 import static org.junit.Assert.*;
 
@@ -32,6 +33,9 @@ public class CoordinateTest {
         tile1 = new Tile(new Coordinate(0, 0,0));
         tile2 = new Tile(new Coordinate(6, 1999,0));
 
+        Border border1 = new Border();
+        Border border2 = new Border();
+
         coordinate1 = new Coordinate(1, 3, 0);
         coordinate2 = new Coordinate(3, 1, 0);
         coordinate3 = new Coordinate(3, 4, 0);
@@ -39,15 +43,6 @@ public class CoordinateTest {
         coordinate5 = new Coordinate(5, 3, 0);
         coordinate6 = new Coordinate(4, 6, 0);
 
-        tile1.addCorners(coordinate1);
-        tile1.addCorners(coordinate2);
-        tile1.addCorners(coordinate3);
-        tile1.addCorners(coordinate4);
-
-        tile2.addCorners(coordinate2);
-        tile2.addCorners(coordinate5);
-        tile2.addCorners(coordinate6);
-        tile2.addCorners(coordinate3);
 
 
         line1 = new Line(coordinate1, coordinate2);
@@ -60,15 +55,17 @@ public class CoordinateTest {
         line7 = new Line(coordinate6, coordinate3);
 
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
+        border1.addTileLines(line1);
+        border1.addTileLines(line2);
+        border1.addTileLines(line3);
+        border1.addTileLines(line4);
+        tile1.setBorder(border1);
 
-        tile2.addBorder(line5);
-        tile2.addBorder(line6);
-        tile2.addBorder(line7);
-        tile2.addBorder(line2);
+        border2.addTileLines(line5);
+        border2.addTileLines(line6);
+        border2.addTileLines(line7);
+        border2.addTileLines(line2);
+        tile2.setBorder(border2);
 
 
     }
@@ -219,17 +216,21 @@ public class CoordinateTest {
     @Test
     public void common(){
         Tile tile4 = new Tile(new Coordinate(0, 0,0));
+        Border border4 = new Border();
         Tile tile5 = new Tile(new Coordinate(6, 1999,0));
+        Border border5 = new Border();
 
         Coordinate coordinate1 = new Coordinate(1, 3, 0);
         Coordinate coordinate2 = new Coordinate(3, 1, 0);
-        Coordinate coordinate3 = new Coordinate(3, 4, 0);
-        Coordinate coordinate4 = new Coordinate(2, 5, 0);
-        Coordinate coordinate5 = new Coordinate(5, 3, 0);
         Coordinate coordinate6 = new Coordinate(4, 6, 0);
 
-        tile4.addCorners(coordinate1);
-        tile5.addCorners(coordinate1);
+        Line line1 = new Line(coordinate1, coordinate2);
+        border4.addTileLines(line1);
+        tile4.setBorder(border4);
+
+        Line line2 = new Line(coordinate1, coordinate6);
+        border5.addTileLines(line2);
+        tile5.setBorder(border5);
 
         assertTrue( tile4.getCorner().contains(coordinate1));
         assertTrue( tile5.getCorner().contains(coordinate1));

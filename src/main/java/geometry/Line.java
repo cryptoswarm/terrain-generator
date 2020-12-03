@@ -2,6 +2,8 @@ package geometry;
 
 import world.TileColor;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Line {
@@ -10,10 +12,25 @@ public class Line {
     TileColor color;
     int flow;
 
-    public Line(Coordinate c1, Coordinate c2) {
+    private HashSet<Coordinate> lineCoordinates = new LinkedHashSet<>();
+
+    public Line( Coordinate c1, Coordinate c2) {
+        this.flow = 0;
         this.c1 = c1;
         this.c2 = c2;
-        this.flow = 0;
+        this.lineCoordinates.add(c1);
+        this.lineCoordinates.add(c2);
+    }
+
+    public boolean isCoordinateValid(Coordinate coordinate) {
+        return lineCoordinates.contains(coordinate);
+    }
+
+
+
+
+    public HashSet<Coordinate> getCorners(){
+        return lineCoordinates;
     }
 
     public void setColor(TileColor color) {
@@ -34,7 +51,7 @@ public class Line {
     }
 
 
-
+/*
      @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -49,4 +66,18 @@ public class Line {
         return Objects.hash(c1.getX() + c1.getY() + c2.getX() + c2.getY());
     }
 
+ */
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Line)) return false;
+        Line line = (Line) o;
+        return lineCoordinates.equals(line.lineCoordinates);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(lineCoordinates);
+    }
 }

@@ -2,12 +2,14 @@ package world.generator.island;
 
 import geometry.Circle;
 import geometry.Coordinate;
-import geometry.Line;
 import islandSet.Isle;
 import world.Tile;
 import world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Atoll extends Island {
 
@@ -15,6 +17,7 @@ public class Atoll extends Island {
     private final Circle circle;
     private final int maxAltitude;
     private HashSet<Tile> islandTiles;
+    private Isle isle;
 
     List<Coordinate> coordinateList = new ArrayList<>();
 
@@ -30,11 +33,12 @@ public class Atoll extends Island {
         setBorders(world);
         defineAltitude(world, maxAltitude);
 
-        Isle isle = new Isle(islandTiles);
+        this.isle = new Isle(islandTiles);
         world.addArchipelago(isle);
 
     }
 
+/*
     private HashSet<Tile > getTiles(){
 
         HashSet<Tile > tiles= new LinkedHashSet<>();
@@ -63,6 +67,8 @@ public class Atoll extends Island {
         }
         return tiles;
     }
+
+ */
 
 
     @Override
