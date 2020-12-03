@@ -9,11 +9,14 @@ import world.TileColor;
 import world.soilType;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 
 public class River extends Aquifer {
 
 
+    public static final int REPETITION_MAX_NB = 5;
     private soilType soil;
     private Tile aquiferCenter;
 
@@ -55,7 +58,8 @@ public class River extends Aquifer {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
         final Coordinate coordinateStart = coordinate;
-        findRiverPath( isle, coordinate, river, coordinateStart );
+        Map<Coordinate, Integer> end = new HashMap<>();
+        findRiverPath( isle, coordinate, river, coordinateStart, end);
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -66,7 +70,7 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart, Map<Coordinate, Integer> end ) {
 
         double riverHeight = coordinate.getZ();
         Coordinate tmpC = coordinate;
@@ -93,8 +97,15 @@ public class River extends Aquifer {
             river.add(tmpL);
         }
 
-        if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
-            findRiverPath( isle , coordinate, river, coordinateStart);
+        if(tmpL == null){ //Parfois l'endroit où on est plan ce qui fait qu'on revient toujours à cette coordonnée
+                          //Si c'est le cas, on sauvegarde cette coordonnée et si on revient à ce point 5 fois de suite on exit.
+            int repeated = end.getOrDefault(coordinate, 0);
+            end.put(coordinate, repeated+1);
+        }
+
+
+        if (!isRiverEnded(isle, coordinate, end )  && !coordinate.equals(coordinateStart ) ){
+            findRiverPath( isle , coordinate, river, coordinateStart, end);
         }
     }
 
@@ -103,11 +114,16 @@ public class River extends Aquifer {
      * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( Isle isle , Coordinate current){
+    private boolean isRiverEnded( Isle isle , Coordinate current, Map<Coordinate, Integer> repeated ){
         boolean end = false;
         for(Tile tile: isle.getNeighbor(current)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
+                end = true;
+            }
+        }
+        for(Coordinate coordinate:repeated.keySet()){
+            if(repeated.get(coordinate) == REPETITION_MAX_NB ){
                 end = true;
             }
         }
@@ -125,24 +141,6 @@ public class River extends Aquifer {
     private HashSet<Tile> applyRiverEffects(Isle isle){
 
         HashSet<Tile> wetZone = new HashSet<>();
-        System.out.println("size of river = "+river.size());
-
-        /*
-        for(Line line:river) {
-            for(Tile tile:isle.getIslandTiles()){
-                if(tile.getLineBorder().contains(line)){
-                    for(Line line1:tile.getLineBorder()){
-                        if(line1.getC1() == line.getC1() && line1.getC2()==line.getC2()){
-                            line1.setColor(riverColor);
-                        }
-                    }
-                }
-            }
-        }
-
-        */
-
-
 
         for(Line line: river) {
             wetZone.addAll( isle.getNeighbor(line) );

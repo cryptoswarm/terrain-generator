@@ -112,13 +112,6 @@ public class WorldGenerator {
         return world.getLineColor(line);
     }
 
-     /*
-    public String getWorldLineColor(Coordinate c1, Coordinate c2){
-
-        return world.getLineColor(c1, c2);
-    }
-
-      */
 
     private void generateWorld(World world) {
 

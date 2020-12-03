@@ -97,7 +97,6 @@ public class Isle {
                  }
             }
         }
-        System.out.println("same lines = "+lines.size());
         return lines;
     }
 

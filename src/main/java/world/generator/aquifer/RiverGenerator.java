@@ -28,7 +28,6 @@ public class RiverGenerator implements Generator {
 
             for (int i = nbsRiverSrc; i > 0; i--) {
                 Tile tile = isle.findRandomTile(random);
-                //WorldProcessor river = new River(coordinate, soil);
                 IslandProcessor river = new River(random);
                 river.setSoil(soil);
                 river.setAquiferCenter(tile);
