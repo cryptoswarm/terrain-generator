@@ -54,7 +54,8 @@ public class River extends Aquifer {
     public void apply(Isle isle) {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
-        findRiverPath( isle, coordinate, river);
+        final Coordinate coordinateStart = coordinate;
+        findRiverPath( isle, coordinate, river, coordinateStart );
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -65,7 +66,7 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
 
         double riverHeight = coordinate.getZ();
 
@@ -83,7 +84,7 @@ public class River extends Aquifer {
                 tmpL = i;
             }
 
-            if (c2.getZ() < riverHeight) {
+            if (c2.getZ() < riverHeight ) {
 
                 riverHeight = c2.getZ();
                 tmpC = c2;
@@ -97,8 +98,7 @@ public class River extends Aquifer {
         }
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
-            findRiverPath( isle , coordinate, river);
-
+            findRiverPath( isle , coordinate, river, coordinateStart);
         }
     }
 
@@ -107,10 +107,9 @@ public class River extends Aquifer {
      * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( Isle isle, Coordinate coordinate ){
-
+    private boolean isRiverEnded( Isle isle , Coordinate current){
         boolean end = false;
-        for(Tile tile: isle.getNeighbor(coordinate)){
+        for(Tile tile: isle.getNeighbor(current)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
