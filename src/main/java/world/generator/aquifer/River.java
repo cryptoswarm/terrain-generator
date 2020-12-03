@@ -54,7 +54,8 @@ public class River extends Aquifer {
     public void apply(Isle isle) {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
-        findRiverPath( isle, coordinate, river);
+        final Coordinate coordinateStart = coordinate;
+        findRiverPath( isle, coordinate, river, coordinateStart );
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -65,28 +66,22 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
 
         double riverHeight = coordinate.getZ();
-        Coordinate coordinateStart = coordinate;
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
-
         for (Line i : isle.getLine(coordinate)) {
+
             Coordinate c1 = i.getC1();
             Coordinate c2 = i.getC2();
-            if(c2.getZ() == -1 || c1.getZ() == -1){
-                System.out.println( "C2: " + c2.getZ());
-                System.out.println("C1: "+ c1.getZ());
-            }
-
-            if (c1.getZ() < riverHeight) {
+            if (c1.getZ() < riverHeight ) {
                 riverHeight = c1.getZ();
                 tmpC = c1;
                 tmpL = i;
             }
-            if (c2.getZ() < riverHeight) {
+            if (c2.getZ() < riverHeight ) {
                 riverHeight = c2.getZ();
                 tmpC = c2;
                 tmpL = i;
@@ -99,8 +94,7 @@ public class River extends Aquifer {
         }
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
-            findRiverPath( isle , coordinate, river);
-
+            findRiverPath( isle , coordinate, river, coordinateStart);
         }
     }
 
@@ -109,10 +103,9 @@ public class River extends Aquifer {
      * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( Isle isle, Coordinate coordinate ){
-
+    private boolean isRiverEnded( Isle isle , Coordinate current){
         boolean end = false;
-        for(Tile tile: isle.getNeighbor(coordinate)){
+        for(Tile tile: isle.getNeighbor(current)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
@@ -132,10 +125,30 @@ public class River extends Aquifer {
     private HashSet<Tile> applyRiverEffects(Isle isle){
 
         HashSet<Tile> wetZone = new HashSet<>();
-        for(Line i: river) {
-            wetZone.addAll( isle.getNeighbor(i) );
-            i.setColor(riverColor);
-            i.increaseFlow();
+        System.out.println("size of river = "+river.size());
+
+        /*
+        for(Line line:river) {
+            for(Tile tile:isle.getIslandTiles()){
+                if(tile.getLineBorder().contains(line)){
+                    for(Line line1:tile.getLineBorder()){
+                        if(line1.getC1() == line.getC1() && line1.getC2()==line.getC2()){
+                            line1.setColor(riverColor);
+                        }
+                    }
+                }
+            }
+        }
+
+        */
+
+
+
+        for(Line line: river) {
+            wetZone.addAll( isle.getNeighbor(line) );
+
+            line.setColor(riverColor);
+            line.increaseFlow();
         }
         return wetZone;
     }
