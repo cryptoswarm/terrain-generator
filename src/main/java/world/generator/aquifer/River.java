@@ -78,18 +78,21 @@ public class River extends Aquifer {
 
         Line tmpL = null;
         for (Line i : isle.getLine(coordinate)) {
-            Coordinate c1 = i.getC1();
-            Coordinate c2 = i.getC2();
-            if (c1.getZ() < riverHeight) {
-                riverHeight = c1.getZ();
-                tmpC = c1;
-                tmpL = i;
-            }
-            if (c2.getZ() < riverHeight) {
-                riverHeight = c2.getZ();
-                tmpC = c2;
-                tmpL = i;
-            }
+
+                Coordinate c1 = i.getC1();
+                Coordinate c2 = i.getC2();
+                if (c1.getZ() < riverHeight || ( (c1.getZ() == riverHeight) && !c1.equals(coordinate))) {
+                    riverHeight = c1.getZ();
+                    tmpC = c1;
+                    tmpL = i;
+                }
+                if (c2.getZ() < riverHeight || ( (c2.getZ() == riverHeight) && !c2.equals(coordinate)) ) {
+                    riverHeight = c2.getZ();
+                    tmpC = c2;
+                    tmpL = i;
+                }
+
+
         }
 
         coordinate = tmpC;
@@ -97,7 +100,7 @@ public class River extends Aquifer {
             river.add(tmpL);
         }
 
-        if (!isRiverEnded(isle )  && !coordinate.equals(coordinateStart ) ){
+        if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
             findRiverPath( isle , coordinate, river, coordinateStart);
         }
     }
@@ -107,9 +110,9 @@ public class River extends Aquifer {
      * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( Isle isle ){
+    private boolean isRiverEnded( Isle isle , Coordinate current){
         boolean end = false;
-        for(Tile tile: isle.getNeighbor(coordinate)){
+        for(Tile tile: isle.getNeighbor(current)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
