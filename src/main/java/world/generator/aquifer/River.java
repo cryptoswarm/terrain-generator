@@ -54,8 +54,7 @@ public class River extends Aquifer {
     public void apply(Isle isle) {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
-        final Coordinate coordinateStart = coordinate;
-        findRiverPath( isle, coordinate, river, coordinateStart );
+        findRiverPath( isle, coordinate, river);
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -66,9 +65,10 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
 
         double riverHeight = coordinate.getZ();
+
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
@@ -77,11 +77,14 @@ public class River extends Aquifer {
             Coordinate c1 = i.getC1();
             Coordinate c2 = i.getC2();
             if (c1.getZ() < riverHeight ) {
+
                 riverHeight = c1.getZ();
                 tmpC = c1;
                 tmpL = i;
             }
-            if (c2.getZ() < riverHeight ) {
+
+            if (c2.getZ() < riverHeight) {
+
                 riverHeight = c2.getZ();
                 tmpC = c2;
                 tmpL = i;
@@ -94,7 +97,8 @@ public class River extends Aquifer {
         }
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
-            findRiverPath( isle , coordinate, river, coordinateStart);
+            findRiverPath( isle , coordinate, river);
+
         }
     }
 
@@ -103,9 +107,10 @@ public class River extends Aquifer {
      * @param isle est l'ile dans laquelle on veut crée une riviere
      * @return True si la riviere atteint une source d'eau
      */
-    private boolean isRiverEnded( Isle isle , Coordinate current){
+    private boolean isRiverEnded( Isle isle, Coordinate coordinate ){
+
         boolean end = false;
-        for(Tile tile: isle.getNeighbor(current)){
+        for(Tile tile: isle.getNeighbor(coordinate)){
             String s = tile.getBiome().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;

@@ -16,8 +16,10 @@ public class Atoll extends Island {
 
     private final Circle circle;
     private final int maxAltitude;
+
     private HashSet<Tile> islandTiles;
     private Isle isle;
+
 
     List<Coordinate> coordinateList = new ArrayList<>();
 
@@ -33,42 +35,18 @@ public class Atoll extends Island {
         setBorders(world);
         defineAltitude(world, maxAltitude);
 
+
         this.isle = new Isle(islandTiles);
         world.addArchipelago(isle);
 
     }
 
-/*
-    private HashSet<Tile > getTiles(){
 
-        HashSet<Tile > tiles= new LinkedHashSet<>();
-        for(Tile tile:islandTiles){
-            Tile tile1 = new Tile(tile.getCenter());
 
-            for(Coordinate coordinate:tile.getCorner()){
-                Coordinate coordinate1 = new Coordinate(coordinate.getX(), coordinate.getY(), coordinate.getZ());
-                tile1.addCorners(coordinate1);
-                if( coordinate.getZ() == -1){
-                    System.out.println(" ********* warning adding coordinates******* something is wrong");
-                }
 
-            }
+    
 
-            for(Line line:tile.getBorder()){
-                Line line1 = new Line(new Coordinate(line.getC1().getX(),line.getC1().getY(), line.getC1().getZ() ),
-                        new Coordinate(line.getC2().getX(), line.getC2().getY(), line.getC2().getZ()));
-                tile1.addBorder(line1);
 
-                if( line.getC2().getZ() == -1 || line.getC1().getZ() ==  -1){
-                    System.out.println(" ********* warning adding lines ******* something is wrong");
-                }
-            }
-            tiles.add(tile1);
-        }
-        return tiles;
-    }
-
- */
 
 
     @Override
@@ -83,7 +61,6 @@ public class Atoll extends Island {
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
-
 
     }
 
