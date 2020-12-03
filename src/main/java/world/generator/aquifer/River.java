@@ -57,9 +57,11 @@ public class River extends Aquifer {
     public void apply(Isle isle) {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
+
         final Coordinate coordinateStart = coordinate;
         Map<Coordinate, Integer> end = new HashMap<>();
         findRiverPath( isle, coordinate, river, coordinateStart, end);
+
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -70,9 +72,12 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
+
     private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart, Map<Coordinate, Integer> end ) {
 
+
         double riverHeight = coordinate.getZ();
+        Coordinate coordinateStart = coordinate;
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
@@ -81,11 +86,14 @@ public class River extends Aquifer {
             Coordinate c1 = i.getC1();
             Coordinate c2 = i.getC2();
             if (c1.getZ() < riverHeight ) {
+
                 riverHeight = c1.getZ();
                 tmpC = c1;
                 tmpL = i;
             }
+
             if (c2.getZ() < riverHeight ) {
+
                 riverHeight = c2.getZ();
                 tmpC = c2;
                 tmpL = i;
@@ -97,6 +105,7 @@ public class River extends Aquifer {
             river.add(tmpL);
         }
 
+
         if(tmpL == null){ //Parfois l'endroit où on est plan ce qui fait qu'on revient toujours à cette coordonnée
                           //Si c'est le cas, on sauvegarde cette coordonnée et si on revient à ce point 5 fois de suite on exit.
             int repeated = end.getOrDefault(coordinate, 0);
@@ -106,6 +115,7 @@ public class River extends Aquifer {
 
         if (!isRiverEnded(isle, coordinate, end )  && !coordinate.equals(coordinateStart ) ){
             findRiverPath( isle , coordinate, river, coordinateStart, end);
+
         }
     }
 

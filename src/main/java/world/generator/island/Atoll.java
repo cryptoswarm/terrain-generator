@@ -16,8 +16,10 @@ public class Atoll extends Island {
 
     private final Circle circle;
     private final int maxAltitude;
+
     private HashSet<Tile> islandTiles;
     private Isle isle;
+
 
     List<Coordinate> coordinateList = new ArrayList<>();
 
@@ -32,6 +34,7 @@ public class Atoll extends Island {
 
         setBorders(world);
         defineAltitude(world, maxAltitude);
+
 
         this.isle = new Isle(islandTiles);
         world.addArchipelago(isle);
@@ -51,7 +54,6 @@ public class Atoll extends Island {
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
-
 
     }
 
