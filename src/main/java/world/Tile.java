@@ -24,8 +24,8 @@ public class Tile {
 
 
     public Tile(Coordinate center) {
-        this.center = center;
 
+        this.center = center;
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
