@@ -8,8 +8,7 @@ import world.Tile;
 import world.generator.island.Atoll;
 import world.generator.island.Island;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -35,7 +34,7 @@ public class AltitudeGenerationTest {
     Line line7;
 
     Island island;
-    List<Tile> tileList;
+    HashSet<Tile> tileList;
     Circle circle;
     RandomContexte randomContexte;
     Coordinate circleCenter;
@@ -86,7 +85,7 @@ public class AltitudeGenerationTest {
         tile2.addBorder(line7);
         tile2.addBorder(line2);
 
-        tileList= new ArrayList<>();
+        tileList = new LinkedHashSet<>();
         tileList.add(tile1);
         tileList.add(tile2);
 

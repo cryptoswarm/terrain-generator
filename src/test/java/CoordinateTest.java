@@ -81,12 +81,6 @@ public class CoordinateTest {
 
     }
 
-    @Test
-    public void cornersEqualityTwoFonctions(){
-        assertEquals(tile1.getCorner(), tile1.getCornerOriginal());
-    }
-
-
 
     @Test
     public void testEquals() {

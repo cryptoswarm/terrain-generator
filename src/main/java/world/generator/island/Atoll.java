@@ -2,6 +2,7 @@ package world.generator.island;
 
 import geometry.Circle;
 import geometry.Coordinate;
+import geometry.Line;
 import islandSet.Isle;
 import world.Tile;
 import world.World;
@@ -13,12 +14,11 @@ public class Atoll extends Island {
 
     private final Circle circle;
     private final int maxAltitude;
-    private List<Tile> islandTiles;
-    //private HashSet<Coordinate> listOfCoordinate = new LinkedHashSet<>();
-    //TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
+    private HashSet<Tile> islandTiles;
+
     List<Coordinate> coordinateList = new ArrayList<>();
 
-    public Atoll( List<Tile> islandTiles, Circle circle, int maxAltitude){
+    public Atoll( HashSet<Tile> islandTiles, Circle circle, int maxAltitude){
         this.circle = circle;
         this.maxAltitude = maxAltitude;
         this.islandTiles = islandTiles;
@@ -26,13 +26,44 @@ public class Atoll extends Island {
 
     @Override
     public void apply(World world) {
-        System.out.println("island tiles before all = "+islandTiles.size());
+
         setBorders(world);
         defineAltitude(world, maxAltitude);
+
         Isle isle = new Isle(islandTiles);
         world.addArchipelago(isle);
-        System.out.println("island tiles after all = "+islandTiles.size());
+
     }
+
+    private HashSet<Tile > getTiles(){
+
+        HashSet<Tile > tiles= new LinkedHashSet<>();
+        for(Tile tile:islandTiles){
+            Tile tile1 = new Tile(tile.getCenter());
+
+            for(Coordinate coordinate:tile.getCorner()){
+                Coordinate coordinate1 = new Coordinate(coordinate.getX(), coordinate.getY(), coordinate.getZ());
+                tile1.addCorners(coordinate1);
+                if( coordinate.getZ() == -1){
+                    System.out.println(" ********* warning adding coordinates******* something is wrong");
+                }
+
+            }
+
+            for(Line line:tile.getBorder()){
+                Line line1 = new Line(new Coordinate(line.getC1().getX(),line.getC1().getY(), line.getC1().getZ() ),
+                        new Coordinate(line.getC2().getX(), line.getC2().getY(), line.getC2().getZ()));
+                tile1.addBorder(line1);
+
+                if( line.getC2().getZ() == -1 || line.getC1().getZ() ==  -1){
+                    System.out.println(" ********* warning adding lines ******* something is wrong");
+                }
+            }
+            tiles.add(tile1);
+        }
+        return tiles;
+    }
+
 
     @Override
     public void defineAltitude(World world, int maxAltitude){
@@ -45,20 +76,7 @@ public class Atoll extends Island {
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
-
-        System.out.println("alt before applying profile");
-        for(Tile tile:islandTiles){
-            System.out.println( tile.getCorner().toString() );
-        }
-
-
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
-
-
-        System.out.println("alt after applying profile");
-        for(Tile tile:islandTiles){
-            System.out.println( tile.getCorner().toString() );
-        }
 
 
     }
@@ -79,7 +97,6 @@ public class Atoll extends Island {
     public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
 
         int milieu = sortedListTiles.size()/2;
-        List<Coordinate> list = new ArrayList<>();
 
         float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
 

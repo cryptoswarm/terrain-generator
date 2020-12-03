@@ -5,16 +5,15 @@ import org.junit.Before;
 import org.junit.Test;
 import world.Tile;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import static org.junit.Assert.*;
 
 public class IsleTest {
 
     Isle isle;
-    List<Tile> islandTiles;
+    HashSet<Tile> islandTiles;
 
     Tile tile1;
     Tile tile2;
@@ -59,7 +58,7 @@ public class IsleTest {
     @Before
     public void setUp(){
 
-        islandTiles = new ArrayList<>();
+        islandTiles = new LinkedHashSet<>();
 
         tile1 = new Tile(new Coordinate(2, 1.5f, 0));
         tile2 = new Tile(new Coordinate(5, 2, 0));
@@ -120,8 +119,8 @@ public class IsleTest {
         line6 = new Line(coordinate5, coordinate6);
         line7 = new Line(coordinate6, coordinate7);
         line8 = new Line(coordinate7, coordinate8);
-        line9 = new Line(coordinate8, coordinate10);
-        line10 = new Line(coordinate10, coordinate3);
+        line9 = new Line(coordinate8, coordinate9);
+        line10 = new Line(coordinate9, coordinate3);
 
 
         line11 = new Line(coordinate11, coordinate12);
@@ -235,14 +234,19 @@ public class IsleTest {
 
     @Test
     public void verifyLinesTest2(){
+
         assertEquals(4, isle.getLine(coordinate3).size());
         HashSet<Line> lines = isle.getLine(coordinate3);
+
         assertTrue(lines.contains(line2));
         assertTrue(lines.contains(line3));
         assertTrue(lines.contains(line10));
         assertTrue(lines.contains(line5));
         assertFalse(lines.contains(line4));
         assertFalse(lines.contains(line9));
+
+
+
     }
 
 

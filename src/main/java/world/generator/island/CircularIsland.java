@@ -6,7 +6,8 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CircularIsland extends IslandShape {
@@ -24,7 +25,7 @@ public class CircularIsland extends IslandShape {
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, int diameter) {
         boolean created = false;
 
-        List<Tile> islandTiles = findValidIsland(world, random, diameter);
+        HashSet<Tile> islandTiles = findValidIsland(world, random, diameter);
 
         if(!islandTiles.isEmpty()){
             Island island = new Atoll( islandTiles, circle, maxAltitude);
@@ -34,10 +35,11 @@ public class CircularIsland extends IslandShape {
         return created;
     }
 
-    private List<Tile> findValidIsland(World world, RandomContexte random, int diameter){
+    private HashSet<Tile> findValidIsland(World world, RandomContexte random, int diameter){
 
 
-        List<Tile> validIslandTiles = new ArrayList<>();
+        HashSet<Tile> validIslandTiles = new LinkedHashSet<>();
+
         List<Coordinate> coordinates = world.getAllCordinates(); //new ArrayList<>(tiles.keySet());
         boolean isValide = false;
 
@@ -45,7 +47,7 @@ public class CircularIsland extends IslandShape {
 
             Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Circle cir = new Circle(diameter, random, coordinate);
-            List<Tile> islandTiles = world.getIslandTiles( cir);
+            HashSet<Tile> islandTiles = world.getIslandTiles( cir);
 
             if (validIsland( islandTiles,height,width, world)){
                 isValide = true;

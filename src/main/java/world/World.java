@@ -6,10 +6,7 @@ import geometry.Shape;
 import islandSet.Isle;
 import randomStrategy.RandomContexte;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class World {
 
@@ -47,7 +44,22 @@ public class World {
      * @param line est la ligne qu'on cherche à obtenir sa couleur
      * @return   la couleur de la ligne
      */
+    /*
     public String getLineColor(Line line){
+        boolean isFound = false;
+        for(Isle isle:isleList){
+            for(Tile tile:isle.getIslandTiles()){
+
+                if(isFound){
+                    break;
+                }
+            }
+            if(isFound){
+                System.out.println("line found ");
+                break;
+            }
+
+        }
 
         for(Tile tile: tiles.values()){
             for(Line l: tile.getBorder()){
@@ -57,7 +69,36 @@ public class World {
                 }
             }
         }
+
+
         TileColor color = line.getColor();
+        if(color != null) {
+            return color.toString();
+        }
+
+        return "0:0:0:0";
+    }
+    */
+
+
+    public String getLineColor(Line line){
+        TileColor color = null;
+        boolean isFound = false;
+
+        for(int i=0; i<isleList.size() && !isFound; i++){
+            for( Tile tile:isleList.get(i).getIslandTiles()){
+                color = tile.getLineColor(line);
+                if(color != null){
+                    isFound = true;
+                    break;
+                }
+            }
+        }
+
+        if(isFound){
+            System.out.println("line found ");
+        }
+
         if(color != null) {
             return color.toString();
         }
@@ -211,9 +252,9 @@ public class World {
      * @param s  La forme de l'ile qu'on veut créer
      * @return   les tuiles qui composent l'ile
      */
-    public List<Tile> getIslandTiles( Shape s){
+    public HashSet<Tile> getIslandTiles( Shape s){
 
-        List<Tile> tileList = new ArrayList<>();
+        HashSet<Tile> tileList = new LinkedHashSet<>();
         for (Tile tile : tiles.values() ) {
             if( s.isInShape( tile.getCenter() ) ){
                 tileList.add(tile);

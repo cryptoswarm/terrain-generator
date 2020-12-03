@@ -3,7 +3,6 @@ package translator;
 import ca.uqam.ace.inf5153.mesh.io.Structs;
 import ca.uqam.info.inf5153.ptg.WorldGenerator;
 import geometry.Coordinate;
-import geometry.Line;
 import world.Tile;
 
 import java.io.IOException;
@@ -44,10 +43,7 @@ public class MeshReader implements Reader {
 
                Coordinate c1 = new Coordinate(p1.getX(), p1.getY(),-1);
                Coordinate c2 = new Coordinate(p2.getX(),p2.getY(),-1);
-               Line line = new Line(c1,c2);
 
-
-               tile.addBorder(line);
                tile.addCorners(c1);
                tile.addCorners(c2);
             }

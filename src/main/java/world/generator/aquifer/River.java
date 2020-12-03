@@ -61,10 +61,6 @@ public class River extends Aquifer {
 
     }
 
-
-
-
-
     /**
      * @param coordinate  une coordnnée generee aleatoirement
      * @param river une liste contenant les lignes qui composent la riviere
@@ -81,18 +77,16 @@ public class River extends Aquifer {
 
                 Coordinate c1 = i.getC1();
                 Coordinate c2 = i.getC2();
-                if (c1.getZ() < riverHeight || ( (c1.getZ() == riverHeight) && !c1.equals(coordinate))) {
+                if (c1.getZ() < riverHeight ) {
                     riverHeight = c1.getZ();
                     tmpC = c1;
                     tmpL = i;
                 }
-                if (c2.getZ() < riverHeight || ( (c2.getZ() == riverHeight) && !c2.equals(coordinate)) ) {
+                if (c2.getZ() < riverHeight ) {
                     riverHeight = c2.getZ();
                     tmpC = c2;
                     tmpL = i;
                 }
-
-
         }
 
         coordinate = tmpC;
@@ -132,10 +126,11 @@ public class River extends Aquifer {
     private HashSet<Tile> applyRiverEffects(Isle isle){
 
         HashSet<Tile> wetZone = new HashSet<>();
-        for(Line i: river) {
-            wetZone.addAll( isle.getNeighbor(i) );
-            i.setColor(riverColor);
-            i.increaseFlow();
+        System.out.println("size of river = "+river.size());
+        for(Line line: river) {
+            wetZone.addAll( isle.getNeighbor(line) );
+            line.setColor(riverColor);
+            line.increaseFlow();
         }
         return wetZone;
     }

@@ -5,9 +5,7 @@ import geometry.Coordinate;
 import geometry.Line;
 import world.generator.biome.Biome;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class Tile {
 
@@ -166,38 +164,45 @@ public class Tile {
 
     /**
      *
-     * @return la liste des lignes qui bordent la ltuile
+     * @return la listes des coordonnée des coins de la tuile
      */
-    public HashSet<Line> getBorder() {
-        return border;
+    public HashSet<Coordinate> getCorner() {
+
+        return corners;
     }
 
     /**
      *
-     * @return la listes des coordonnée des coins de la tuile
+     * @return la liste des lignes qui bordent la ltuile
      */
-    public HashSet<Coordinate> getCorner() {
-        /*
-        HashSet<Coordinate> c = new LinkedHashSet<>();
-        for(Line l: border){
-            c.add(l.getC1());
-            c.add(l.getC2());
-        }
-        return c;
 
-         */
-        return corners;
+    public HashSet<Line> getBorder() {
+
+        HashSet<Line> tileLines = new LinkedHashSet<>();
+        List<Coordinate > temp = new ArrayList<>(corners);
+        temp.add(temp.get(0));
+        int j =0;
+        for(int i=0; i<temp.size() && j< temp.size()-1; i++){
+            j = i+1;
+            Line line = new Line(temp.get(i), temp.get(j) );
+            tileLines.add(line);
+        }
+
+        return tileLines;
     }
 
-    public HashSet<Coordinate> getCornerOriginal() {
+    public TileColor getLineColor(Line line){
+        TileColor color = null;
 
-        HashSet<Coordinate> c = new LinkedHashSet<>();
-        for(Line l: border){
-            c.add(l.getC1());
-            c.add(l.getC2());
+        if(this.getBorder().contains(line) ){
+            color = line.getColor();
         }
-        return c;
+        if(color != null){
+            System.out.println("color is diffrent than null");
+        }
+        return color;
     }
+
 
     /**
      *
