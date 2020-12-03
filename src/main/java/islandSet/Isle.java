@@ -92,13 +92,20 @@ public class Isle {
         for(Tile tile: islandTiles){
 
             for (Line line : tile.getBorder()) {
-                if (line.getC1().equals(c) || line.getC2().equals(c)) {
-                    lines.add(line);
+                Coordinate c1 = line.getC1();
+                Coordinate c2 = line.getC2();
+                if(c1.getZ() != -1 && c2.getZ()!= -1) {
+                    if (line.getC1().equals(c) || line.getC2().equals(c)) {
+                        lines.add(line);
+                    }
                 }
             }
         }
+        System.out.println("lines have same coordinates = "+lines.size());
         return lines;
     }
+
+
 
 
     public HashSet<Tile> getNeighbor(Line l) {

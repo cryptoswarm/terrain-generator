@@ -44,7 +44,6 @@ public abstract class Island  implements WorldProcessor {
      * @param centerOfShape  la coordonnée du centre de l'ile
      */
 
-
     public void applyAltitudeToTileCorners(Tile tile, double currentAlt, Coordinate centerOfShape, float diffrenceAltEachtile, List<Coordinate> uniqeCoordinates) {
 
         double distance = tile.getCenter().distance(centerOfShape);
@@ -53,15 +52,12 @@ public abstract class Island  implements WorldProcessor {
 
         for (Coordinate c : tile.getCorner()) { //
 
-
-
-            //if(!uniqeCoordinates.containsKey(c)) {
             if(!uniqeCoordinates.contains(c) ) {
 
                 double dist = c.distance(centerOfShape);
                 float alt;
                 if (c.getZ() == INVALIDE_ALT) { //Sert à verifier si l'altitude de la coordonné est deja appliqué //c.getZ() == INVALIDE_ALT
-                    //lorsqu'on a appliquer l'altitude d'une autre tuile.
+                                                //lorsqu'on a appliquer l'altitude d'une autre tuile.
                     if (dist > distance) {
 
                         alt = ((float) currentAlt - diffrenceAltEachCorner);

@@ -27,10 +27,12 @@ public class Atoll extends Island {
 
     @Override
     public void apply(World world) {
+        System.out.println("island tiles before all = "+islandTiles.size());
         setBorders(world);
         defineAltitude(world, maxAltitude);
         this.isle = new Isle(islandTiles);
         world.addArchipelago(this.isle);
+
     }
 
     @Override
@@ -44,22 +46,20 @@ public class Atoll extends Island {
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
-        /*
+
         System.out.println("alt before applying profile");
         for(Tile tile:islandTiles){
             System.out.println( tile.getCorner().toString() );
         }
 
-         */
+
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
-        //adjustProfile(sortedListTiles);
-        /*
+
+
         System.out.println("alt after applying profile");
         for(Tile tile:islandTiles){
             System.out.println( tile.getCorner().toString() );
         }
-        */
-
     }
 
 
@@ -109,30 +109,6 @@ public class Atoll extends Island {
 
     }
 
-
-
-
-    /**
-     *
-     * @param temp pour la meme coordonnée, il se peut qu'elle a différentes altitudes
-     */
-    public void adjustProfile(TreeMap<Double, List<Tile> > temp ){
-
-        TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
-
-        for(List<Tile> tileList:temp.values()){
-            for(Tile tile:tileList){
-                for(Coordinate coordinate:tile.getCorner()){
-
-                    if(!uniqeCoordinates.containsKey(coordinate)){
-                        uniqeCoordinates.put(coordinate, coordinate.getZ());
-                    }else{
-                        coordinate.setZ( uniqeCoordinates.get(coordinate) );
-                    }
-                }
-            }
-        }
-    }
 
     @Override
     public void setBorders(World world){

@@ -100,6 +100,7 @@ public class River extends Aquifer {
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
             findRiverPath( isle , coordinate, river);
+
         }
     }
 
@@ -109,6 +110,7 @@ public class River extends Aquifer {
      * @return True si la riviere atteint une source d'eau
      */
     private boolean isRiverEnded( Isle isle, Coordinate coordinate ){
+
         boolean end = false;
         for(Tile tile: isle.getNeighbor(coordinate)){
             String s = tile.getBiome().getType();
