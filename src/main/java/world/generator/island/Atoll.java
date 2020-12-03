@@ -42,13 +42,6 @@ public class Atoll extends Island {
     }
 
 
-
-
-    
-
-
-
-
     @Override
     public void defineAltitude(World world, int maxAltitude){
 

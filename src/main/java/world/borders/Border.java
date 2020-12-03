@@ -43,5 +43,4 @@ public class Border {
         return corners;
     }
 
-
 }

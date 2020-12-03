@@ -49,23 +49,6 @@ public class Line {
     }
 
 
-/*
-     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Line line = (Line) o;
-        return c1.equals(line.c1) &&
-                c2.equals(line.c2) || c2.equals(line.c1) && c1.equals(line.c2);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(c1.getX() + c1.getY() + c2.getX() + c2.getY());
-    }
-
- */
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
