@@ -87,9 +87,11 @@ public class Tortuga  extends Island {
         for (List<Tile> tileList : temp.values()) {
             currentAlt -= diffrenceAltEachtile;
             for(Tile tile:tileList){
-                uniqeCoordinates.addAll(tile.getCorner());
+
 
                 applyAltitudeToTileCorners(tile, currentAlt, ellipse.getEllipseCenter(), diffrenceAltEachtile, uniqeCoordinates );
+
+                uniqeCoordinates.addAll(tile.getCorner());
             }
         }
     }

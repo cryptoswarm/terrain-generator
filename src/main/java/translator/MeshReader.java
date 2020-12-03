@@ -46,7 +46,6 @@ public class MeshReader implements Reader {
                Coordinate c2 = new Coordinate(p2.getX(),p2.getY(),-1);
                Line line = new Line(c1,c2);
 
-
                tile.addBorder(line);
                tile.addCorners(c1);
                tile.addCorners(c2);

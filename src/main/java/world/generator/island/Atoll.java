@@ -14,6 +14,7 @@ public class Atoll extends Island {
     private final Circle circle;
     private final int maxAltitude;
     private List<Tile> islandTiles;
+    private Isle isle;
     //private HashSet<Coordinate> listOfCoordinate = new LinkedHashSet<>();
     //TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
     List<Coordinate> coordinateList = new ArrayList<>();
@@ -28,8 +29,8 @@ public class Atoll extends Island {
     public void apply(World world) {
         setBorders(world);
         defineAltitude(world, maxAltitude);
-        Isle isle = new Isle(islandTiles);
-        world.addArchipelago(isle);
+        this.isle = new Isle(islandTiles);
+        world.addArchipelago(this.isle);
     }
 
     @Override
@@ -57,8 +58,8 @@ public class Atoll extends Island {
         for(Tile tile:islandTiles){
             System.out.println( tile.getCorner().toString() );
         }
+        */
 
-         */
     }
 
 

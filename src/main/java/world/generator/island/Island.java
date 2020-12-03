@@ -1,6 +1,7 @@
 package world.generator.island;
 
 import geometry.Coordinate;
+import geometry.Line;
 import world.Tile;
 import world.World;
 import world.generator.WorldProcessor;
@@ -52,32 +53,50 @@ public abstract class Island  implements WorldProcessor {
 
         for (Coordinate c : tile.getCorner()) { //
 
+
+
             //if(!uniqeCoordinates.containsKey(c)) {
             if(!uniqeCoordinates.contains(c) ) {
 
                 double dist = c.distance(centerOfShape);
-
+                float alt;
                 if (c.getZ() == INVALIDE_ALT) { //Sert à verifier si l'altitude de la coordonné est deja appliqué //c.getZ() == INVALIDE_ALT
                     //lorsqu'on a appliquer l'altitude d'une autre tuile.
                     if (dist > distance) {
 
-                        c.setZ((float) currentAlt - diffrenceAltEachCorner);
+                        alt = ((float) currentAlt - diffrenceAltEachCorner);
                     } else if (dist < distance) {
 
-                        c.setZ((float) currentAlt + diffrenceAltEachCorner);
+                        alt = ((float) currentAlt + diffrenceAltEachCorner);
                     } else {
-                        c.setZ((float) currentAlt);
+                        alt = ((float) currentAlt);
+                    }
+                    c.setZ(alt);
+                    for(Line line : tile.getBorder()){
+                        if(line.getC1().equals(c)){
+                            line.getC1().setZ(alt);
+                        }else if (line.getC2().equals(c)){
+                            line.getC2().setZ(alt);
+                        }
                     }
                 }
             }else {
-
+                float alt;
                 for(Coordinate coordinate:uniqeCoordinates){
                     if(c.equals(coordinate)){
-                        c.setZ(coordinate.getZ());
+                        alt = coordinate.getZ();
+                        c.setZ(alt);
+                        for(Line line : tile.getBorder()){
+                            if(line.getC1().equals(c)){
+                                line.getC1().setZ(alt);
+                            }else if (line.getC2().equals(c)){
+                                line.getC2().setZ(alt);
+                            }
+                        }
+
                         break;
                     }
                 }
-                System.out.println("alt of coordinates already set ");
             }
         }
     }
