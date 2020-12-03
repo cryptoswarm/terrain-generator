@@ -54,8 +54,7 @@ public class River extends Aquifer {
     public void apply(Isle isle) {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
-        final Coordinate coordinateStart = coordinate;
-        findRiverPath( isle, coordinate, river, coordinateStart );
+        findRiverPath( isle, coordinate, river);
         HashSet<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
@@ -66,10 +65,10 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la riviere
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
+    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
 
         double riverHeight = coordinate.getZ();
-
+        Coordinate coordinateStart = coordinate;
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
@@ -98,7 +97,7 @@ public class River extends Aquifer {
         }
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
-            findRiverPath( isle , coordinate, river, coordinateStart);
+            findRiverPath( isle , coordinate, river);
         }
     }
 
