@@ -27,8 +27,6 @@ public class Line {
     }
 
 
-
-
     public HashSet<Coordinate> getCorners(){
         return lineCoordinates;
     }
