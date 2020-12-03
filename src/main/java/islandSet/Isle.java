@@ -13,13 +13,13 @@ public class Isle {
 
 
 
-    private List<Tile> islandTiles;
+    private HashSet<Tile> islandTiles;
 
-    public Isle(List<Tile> islandTiles) {
+    public Isle(HashSet<Tile> islandTiles) {
         this.islandTiles = islandTiles;
     }
 
-    public List<Tile> getIslandTiles() {
+    public HashSet<Tile> getIslandTiles() {
         return islandTiles;
     }
 
@@ -92,21 +92,14 @@ public class Isle {
         for(Tile tile: islandTiles){
 
             for (Line line : tile.getBorder()) {
-                Coordinate c1 = line.getC1();
-                Coordinate c2 = line.getC2();
-                if(c1.getZ() != -1 && c2.getZ()!= -1) {
-                    if (line.getC1().equals(c) || line.getC2().equals(c)) {
-                        lines.add(line);
-                    }
-                }
+                 if(line.isCoordinateValid(c)){
+                     lines.add(line);
+                 }
             }
         }
-        System.out.println("lines have same coordinates = "+lines.size());
+        System.out.println("same lines = "+lines.size());
         return lines;
     }
-
-
-
 
     public HashSet<Tile> getNeighbor(Line l) {
         HashSet<Tile> neighbor = new HashSet<>();
@@ -116,7 +109,5 @@ public class Isle {
 
         return neighbor;
     }
-
-
 
 }

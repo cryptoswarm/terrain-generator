@@ -69,6 +69,7 @@ public class River extends Aquifer {
     private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river , Coordinate coordinateStart ) {
 
         double riverHeight = coordinate.getZ();
+
         Coordinate tmpC = coordinate;
 
         Line tmpL = null;
@@ -77,11 +78,14 @@ public class River extends Aquifer {
             Coordinate c1 = i.getC1();
             Coordinate c2 = i.getC2();
             if (c1.getZ() < riverHeight ) {
+
                 riverHeight = c1.getZ();
                 tmpC = c1;
                 tmpL = i;
             }
+
             if (c2.getZ() < riverHeight ) {
+
                 riverHeight = c2.getZ();
                 tmpC = c2;
                 tmpL = i;

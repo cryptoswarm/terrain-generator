@@ -5,6 +5,7 @@ import ca.uqam.info.inf5153.ptg.WorldGenerator;
 import geometry.Coordinate;
 import geometry.Line;
 import world.Tile;
+import world.borders.Border;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -32,9 +33,8 @@ public class MeshReader implements Reader {
             float tileCenterX = tileCenterCoordinate.getX();
             float tileCenterY = tileCenterCoordinate.getY();
 
-            Tile tile = new Tile(new Coordinate( tileCenterX, tileCenterY, -1) );
 
-
+            Border border = new Border();
 
             for(int segmentId: polygon.getSegmentIdxList()) {
 
@@ -44,12 +44,14 @@ public class MeshReader implements Reader {
 
                Coordinate c1 = new Coordinate(p1.getX(), p1.getY(),-1);
                Coordinate c2 = new Coordinate(p2.getX(),p2.getY(),-1);
-               Line line = new Line(c1,c2);
 
-               tile.addBorder(line);
-               tile.addCorners(c1);
-               tile.addCorners(c2);
+               Line line = new Line(c1, c2);
+               border.addTileLines(line);
+
             }
+
+            Tile tile = new Tile(new Coordinate( tileCenterX, tileCenterY, -1));
+            tile.setBorder(border);
             c.addWorldTile(tile);
         }
     }

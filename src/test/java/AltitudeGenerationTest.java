@@ -5,11 +5,11 @@ import org.junit.Before;
 import org.junit.Test;
 import randomStrategy.RandomContexte;
 import world.Tile;
+import world.borders.Border;
 import world.generator.island.Atoll;
 import world.generator.island.Island;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
 
@@ -18,6 +18,14 @@ public class AltitudeGenerationTest {
 
     Tile tile1;
     Tile tile2;
+
+    Coordinate center1;
+    Coordinate center2;
+
+    Border tile1border;
+    Border tile2border;
+
+
     Coordinate coordinate1;
     Coordinate coordinate2;
     Coordinate coordinate3;
@@ -35,7 +43,7 @@ public class AltitudeGenerationTest {
     Line line7;
 
     Island island;
-    List<Tile> tileList;
+    HashSet<Tile> tileList;
     Circle circle;
     RandomContexte randomContexte;
     Coordinate circleCenter;
@@ -45,8 +53,15 @@ public class AltitudeGenerationTest {
     @Before
     public void setUp(){
 
-        tile1 = new Tile(new Coordinate(2, 4,-1));
-        tile2 = new Tile(new Coordinate(4, 3,-1));
+        center1 = new Coordinate(2, 4,-1);
+        center2 = new Coordinate(4, 3,-1);
+
+        tile1 = new Tile(center1);
+        tile2 = new Tile(center2);
+
+        tile1border = new Border();
+        tile2border = new Border();
+
 
         coordinate1 = new Coordinate(1, 3, -1);
         coordinate2 = new Coordinate(3, 1, -1);
@@ -55,38 +70,31 @@ public class AltitudeGenerationTest {
         coordinate5 = new Coordinate(5, 3, -1);
         coordinate6 = new Coordinate(4, 6, -1);
 
-        tile1.addCorners(coordinate1);
-        tile1.addCorners(coordinate2);
-        tile1.addCorners(coordinate3);
-        tile1.addCorners(coordinate4);
-
-        tile2.addCorners(coordinate2);
-        tile2.addCorners(coordinate5);
-        tile2.addCorners(coordinate6);
-        tile2.addCorners(coordinate3);
-
 
         line1 = new Line(coordinate1, coordinate2);
         line2 = new Line(coordinate2, coordinate3);
         line3 = new Line(coordinate3, coordinate4);
         line4 = new Line(coordinate4, coordinate1);
-
         line5 = new Line(coordinate2, coordinate5);
         line6 = new Line(coordinate5, coordinate6);
         line7 = new Line(coordinate6, coordinate3);
 
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
 
-        tile2.addBorder(line5);
-        tile2.addBorder(line6);
-        tile2.addBorder(line7);
-        tile2.addBorder(line2);
+        tile1border.addTileLines(line1);
+        tile1border.addTileLines(line2);
+        tile1border.addTileLines(line3);
+        tile1border.addTileLines(line4);
+        tile1.setBorder(tile1border);
 
-        tileList= new ArrayList<>();
+        tile2border.addTileLines(line5);
+        tile2border.addTileLines(line6);
+        tile2border.addTileLines(line7);
+        tile2border.addTileLines(line2);
+        tile2.setBorder(tile2border);
+
+
+        tileList = new LinkedHashSet<>();
         tileList.add(tile1);
         tileList.add(tile2);
 

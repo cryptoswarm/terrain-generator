@@ -3,11 +3,10 @@ package world;
 
 import geometry.Coordinate;
 import geometry.Line;
+import world.borders.Border;
 import world.generator.biome.Biome;
 
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.Objects;
+import java.util.*;
 
 public class Tile {
 
@@ -19,19 +18,23 @@ public class Tile {
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-    final private HashSet<Line> border;
-    private HashSet<Coordinate> corners;
+
     private float richiness;
+    private Border border;
 
 
     public Tile(Coordinate center) {
         this.center = center;
-        this.border = new LinkedHashSet<>();
-        this.corners = new LinkedHashSet<>();
+
         this.humidityLevel = invalid;
         this.isInLagoon = false;
         this.isOnIsland = false;
         this.isInOcean = true;
+        this.border = new Border();
+    }
+
+    public void setBorder(Border border) {
+        this.border = border;
     }
 
     /**
@@ -166,50 +169,28 @@ public class Tile {
 
     /**
      *
-     * @return la liste des lignes qui bordent la ltuile
-     */
-    public HashSet<Line> getBorder() {
-        return border;
-    }
-
-    /**
-     *
      * @return la listes des coordonnée des coins de la tuile
      */
+
+
     public HashSet<Coordinate> getCorner() {
-        /*
-        HashSet<Coordinate> c = new LinkedHashSet<>();
-        for(Line l: border){
-            c.add(l.getC1());
-            c.add(l.getC2());
-        }
-        return c;
 
-         */
-        return corners;
-    }
-
-    public HashSet<Coordinate> getCornerOriginal() {
-
-        HashSet<Coordinate> c = new LinkedHashSet<>();
-        for(Line l: border){
-            c.add(l.getC1());
-            c.add(l.getC2());
-        }
-        return c;
+        return border.getCorners();
     }
 
     /**
      *
-     * @param l ajouter une ligne aux bordures de la tuile
+     * @return la liste des lignes qui bordent la ltuile
      */
 
-    public void addBorder(Line l){
-        border.add(l);
+    public HashSet<Line> getBorder() {
+
+        return border.getLines();
     }
 
-    public void addCorners(Coordinate corner1){
-        corners.add(corner1);
+    public TileColor getLineColor(Line line){
+
+        return border.getLineColor(line);
     }
 
     /**

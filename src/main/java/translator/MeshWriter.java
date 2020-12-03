@@ -49,6 +49,7 @@ public class MeshWriter implements Writer{
             String tileColor = c.getWorldTileColor(new Coordinate(x,y,0) );
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
             builder.getPolygonsBuilder(i).addProperties(color);
+
         }
     }
 

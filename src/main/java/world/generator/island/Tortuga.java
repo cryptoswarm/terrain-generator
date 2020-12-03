@@ -15,11 +15,11 @@ public class Tortuga  extends Island {
 
     final private RandomContexte random;
     final private int maxAltitude;
-    private List<Tile> islandTiles;
+    private HashSet<Tile> islandTiles;
 
     private List<Coordinate> uniqeCoordinates = new ArrayList<>();
 
-    public Tortuga( List<Tile> islandTiles, Ellipse  ellipse, RandomContexte random, int maxAltitude){
+    public Tortuga( HashSet<Tile> islandTiles, Ellipse  ellipse, RandomContexte random, int maxAltitude){
 
         this.islandTiles = islandTiles;
         this.ellipse = ellipse;
@@ -52,7 +52,7 @@ public class Tortuga  extends Island {
         double distance;
         int nbIslandTiles = islandTiles.size();
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.5*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
-        List<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
+        HashSet<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
         islandTiles.removeAll(islandSummitTiles);
 
         for(Tile tile: islandTiles){

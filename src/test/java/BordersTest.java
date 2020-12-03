@@ -8,8 +8,8 @@ import world.World;
 import world.generator.island.Atoll;
 import world.generator.island.Island;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 
 import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertEquals;
@@ -24,7 +24,7 @@ public class BordersTest {
     Island island;
     World world;
     int maxAltitude = 200;
-    List<Tile> islandTiles;
+    HashSet<Tile> islandTiles;
     int seed;
     Tile tile1;
     Tile tile2;
@@ -70,7 +70,7 @@ public class BordersTest {
         world.addTile(tile9);
         world.addTile(tile10);
 
-        islandTiles = new ArrayList<>();
+        islandTiles = new LinkedHashSet<>();
         islandTiles.addAll(world.getTiles().values());
         island = new Atoll(islandTiles, circle, maxAltitude);
 

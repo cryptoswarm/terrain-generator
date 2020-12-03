@@ -6,10 +6,7 @@ import geometry.Shape;
 import islandSet.Isle;
 import randomStrategy.RandomContexte;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
+import java.util.*;
 
 public class World {
 
@@ -47,23 +44,66 @@ public class World {
      * @param line est la ligne qu'on cherche à obtenir sa couleur
      * @return   la couleur de la ligne
      */
+    /*
     public String getLineColor(Line line){
+        TileColor color = null;
+        boolean isFound = false;
 
-        for(Tile tile: tiles.values()){
-            for(Line l: tile.getBorder()){
-                if(l.equals(line) && l.getColor() != null) {
-                    line = l;
+        for(int i=0; i<isleList.size() && !isFound; i++){
+            for( Tile tile:isleList.get(i).getIslandTiles()){
+                color = tile.getLineColor(line);
+                if(color != null){
+                    isFound = true;
                     break;
                 }
             }
         }
-        TileColor color = line.getColor();
+
+        if(isFound){
+            System.out.println("line found ");
+        }
+
         if(color != null) {
             return color.toString();
         }
 
         return "0:0:0:0";
     }
+
+     */
+
+    /**
+     * On cherche la couleur de la ligne
+     * @param line est la ligne qu'on cherche à obtenir sa couleur
+     * @return   la couleur de la ligne
+     */
+
+    public String getLineColor(Line line){
+        TileColor color = null;
+        boolean isFound = false;
+
+        for(int i=0; i<isleList.size() && !isFound; i++){
+            for( Tile tile:isleList.get(i).getIslandTiles()){
+                color = tile.getLineColor(line);
+                if(color != null){
+                    isFound = true;
+                    break;
+                }
+            }
+        }
+
+        if(isFound){
+            System.out.println("line found ");
+        }
+
+        if(color != null) {
+            return color.toString();
+        }
+
+        return "0:0:0:0";
+    }
+
+
 
     /**
      *
@@ -151,25 +191,7 @@ public class World {
         tiles.put(c,tile);
     }
 
-    /**
-     *
-     * Pour pouvoir associer une ligne aux bordures d'une tuile
-     *  On doit trouver la tuile en question, pour cela on a besoin des coordonnées de la tuile
-     *
-     * @param coordinate   la coordonnée au centre de la tuile
-     * @param line      la line à ajouter aux bordures de la tuile
-     */
-    public void addLine(Coordinate coordinate, Line line){
 
-        Tile t = tiles.get( coordinate );
-        t.addBorder(line);
-    }
-
-    public void addCorners( Coordinate tileCenter, Coordinate  corner1, Coordinate  corner2){
-        Tile t = tiles.get( tileCenter );
-        t.addCorners(corner1);
-        t.addCorners(corner2);
-    }
 
     /**
      *
@@ -211,9 +233,9 @@ public class World {
      * @param s  La forme de l'ile qu'on veut créer
      * @return   les tuiles qui composent l'ile
      */
-    public List<Tile> getIslandTiles( Shape s){
+    public HashSet<Tile> getIslandTiles( Shape s){
 
-        List<Tile> tileList = new ArrayList<>();
+        HashSet<Tile> tileList = new LinkedHashSet<>();
         for (Tile tile : tiles.values() ) {
             if( s.isInShape( tile.getCenter() ) ){
                 tileList.add(tile);
@@ -226,39 +248,6 @@ public class World {
         return tiles.get(coordinate);
     }
 
-/*
-    public void setEllipticIslandBorders(Shape shape){
-
-        for (Tile tile : tiles.values()) {
-
-            if(tile.isInOcean()) {
-                if (shape.isInShape(tile.getCenter())) {
-                    tile.setOnIsland(true);
-                    tile.setInOcean(false);
-                }
-            }
-        }
-    }
-
-    public void setCircularIslandBorders(Circle circle){
-
-        for (Tile tile : tiles.values()) {
-            if(  tile.isInOcean() ) {
-
-                if ( tile.getCenter().distance(circle.getCenter()) > circle.getSmallRadius() &&
-                        tile.getCenter().distance(circle.getCenter()) <= circle.getBigRadius()) {
-                    tile.setOnIsland(true);
-                    tile.setInOcean(false);
-                }
-                if (tile.getCenter().distance(circle.getCenter()) <= circle.getSmallRadius()){
-                    tile.setInLagoon(true);
-                    tile.setInOcean(false);
-                }
-            }
-        }
-    }
-
- */
 
     /**
      *

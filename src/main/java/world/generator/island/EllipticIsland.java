@@ -6,7 +6,8 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class EllipticIsland extends IslandShape {
@@ -25,7 +26,7 @@ public class EllipticIsland extends IslandShape {
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, int diameter){
         boolean created = false;
 
-        List<Tile> islandTiles = findValidIsland(world, random, diameter );
+        HashSet<Tile> islandTiles = findValidIsland(world, random, diameter );
 
         if(!islandTiles.isEmpty()) {
             Island island = new Tortuga( islandTiles, ellipse, random, maxAltitude);
@@ -35,9 +36,9 @@ public class EllipticIsland extends IslandShape {
         return created;
     }
 
-    private List<Tile> findValidIsland(World world, RandomContexte random, int diameter){
+    private HashSet<Tile> findValidIsland(World world, RandomContexte random, int diameter){
 
-        List<Tile> validIslandTiles = new ArrayList<Tile>();
+        HashSet<Tile> validIslandTiles = new LinkedHashSet<>();
 
         int angle = random.getRandomInt(359) + 1;
         List<Coordinate> coordinates = world.getAllCordinates();
@@ -47,7 +48,7 @@ public class EllipticIsland extends IslandShape {
 
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            List<Tile> islandTiles = world.getIslandTiles( e );
+            HashSet<Tile> islandTiles = world.getIslandTiles( e );
 
             if ( validIsland( islandTiles, height, width, world) ) {
                 isValide = true;

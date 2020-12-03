@@ -4,22 +4,27 @@ import islandSet.Isle;
 import org.junit.Before;
 import org.junit.Test;
 import world.Tile;
+import world.borders.Border;
 
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
 
 import static org.junit.Assert.*;
 
 public class IsleTest {
 
     Isle isle;
-    List<Tile> islandTiles;
+    HashSet<Tile> islandTiles;
 
     Tile tile1;
     Tile tile2;
     Tile tile3;
     Tile tile4;
+
+    Border border1;
+    Border border2;
+    Border border3;
+    Border border4;
 
     Coordinate coordinate1;
     Coordinate coordinate2;
@@ -59,12 +64,16 @@ public class IsleTest {
     @Before
     public void setUp(){
 
-        islandTiles = new ArrayList<>();
+        islandTiles = new LinkedHashSet<>();
 
         tile1 = new Tile(new Coordinate(2, 1.5f, 0));
+        border1 = new Border();
         tile2 = new Tile(new Coordinate(5, 2, 0));
+        border2 = new Border();
         tile3 = new Tile(new Coordinate(5, 5, 0));
+        border3 = new Border();
         tile4 = new Tile(new Coordinate(4, 4, 0));
+        border4 = new Border();
 
         coordinate1 = new Coordinate(1, 1, 0);
         coordinate2 = new Coordinate(3, 1, 0);
@@ -83,32 +92,6 @@ public class IsleTest {
         coordinate13 = new Coordinate(6, 7, 0);
         coordinate14 = new Coordinate(7, 5, 0);
 
-        tile1.addCorners(coordinate1);
-        tile1.addCorners(coordinate2);
-        tile1.addCorners(coordinate3);
-        tile1.addCorners(coordinate4);
-
-        tile2.addCorners(coordinate3);
-        tile2.addCorners(coordinate5);
-        tile2.addCorners(coordinate6);
-        tile2.addCorners(coordinate7);
-        tile2.addCorners(coordinate8);
-        tile2.addCorners(coordinate9);
-
-        tile3.addCorners(coordinate5);
-        tile3.addCorners(coordinate6);
-        tile3.addCorners(coordinate14);
-        tile3.addCorners(coordinate13);
-        tile3.addCorners(coordinate12);
-        tile3.addCorners(coordinate11);
-
-
-        tile4.addCorners(coordinate2);
-        tile4.addCorners(coordinate3);
-        tile4.addCorners(coordinate5);
-        tile4.addCorners(coordinate11);
-        tile4.addCorners(coordinate10);
-
 
         line1 = new Line(coordinate1, coordinate4);
         line2 = new Line(coordinate4, coordinate3);
@@ -120,8 +103,8 @@ public class IsleTest {
         line6 = new Line(coordinate5, coordinate6);
         line7 = new Line(coordinate6, coordinate7);
         line8 = new Line(coordinate7, coordinate8);
-        line9 = new Line(coordinate8, coordinate10);
-        line10 = new Line(coordinate10, coordinate3);
+        line9 = new Line(coordinate8, coordinate9);
+        line10 = new Line(coordinate9, coordinate3);
 
 
         line11 = new Line(coordinate11, coordinate12);
@@ -134,30 +117,36 @@ public class IsleTest {
         line17 = new Line(coordinate10, coordinate2);
 
 
-        tile1.addBorder(line1);
-        tile1.addBorder(line2);
-        tile1.addBorder(line3);
-        tile1.addBorder(line4);
 
-        tile2.addBorder(line5);
-        tile2.addBorder(line6);
-        tile2.addBorder(line7);
-        tile2.addBorder(line8);
-        tile2.addBorder(line9);
-        tile2.addBorder(line10);
 
-        tile3.addBorder(line6);
-        tile3.addBorder(line14);
-        tile3.addBorder(line13);
-        tile3.addBorder(line12);
-        tile3.addBorder(line11);
-        tile3.addBorder(line15);
+        border1.addTileLines(line1);
+        border1.addTileLines(line2);
+        border1.addTileLines(line3);
+        border1.addTileLines(line4);
+        tile1.setBorder(border1);
 
-        tile4.addBorder(line5);
-        tile4.addBorder(line15);
-        tile4.addBorder(line16);
-        tile4.addBorder(line17);
-        tile4.addBorder(line3);
+        border2.addTileLines(line5);
+        border2.addTileLines(line6);
+        border2.addTileLines(line7);
+        border2.addTileLines(line8);
+        border2.addTileLines(line9);
+        border2.addTileLines(line10);
+        tile2.setBorder(border2);
+
+        border3.addTileLines(line6);
+        border3.addTileLines(line14);
+        border3.addTileLines(line13);
+        border3.addTileLines(line12);
+        border3.addTileLines(line11);
+        border3.addTileLines(line15);
+        tile3.setBorder(border3);
+
+        border4.addTileLines(line5);
+        border4.addTileLines(line15);
+        border4.addTileLines(line16);
+        border4.addTileLines(line17);
+        border4.addTileLines(line3);
+        tile4.setBorder(border4);
 
         islandTiles.add(tile1);
         islandTiles.add(tile2);
@@ -235,14 +224,19 @@ public class IsleTest {
 
     @Test
     public void verifyLinesTest2(){
+
         assertEquals(4, isle.getLine(coordinate3).size());
         HashSet<Line> lines = isle.getLine(coordinate3);
+
         assertTrue(lines.contains(line2));
         assertTrue(lines.contains(line3));
         assertTrue(lines.contains(line10));
         assertTrue(lines.contains(line5));
         assertFalse(lines.contains(line4));
         assertFalse(lines.contains(line9));
+
+
+
     }
 
 

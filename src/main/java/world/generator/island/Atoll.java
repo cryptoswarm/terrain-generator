@@ -6,20 +6,24 @@ import islandSet.Isle;
 import world.Tile;
 import world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.TreeMap;
 
 public class Atoll extends Island {
 
 
     private final Circle circle;
     private final int maxAltitude;
-    private List<Tile> islandTiles;
+
+    private HashSet<Tile> islandTiles;
     private Isle isle;
-    //private HashSet<Coordinate> listOfCoordinate = new LinkedHashSet<>();
-    //TreeMap<Coordinate, Float> uniqeCoordinates = new TreeMap<>();
+
+
     List<Coordinate> coordinateList = new ArrayList<>();
 
-    public Atoll( List<Tile> islandTiles, Circle circle, int maxAltitude){
+    public Atoll( HashSet<Tile> islandTiles, Circle circle, int maxAltitude){
         this.circle = circle;
         this.maxAltitude = maxAltitude;
         this.islandTiles = islandTiles;
@@ -27,13 +31,23 @@ public class Atoll extends Island {
 
     @Override
     public void apply(World world) {
-        System.out.println("island tiles before all = "+islandTiles.size());
+
         setBorders(world);
         defineAltitude(world, maxAltitude);
+
+
         this.isle = new Isle(islandTiles);
-        world.addArchipelago(this.isle);
+        world.addArchipelago(isle);
 
     }
+
+
+
+
+    
+
+
+
 
     @Override
     public void defineAltitude(World world, int maxAltitude){
@@ -46,20 +60,8 @@ public class Atoll extends Island {
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
-
-        System.out.println("alt before applying profile");
-        for(Tile tile:islandTiles){
-            System.out.println( tile.getCorner().toString() );
-        }
-
-
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
 
-
-        System.out.println("alt after applying profile");
-        for(Tile tile:islandTiles){
-            System.out.println( tile.getCorner().toString() );
-        }
     }
 
 
@@ -78,7 +80,6 @@ public class Atoll extends Island {
     public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
 
         int milieu = sortedListTiles.size()/2;
-        List<Coordinate> list = new ArrayList<>();
 
         float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
 
