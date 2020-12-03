@@ -43,11 +43,8 @@ public class World {
     }
 
     /**
-     * Une ligne possede deux coordonnées
-     * @param x1  est la coordonnée sur l'axe des abscice du premier point
-     * @param y1  est la coordonnée sur l'axe des ordonnées du premier point
-     * @param x2  est la coordonnée sur l'axe des abscice du deuxiem point
-     * @param y2  est la coordonnée sur l'axe des ordonnées du deuxiem point
+     * On cherche la couleur de la ligne
+     * @param line est la ligne qu'on cherche à obtenir sa couleur
      * @return   la couleur de la ligne
      */
     public String getLineColor(Line line){
@@ -166,6 +163,12 @@ public class World {
 
         Tile t = tiles.get( coordinate );
         t.addBorder(line);
+    }
+
+    public void addCorners( Coordinate tileCenter, Coordinate  corner1, Coordinate  corner2){
+        Tile t = tiles.get( tileCenter );
+        t.addCorners(corner1);
+        t.addCorners(corner2);
     }
 
     /**

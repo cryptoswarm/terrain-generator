@@ -30,7 +30,7 @@ public class CoordinateTest {
     @Before
     public void setUp(){
         tile1 = new Tile(new Coordinate(0, 0,0));
-        tile2 = new Tile(new Coordinate(0, 0,0));
+        tile2 = new Tile(new Coordinate(6, 1999,0));
 
         coordinate1 = new Coordinate(1, 3, 0);
         coordinate2 = new Coordinate(3, 1, 0);
@@ -38,6 +38,17 @@ public class CoordinateTest {
         coordinate4 = new Coordinate(2, 5, 0);
         coordinate5 = new Coordinate(5, 3, 0);
         coordinate6 = new Coordinate(4, 6, 0);
+
+        tile1.addCorners(coordinate1);
+        tile1.addCorners(coordinate2);
+        tile1.addCorners(coordinate3);
+        tile1.addCorners(coordinate4);
+
+        tile2.addCorners(coordinate2);
+        tile2.addCorners(coordinate5);
+        tile2.addCorners(coordinate6);
+        tile2.addCorners(coordinate3);
+
 
         line1 = new Line(coordinate1, coordinate2);
         line2 = new Line(coordinate2, coordinate3);
@@ -58,6 +69,21 @@ public class CoordinateTest {
         tile2.addBorder(line6);
         tile2.addBorder(line7);
         tile2.addBorder(line2);
+
+
+    }
+
+    @Test
+    public void  cornersSizeTest() {
+
+        assertEquals(4, tile1.getCorner().size());
+        assertEquals(4, tile2.getCorner().size());
+
+    }
+
+    @Test
+    public void cornersEqualityTwoFonctions(){
+        assertEquals(tile1.getCorner(), tile1.getCornerOriginal());
     }
 
 
@@ -67,6 +93,9 @@ public class CoordinateTest {
         Coordinate c1 = new Coordinate(5,5,5);
         Coordinate c2 = new Coordinate(5,5,0);
         assertEquals(c1,c2);
+        c1 = new Coordinate(5,5,50);
+        assertEquals(c1,c2);
+
     }
 
     @Test
@@ -74,8 +103,7 @@ public class CoordinateTest {
         double expected = 0;
         Coordinate c1 = new Coordinate(5,5,5);
         Coordinate c2 = new Coordinate(5,5,0);
-        double actual = c1.distance(c2);
-        assertTrue(expected == actual);
+        assertEquals(expected, c1.distance(c2), 0.0);
     }
 
     @Test
@@ -83,15 +111,21 @@ public class CoordinateTest {
         double expected = 5;
         Coordinate c1 = new Coordinate(0,5,5);
         Coordinate c2 = new Coordinate(5,5,0);
-        double actual = c1.distance(c2);
-        assertTrue(expected == actual);
+
+        assertEquals(expected, c1.distance(c2), 0.0);
     }
 
     @Test
     public void coordinateEqualityTest(){
         Coordinate coordinate1 = new Coordinate(1,1,0);
         Coordinate coordinate2 = new Coordinate(1,1,0);
+
         assertEquals(coordinate1, coordinate2);
+
+        Coordinate coordinate3 = new Coordinate(3,1,3);
+        Coordinate coordinate4 = new Coordinate(3,1,0);
+
+        assertEquals(coordinate3, coordinate4);
     }
 
     @Test
@@ -170,16 +204,9 @@ public class CoordinateTest {
         for(Coordinate coordinate:tile2.getCorner()){
             assertNotEquals(20, coordinate.getZ(), 0);
         }
-
     }
 
-    @Test
-    public void  cornersSizeTest() {
 
-        assertEquals(4, tile1.getCorner().size());
-
-        assertEquals(4, tile2.getCorner().size());
-    }
 
     @Test
     public void  commonCoordinateTest() {
@@ -193,6 +220,27 @@ public class CoordinateTest {
             }
         }
         assertEquals(2, common);
+    }
+
+    @Test
+    public void common(){
+        Tile tile4 = new Tile(new Coordinate(0, 0,0));
+        Tile tile5 = new Tile(new Coordinate(6, 1999,0));
+
+        Coordinate coordinate1 = new Coordinate(1, 3, 0);
+        Coordinate coordinate2 = new Coordinate(3, 1, 0);
+        Coordinate coordinate3 = new Coordinate(3, 4, 0);
+        Coordinate coordinate4 = new Coordinate(2, 5, 0);
+        Coordinate coordinate5 = new Coordinate(5, 3, 0);
+        Coordinate coordinate6 = new Coordinate(4, 6, 0);
+
+        tile4.addCorners(coordinate1);
+        tile5.addCorners(coordinate1);
+
+        assertTrue( tile4.getCorner().contains(coordinate1));
+        assertTrue( tile5.getCorner().contains(coordinate1));
+        Coordinate coordinate8 = new Coordinate(1, 3, 1000);
+        assertTrue( tile4.getCorner().contains(coordinate8));
     }
 
 }

@@ -33,7 +33,9 @@ public class Line {
         return color;
     }
 
-    @Override
+
+
+     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -46,4 +48,5 @@ public class Line {
     public int hashCode() {
         return Objects.hash(c1.getX() + c1.getY() + c2.getX() + c2.getY());
     }
+
 }

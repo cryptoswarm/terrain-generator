@@ -10,7 +10,7 @@ import java.util.NavigableMap;
 import java.util.Set;
 import java.util.TreeMap;
 
-public class IslandGenerator extends TileAttributesCalculator implements Generator {
+public class IslandGenerator implements Generator {
 
     public static final int AREA_OF_ISLAND = 92539;
     public static final int DIAMETER_Of_Island = 500;
@@ -21,6 +21,9 @@ public class IslandGenerator extends TileAttributesCalculator implements Generat
     private final int maxAltitude;
     private final int nbIsland;
     private final String shape;
+
+    private TileAttributesCalculator calculator = new TileAttributesCalculator();
+
 
 
     public IslandGenerator(String shape, int w, int h, int maxAltitude, RandomContexte r, int nbIsland) {
@@ -70,7 +73,7 @@ public class IslandGenerator extends TileAttributesCalculator implements Generat
         NavigableMap<Double, Tile> navigableMap =  new TreeMap<>();
         for(Tile tile:world.getTiles().values()){
 
-            tileSurface = findTileSurface(tile);
+            tileSurface = calculator.findTileSurface(tile);
 
             navigableMap.put(tileSurface, tile);
         }

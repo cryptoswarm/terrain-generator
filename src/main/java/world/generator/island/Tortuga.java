@@ -7,9 +7,7 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Tortuga  extends Island {
 
@@ -18,6 +16,8 @@ public class Tortuga  extends Island {
     final private RandomContexte random;
     final private int maxAltitude;
     private List<Tile> islandTiles;
+
+    private List<Coordinate> uniqeCoordinates = new ArrayList<>();
 
     public Tortuga( List<Tile> islandTiles, Ellipse  ellipse, RandomContexte random, int maxAltitude){
 
@@ -87,8 +87,10 @@ public class Tortuga  extends Island {
         for (List<Tile> tileList : temp.values()) {
             currentAlt -= diffrenceAltEachtile;
             for(Tile tile:tileList){
+                applyAltitudeToTileCorners(tile, currentAlt, ellipse.getEllipseCenter(), diffrenceAltEachtile, uniqeCoordinates );
 
-                applyAltitudeToTileCorners(tile, currentAlt, ellipse.getEllipseCenter(), diffrenceAltEachtile );
+
+                uniqeCoordinates.addAll(tile.getCorner());
             }
         }
     }
