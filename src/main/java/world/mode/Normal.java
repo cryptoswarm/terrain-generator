@@ -6,6 +6,12 @@ public class Normal extends Mode {
 
     final int invalid = -1;
 
+    public Modes getMode(){
+
+        return Modes.Normal;
+
+    };
+
     @Override
     public int getFactor(Tile tile){
         return tile.getHumidityLevel();

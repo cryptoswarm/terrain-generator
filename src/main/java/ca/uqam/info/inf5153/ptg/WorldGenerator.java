@@ -109,7 +109,12 @@ public class WorldGenerator {
 
     public String getWorldLineColor(Line line){
 
-        return world.getLineColor(line);
+        if(mode.getMode() == Mode.Modes.Normal){
+
+            return world.getLineColor(line);
+        }
+
+        return "0:0:0:0";
     }
 
 

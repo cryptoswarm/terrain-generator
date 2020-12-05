@@ -7,6 +7,12 @@ public class Ressources extends Mode {
 
     TileColor color = TileColor.CHESTNUT;
 
+    public Modes getMode(){
+
+        return Modes.Ressources;
+
+    };
+
     @Override
     public int getFactor(Tile tile){
         return (int)tile.getRichiness();

@@ -7,6 +7,13 @@ public class Humidity extends Mode {
     final private int invalid = -1;
     TileColor color = TileColor.DARKBLUE;
 
+
+    public Modes getMode(){
+
+        return Modes.Humidity;
+
+    };
+
     @Override
     public int getFactor(Tile tile){
         return tile.getHumidityLevel();
