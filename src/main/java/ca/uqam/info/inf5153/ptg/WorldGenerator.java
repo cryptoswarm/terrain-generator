@@ -15,6 +15,7 @@ import world.generator.Generator;
 import world.generator.aquifer.LakeGenerator;
 import world.generator.aquifer.RiverGenerator;
 import world.generator.biome.BiomeGenerator;
+import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
@@ -37,6 +38,7 @@ public class WorldGenerator {
     private int width;
     private int height;
     private boolean production;
+    private int [] pois;
 
     public WorldGenerator(UserArgs parsedArgs) {
 
@@ -52,7 +54,7 @@ public class WorldGenerator {
         this.nbsIsland = parsedArgs.getNbsIsland();
         this.mode = parsedArgs.getHeatmap();
         this.production = parsedArgs.isProductionActivated();
-
+        this.pois = parsedArgs.getPois();
     }
 
     /**
@@ -137,8 +139,10 @@ public class WorldGenerator {
         if( production ){
             Generator ressourcesGenerator = new RessourceGenerator();
             ressourcesGenerator.generate(world);
-        }
+            Generator interestPointsGenerator = new InterestPointsGenerator(this.pois);
+            interestPointsGenerator.generate(world);
 
+        }
     }
 
 }
