@@ -30,8 +30,8 @@ public class UserArgs  {
         shape = setShape(options.getOptionValue("shape"));
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
-        productionActivated = isProductionActivated( options.getOptionValue("production"), options);
-        //heatmap = setHeatmap( options.getOptionValue("heatmap") );
+        productionActivated = options.hasOption("production");
+        heatmap = setHeatmap(options.getOptionValue("heatmap"));
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
@@ -49,7 +49,7 @@ public class UserArgs  {
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
         opts.addOption(new Option("rivers", "rivers", true,"rivers"));
         opts.addOption(new Option("archipelago", "archipelago", true,"archipelago"));
-        opts.addOption(new Option("production", "production", true,"heatmap ressources"));
+        opts.addOption(new Option("production", "production", false,"heatmap ressources"));
         opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
 
         CommandLineParser parser = new DefaultParser();
@@ -91,25 +91,14 @@ public class UserArgs  {
     }
 
 
-    private boolean isProductionActivated(String production, CommandLine options){
-        boolean productionActivated = true;
-        String[] tab;
-        if( production != null ){
-            //tab = production.split(" ");
-            //setHeatmap(tab[1]);
-            heatmap = setHeatmap("ressources");
-        }else {
-            heatmap = setHeatmap( options.getOptionValue("heatmap") );
-            productionActivated = false;
-        }
-        return productionActivated;
-    }
-
-
     private String setHeatmap(String heatmap) {
 
         if (heatmap != null) {
             if (heatmap.equals("altitude") || heatmap.equals("humidity") || heatmap.equals("ressources")) {
+                if(heatmap.equals("ressources")){
+
+                    productionActivated = true;
+                }
                 return heatmap;
             } else {
                 throw new IllegalArgumentException("Undefined heatmap");
@@ -192,8 +181,6 @@ public class UserArgs  {
     public String getSoilType() {
         return soilType;
     }
-
-
 
     public int getMaxAltitude() {
         return maxAltitude;
