@@ -36,7 +36,7 @@ public class RessourceGenerator  implements Generator {
 
     public void applyRichiness( TreeMap<Double, List<Tile>> tileSurfaceList, int nbTiles){
 
-        float ecartEachTile =  255f / nbTiles;
+        float ecartEachTile =  255f / nbTiles + 1;
         float richiness;
 
         for(List<Tile> list:tileSurfaceList.values()){
