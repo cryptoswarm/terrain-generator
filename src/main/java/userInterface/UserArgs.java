@@ -217,6 +217,10 @@ public class UserArgs  {
 
     }
 
+    public int[] getPois(){
+        return this.pois;
+    }
+
     public String getOutputFile() {
         return outputFile;
     }
