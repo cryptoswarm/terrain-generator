@@ -3,6 +3,8 @@ package userInterface;
 import world.mode.*;
 import org.apache.commons.cli.*;
 
+
+
 public class UserArgs  {
     private final String inputFile;
     private final String outputFile;
@@ -15,6 +17,13 @@ public class UserArgs  {
     private final int rivers;
     private final int nbsIsland;
     private boolean productionActivated;
+    private int [] pois = {0,0,0};
+
+    public enum POIS{
+        PORTS,
+        VILLAGES,
+        CITIES
+    }
 
     public UserArgs(String[] args) {
         CommandLine options = null;
@@ -36,6 +45,7 @@ public class UserArgs  {
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
         nbsIsland = setNbsIsland(options.getOptionValue("archipelago"));
+        setPois(options.getOptionValues("pois"));
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
@@ -51,6 +61,7 @@ public class UserArgs  {
         opts.addOption(new Option("archipelago", "archipelago", true,"archipelago"));
         opts.addOption(new Option("production", "production", false,"heatmap ressources"));
         opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
+        opts.addOption(new Option("pois", "pois", true,"Points of interest"));
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(opts, args);
@@ -163,6 +174,47 @@ public class UserArgs  {
     private int setNbsIsland(String nbsIsland){
         if(nbsIsland != null) return Integer.parseInt(nbsIsland);
         return 1;
+    }
+
+    private void setPois(String[] pois){
+
+        if(pois != null) {
+
+            this.productionActivated = true;
+
+            for (int i = 0; i < pois.length; i++) {
+
+                String[] arg = pois[i].split(":");
+
+                int num = 0;
+
+                try {
+                    num = Integer.parseInt(arg[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("--pois option must have format: x:number");
+                }
+
+
+                if (arg[0].equals("cities")) {
+
+                    this.pois[POIS.CITIES.ordinal()] += num;
+
+                } else if (arg[0].equals("ports")) {
+
+                    this.pois[POIS.PORTS.ordinal()] += num;
+
+                } else if (arg[0].equals("villages")) {
+
+                    this.pois[POIS.VILLAGES.ordinal()] += num;
+
+                } else {
+                    System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");
+                }
+            }
+
+
+        }
+
     }
 
     public String getOutputFile() {
