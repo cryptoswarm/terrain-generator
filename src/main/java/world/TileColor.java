@@ -9,7 +9,12 @@ public enum TileColor {
     DARKBLUE(0,0,255,255),
     BROWN(165,42,42, 255),
     CHESTNUT(149,69,53, 255),
-    DARK(0,0,0,255);
+    DARK(0,0,0,255),
+    DESERT(202,226,20,255),
+    SAVANE(147,226,20,255),
+    TAIGA(75, 237, 252, 255),
+    PRAIRIE(133,204,67,255),
+    TOUNDRA(210,232,244,255);
 
     TileColor(int r, int g, int b, int a) {
         R = r;
