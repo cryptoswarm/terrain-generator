@@ -1,18 +1,15 @@
 package world.generator.biome;
 
-import world.TileColor;
+import world.WorldItem;
+import world.generator.WorldProcessor;
 
-/*
-public abstract class Biome  implements WorldProcessor, IslandProcessor {
+public abstract class Biome implements WorldItem, WorldProcessor {
 
-    abstract public TileColor getColor();
-    abstract public String getType();
+    public Boolean validLocalization(Localization localisation, int minT, int maxT, int minP, int maxP){
+        int t = localisation.getTemperatureAverage();
+        int p = localisation.getPrecipitationAverage();
 
-}
-
- */
-public interface Biome   {
-
-    TileColor getColor();
-    String getType();
+        return p <= maxP && p >= minP &&
+                t <= maxT && t >= minT;
+    }
 }

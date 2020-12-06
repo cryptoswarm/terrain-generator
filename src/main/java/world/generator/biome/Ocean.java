@@ -9,7 +9,7 @@ import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Ocean implements Biome , WorldProcessor {
+public class Ocean extends Biome {
 
     public static final int HUMIDITY_LEVEL = -1;
     public static final int ALTITUDE = 0;
@@ -34,7 +34,7 @@ public class Ocean implements Biome , WorldProcessor {
 
             if ( tile.isInOcean() ) {
 
-                tile.setBiome(new Ocean());
+                tile.setItem(new Ocean());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(HUMIDITY_LEVEL);
                 tile.setAltitude(ALTITUDE);

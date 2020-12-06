@@ -4,14 +4,14 @@ package world.generator.aquifer;
 import islandSet.Isle;
 import world.Tile;
 import world.TileColor;
-import world.generator.biome.Biome;
+import world.WorldItem;
 import world.soilType;
 
 import java.util.HashSet;
 
 import static world.TileColor.DARKGREEN;
 
-public class Nape extends Aquifer implements Biome {
+public class Nape extends Aquifer implements WorldItem {
 
     private Tile aquiferCenter;
     private soilType soil;
@@ -45,7 +45,7 @@ public class Nape extends Aquifer implements Biome {
     public void apply(Isle isle) {
         nape.add(aquiferCenter);
         for(Tile i : isle.getNeighbor(aquiferCenter)) {
-            if(i.getBiome().getType().equals("vegetation")) {
+            if(!i.getItem().getType().equals("plage")) {
                 nape.add(i);
             }
         }

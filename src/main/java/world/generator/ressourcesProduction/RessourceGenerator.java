@@ -42,7 +42,7 @@ public class RessourceGenerator  implements Generator {
         for(List<Tile> list:tileSurfaceList.values()){
             for(Tile tile:list ){
                 richiness = ecartEachTile;
-                tile.setRichiness(richiness);
+                tile.setRichness(richiness);
 
             }
             ++ ecartEachTile;

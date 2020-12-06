@@ -61,8 +61,8 @@ public class River extends Aquifer {
     }
 
     /**
-     * @param coordinate  une coordnnée generee aleatoirement
-     * @param river une liste contenant les lignes qui composent la riviere
+     * @param coordinate  une coordonné générée aléatoirement
+     * @param river une liste contenant les lignes qui composent la rivière
      */
 
     private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
@@ -102,14 +102,14 @@ public class River extends Aquifer {
     }
 
     /**
-     * on fait couler la riviere jusqu'elle atteigne une sources d'eau
-     * @param isle est l'ile dans laquelle on veut crée une riviere
-     * @return True si la riviere atteint une source d'eau
+     * on fait couler la rivière jusqu'à une sources d'eau
+     * @param isle est l'ile dans laquelle on veut crée une rivière
+     * @return True si la rivière atteint une source d'eau
      */
     private boolean isRiverEnded( Isle isle , Coordinate current){
         boolean end = false;
         for(Tile tile: isle.getNeighbor(current)){
-            String s = tile.getBiome().getType();
+            String s = tile.getItem().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
             }
@@ -118,9 +118,9 @@ public class River extends Aquifer {
     }
 
     /**
-     *  Appliquer la couleur sur les lignes composant la riviere
-     *  Augmneter le flow
-     *  Trouver les tuiles qui sont a cote de la riviere
+     *  Appliquer la couleur sur les lignes composant la rivière
+     *  Augmenter le flow
+     *  Trouver les tuiles qui sont a cote de la rivière
      *
      * @param isle une ile
      * @return
@@ -139,9 +139,9 @@ public class River extends Aquifer {
     }
 
     /**
-     * On applique un facteur representant l'humidité
+     * On applique un facteur représentant l'humidité
      * @param isle est l'ile.
-     * @param wetZone  les tuiles adjacentes à la riviere
+     * @param wetZone  les tuiles adjacentes à la rivière
      */
     private void applyHumidityToAffectedTilesByRiver( Isle isle, HashSet<Tile> wetZone ){
         this.applyHumidityEffect(isle,wetZone, soil);

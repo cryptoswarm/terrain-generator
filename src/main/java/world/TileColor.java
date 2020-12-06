@@ -14,7 +14,9 @@ public enum TileColor {
     SAVANE(147,226,20,255),
     TAIGA(75, 237, 252, 255),
     PRAIRIE(133,204,67,255),
-    TOUNDRA(210,232,244,255);
+    TOUNDRA(210,232,244,255),
+    ICEBEACH(210,232,244,255),
+    ROCKBEACH(78,82,89,255);
 
     TileColor(int r, int g, int b, int a) {
         R = r;
