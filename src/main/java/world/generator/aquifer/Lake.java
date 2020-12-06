@@ -18,14 +18,6 @@ public class Lake extends Aquifer implements Biome {
     private soilType soil;
     private final  String type = "lake";
 
-    /*
-    public Lake(Tile tile, soilType soil) {
-        this.aquiferCenter = tile;
-        this.soil = soil;
-    }
-
-     */
-
     public Lake() {}
 
     public void setAquiferCenter(Tile tile) {
@@ -54,7 +46,7 @@ public class Lake extends Aquifer implements Biome {
         lake.add(aquiferCenter);
 
         for(Tile tile : isle.getNeighbor(aquiferCenter)) {
-            if(tile.getBiome().getType().equals("vegetation")) {
+            if(!tile.getBiome().getType().equals("plage")) {
 
                 lake.add(tile);
                 if(tile.getAltitude() < lowestAltitude) {

@@ -200,19 +200,19 @@ public class World {
 
     /**
      *
-     * @return  une tuile généré aleatoirement appartenant au biome vegetation
+     * @return  une tuile généré aléatoirement appartenant au îles et n'étant pas de la plage
      */
     public Tile findRandomVegetationTile(){
         Tile tile;
         do {
             tile = findRandomTile();
-        } while (!(tile.getBiome().getType().equals("vegetation")));
+        } while ((tile.getBiome().getType().equals("plage")) || !tile.isOnIsland());
         return tile;
     }
 
     /**
      *
-     * @return  une coordonnée généré aleatoirement a partir de la listes des tuiles composant la carte
+     * @return  une coordonnée généré aléatoirement a partir de la listes des tuiles composant la carte
      */
     public Coordinate findRandomCoordinate(){
 

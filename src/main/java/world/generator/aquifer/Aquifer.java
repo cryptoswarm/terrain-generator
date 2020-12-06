@@ -7,15 +7,13 @@ import world.soilType;
 
 import java.util.HashSet;
 
-public abstract class Aquifer implements IslandProcessor{ //WorldProcessor{
+public abstract class Aquifer implements IslandProcessor{
 
-
-    //public void applyHumidityEffect( World world, HashSet<Tile> waterSource, soilType soil){
     public void applyHumidityEffect(Isle isle, HashSet<Tile> waterSource, soilType soil){
 
         for(Tile tile: isle.getIslandTiles() ) {
 
-            if(tile.getBiome().getType().equals("vegetation")){
+            if(!tile.getBiome().getType().equals("plage")){
                 float distance = getDistanceFromWaterSource(tile, waterSource);
                 if( distance < soil.getAffectedDistance()) {
                     if (tile.getHumidityLevel() == 0 || tile.getHumidityLevel() > Math.round(distance)) {

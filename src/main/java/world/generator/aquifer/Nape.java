@@ -45,7 +45,7 @@ public class Nape extends Aquifer implements Biome {
     public void apply(Isle isle) {
         nape.add(aquiferCenter);
         for(Tile i : isle.getNeighbor(aquiferCenter)) {
-            if(i.getBiome().getType().equals("vegetation")) {
+            if(!i.getBiome().getType().equals("plage")) {
                 nape.add(i);
             }
         }

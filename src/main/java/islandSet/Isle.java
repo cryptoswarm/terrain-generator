@@ -26,18 +26,18 @@ public class Isle {
     public List<Tile> getVegetationTiles(){
         List<Tile > tileList = new ArrayList<>();
         for(Tile tile:islandTiles){
-            if(tile.getBiome().getType().equals("vegetation") ){
+            if(!tile.getBiome().getType().equals("plage") && tile.isOnIsland() ){
                 tileList.add(tile);
             }
         }
         return tileList;
     }
 
-    public Tile findRandomVegetationTile( RandomContexte random){
+    public Tile findRandomVegetationTile(RandomContexte random){
         Tile tile;
         do {
             tile = findRandomTile(random);
-        } while (!(tile.getBiome().getType().equals("vegetation")));
+        } while ((tile.getBiome().getType().equals("plage")) || !tile.isOnIsland());
         return tile;
     }
 
