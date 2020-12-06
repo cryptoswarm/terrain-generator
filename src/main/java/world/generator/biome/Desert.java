@@ -4,7 +4,6 @@ import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
-import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
