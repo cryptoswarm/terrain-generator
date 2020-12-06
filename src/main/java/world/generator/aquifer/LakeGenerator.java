@@ -26,11 +26,11 @@ public class LakeGenerator implements Generator {
 
         for(Isle isle:w.getIsleList()){
 
-            int nbsNape  = random.getRandomInt(nbsWaterSrc+1);
+            int nbsNape  = random.getRandomInt(nbsWaterSrc);
 
             IslandProcessor islandProcessor;
 
-            for (int i = nbsNape ;i >= 0; i--) {
+            for (int i = nbsNape ;i > 0; i--) {
 
                 Tile centerNape = isle.findRandomVegetationTile(random);
 
@@ -40,7 +40,9 @@ public class LakeGenerator implements Generator {
                 islandProcessor.apply(isle);
             }
 
-            for (int i = nbsWaterSrc-nbsNape; i >= 0; i--) {
+            System.out.println(nbsNape);
+
+            for (int i = nbsWaterSrc-nbsNape; i > 0; i--) {
                 Tile centerLake = isle.findRandomVegetationTile(random);
                 islandProcessor = new Lake();
                 islandProcessor.setAquiferCenter(centerLake);
