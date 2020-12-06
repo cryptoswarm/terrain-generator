@@ -4,6 +4,8 @@ package world;
 import geometry.Coordinate;
 import geometry.Line;
 import world.borders.Border;
+import world.generator.interestPoints.InterestPointsGenerator;
+
 
 import java.util.*;
 
@@ -17,9 +19,9 @@ public class Tile {
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-
     private float richness;
     private Border border;
+    private InterestPointsGenerator.POIS pois = InterestPointsGenerator.POIS.NOTHING;
 
 
     public Tile(Coordinate center) {
@@ -158,6 +160,11 @@ public class Tile {
         this.item = item;
     }
 
+    public void setPois(InterestPointsGenerator.POIS pois){
+
+        this.pois = pois;
+    }
+
     /**
      *
      * @return l'item de la tuile
@@ -207,6 +214,11 @@ public class Tile {
 
     public void setRichness(float richness) {
         this.richness = richness;
+    }
+
+    public InterestPointsGenerator.POIS getPois(){
+
+        return this.pois;
     }
 
     @Override

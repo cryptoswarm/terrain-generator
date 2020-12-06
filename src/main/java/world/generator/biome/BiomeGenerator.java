@@ -17,6 +17,7 @@ public class BiomeGenerator implements Generator {
         wp.apply(w);
         wp = new Lagoon();
         wp.apply(w);
+
         //main land
         wp = new Vegetation();
         wp.apply(w);

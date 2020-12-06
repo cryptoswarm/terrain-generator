@@ -12,7 +12,7 @@ import static world.TileColor.ICEBEACH;
 public class IceBeach extends Biome {
 
     private final TileColor color = ICEBEACH;
-    private final  String type = "icebeach";
+    private final  String type = "beach";
     private final int maxT = -5;
     private final int minT = -30;
     private final int maxP= 500;

@@ -45,7 +45,7 @@ public class Nape extends Aquifer implements WorldItem {
     public void apply(Isle isle) {
         nape.add(aquiferCenter);
         for(Tile i : isle.getNeighbor(aquiferCenter)) {
-            if(!i.getItem().getType().equals("plage")) {
+            if(!i.getItem().getType().equals("beach")) {
                 nape.add(i);
             }
         }

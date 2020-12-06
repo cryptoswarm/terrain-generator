@@ -46,7 +46,7 @@ public class Lake extends Aquifer implements WorldItem {
         lake.add(aquiferCenter);
 
         for(Tile tile : isle.getNeighbor(aquiferCenter)) {
-            if(!tile.getItem().getType().equals("plage")) {
+            if(!tile.getItem().getType().equals("beach")) {
 
                 lake.add(tile);
                 if(tile.getAltitude() < lowestAltitude) {

@@ -12,7 +12,7 @@ import static world.TileColor.ROCKBEACH;
 public class RockBeach extends Biome {
 
     private  final TileColor color = ROCKBEACH;
-    private final  String type = "rockbeach";
+    private final  String type = "beach";
     private final int maxT = 10;
     private final int minT = -5;
     private final int maxP= 500;

@@ -13,7 +13,7 @@ public abstract class Aquifer implements IslandProcessor{
 
         for(Tile tile: isle.getIslandTiles() ) {
 
-            if(!tile.getItem().getType().equals("plage")){
+            if(!tile.getItem().getType().equals("beach")){
                 float distance = getDistanceFromWaterSource(tile, waterSource);
                 if( distance < soil.getAffectedDistance()) {
                     if (tile.getHumidityLevel() == 0 || tile.getHumidityLevel() > Math.round(distance)) {

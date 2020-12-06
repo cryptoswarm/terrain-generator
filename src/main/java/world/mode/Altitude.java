@@ -7,6 +7,13 @@ public class Altitude extends Mode {
 
     TileColor color = TileColor.BROWN;
 
+
+    public Modes getMode(){
+
+        return Modes.Altitude;
+
+    };
+
     /**
      *
      * @param tile une quelconque tuile

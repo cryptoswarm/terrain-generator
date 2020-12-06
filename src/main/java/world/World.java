@@ -200,13 +200,13 @@ public class World {
 
     /**
      *
-     * @return  une tuile généré aléatoirement appartenant au îles et n'étant pas de la plage
+     * @return  une tuile généré aléatoirement appartenant au îles et n'étant pas de la beach
      */
     public Tile findRandomVegetationTile(){
         Tile tile;
         do {
             tile = findRandomTile();
-        } while ((tile.getItem().getType().equals("plage")) || !tile.isOnIsland());
+        } while ((tile.getItem().getType().equals("beach")) || !tile.isOnIsland());
         return tile;
     }
 

@@ -31,12 +31,12 @@ public class RessourceGenerator  implements Generator {
             applyRichiness( steepEachTile, nb);
 
         }
-        world.reInitiliseTileColor();
+        //world.reInitiliseTileColor();
     }
 
     public void applyRichiness( TreeMap<Double, List<Tile>> tileSurfaceList, int nbTiles){
 
-        float ecartEachTile =  255f / nbTiles;
+        float ecartEachTile =  255f / nbTiles + 1;
         float richiness;
 
         for(List<Tile> list:tileSurfaceList.values()){
@@ -57,7 +57,6 @@ public class RessourceGenerator  implements Generator {
 
         TreeMap<Double, List<Tile>> surfaceEachTile = new TreeMap<>();
         for(Tile tile:tileList){
-            tile.setBackgroundColor(color);
             surface = calculator.findTileSurface(tile);
 
             addTile(surfaceEachTile, surface, tile);

@@ -2,11 +2,25 @@ package world.mode;
 
 import world.Tile;
 
+
+
 public abstract class Mode {
+
+     public enum Modes{
+          Normal,
+          Humidity,
+          Altitude,
+          Ressources
+
+     }
+
+
 
      abstract public String getColor(int R, int G, int B, int A, int factor);
 
      abstract public int getFactor(Tile tile);
+
+     abstract public Modes getMode();
 
      /**
       * Nous utilisons la valeur d'un facteur pour determiner la couleur de la tuile

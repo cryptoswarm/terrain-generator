@@ -19,7 +19,7 @@ public class River extends Aquifer {
 
     private static final String OCEAN = "ocean";
     private static final String LAGOON = "lagoon";
-    private static final String PLAGE = "plage";
+    private static final String BEACH = "beach";
 
     private Coordinate coordinate;
 
@@ -110,7 +110,7 @@ public class River extends Aquifer {
         boolean end = false;
         for(Tile tile: isle.getNeighbor(current)){
             String s = tile.getItem().getType();
-            if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
+            if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(BEACH)) {
                 end = true;
             }
         }

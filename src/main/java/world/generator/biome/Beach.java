@@ -13,7 +13,7 @@ import static world.TileColor.SAND;
 public class Beach extends Biome {
 
     private  final TileColor color = SAND;
-    private final  String type = "plage";
+    private final  String type = "beach";
 
     public Beach(){}
 

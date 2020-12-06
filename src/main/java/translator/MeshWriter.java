@@ -37,8 +37,29 @@ public class MeshWriter implements Writer{
 
         setPolygonColor(builder);
         setSegmentColor(builder);
+        setPointColor(builder);
 
         return builder.build();
+    }
+
+    private void setPointColor(Structs.Mesh.Builder builder){
+
+        for (int i = 0; i < builder.getPolygonsCount(); i++) {
+
+            Structs.Point point =  mesh.getPoints(mesh.getPolygons(i).getCentroidIdx());
+
+            Coordinate coordPoint = new Coordinate(point.getX(), point.getY(), 0);
+            String pointColor = c.getPointColor(new Coordinate(point.getX(), point.getY(), 0) );
+            Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(pointColor).build();
+
+            Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setValue("5").build();
+
+
+            builder.getPointsBuilder(mesh.getPolygons(i).getCentroidIdx()).addProperties(color);
+            builder.getPointsBuilder(mesh.getPolygons(i).getCentroidIdx()).addProperties(thickness);
+
+        }
+
     }
 
     private void setPolygonColor(Structs.Mesh.Builder builder){

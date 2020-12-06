@@ -15,6 +15,7 @@ import world.generator.Generator;
 import world.generator.aquifer.LakeGenerator;
 import world.generator.aquifer.RiverGenerator;
 import world.generator.biome.BiomeGenerator;
+import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.biome.Localization;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
@@ -25,7 +26,7 @@ import world.soilType;
 public class WorldGenerator {
 
     private final World world;
-    private final Mode mode;
+    private Mode mode;
     private final RandomContexte random;
     private final int nbsWaterSource;
     private final int nbsRiversSrc;
@@ -38,6 +39,7 @@ public class WorldGenerator {
     private int width;
     private int height;
     private boolean production;
+    private int [] pois;
     private Localization localization;
 
     public WorldGenerator(UserArgs parsedArgs) {
@@ -54,6 +56,7 @@ public class WorldGenerator {
         this.nbsIsland = parsedArgs.getNbsIsland();
         this.mode = parsedArgs.getHeatmap();
         this.production = parsedArgs.isProductionActivated();
+        this.pois = parsedArgs.getPois();
         this.localization = Localization.getLocalization(parsedArgs.getLocalisation());
 
     }
@@ -110,9 +113,33 @@ public class WorldGenerator {
 
     }
 
+    public String getPointColor(Coordinate coordinate){
+
+
+        if(mode.getMode() == Mode.Modes.Normal){
+
+            Tile tile = world.getTile(coordinate);
+            InterestPointsGenerator.POIS poisTile = tile.getPois();
+            if (poisTile == InterestPointsGenerator.POIS.NOTHING){
+
+                return getWorldTileColor(coordinate);
+            }else{
+
+                return poisTile.getTileColor().toString();
+            }
+        }
+
+        return getWorldTileColor(coordinate);
+    }
+
     public String getWorldLineColor(Line line){
 
-        return world.getLineColor(line);
+        if(mode.getMode() == Mode.Modes.Normal){
+
+            return world.getLineColor(line);
+        }
+
+        return "0:0:0:0";
     }
 
 
@@ -135,8 +162,10 @@ public class WorldGenerator {
         if( production ){
             Generator ressourcesGenerator = new RessourceGenerator();
             ressourcesGenerator.generate(world);
-        }
+            Generator interestPointsGenerator = new InterestPointsGenerator(this.pois, random);
+            interestPointsGenerator.generate(world);
 
+        }
     }
 
 }

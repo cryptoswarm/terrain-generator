@@ -1,7 +1,12 @@
 package userInterface;
 
+import world.TileColor;
+import world.generator.interestPoints.InterestPointsGenerator;
 import world.mode.*;
 import org.apache.commons.cli.*;
+
+import static world.TileColor.*;
+
 
 public class UserArgs  {
     private final String inputFile;
@@ -15,6 +20,7 @@ public class UserArgs  {
     private final int rivers;
     private final int nbsIsland;
     private boolean productionActivated;
+    private int [] pois = {0,0,0};
     private String localisation;
 
     public UserArgs(String[] args) {
@@ -31,12 +37,13 @@ public class UserArgs  {
         shape = setShape(options.getOptionValue("shape"));
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
-        productionActivated = isProductionActivated( options.getOptionValue("production"), options);
-        //heatmap = setHeatmap( options.getOptionValue("heatmap") );
+        productionActivated = options.hasOption("production");
+        heatmap = setHeatmap(options.getOptionValue("heatmap"));
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
         nbsIsland = setNbsIsland(options.getOptionValue("archipelago"));
+        setPois(options.getOptionValues("pois"));
         localisation = setLocalisation(options.getOptionValue("localisation"));
     }
 
@@ -49,11 +56,13 @@ public class UserArgs  {
         opts.addOption(new Option("s", "soil", true,"soil type" ));
         opts.addOption(new Option("seed", "seed", true,"seed"));
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
+        opts.addOption(new Option("p", "pois", true,"Points of interest"));
         opts.addOption(new Option("r", "rivers", true,"rivers"));
         opts.addOption(new Option("a", "archipelago", true,"archipelago"));
-        opts.addOption(new Option("production", "production", true,"heatmap ressources"));
+        opts.addOption(new Option("production", "production", false,"heatmap ressources"));
         opts.addOption(new Option("h", "heatmap", true,"heatmap"));
         opts.addOption(new Option("l", "localisation", true, "localisation"));
+
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(opts, args);
@@ -94,25 +103,14 @@ public class UserArgs  {
     }
 
 
-    private boolean isProductionActivated(String production, CommandLine options){
-        boolean productionActivated = true;
-        String[] tab;
-        if( production != null ){
-            //tab = production.split(" ");
-            //setHeatmap(tab[1]);
-            heatmap = setHeatmap("ressources");
-        }else {
-            heatmap = setHeatmap( options.getOptionValue("heatmap") );
-            productionActivated = false;
-        }
-        return productionActivated;
-    }
-
-
     private String setHeatmap(String heatmap) {
 
         if (heatmap != null) {
             if (heatmap.equals("altitude") || heatmap.equals("humidity") || heatmap.equals("ressources")) {
+                if(heatmap.equals("ressources")){
+
+                    productionActivated = true;
+                }
                 return heatmap;
             } else {
                 throw new IllegalArgumentException("Undefined heatmap");
@@ -192,6 +190,51 @@ public class UserArgs  {
         return 1;
     }
 
+    private void setPois(String[] pois){
+
+        if(pois != null) {
+
+            this.productionActivated = true;
+
+            for (int i = 0; i < pois.length; i++) {
+
+                String[] arg = pois[i].split(":");
+
+                int num = 0;
+
+                try {
+                    num = Integer.parseInt(arg[1]);
+                } catch (NumberFormatException e) {
+                    System.out.println("--pois option must have format: x:number");
+                }
+
+
+                if (arg[0].equals("cities")) {
+
+                    this.pois[InterestPointsGenerator.POIS.CITIES.ordinal()] += num;
+
+                } else if (arg[0].equals("ports")) {
+
+                    this.pois[InterestPointsGenerator.POIS.PORTS.ordinal()] += num;
+
+                } else if (arg[0].equals("villages")) {
+
+                    this.pois[InterestPointsGenerator.POIS.VILLAGES.ordinal()] += num;
+
+                } else {
+                    System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");
+                }
+            }
+
+
+        }
+
+    }
+
+    public int[] getPois(){
+        return this.pois;
+    }
+
     public String getOutputFile() {
         return outputFile;
     }
@@ -208,8 +251,6 @@ public class UserArgs  {
     public String getSoilType() {
         return soilType;
     }
-
-
 
     public int getMaxAltitude() {
         return maxAltitude;
