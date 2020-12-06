@@ -60,7 +60,7 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
 
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichness() >= 150 && !tile.getItem().getType().equals("beach")) {
+                    if (tile.getRichness() >= 150 && !tile.getItem().getType().equals("beach") && !tile.getItem().getType().equals("lake")) {
                         tile.setPois(POIS.VILLAGES);
                         num--;
                     }
@@ -84,18 +84,20 @@ public class InterestPointsGenerator implements Generator {
                         num --;
                     }else {
                         boolean adjacentLake = false;
-                        for(Line line: tile.getBorder()){
-                            if(tile.getLineColor(line) == TileColor.WATERBLUE){
 
-                                adjacentLake = true;
+                        if (tile.getItem().getType().equals("lake")){
+                            for (Line line : tile.getBorder()) {
+                                if (tile.getLineColor(line) == TileColor.WATERBLUE) {
+
+                                    adjacentLake = true;
+                                }
+                            }
+
+                            if (adjacentLake) {
+                                tile.setPois(POIS.PORTS);
+                                num--;
                             }
                         }
-
-                        if(adjacentLake){
-                            tile.setPois(POIS.PORTS);
-                            num--;
-                        }
-
                     }
                 }
             }
@@ -114,7 +116,8 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
                 boolean isGoodTile = false;
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichness() >= 215 && !tile.getItem().getType().equals("beach")) {
+                    if (tile.getRichness() >= 215 && !tile.getItem().getType().equals("beach")
+                            && !tile.getItem().getType().equals("lake")) {
                         isGoodTile = true;
                         for(Tile nTile: w.getNeighbor(tile)){
                             if (nTile.getPois() != POIS.NOTHING) {
