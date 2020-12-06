@@ -19,13 +19,14 @@ import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
+import world.mode.Normal;
 import world.soilType;
 
 
 public class WorldGenerator {
 
     private final World world;
-    private final Mode mode;
+    private Mode mode;
     private final RandomContexte random;
     private final int nbsWaterSource;
     private final int nbsRiversSrc;
@@ -109,6 +110,25 @@ public class WorldGenerator {
 
     }
 
+    public String getPointColor(Coordinate coordinate){
+
+
+        if(mode.getMode() == Mode.Modes.Normal){
+
+            Tile tile = world.getTile(coordinate);
+            InterestPointsGenerator.POIS poisTile = tile.getPois();
+            if (poisTile == InterestPointsGenerator.POIS.NOTHING){
+
+                return getWorldTileColor(coordinate);
+            }else{
+
+                return poisTile.getTileColor().toString();
+            }
+        }
+
+        return getWorldTileColor(coordinate);
+    }
+
     public String getWorldLineColor(Line line){
 
         if(mode.getMode() == Mode.Modes.Normal){
@@ -139,7 +159,7 @@ public class WorldGenerator {
         if( production ){
             Generator ressourcesGenerator = new RessourceGenerator();
             ressourcesGenerator.generate(world);
-            Generator interestPointsGenerator = new InterestPointsGenerator(this.pois);
+            Generator interestPointsGenerator = new InterestPointsGenerator(this.pois, random);
             interestPointsGenerator.generate(world);
 
         }

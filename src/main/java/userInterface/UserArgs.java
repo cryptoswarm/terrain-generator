@@ -1,8 +1,11 @@
 package userInterface;
 
+import world.TileColor;
+import world.generator.interestPoints.InterestPointsGenerator;
 import world.mode.*;
 import org.apache.commons.cli.*;
 
+import static world.TileColor.*;
 
 
 public class UserArgs  {
@@ -19,11 +22,7 @@ public class UserArgs  {
     private boolean productionActivated;
     private int [] pois = {0,0,0};
 
-    public enum POIS{
-        PORTS,
-        VILLAGES,
-        CITIES
-    }
+
 
     public UserArgs(String[] args) {
         CommandLine options = null;
@@ -197,15 +196,15 @@ public class UserArgs  {
 
                 if (arg[0].equals("cities")) {
 
-                    this.pois[POIS.CITIES.ordinal()] += num;
+                    this.pois[InterestPointsGenerator.POIS.CITIES.ordinal()] += num;
 
                 } else if (arg[0].equals("ports")) {
 
-                    this.pois[POIS.PORTS.ordinal()] += num;
+                    this.pois[InterestPointsGenerator.POIS.PORTS.ordinal()] += num;
 
                 } else if (arg[0].equals("villages")) {
 
-                    this.pois[POIS.VILLAGES.ordinal()] += num;
+                    this.pois[InterestPointsGenerator.POIS.VILLAGES.ordinal()] += num;
 
                 } else {
                     System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");

@@ -3,8 +3,10 @@ package world;
 
 import geometry.Coordinate;
 import geometry.Line;
+import userInterface.UserArgs;
 import world.borders.Border;
 import world.generator.biome.Biome;
+import world.generator.interestPoints.InterestPointsGenerator;
 
 import java.util.*;
 
@@ -18,9 +20,9 @@ public class Tile {
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-
     private float richiness;
     private Border border;
+    private InterestPointsGenerator.POIS pois = InterestPointsGenerator.POIS.NOTHING;
 
 
     public Tile(Coordinate center) {
@@ -159,6 +161,11 @@ public class Tile {
         this.biome = biome;
     }
 
+    public void setPois(InterestPointsGenerator.POIS pois){
+
+        this.pois = pois;
+    }
+
     /**
      *
      * @return le type de biome auquel la tuile appartient
@@ -208,6 +215,11 @@ public class Tile {
 
     public void setRichiness(float richiness) {
         this.richiness = richiness;
+    }
+
+    public InterestPointsGenerator.POIS getPois(){
+
+        return this.pois;
     }
 
     @Override
