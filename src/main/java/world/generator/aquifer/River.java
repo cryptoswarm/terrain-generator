@@ -128,24 +128,6 @@ public class River extends Aquifer {
     private HashSet<Tile> applyRiverEffects(Isle isle){
 
         HashSet<Tile> wetZone = new HashSet<>();
-        System.out.println("size of river = "+river.size());
-
-        /*
-        for(Line line:river) {
-            for(Tile tile:isle.getIslandTiles()){
-                if(tile.getLineBorder().contains(line)){
-                    for(Line line1:tile.getLineBorder()){
-                        if(line1.getC1() == line.getC1() && line1.getC2()==line.getC2()){
-                            line1.setColor(riverColor);
-                        }
-                    }
-                }
-            }
-        }
-
-        */
-
-
 
         for(Line line: river) {
             wetZone.addAll( isle.getNeighbor(line) );

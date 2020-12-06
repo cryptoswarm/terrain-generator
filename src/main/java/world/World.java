@@ -91,11 +91,6 @@ public class World {
                 }
             }
         }
-
-        if(isFound){
-            System.out.println("line found ");
-        }
-
         if(color != null) {
             return color.toString();
         }

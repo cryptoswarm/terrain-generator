@@ -49,8 +49,6 @@ public class RessourceGenerator  implements Generator {
         }
     }
 
-
-
     public TreeMap<Double, List<Tile>> orderIslesBasedOnSurface( List<Tile> tileList ){
 
 

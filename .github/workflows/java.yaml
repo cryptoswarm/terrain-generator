@@ -3,6 +3,18 @@ name: Java Continuous Integrationn
 on: [push]
 
 jobs:
+  #compile:
+  #  runs-on: ubuntu-latest
+  #  name: Running Java ${{ matrix.java }} compile
+  #  steps:
+  # - uses: actions/checkout@v2
+  #  - name: Set up JDK 13
+  #    uses: actions/setup-java@v1
+  #    with:
+  #      java-version: 13
+  #  - name: Compile code
+  #    run: mvn compile
+      
   build_java:
     runs-on: ubuntu-latest
 
@@ -16,6 +28,13 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: 13
+      - name: Running tests
+        uses: actions/checkout@v2
+        with:
+          java-version: 13
+      - name: Run unit tests
+        run: mvn test
+       
 
       - name: Cache Maven packages
         uses: actions/cache@v2
