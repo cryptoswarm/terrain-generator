@@ -16,10 +16,10 @@ import world.generator.aquifer.LakeGenerator;
 import world.generator.aquifer.RiverGenerator;
 import world.generator.biome.BiomeGenerator;
 import world.generator.interestPoints.InterestPointsGenerator;
+import world.generator.biome.Localization;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
-import world.mode.Normal;
 import world.soilType;
 
 
@@ -40,6 +40,7 @@ public class WorldGenerator {
     private int height;
     private boolean production;
     private int [] pois;
+    private Localization localization;
 
     public WorldGenerator(UserArgs parsedArgs) {
 
@@ -56,12 +57,14 @@ public class WorldGenerator {
         this.mode = parsedArgs.getHeatmap();
         this.production = parsedArgs.isProductionActivated();
         this.pois = parsedArgs.getPois();
+        this.localization = Localization.getLocalization(parsedArgs.getLocalisation());
+
     }
 
     /**
      * Lire le fichier
      * Applique la logique d'affaire
-     * Ecrire dans le fichier de sortie
+     * Écrire dans le fichier de sortie
      */
     public  void createWorld() {
 
@@ -76,7 +79,7 @@ public class WorldGenerator {
 
     /**
      *
-     * @param h definier la longueur de la carte
+     * @param h définir la longueur de la carte
      */
 
     public void setWorldHeight(int h){
@@ -85,7 +88,7 @@ public class WorldGenerator {
 
     /**
      *
-     * @param w definir la largeur de la carte
+     * @param w définir la largeur de la carte
      */
     public void setWorldWidth(int w){
         this.width = w;
@@ -93,7 +96,7 @@ public class WorldGenerator {
 
     /**
      *
-     * @param tile la tuile à ajouter dans le world
+     * @param tile la tuile à ajouter dans world
      */
     public void addWorldTile(Tile tile){
         world.addTile(tile);
@@ -145,7 +148,7 @@ public class WorldGenerator {
         Generator IslGenerator = new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland);
         IslGenerator.generate(world);
 
-        Generator biomeGenerator = new BiomeGenerator();
+        Generator biomeGenerator = new BiomeGenerator(localization);
         biomeGenerator.generate(world);
 
         if(nbsWaterSource != 0) {

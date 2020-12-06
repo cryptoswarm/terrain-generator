@@ -40,8 +40,6 @@ public class LakeGenerator implements Generator {
                 islandProcessor.apply(isle);
             }
 
-            System.out.println(nbsNape);
-
             for (int i = nbsWaterSrc-nbsNape; i > 0; i--) {
                 Tile centerLake = isle.findRandomVegetationTile(random);
                 islandProcessor = new Lake();

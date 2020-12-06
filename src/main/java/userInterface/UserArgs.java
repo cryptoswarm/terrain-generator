@@ -21,8 +21,7 @@ public class UserArgs  {
     private final int nbsIsland;
     private boolean productionActivated;
     private int [] pois = {0,0,0};
-
-
+    private String localisation;
 
     public UserArgs(String[] args) {
         CommandLine options = null;
@@ -45,6 +44,7 @@ public class UserArgs  {
         rivers = setRivers(options.getOptionValue("rivers"));
         nbsIsland = setNbsIsland(options.getOptionValue("archipelago"));
         setPois(options.getOptionValues("pois"));
+        localisation = setLocalisation(options.getOptionValue("localisation"));
     }
 
     private static CommandLine configure(String[] args) throws ParseException {
@@ -52,15 +52,17 @@ public class UserArgs  {
         opts.addOption(new Option("i", "input", true,"Input mesh" ));
         opts.addOption(new Option("o", "output", true,"output file" ));
         opts.addOption(new Option("shape", "shape", true,"carte shape" ));
-        opts.addOption(new Option("water", "water", true,"generation des aquifères" ));
-        opts.addOption(new Option("soil", "soil", true,"soil type" ));
+        opts.addOption(new Option("w", "water", true,"generation des aquifères" ));
+        opts.addOption(new Option("s", "soil", true,"soil type" ));
         opts.addOption(new Option("seed", "seed", true,"seed"));
         opts.addOption(new Option("altitude", "altitude", true,"altitude"));
-        opts.addOption(new Option("rivers", "rivers", true,"rivers"));
-        opts.addOption(new Option("archipelago", "archipelago", true,"archipelago"));
+        opts.addOption(new Option("p", "pois", true,"Points of interest"));
+        opts.addOption(new Option("r", "rivers", true,"rivers"));
+        opts.addOption(new Option("a", "archipelago", true,"archipelago"));
         opts.addOption(new Option("production", "production", false,"heatmap ressources"));
-        opts.addOption(new Option("heatmap", "heatmap", true,"heatmap"));
-        opts.addOption(new Option("pois", "pois", true,"Points of interest"));
+        opts.addOption(new Option("h", "heatmap", true,"heatmap"));
+        opts.addOption(new Option("l", "localisation", true, "localisation"));
+
 
         CommandLineParser parser = new DefaultParser();
         return parser.parse(opts, args);
@@ -134,7 +136,20 @@ public class UserArgs  {
         return mode;
     }
 
+    private String setLocalisation(String localisation) {
 
+        if(localisation != null) {
+            if(!localisation.equals("baiejames") &&
+                    !localisation.equals("caribbean") &&
+                    !localisation.equals("sahara") &&
+                    !localisation.equals("antarctica") &&
+                    !localisation.equals("africa") &&
+                    !localisation.equals("manitoba")){
+                localisation = "caribbean";
+            }
+        }
+        return localisation;
+    }
 
     private int setAltitude(String altitude) {
         if(altitude == null){
@@ -248,6 +263,9 @@ public class UserArgs  {
         return nbsIsland;
     }
 
+    public String getLocalisation() {
+        return localisation;
+    }
     public boolean isProductionActivated() {
         return productionActivated;
     }

@@ -7,7 +7,6 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 import world.generator.Generator;
-import world.generator.biome.Plage;
 
 import static world.TileColor.*;
 import static world.TileColor.WHITE;
@@ -61,7 +60,7 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
 
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichiness() >= 150 && !tile.getBiome().getType().equals("plage")) {
+                    if (tile.getRichness() >= 150 && !tile.getItem().getType().equals("beach")) {
                         tile.setPois(POIS.VILLAGES);
                         num--;
                     }
@@ -80,7 +79,7 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
 
                 if (tile.getPois() == POIS.NOTHING){
-                    if(tile.getBiome().getType().equals("plage")){
+                    if(tile.getItem().getType().equals("beach")){
                         tile.setPois(POIS.PORTS);
                         num --;
                     }else {
@@ -115,14 +114,14 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
                 boolean isGoodTile = false;
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichiness() >= 215 && !tile.getBiome().getType().equals("plage")) {
+                    if (tile.getRichness() >= 215 && !tile.getItem().getType().equals("beach")) {
                         isGoodTile = true;
                         for(Tile nTile: w.getNeighbor(tile)){
                             if (nTile.getPois() != POIS.NOTHING) {
 
                                 isGoodTile = false;
                             }
-                            if (nTile.getRichiness() <= 200 || nTile.getBiome().getType().equals("plage")) {
+                            if (nTile.getRichness() <= 200 || nTile.getItem().getType().equals("beach")) {
                                 isGoodTile = false;
                             }
 

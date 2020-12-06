@@ -3,10 +3,9 @@ package world;
 
 import geometry.Coordinate;
 import geometry.Line;
-import userInterface.UserArgs;
 import world.borders.Border;
-import world.generator.biome.Biome;
 import world.generator.interestPoints.InterestPointsGenerator;
+
 
 import java.util.*;
 
@@ -14,13 +13,13 @@ public class Tile {
 
     final int invalid = -1;
     final private Coordinate center;
-    private Biome biome;
+    private WorldItem item;
     private TileColor backgroundColor;
     private int humidityLevel;
     private boolean isInLagoon;
     private boolean isInOcean;
     private boolean isOnIsland;
-    private float richiness;
+    private float richness;
     private Border border;
     private InterestPointsGenerator.POIS pois = InterestPointsGenerator.POIS.NOTHING;
 
@@ -57,7 +56,7 @@ public class Tile {
 
     /**
      *
-     * @return la coorodnnée du centre de la tuile
+     * @return la coordonné du centre de la tuile
      */
     public Coordinate getCenter() {
         return this.center;
@@ -65,7 +64,7 @@ public class Tile {
 
     /**
      *
-     * @return le niveau de l'humidity
+     * @return le niveau d'humidité
      */
     public int getHumidityLevel() {
         return humidityLevel;
@@ -95,7 +94,7 @@ public class Tile {
 
     /**
      *
-     * @param altitude l'altitude à donner à toutes les coins d'une tuile ( lors la creation d'un lac, ce dernier doit etre plat )
+     * @param altitude altitude donner à toutes les coins d'une tuile ( lors la creation d'un lac, ce dernier doit être plat )
      */
     public void setAltitude(double altitude) {
 
@@ -106,7 +105,7 @@ public class Tile {
 
     /**
      *
-     * @param inLagoon definit l'appartenance d'une tuile au biom lagon
+     * @param inLagoon définit l'appartenance d'une tuile au biome lagon
      */
     public void setInLagoon(boolean inLagoon) {
         isInLagoon = inLagoon;
@@ -114,7 +113,7 @@ public class Tile {
 
     /**
      *
-     * @return True si la tuile appartient au  biom lagon
+     * @return True si la tuile appartient au  biome lagon
      */
     public boolean isInLagoon() {
         return isInLagoon;
@@ -122,7 +121,7 @@ public class Tile {
 
     /**
      *
-     * @return True si la tuile appartient au  biom ocean
+     * @return True si la tuile appartient au  biome ocean
      */
     public boolean isInOcean() {
         return isInOcean;
@@ -130,7 +129,7 @@ public class Tile {
 
     /**
      *
-     * @param onIsland  definit l'appartenance d'une tuile au biom vegetation
+     * @param onIsland  définit l'appartenance d'une tuile à une île
      */
     public void setOnIsland(boolean onIsland ){
         isOnIsland = onIsland;
@@ -138,7 +137,7 @@ public class Tile {
 
     /**
      *
-     * @return True si la tuile appartient au  biom vegetation
+     * @return True si la tuile appartient au biome vegetation
      */
     public boolean isOnIsland() {
         return isOnIsland;
@@ -146,7 +145,7 @@ public class Tile {
 
     /**
      *
-     * @param inOcean  definit l'appartenance d'une tuile au biom ocean
+     * @param inOcean  définit l'appartenance d'une tuile au biome ocean
      */
 
     public void setInOcean(boolean inOcean) {
@@ -155,10 +154,10 @@ public class Tile {
 
     /**
      *
-     * @param biome definir a quel biome appartient la tuile
+     * @param item définir l'item de la tuile
      */
-    public void setBiome(Biome biome) {
-        this.biome = biome;
+    public void setItem(WorldItem item) {
+        this.item = item;
     }
 
     public void setPois(InterestPointsGenerator.POIS pois){
@@ -168,10 +167,10 @@ public class Tile {
 
     /**
      *
-     * @return le type de biome auquel la tuile appartient
+     * @return l'item de la tuile
      */
-    public Biome getBiome() {
-        return biome;
+    public WorldItem getItem() {
+        return item;
     }
 
     /**
@@ -187,7 +186,7 @@ public class Tile {
 
     /**
      *
-     * @return la liste des lignes qui bordent la ltuile
+     * @return la liste des lignes qui bordent la tuile
      */
 
     public HashSet<Line> getBorder() {
@@ -204,17 +203,17 @@ public class Tile {
      *
      * @return le niveau de production de la tuile
      */
-    public float getRichiness() {
-        return richiness;
+    public float getRichness() {
+        return richness;
     }
 
     /**
      *
-     * @param richiness un facteur indiquant le niveau de production de la tuile
+     * @param richness un facteur indiquant le niveau de production de la tuile
      */
 
-    public void setRichiness(float richiness) {
-        this.richiness = richiness;
+    public void setRichness(float richness) {
+        this.richness = richness;
     }
 
     public InterestPointsGenerator.POIS getPois(){

@@ -15,7 +15,7 @@ public class Ressources extends Mode {
 
     @Override
     public int getFactor(Tile tile){
-        return (int)tile.getRichiness();
+        return (int)tile.getRichness();
     }
 
     @Override

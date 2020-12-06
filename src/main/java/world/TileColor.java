@@ -12,7 +12,14 @@ public enum TileColor {
     DARK(0,0,0,255),
     PINK(255,192,203, 255),
     POWDERBLUE(173, 224,230, 255),
-    WHITE(255,255,255,255);
+    WHITE(255,255,255,255),
+    DESERT(202,226,20,255),
+    SAVANE(147,226,20,255),
+    TAIGA(75, 237, 252, 255),
+    PRAIRIE(133,204,67,255),
+    TOUNDRA(210,232,244,255),
+    ICEBEACH(210,232,244,255),
+    ROCKBEACH(78,82,89,255);
 
     TileColor(int r, int g, int b, int a) {
         R = r;
