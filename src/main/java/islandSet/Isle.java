@@ -26,7 +26,7 @@ public class Isle {
     public List<Tile> getVegetationTiles(){
         List<Tile > tileList = new ArrayList<>();
         for(Tile tile:islandTiles){
-            if(!tile.getBiome().getType().equals("plage") && tile.isOnIsland() ){
+            if(!tile.getItem().getType().equals("plage") && tile.isOnIsland() ){
                 tileList.add(tile);
             }
         }
@@ -37,7 +37,7 @@ public class Isle {
         Tile tile;
         do {
             tile = findRandomTile(random);
-        } while ((tile.getBiome().getType().equals("plage")) || !tile.isOnIsland());
+        } while ((tile.getItem().getType().equals("plage")) || !tile.isOnIsland());
         return tile;
     }
 

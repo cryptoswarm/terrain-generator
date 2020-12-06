@@ -3,14 +3,14 @@ package world.generator.aquifer;
 import islandSet.Isle;
 import world.Tile;
 import world.TileColor;
-import world.generator.biome.Biome;
+import world.WorldItem;
 import world.soilType;
 
 import java.util.HashSet;
 
 import static world.TileColor.WATERBLUE;
 
-public class Lake extends Aquifer implements Biome {
+public class Lake extends Aquifer implements WorldItem {
 
     private Tile aquiferCenter;
     final private HashSet<Tile> lake = new HashSet<>();
@@ -46,7 +46,7 @@ public class Lake extends Aquifer implements Biome {
         lake.add(aquiferCenter);
 
         for(Tile tile : isle.getNeighbor(aquiferCenter)) {
-            if(!tile.getBiome().getType().equals("plage")) {
+            if(!tile.getItem().getType().equals("plage")) {
 
                 lake.add(tile);
                 if(tile.getAltitude() < lowestAltitude) {
@@ -55,7 +55,7 @@ public class Lake extends Aquifer implements Biome {
             }
         }
         for(Tile i: lake) {
-            i.setBiome(new Lake());
+            i.setItem(new Lake());
             i.setAltitude(lowestAltitude);
             i.setBackgroundColor(color);
         }

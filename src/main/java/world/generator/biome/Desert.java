@@ -8,13 +8,13 @@ import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Desert implements Biome,WorldProcessor {
+public class Desert extends Biome {
     private final  TileColor color = TileColor.DESERT;
     private final  String type = "desert";
-    private final int maxTemperature = 30;
-    private final int minTemperature = -5;
-    private final int maxPrecipitation = 50;
-    private final int minPrecipitation = 0;
+    private final int maxT = 30;
+    private final int minT = -5;
+    private final int maxP = 50;
+    private final int minP = 0;
     private final Localization localisation;
     public Desert(Localization localization) {
         this.localisation = localization;
@@ -22,13 +22,12 @@ public class Desert implements Biome,WorldProcessor {
 
     @Override
     public void apply(World world) {
-        //speed up the program, valid until we add temperature to the mix
-        if(!validLocalization()) return;
+        if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
 
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
-            if( tile.isOnIsland() && validLocalization()) {
-                tile.setBiome(new Desert(localisation));
+            if( tile.isOnIsland()) {
+                tile.setItem(new Desert(localisation));
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
                 tile.setInOcean(false);
@@ -36,16 +35,7 @@ public class Desert implements Biome,WorldProcessor {
         }
     }
 
-    private Boolean validLocalization(){
-        int t = localisation.getTemperatureAverage();
-        int p = localisation.getPrecipitationAverage();
-        if (maxTemperature < 0) {
-            return p <= maxPrecipitation && p >= minPrecipitation &&
-                    t >= maxTemperature && t <= minTemperature;
-        }
-        return p <= maxPrecipitation && p >= minPrecipitation &&
-                t <= maxTemperature && t >= minTemperature;
-    }
+
 
     @Override
     public TileColor getColor() {

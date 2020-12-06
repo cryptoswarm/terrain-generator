@@ -206,7 +206,7 @@ public class World {
         Tile tile;
         do {
             tile = findRandomTile();
-        } while ((tile.getBiome().getType().equals("plage")) || !tile.isOnIsland());
+        } while ((tile.getItem().getType().equals("plage")) || !tile.isOnIsland());
         return tile;
     }
 
@@ -263,7 +263,7 @@ public class World {
 
     public void reInitiliseTileColor(){
         for(Tile tile:tiles.values()){
-            if( ! tile.getBiome().getType().equals("vegetation") ){
+            if( ! tile.getItem().getType().equals("vegetation") ){
                 tile.setBackgroundColor(colorDark);
             }
         }

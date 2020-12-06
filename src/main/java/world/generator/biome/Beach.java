@@ -10,12 +10,12 @@ import java.util.HashMap;
 
 import static world.TileColor.SAND;
 
-public class Plage implements Biome , WorldProcessor {
+public class Beach extends Biome {
 
     private  final TileColor color = SAND;
     private final  String type = "plage";
 
-    public Plage(){}
+    public Beach(){}
 
     @Override
     public TileColor getColor() {
@@ -36,7 +36,7 @@ public class Plage implements Biome , WorldProcessor {
 
                     if ( neighbor.isInOcean() || neighbor.isInLagoon() ) {
 
-                        tile.setBiome(new Plage());
+                        tile.setItem(new Beach());
                         tile.setBackgroundColor(color);
                         tile.setHumidityLevel(255);
                         tile.setInOcean(false);

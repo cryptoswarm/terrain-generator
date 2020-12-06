@@ -109,7 +109,7 @@ public class River extends Aquifer {
     private boolean isRiverEnded( Isle isle , Coordinate current){
         boolean end = false;
         for(Tile tile: isle.getNeighbor(current)){
-            String s = tile.getBiome().getType();
+            String s = tile.getItem().getType();
             if(s.equals(OCEAN) || s.equals(LAGOON)|| s.equals(PLAGE)) {
                 end = true;
             }

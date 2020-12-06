@@ -8,7 +8,7 @@ import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Vegetation implements Biome, WorldProcessor {
+public class Vegetation extends Biome implements WorldProcessor {
     private final  TileColor color = TileColor.LIGHTGREEN;
     private final  String type = "vegetation";
 
@@ -32,7 +32,7 @@ public class Vegetation implements Biome, WorldProcessor {
 
             if( tile.isOnIsland() ) {
 
-                tile.setBiome(new Vegetation());
+                tile.setItem(new Vegetation());
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
                 tile.setInOcean(false);

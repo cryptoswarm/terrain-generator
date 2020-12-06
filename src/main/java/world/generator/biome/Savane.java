@@ -4,17 +4,16 @@ import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
-import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
-public class Savane implements Biome, WorldProcessor {
+public class Savane extends Biome {
     private final TileColor color = TileColor.SAVANE;
     private final  String type = "savane";
-    private final int maxTemperature = 30;
-    private final int minTemperature = 15;
-    private final int maxPrecipitation = 100;
-    private final int minPrecipitation = 20;
+    private final int maxT = 30;
+    private final int minT = 15;
+    private final int maxP = 100;
+    private final int minP = 20;
     private final Localization localisation;
     public Savane(Localization localization) {
         this.localisation = localization;
@@ -22,13 +21,12 @@ public class Savane implements Biome, WorldProcessor {
 
     @Override
     public void apply(World world) {
-        //speed up the program, valid until we add temperature to the mix
-        if(!validLocalization()) return;
+        if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
 
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
-            if( tile.isOnIsland() && validLocalization()) {
-                tile.setBiome(new Savane(localisation));
+            if( tile.isOnIsland()) {
+                tile.setItem(new Savane(localisation));
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
                 tile.setInOcean(false);
@@ -36,16 +34,7 @@ public class Savane implements Biome, WorldProcessor {
         }
     }
 
-    private Boolean validLocalization(){
-        int t = localisation.getTemperatureAverage();
-        int p = localisation.getPrecipitationAverage();
-        if (maxTemperature < 0) {
-            return p <= maxPrecipitation && p >= minPrecipitation &&
-                    t >= maxTemperature && t <= minTemperature;
-        }
-        return p <= maxPrecipitation && p >= minPrecipitation &&
-                t <= maxTemperature && t >= minTemperature;
-    }
+
 
     @Override
     public TileColor getColor() {
