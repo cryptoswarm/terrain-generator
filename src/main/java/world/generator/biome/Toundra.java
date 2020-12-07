@@ -8,6 +8,7 @@ import world.World;
 import java.util.HashMap;
 
 public class Toundra extends Biome {
+
     private final TileColor color = TileColor.TOUNDRA;
     private final  String type = "toundra";
     private final int maxT = -5;

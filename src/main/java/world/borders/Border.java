@@ -10,7 +10,7 @@ import java.util.LinkedHashSet;
 public class Border {
 
     private HashSet<Line> lines;
-    HashSet<Coordinate> corners;
+    private HashSet<Coordinate> corners;
 
     public Border() {
         this.corners = new LinkedHashSet<>();

@@ -3,6 +3,7 @@ package randomStrategy;
 import java.util.Random;
 
 public class Seed implements RandomStrategy {
+
     private Random randomness;
 
     public Seed(int seed) {

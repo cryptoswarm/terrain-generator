@@ -4,7 +4,6 @@ import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
-import world.generator.WorldProcessor;
 
 import java.util.HashMap;
 
@@ -29,6 +28,7 @@ public class Beach extends Biome {
 
     @Override
     public void apply(World world) {
+
         HashMap<Coordinate, Tile> tiles = world.getTiles();
         for (Tile tile: tiles.values()) {
             if ( tile.isOnIsland()  ) {

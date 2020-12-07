@@ -8,6 +8,7 @@ import world.World;
 import java.util.HashMap;
 
 public class Prairie extends Biome {
+
     private final TileColor color = TileColor.PRAIRIE;
     private final  String type = "prairie";
     private final int maxT = 20;

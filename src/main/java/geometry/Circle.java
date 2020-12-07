@@ -31,7 +31,7 @@ public class Circle implements Shape{
         return sRadius;
     }
 
-    public void calculateRadiuses(RandomContexte random){
+    private void calculateRadiuses(RandomContexte random){
 
         float c1;
         float c2;

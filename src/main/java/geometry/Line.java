@@ -7,6 +7,7 @@ import java.util.LinkedHashSet;
 import java.util.Objects;
 
 public class Line {
+
     private Coordinate c1;
     private Coordinate c2;
     TileColor color;

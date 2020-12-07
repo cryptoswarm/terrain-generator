@@ -12,4 +12,5 @@ public abstract class Biome implements WorldItem, WorldProcessor {
         return p <= maxP && p >= minP &&
                 t <= maxT && t >= minT;
     }
+
 }

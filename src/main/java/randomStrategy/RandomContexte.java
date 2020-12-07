@@ -2,7 +2,7 @@ package randomStrategy;
 
 public class RandomContexte {
 
-    RandomStrategy strategy;
+    private RandomStrategy strategy;
 
     public RandomContexte(int seed){
         if (seed <= 0){

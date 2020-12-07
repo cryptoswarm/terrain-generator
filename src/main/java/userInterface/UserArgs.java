@@ -1,11 +1,8 @@
 package userInterface;
 
-import world.TileColor;
+import org.apache.commons.cli.*;
 import world.generator.interestPoints.InterestPointsGenerator;
 import world.mode.*;
-import org.apache.commons.cli.*;
-
-import static world.TileColor.*;
 
 
 public class UserArgs  {
@@ -47,7 +44,7 @@ public class UserArgs  {
         localisation = setLocalisation(options.getOptionValue("localisation"));
     }
 
-    private static CommandLine configure(String[] args) throws ParseException {
+    private CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
         opts.addOption(new Option("i", "input", true,"Input mesh" ));
         opts.addOption(new Option("o", "output", true,"output file" ));

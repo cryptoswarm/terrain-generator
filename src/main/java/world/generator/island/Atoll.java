@@ -34,8 +34,6 @@ public class Atoll extends Island {
 
         setBorders(world);
         defineAltitude(world, maxAltitude);
-
-
         this.isle = new Isle(islandTiles);
         world.addArchipelago(isle);
 

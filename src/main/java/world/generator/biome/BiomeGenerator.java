@@ -5,6 +5,8 @@ import world.generator.Generator;
 import world.generator.WorldProcessor;
 
 public class BiomeGenerator implements Generator {
+
+
     private final Localization localization;
     public BiomeGenerator(Localization localization) {
         this.localization = localization;

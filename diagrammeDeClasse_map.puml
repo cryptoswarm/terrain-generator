@@ -1,14 +1,134 @@
 @startuml
-class Controller {
-    - world
-    - mode
-    - width: int
-    - height: int
-    - soilType soil;
 
-    + generateWorld(world: world): void
+class WorldGenerator {
+    - world : World
+    - mode : Mode
+    - localization : Localization
+    - fileName : String
+    - generateWorld(world: World )
+    + createWorld()
+    + getWorldTileColor(coordinate: Coordinate ) : String
+    + getPointColor( coordinate: Coordinate) : String
+}
+
+class Line {
+    - lineCoordinates: HashSet<Coordinate>
+    + isCoordinateValid(c: Coordinate ): boolean
+    + getCorners(): HashSet<Coordinate>
 
 }
+
+class Coordinate {
+    - x : float
+    - y : float
+    - z : float
+    compareTo(o: Coordinate ): int
+    distance(that: Coordinate ): float
+}
+
+
+Interface Shape{
+    isInShape(c: Coordinate): boolean
+}
+
+class Ellipse{
+    - ellipseCenter: Coordinate
+    - angle: int
+    + isInShape(c: Coordinate): boolean
+}
+
+class Circle {
+    - center: Coordinate
+    - calculateRadiuses(random: RandomContexte )
+    + isInShape(c: Coordinate): boolean
+}
+
+class Circle implements Shape
+class Ellipse implements Shape
+
+
+
+Interface Comparable{
+    compareTo(o: Coordinate ): int
+}
+
+class Coordinate implements Comparable
+
+class Isle {
+    - islandTiles: HashSet<Tile>
+    + getVegetationTiles(): List<Tile>
+    + findRandomVegetationTile(random: RandomContexte ): Tile
+    + findRandomTile(random: RandomContexte ):Tile
+    + getNeighbor(tile: Tile ): HashSet<Tile>
+    + getNeighbor(c: Coordinate ) : HashSet<Tile>
+}
+
+interface RandomStrategy{
+   + getRandom( range: int) : int
+}
+
+class JustRandom {
+   + getRandom(range: int ): int
+}
+
+class RandomContexte{
+    - strategy: RandomStrategy
+    + getRandomInt(range: int ): int
+}
+
+class Seed {
+    - randomness: Random
+    + getRandom(range: int ): int
+}
+
+class Seed implements RandomStrategy
+class JustRandom implements RandomStrategy
+
+
+
+class MeshReader{
+    + readFile()
+    - readMetadata(m: Structs.Mesh , key: String ):String
+}
+
+interface Reader{
+    readFile()
+}
+
+interface Writer{
+    generateEndMesh()
+}
+
+class MeshWriter{
+    - c: WorldGenerator
+    - mesh: Structs.Mesh
+    - outFileName: String
+    - syncMeshBuilderWithMap(): Structs.Mesh
+    - setPointColor(builder: Structs.Mesh.Builder )
+    - setPolygonColor( builder: Structs.Mesh.Builder)
+    - setSegmentColor(builder: Structs.Mesh.Builder )
+    + generateEndMesh()
+
+}
+
+class MeshWriter implements Writer
+class MeshReader implements Reader
+
+class UserArgs{
+    - inputFile : String
+    - outputFile: String
+    - configure(args: String[] ): CommandLine
+    - setPois(pois: String[] )
+}
+
+
+class Border{
+    - lines: HashSet<Line>
+    - corners: HashSet<Coordinate>
+    + getLineColor(line: Line ): TileColor
+    + getCorners(): HashSet<Coordinate>
+}
+
 
 class world {
     + addTile(x: float, y: float): void
@@ -16,12 +136,13 @@ class world {
     - findRandomTile(): Tile
 }
 
-class Handler
 
 class RandomContexte
 
 Interface WorldProcessor {
     apply(world: world)
+    setAquiferCenter(tile: Tile )
+    setSoil(soil: soilType )
 }
 
 ''' Generator '''
@@ -29,21 +150,24 @@ Interface Generator {
     generate(w: world): void
 }
 
-Class BiomeGenerator
+Class BiomeGenerator{
+    - localization: Localization
+    - generate(w: World)
+}
 
 Class RiverGenerator {
     - nbsRiverSrc: int
+    - generate(w: World)
 }
 
 Class LakeGenerator {
     - nbsWaterSrc: int
-    - random: RandomContexte
+    - generate(w: World)
 }
 
 Class IslandGenerator {
-    - width: w
-    - height: h
     - islandType: String
+    - - generate(w: World)
 }
 
 BiomeGenerator .up.|> Generator
@@ -87,28 +211,34 @@ Tortuga -up-|> Island
 
 ''' Aquifer '''
 Abstract Aquifer {
-        + abstract getTiles(): HashMap<Coordinate, Tile>
         + applyHumidityEffect(world: world, waterSource: HashMap<Coordinate, Tile>): void
         - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
 }
 
-class Lake
+class Lake{
+    - aquiferCenter: Tile
+    +  apply(isle: Isle )
+}
 
-class Nape
+class Nape{
+    - aquiferCenter: Tile
+    +  apply(isle: Isle )
+}
 
-Lake -up-|> Aquifer
-Nape -up-|> Aquifer
-River -up-|> Aquifer
+class River{
+    findRiverPath(isle: Isle, c: Coordinate, river: HashSet<Line> )
+}
+
+class Lake extends Aquifer
+class Nape extends Aquifer
+class River extends Aquifer
 
 ''' Biome '''
+
 Abstract Biome {
-    getColor(): TileColor
-    getType(): String
+    validLocalization(l: Localization , minT: int , maxT: int , minP: int , maxP: int ): Boolean
 }
 
-class Lagoon {
-    - type: String
-}
 
 class Ocean{
     - type: String
@@ -119,11 +249,56 @@ class Plage{
 }
 
 class Vegetation{
+
     - type: String
+    + apply(world: World )
 }
 
+class Beach{
+    - color : TileColor
+    + apply(world: World )
+}
+
+class Desert{
+    - color : TileColor
+    + apply(world: World )
+}
+
+class IceBeach{
+    - color : TileColor
+    + apply(world: World )
+}
+
+class Lagoon{
+    - color : TileColor
+    + apply(world: World )
+}
+
+class Prairie{
+    - color : TileColor
+    + apply(world: World )
+}
+
+class Beach extends Biome
+class Desert extends Biome
+class IceBeach extends Biome
+class Lagoon extends Biome
+class Prairie extends Biome
+
+
+
+
+interface WorldItem{
+    getColor() : TileColor
+    getType(): String
+}
+
+class Lake implements WorldItem
+class Nape implements WorldItem
+Abstract Biome implements WorldItem
+
 Vegetation -up-|> Biome
-Lagoon -up-|> Biome
+
 Ocean -up-|> Biome
 Plage -up-|> Biome
 
@@ -145,6 +320,7 @@ Normal -up-|> Mode
 ''' world component '''
 
 Class Tile{
+    - border: Border
     - Coordinate center
     - TileColor backgroundColor
     - neighbors: HashMap<Coordinate, Tile>
@@ -152,17 +328,14 @@ Class Tile{
     + addNeighbor(Tile tile)
 }
 
-Class Line {
 
-}
 
-Class Coordinate {
-
-}
-
-Tile "1" *--> "*" Line
+Tile "1" *--> "1" Border
 Tile "1" *--> "1" Coordinate
-Tile "1" *--> "1" Biome
+
+
+Border "1" *--> "*" Line
+Border "1" *--> "*" Coordinate
 
 Line "1" *--> "2" Coordinate
 ''' Enum '''
@@ -183,18 +356,13 @@ Enum soilType {
     WET ("wet", 400);
 }
 
-Controller ..> world
-Controller ..> Generator
-Controller ..> Handler
-Controller "1" ..> "1" RandomContexte
-Controller "1" ..> "1" Mode
 
 
 world "1" *--> "*" Tile
 world "1" -- "1" soilType
 world "1" ..> "1" RandomContexte
 
-Handler ..> Generator
+
 
 
 Biome .up.|> WorldProcessor
@@ -202,10 +370,8 @@ Aquifer .up.|> WorldProcessor
 Island ..up.|> WorldProcessor
 
 
-BiomeGenerator ..> WorldProcessor
-IslandGenerator ..> WorldProcessor
-RiverGenerator ..> WorldProcessor
-LakeGenerator ..> WorldProcessor
+
+
 
 Lake "1" -- "1" TileColor
 Nape "1" -- "1" TileColor
