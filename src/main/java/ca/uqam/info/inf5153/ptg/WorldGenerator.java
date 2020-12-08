@@ -17,10 +17,14 @@ import world.generator.aquifer.RiverGenerator;
 import world.generator.biome.BiomeGenerator;
 import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.biome.Localization;
+import world.generator.interestPoints.RoadGenerator;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
 import world.soilType;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 
 
 public class WorldGenerator {
@@ -41,6 +45,7 @@ public class WorldGenerator {
     private boolean production;
     private int [] pois;
     private Localization localization;
+    private boolean road;
 
     public WorldGenerator(UserArgs parsedArgs) {
 
@@ -58,7 +63,7 @@ public class WorldGenerator {
         this.production = parsedArgs.isProductionActivated();
         this.pois = parsedArgs.getPois();
         this.localization = Localization.getLocalization(parsedArgs.getLocalisation());
-
+        this.road = parsedArgs.isRoadActivated();
     }
 
     /**
@@ -142,6 +147,9 @@ public class WorldGenerator {
         return "0:0:0:0";
     }
 
+    public ArrayList<Line> getRoads(){
+        return world.getRoads();
+    }
 
     private void generateWorld(World world) {
 
@@ -165,7 +173,10 @@ public class WorldGenerator {
             Generator interestPointsGenerator = new InterestPointsGenerator(this.pois, random);
             interestPointsGenerator.generate(world);
 
+            if(road){
+                Generator rg = new RoadGenerator();
+                rg.generate(world);
+            }
         }
     }
-
 }

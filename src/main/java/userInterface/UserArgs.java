@@ -19,6 +19,7 @@ public class UserArgs  {
     private boolean productionActivated;
     private int [] pois = {0,0,0};
     private String localisation;
+    boolean road;
 
     public UserArgs(String[] args) {
         CommandLine options = null;
@@ -42,7 +43,10 @@ public class UserArgs  {
         nbsIsland = setNbsIsland(options.getOptionValue("archipelago"));
         setPois(options.getOptionValues("pois"));
         localisation = setLocalisation(options.getOptionValue("localisation"));
+        road = options.hasOption("roads");
     }
+
+
 
     private CommandLine configure(String[] args) throws ParseException {
         Options opts = new Options();
@@ -59,6 +63,7 @@ public class UserArgs  {
         opts.addOption(new Option("production", "production", false,"heatmap ressources"));
         opts.addOption(new Option("h", "heatmap", true,"heatmap"));
         opts.addOption(new Option("l", "localisation", true, "localisation"));
+        opts.addOption(new Option("roads", "roads", false, "road"));
 
 
         CommandLineParser parser = new DefaultParser();
@@ -144,6 +149,8 @@ public class UserArgs  {
                     !localisation.equals("manitoba")){
                 localisation = "caribbean";
             }
+        }else{
+            localisation = "caribbean";
         }
         return localisation;
     }
@@ -265,5 +272,8 @@ public class UserArgs  {
     }
     public boolean isProductionActivated() {
         return productionActivated;
+    }
+    public boolean isRoadActivated(){
+        return road;
     }
 }

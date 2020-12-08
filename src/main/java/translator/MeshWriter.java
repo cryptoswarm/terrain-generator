@@ -7,6 +7,7 @@ import ca.uqam.info.inf5153.ptg.WorldGenerator;
 import geometry.Coordinate;
 import geometry.Line;
 
+import java.awt.*;
 import java.io.IOException;
 
 
@@ -38,8 +39,35 @@ public class MeshWriter implements Writer{
         setPolygonColor(builder);
         setSegmentColor(builder);
         setPointColor(builder);
+        setRoadColor(builder);
 
         return builder.build();
+    }
+
+    private void setRoadColor(Structs.Mesh.Builder builder) {
+
+        int idx1 = -1;
+        int idx2 = -1;
+
+        for(Line line: c.getRoads()){
+            for(Structs.Polygon pol: mesh.getPolygonsList()){
+                Structs.Point point = mesh.getPoints(pol.getCentroidIdx());
+                if(point.getX() == line.getC1().getX() && point.getY() == line.getC1().getY()){
+                    idx1 = pol.getCentroidIdx();
+                }
+                if(point.getX() == line.getC2().getX() && point.getY() == line.getC2().getY()){
+                    idx2 = pol.getCentroidIdx();
+                }
+            }
+
+            Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue("0:0:0:255").build();
+            Structs.Property thickness = Structs.Property.newBuilder().setKey("thickness").setValue("2").build();
+            Structs.Property style = Structs.Property.newBuilder().setKey("style").setValue("dashed").build();
+
+            Structs.Segment seg = Structs.Segment.newBuilder().setV1Idx(idx1).setV2Idx(idx2).addProperties(color).addProperties(thickness).addProperties(style).build();
+
+            builder.addSegments(seg);
+        }
     }
 
     private void setPointColor(Structs.Mesh.Builder builder){
@@ -48,7 +76,6 @@ public class MeshWriter implements Writer{
 
             Structs.Point point =  mesh.getPoints(mesh.getPolygons(i).getCentroidIdx());
 
-            Coordinate coordPoint = new Coordinate(point.getX(), point.getY(), 0);
             String pointColor = c.getPointColor(new Coordinate(point.getX(), point.getY(), 0) );
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(pointColor).build();
 
@@ -70,6 +97,7 @@ public class MeshWriter implements Writer{
             String tileColor = c.getWorldTileColor(new Coordinate(x,y,0) );
             Structs.Property color = Structs.Property.newBuilder().setKey("color").setValue(tileColor).build();
             builder.getPolygonsBuilder(i).addProperties(color);
+
 
         }
     }

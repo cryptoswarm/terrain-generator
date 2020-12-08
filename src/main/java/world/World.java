@@ -14,6 +14,7 @@ public class World {
     final private HashMap<Coordinate, Tile> tiles;
     private List<Isle> isleList;
     private final TileColor colorDark = TileColor.DARK;
+    private ArrayList<Line> roads = new ArrayList<>();
 
     public World(RandomContexte random) {
         this.tiles = new HashMap<>();
@@ -98,6 +99,15 @@ public class World {
         return "0:0:0:0";
     }
 
+    public void setRoads(Tile t1, Tile t2){
+
+        roads.add(new Line(t1.getCenter(), t2.getCenter()));
+
+    }
+
+    public ArrayList<Line> getRoads(){
+        return roads;
+    }
 
 
     /**

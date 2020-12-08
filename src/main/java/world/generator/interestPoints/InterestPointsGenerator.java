@@ -83,19 +83,13 @@ public class InterestPointsGenerator implements Generator {
                         tile.setPois(POIS.PORTS);
                         num --;
                     }else {
-                        boolean adjacentLake = false;
 
-                        if (tile.getItem().getType().equals("lake")){
+                        if (!tile.getItem().getType().equals("lake")){
                             for (Line line : tile.getBorder()) {
                                 if (tile.getLineColor(line) == TileColor.WATERBLUE) {
-
-                                    adjacentLake = true;
+                                    tile.setPois(POIS.PORTS);
+                                    num--;
                                 }
-                            }
-
-                            if (adjacentLake) {
-                                tile.setPois(POIS.PORTS);
-                                num--;
                             }
                         }
                     }
