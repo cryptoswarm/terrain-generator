@@ -7,7 +7,6 @@ import world.Tile;
 import world.World;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -17,16 +16,15 @@ public class Atoll extends Island {
     private final Circle circle;
     private final int maxAltitude;
 
-    private HashSet<Tile> islandTiles;
     private Isle isle;
 
 
     List<Coordinate> coordinateList = new ArrayList<>();
 
-    public Atoll( HashSet<Tile> islandTiles, Circle circle, int maxAltitude){
+    public Atoll( Isle isle, Circle circle, int maxAltitude){
         this.circle = circle;
         this.maxAltitude = maxAltitude;
-        this.islandTiles = islandTiles;
+        this.isle = isle;
     }
 
     @Override
@@ -34,7 +32,6 @@ public class Atoll extends Island {
 
         setBorders(world);
         defineAltitude(world, maxAltitude);
-        this.isle = new Isle(islandTiles);
         world.addArchipelago(isle);
 
     }
@@ -45,16 +42,16 @@ public class Atoll extends Island {
 
         TreeMap<Double, List<Tile>> sortedListTiles = new TreeMap<>();
 
-        for(Tile tile:islandTiles){
+        for( Tile tile:isle.getIslandTiles() ){
             double distance;
 
             distance = tile.getCenter().distance(circle.getCenter());
             orderTilesBasedOnDistanceFromCenter( sortedListTiles, distance, tile);
         }
+
         applyProfilAltimetrique(sortedListTiles, maxAltitude);
 
     }
-
 
     private void orderTilesBasedOnDistanceFromCenter( TreeMap<Double, List<Tile>> sortedListTiles, Double distance, Tile tile){
 
@@ -72,7 +69,8 @@ public class Atoll extends Island {
 
         int milieu = sortedListTiles.size()/2;
 
-        float diffrenceAltEachtile = (float)maxAlt / islandTiles.size();
+        float diffrenceAltEachtile = (float)maxAlt / isle.getIslandTiles().size();
+
 
         float currentAlt = diffrenceAltEachtile;
         int i = 0;
@@ -105,7 +103,7 @@ public class Atoll extends Island {
     @Override
     public void setBorders(World world){
 
-        for (Tile tile : islandTiles) {
+        for (Tile tile : isle.getIslandTiles() ) {
 
             double distance = tile.getCenter().distance(circle.getCenter());
 

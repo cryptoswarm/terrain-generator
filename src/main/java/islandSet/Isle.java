@@ -14,10 +14,18 @@ public class Isle {
 
 
     private HashSet<Tile> islandTiles;
+    public static final String VEGETATION_BIOM = "vegetation";
+    public static final String BEACH_BIOM = "beach";
 
     public Isle(HashSet<Tile> islandTiles) {
         this.islandTiles = islandTiles;
     }
+
+    public boolean isValide(){
+
+        return !islandTiles.isEmpty();
+    }
+
 
     public HashSet<Tile> getIslandTiles() {
         return islandTiles;
@@ -26,7 +34,7 @@ public class Isle {
     public List<Tile> getVegetationTiles(){
         List<Tile > tileList = new ArrayList<>();
         for(Tile tile:islandTiles){
-            if(!tile.getItem().getType().equals("beach") && tile.isOnIsland() ){
+            if(!tile.getItem().getType().equals(BEACH_BIOM) && tile.isOnIsland() ){
                 tileList.add(tile);
             }
         }
@@ -37,7 +45,7 @@ public class Isle {
         Tile tile;
         do {
             tile = findRandomTile(random);
-        } while ((tile.getItem().getType().equals("beach")) || !tile.isOnIsland());
+        } while (!tile.getItem().getType().equals(VEGETATION_BIOM) );
         return tile;
     }
 

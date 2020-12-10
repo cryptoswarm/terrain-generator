@@ -65,7 +65,7 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la rivière
      */
 
-    private void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
+    public void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
 
         double riverHeight = coordinate.getZ();
         Coordinate coordinateStart = coordinate;

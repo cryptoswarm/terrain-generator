@@ -1,5 +1,6 @@
 import geometry.Circle;
 import geometry.Coordinate;
+import islandSet.Isle;
 import org.junit.Before;
 import org.junit.Test;
 import randomStrategy.RandomContexte;
@@ -16,6 +17,8 @@ import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertTrue;
 
 public class BordersTest {
+
+    Isle isle;
 
     RandomContexte randomContexte;
     int diameter;
@@ -72,7 +75,8 @@ public class BordersTest {
 
         islandTiles = new LinkedHashSet<>();
         islandTiles.addAll(world.getTiles().values());
-        island = new Atoll(islandTiles, circle, maxAltitude);
+        isle = new Isle(islandTiles);
+        island = new Atoll(isle, circle, maxAltitude);
 
     }
 
@@ -115,7 +119,7 @@ public class BordersTest {
 
         diameter = 1000;
         circle = new Circle(diameter, randomContexte, coordinateCenter);
-        island = new Atoll(islandTiles, circle, 100);
+        island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 
         for(Tile tile:islandTiles) {
@@ -138,7 +142,7 @@ public class BordersTest {
 
         diameter = 10;
         circle = new Circle(diameter, randomContexte, coordinateCenter);
-        island = new Atoll(islandTiles, circle, 100);
+        island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 
         assertTrue(tile11.isInOcean());
@@ -154,7 +158,7 @@ public class BordersTest {
         coordinateCenter = new Coordinate(50, 50, 0);
         diameter = 10;
         circle = new Circle(diameter, randomContexte, coordinateCenter);
-        island = new Atoll(islandTiles, circle, 100);
+        island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 
         for(Tile tile:world.getTiles().values()){
@@ -179,7 +183,7 @@ public class BordersTest {
         world.addTile(tile18);
         circle = new Circle(diameter, randomContexte, coordinateCenter);
         islandTiles.addAll(world.getTiles().values());
-        island = new Atoll(islandTiles, circle, 100);
+        island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 
         assertTrue(tile15.isInLagoon());
