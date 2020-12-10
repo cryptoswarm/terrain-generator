@@ -60,7 +60,7 @@ public class InterestPointsGenerator implements Generator {
                 Tile tile = isle.findRandomTile(random);
 
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichness() >= 150 && !tile.getItem().getType().equals("beach") && !tile.getItem().getType().equals("lake")) {
+                    if (tile.getRichness() >= 200 && !tile.getItem().getType().equals("beach") && !tile.getItem().getType().equals("lake")) {
                         tile.setPois(POIS.VILLAGES);
                         num--;
                     }
@@ -104,22 +104,23 @@ public class InterestPointsGenerator implements Generator {
     private void addCities(World w){
 
         for(Isle isle: w.getIsleList()){
+            int richness = 215;
 
             int num = pois[POIS.CITIES.ordinal()];
-            while(num > 0) {
+            while(num > 0 && richness >= 0) {
                 Tile tile = isle.findRandomTile(random);
                 boolean isGoodTile = false;
                 if (tile.getPois() == POIS.NOTHING) {
-                    if (tile.getRichness() >= 215 && !tile.getItem().getType().equals("beach")
+                    if (tile.getRichness() >= richness && !tile.getItem().getType().equals("beach")
                             && !tile.getItem().getType().equals("lake")) {
                         isGoodTile = true;
                         for(Tile nTile: w.getNeighbor(tile)){
                             if (nTile.getPois() != POIS.NOTHING) {
-
                                 isGoodTile = false;
                             }
-                            if (nTile.getRichness() <= 200 || nTile.getItem().getType().equals("beach")) {
+                            if (nTile.getRichness() <= richness || nTile.getItem().getType().equals("beach")) {
                                 isGoodTile = false;
+                                richness--;
                             }
 
                         }
