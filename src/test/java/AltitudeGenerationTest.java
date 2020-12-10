@@ -1,6 +1,7 @@
 import geometry.Circle;
 import geometry.Coordinate;
 import geometry.Line;
+import islandSet.Isle;
 import org.junit.Before;
 import org.junit.Test;
 import randomStrategy.RandomContexte;
@@ -9,13 +10,16 @@ import world.borders.Border;
 import world.generator.island.Atoll;
 import world.generator.island.Island;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
 public class AltitudeGenerationTest {
 
-
+    Isle isle;
     Tile tile1;
     Tile tile2;
 
@@ -97,13 +101,14 @@ public class AltitudeGenerationTest {
         tileList = new LinkedHashSet<>();
         tileList.add(tile1);
         tileList.add(tile2);
+        isle = new Isle(tileList);
 
         circleCenter = new Coordinate(3, 9, 0);
 
         randomContexte = new RandomContexte(10);
 
         circle = new Circle(20, randomContexte, circleCenter);
-        island = new Atoll(tileList, circle, 50);
+        island = new Atoll(isle, circle, 50);
     }
 
     @Test

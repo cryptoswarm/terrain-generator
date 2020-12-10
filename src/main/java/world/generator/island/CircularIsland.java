@@ -2,16 +2,17 @@ package world.generator.island;
 
 import geometry.Circle;
 import geometry.Coordinate;
+import islandSet.Isle;
 import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 
 public class CircularIsland extends IslandShape {
     private Circle circle;
+    private Isle isle;
     int height;
     int width;
 
@@ -25,22 +26,22 @@ public class CircularIsland extends IslandShape {
     public boolean createIsland(World world, RandomContexte random, int maxAltitude, int diameter) {
         boolean created = false;
 
-        HashSet<Tile> islandTiles = findValidIsland(world, random, diameter);
+        findValidIsland(world, random, diameter);
 
-        if(!islandTiles.isEmpty()){
-            Island island = new Atoll( islandTiles, circle, maxAltitude);
+        if(isle.isValide()){
+
+            Island island = new Atoll( isle, circle, maxAltitude);
             island.apply(world);
             created = true;
         }
         return created;
     }
 
-    private HashSet<Tile> findValidIsland(World world, RandomContexte random, int diameter){
+
+    private void findValidIsland(World world, RandomContexte random, int diameter){
 
 
-        HashSet<Tile> validIslandTiles = new LinkedHashSet<>();
-
-        List<Coordinate> coordinates = world.getAllCordinates(); //new ArrayList<>(tiles.keySet());
+        List<Coordinate> coordinates = world.getAllCordinates();
         boolean isValide = false;
 
         while (!coordinates.isEmpty()  && !isValide ) {
@@ -51,12 +52,12 @@ public class CircularIsland extends IslandShape {
 
             if (validIsland( islandTiles,height,width, world)){
                 isValide = true;
-                validIslandTiles = islandTiles;
+
+                this.isle = new Isle(islandTiles);
                 this.circle = cir;
             }else{
                 coordinates.remove(coordinate);
             }
         }
-        return validIslandTiles;
     }
 }
