@@ -4,8 +4,6 @@ import islandSet.Isle;
 import world.Tile;
 import world.World;
 import world.generator.Generator;
-
-import javax.swing.plaf.synth.SynthTextAreaUI;
 import java.util.ArrayList;
 
 public class RoadGenerator implements Generator {
@@ -16,6 +14,95 @@ public class RoadGenerator implements Generator {
         ArrayList<ArrayList<Tile>> interestPointsListGlobal = getInterestPoints(w);
 
         generateRoads(interestPointsListGlobal, w);
+
+        ArrayList<Tile> ports = getPorts(interestPointsListGlobal);
+
+        if(ports.size() >= 2){
+            generateWaterWays(ports, w);
+        }
+    }
+
+    private void generateWaterWays(ArrayList<Tile> ports, World w) {
+
+        Tile [] path = new Tile [ports.size()];
+
+        for(int i = 0; i < path.length; i++){
+            path[i] = ports.get(i);
+        }
+
+        sortPath(path);
+
+        for(int i = 0; i < path.length; i ++){
+
+            ArrayList<Tile> smallPath = findSmallPathWater(path[i], path[(i+1) % path.length], w);
+
+            if(smallPath != null){
+                addSmallPath(smallPath, w);
+            }
+        }
+
+    }
+
+    private ArrayList<Tile> findSmallPathWater(Tile start, Tile next, World w) {
+
+        boolean hasNext = true;
+        Tile current = start;
+        ArrayList<Tile> path = new ArrayList<>();
+
+        while(!current.equals(next) && hasNext){
+            path.add(current);
+            float distance = current.getCenter().distance(next.getCenter());
+            Tile maybeNext = null;
+            hasNext = false;
+            for(Tile nTile : w.getNeighbor(current)){
+
+                if(nTile.getItem().getType().equals("ocean")){
+                    float newDistance = nTile.getCenter().distance(next.getCenter());
+                    if(distance > newDistance){
+                        maybeNext = nTile;
+                        distance = newDistance;
+                        hasNext = true;
+                    }
+                }else if (nTile.getItem().getType().equals("beach")){
+                    if (nTile.equals(next)){
+                        maybeNext = nTile;
+                        distance = 0;
+                        hasNext = true;
+
+                    }
+                }
+
+            }
+
+            if(hasNext){
+                current = maybeNext;
+            }
+        }
+
+        if(current.equals(next)){
+
+            path.add(next);
+            return path;
+        }
+
+        return null;
+
+    }
+
+    private ArrayList<Tile> getPorts(ArrayList<ArrayList<Tile>> interestPointsListGlobal) {
+
+        ArrayList<Tile> ports = new ArrayList<>();
+
+        for(ArrayList<Tile> tilesList: interestPointsListGlobal){
+            for(Tile tile: tilesList){
+                if(tile.getPois() == InterestPointsGenerator.POIS.PORTS){
+                    ports.add(tile);
+                }
+            }
+        }
+
+        return ports;
+
     }
 
     private void generateRoads(ArrayList<ArrayList<Tile>> interestPointsListGlobal, World w) {
@@ -25,21 +112,10 @@ public class RoadGenerator implements Generator {
             findIslandPaths(interestPointList, w);
 
         }
-
-
-
     }
 
     private void findIslandPaths(ArrayList<Tile> interestPointList, World w) {
-
-
             normalPath(interestPointList, w);
-
-
-    }
-
-    private void starPath(ArrayList<Tile> interestPointList, World w, Tile capital) {
-
 
     }
 
@@ -88,7 +164,8 @@ public class RoadGenerator implements Generator {
             hasNext = false;
             for(Tile nTile : w.getNeighbor(current)){
 
-                if(!nTile.getItem().equals("lake") && !nTile.getItem().equals("lagoon") && !nTile.getItem().equals("ocean")){
+                if(!nTile.getItem().getType().equals("lake") && !nTile.getItem().getType().equals("lagoon")
+                        && !nTile.getItem().getType().equals("ocean")){
                     float newDistance = nTile.getCenter().distance(next.getCenter());
                     if(distance > newDistance){
                         maybeNext = nTile;
