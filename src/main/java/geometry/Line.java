@@ -35,9 +35,12 @@ public class Line {
     public void setColor(TileColor color) {
         this.color = color;
     }
+    /*
     public void increaseFlow(){
         flow = flow +2;
     }
+
+     */
 
     public Coordinate getC1() {
         return c1;

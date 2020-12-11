@@ -69,31 +69,31 @@ public class River extends Aquifer {
 
         double riverHeight = coordinate.getZ();
         Coordinate coordinateStart = coordinate;
-        Coordinate tmpC = coordinate;
+        Coordinate tmpCoordinate = coordinate;
 
-        Line tmpL = null;
-        for (Line i : isle.getLine(coordinate)) {
+        Line tempLine = null;
+        for (Line line : isle.getLine(coordinate)) {
 
-            Coordinate c1 = i.getC1();
-            Coordinate c2 = i.getC2();
+            Coordinate c1 = line.getC1();
+            Coordinate c2 = line.getC2();
             if (c1.getZ() < riverHeight ) {
 
                 riverHeight = c1.getZ();
-                tmpC = c1;
-                tmpL = i;
+                tmpCoordinate = c1;
+                tempLine = line;
             }
 
             if (c2.getZ() < riverHeight ) {
 
                 riverHeight = c2.getZ();
-                tmpC = c2;
-                tmpL = i;
+                tmpCoordinate = c2;
+                tempLine = line;
             }
         }
 
-        coordinate = tmpC;
-        if(tmpL != null) {
-            river.add(tmpL);
+        coordinate = tmpCoordinate;
+        if(tempLine != null) {
+            river.add(tempLine);
         }
 
         if (!isRiverEnded(isle, coordinate )  && !coordinate.equals(coordinateStart ) ){
@@ -133,7 +133,7 @@ public class River extends Aquifer {
             wetZone.addAll( isle.getNeighbor(line) );
 
             line.setColor(riverColor);
-            line.increaseFlow();
+            //line.increaseFlow();
         }
         return wetZone;
     }

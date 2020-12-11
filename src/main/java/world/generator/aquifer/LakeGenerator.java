@@ -32,7 +32,13 @@ public class LakeGenerator implements Generator {
 
             for (int i = nbsNape ;i > 0; i--) {
 
-                Tile centerNape = isle.findRandomVegetationTile(random);
+                Tile centerNape = null;
+                try {
+                    centerNape = isle.findRandomVegetationTile(random);
+                }catch (NullPointerException e){
+                    System.out.println("Pas possible de trouver une tuile du biome vegetation");
+                    System.exit(0);
+                }
 
                 islandProcessor = new Nape();
                 islandProcessor.setAquiferCenter(centerNape);
@@ -41,7 +47,15 @@ public class LakeGenerator implements Generator {
             }
 
             for (int i = nbsWaterSrc-nbsNape; i > 0; i--) {
-                Tile centerLake = isle.findRandomVegetationTile(random);
+
+                Tile centerLake = null;
+                try {
+                    centerLake = isle.findRandomVegetationTile(random);
+                }catch (NullPointerException e){
+                    System.out.println("Pas possible de trouver une tuile du biome vegetation");
+                    System.exit(0);
+                }
+
                 islandProcessor = new Lake();
                 islandProcessor.setAquiferCenter(centerLake);
                 islandProcessor.setSoil(soil);
