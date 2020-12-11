@@ -27,29 +27,20 @@ public class RiverGenerator implements Generator {
         for(Isle isle:w.getIsleList() ) {
 
             for (int i = nbsRiverSrc; i > 0; i--) {
-                boolean isProperTile = true;
-                Tile tile = isle.findRandomTile(random);
-                if(!tile.getItem().getType().equals("beach")){
-                    for (Tile nTile: w.getNeighbor(tile)){
-                        if(nTile.getItem().getType().equals("beach")){
-                            isProperTile = false;
-                        }
-                    }
 
-                    if(isProperTile){
-                        IslandProcessor river = new River(random);
-                        river.setSoil(soil);
-                        river.setAquiferCenter(tile);
-                        river.apply(isle);
-                    }
 
-                }else{
-                    isProperTile = false;
+                Tile riverStartTile = null;
+                try {
+                    riverStartTile = isle.findRandomVegetationTile(random);
+                }catch (NullPointerException e){
+                    System.out.println("Pas possible de trouver une tuile du biome vegetation");
+                    System.exit(0);
                 }
+                IslandProcessor river = new River(random);
+                river.setSoil(soil);
+                river.setAquiferCenter(riverStartTile);
+                river.apply(isle);
 
-                if(!isProperTile){
-                    i++;
-                }
             }
         }
     }

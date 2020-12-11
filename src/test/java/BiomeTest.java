@@ -191,6 +191,7 @@ public class BiomeTest {
         tile3.setItem(new Lagoon());
         tile4.setItem(new Lagoon());
         Tile tile = isle.findRandomVegetationTile(randomContexte);
+        if ((tile == null)) throw new AssertionError("Pas possible de trouver une tuile du biome vegetation");
         assertEquals("vegetation", tile.getItem().getType());
         assertEquals(tile1, tile);
         tile1.setItem(new Lagoon());

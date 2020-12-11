@@ -41,13 +41,60 @@ public class Isle {
         return tileList;
     }
 
+    /**
+     *
+     * @param random controlled random seed
+     * @return  On retourne une tuile aleatoire du biome vegetation appartenant à l'ile
+     */
+
     public Tile findRandomVegetationTile(RandomContexte random){
-        Tile tile;
+
+        /*
+        List<Coordinate> coordinates = world.getAllCordinates();
+        boolean isValide = false;
+
+        while (!coordinates.isEmpty()  && !isValide ) {
+
+            Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
+            Circle cir = new Circle(diameter, random, coordinate);
+            HashSet<Tile> islandTiles = world.getIslandTiles( cir);
+
+            if (validIsland( islandTiles,height,width, world)){
+                isValide = true;
+
+                this.isle = new Isle(islandTiles);
+                this.circle = cir;
+            }else{
+                coordinates.remove(coordinate);
+            }
+        }
+         */
+        boolean isValide = false;
+        List<Tile> tempTilesList = new ArrayList<>(this.islandTiles);
+        Tile tile = null;
+        while (!tempTilesList.isEmpty() && !isValide){
+            tile = findRandomTile(random);
+            if(tile.getItem().getType().equals(VEGETATION_BIOM)){
+                isValide = true;
+            }else{
+                tempTilesList.remove(tile);
+            }
+        }
+        /*
         do {
             tile = findRandomTile(random);
         } while (!tile.getItem().getType().equals(VEGETATION_BIOM) );
         return tile;
+
+         */
+        return tile;
     }
+
+    /**
+     *
+     * @param random controlled random seed
+     * @return  On retourne une tuile aleatoire appartenant à l'ile
+     */
 
     public Tile findRandomTile(RandomContexte random){
         ArrayList<Tile> tiles = new ArrayList<>(islandTiles);
