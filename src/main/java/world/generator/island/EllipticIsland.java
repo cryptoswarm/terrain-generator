@@ -48,7 +48,7 @@ public class EllipticIsland extends IslandShape {
 
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            HashSet<Tile> islandTiles = world.getIslandTiles( e );
+            HashSet<Tile> islandTiles = world.getTilesInShape( e );
 
             if ( validIsland( islandTiles, height, width, world) ) {
                 isValide = true;
