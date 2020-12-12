@@ -81,15 +81,12 @@ public class World {
 
     public String getLineColor(Line line){
         TileColor color = null;
-        boolean isFound = false;
 
-        for(int i=0; i<isleList.size() && !isFound; i++){
-            for( Tile tile:isleList.get(i).getIslandTiles()){
-                color = tile.getLineColor(line);
-                if(color != null){
-                    isFound = true;
-                    break;
-                }
+        for (Isle isle : isleList) {
+
+            if ((color = isle.findLineColor(line)) != null) {
+
+                break;
             }
         }
         if(color != null) {
@@ -281,6 +278,45 @@ public class World {
 
     public int getTilesNb(){
         return tiles.size();
+    }
+
+
+    public ArrayList<ArrayList<Tile>> getWorldinterestPoints() {
+
+        ArrayList<ArrayList<Tile>> interestPointsListGlobal = new ArrayList<>();
+
+        for (Isle isle:isleList ) {
+
+            ArrayList<Tile> interestPointsList = isle.getIsleinterestPoints();
+
+            interestPointsListGlobal.add(interestPointsList);
+        }
+        return interestPointsListGlobal;
+    }
+
+
+    public ArrayList<Tile> getIslePortInterestPoint(){
+        /*
+
+        ArrayList<ArrayList<Tile>> interestPointsListGlobal = getWorldinterestPoints();
+        ArrayList<Tile> ports = new ArrayList<>();
+
+        for(ArrayList<Tile> tilesList: interestPointsListGlobal){
+            for(Tile tile: tilesList){
+                if(tile.getPois() == InterestPointsGenerator.POIS.PORTS){
+                    ports.add(tile);
+                }
+            }
+        }
+        return ports;
+
+         */
+        ArrayList<Tile> ports = new ArrayList<>();
+
+        for(Isle isle:isleList){
+            ports.addAll( isle.getIslePortInterestPoints() );
+        }
+        return ports;
     }
 
 }

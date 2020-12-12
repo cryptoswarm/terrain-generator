@@ -1,34 +1,43 @@
 package world.generator.interestPoints;
 
-import islandSet.Isle;
 import world.Tile;
 import world.World;
 import world.generator.Generator;
+
 import java.util.ArrayList;
 
 public class RoadGenerator implements Generator {
 
 
+    public static final String OCEAN_BIOME = "ocean";
+    public static final String BEACH_BIOME = "beach";
+    public static final String LAKE_BIOME = "lake";
+    public static final String LAGOON_BIOME = "lagoon";
+
     @Override
     public void generate(World w) {
-        ArrayList<ArrayList<Tile>> interestPointsListGlobal = getInterestPoints(w);
 
+        ArrayList<ArrayList<Tile>> interestPointsListGlobal = w.getWorldinterestPoints();
         generateRoads(interestPointsListGlobal, w);
 
-        ArrayList<Tile> ports = getPorts(interestPointsListGlobal);
+        ArrayList<Tile> ports = w.getIslePortInterestPoint();
 
         if(ports.size() >= 2){
             generateWaterWays(ports, w);
         }
     }
 
-    private void generateWaterWays(ArrayList<Tile> ports, World w) {
+    /**
+     *
+     * Créer un chemin reliant deux iles d'un port à l'autre
+     *
+     * @param ports ensemble de tuiles abritant un port
+     * @param w objet world
+     */
 
-        Tile [] path = new Tile [ports.size()];
+    private void generateWaterWays( ArrayList<Tile> ports, World w) {
 
-        for(int i = 0; i < path.length; i++){
-            path[i] = ports.get(i);
-        }
+        Tile [] path = ports.toArray(new Tile [0]);
 
         sortPath(path);
 
@@ -43,6 +52,17 @@ public class RoadGenerator implements Generator {
 
     }
 
+    /**
+     * A prtir d'une tuile de debut BEACH_BIOM et la suivante OCEAN_BIOME
+     * On essaie de trouver une voisine au suivante dont la distance entre la voisine et celle de debut
+     * est plus courte que celle entre celle de debut et la suivante
+     *
+     * @param start La tuile au debut du chemin
+     * @param next la suivante
+     * @param w  l'objet world
+     * @return  deux tuiles
+     */
+
     private ArrayList<Tile> findSmallPathWater(Tile start, Tile next, World w) {
 
         boolean hasNext = true;
@@ -56,22 +76,20 @@ public class RoadGenerator implements Generator {
             hasNext = false;
             for(Tile nTile : w.getNeighbor(current)){
 
-                if(nTile.getItem().getType().equals("ocean")){
+                if(nTile.getItem().getType().equals(OCEAN_BIOME)){
                     float newDistance = nTile.getCenter().distance(next.getCenter());
                     if(distance > newDistance){
                         maybeNext = nTile;
                         distance = newDistance;
                         hasNext = true;
                     }
-                }else if (nTile.getItem().getType().equals("beach")){
+                }else if (nTile.getItem().getType().equals(BEACH_BIOME)){
                     if (nTile.equals(next)){
                         maybeNext = nTile;
                         distance = 0;
                         hasNext = true;
-
                     }
                 }
-
             }
 
             if(hasNext){
@@ -89,45 +107,33 @@ public class RoadGenerator implements Generator {
 
     }
 
-    private ArrayList<Tile> getPorts(ArrayList<ArrayList<Tile>> interestPointsListGlobal) {
-
-        ArrayList<Tile> ports = new ArrayList<>();
-
-        for(ArrayList<Tile> tilesList: interestPointsListGlobal){
-            for(Tile tile: tilesList){
-                if(tile.getPois() == InterestPointsGenerator.POIS.PORTS){
-                    ports.add(tile);
-                }
-            }
-        }
-
-        return ports;
-
-    }
+    /**
+     * Constituer un chemin reliant les tuiles entre eux dans une meme ile
+     * Repeter l'operation pour l'ensemble des iles
+     *
+     * @param interestPointsListGlobal ensemble d'ensemble de tuiles
+     * @param w objet world
+     */
 
     private void generateRoads(ArrayList<ArrayList<Tile>> interestPointsListGlobal, World w) {
 
         for(ArrayList<Tile> interestPointList : interestPointsListGlobal){
 
-            findIslandPaths(interestPointList, w);
+            normalPath(interestPointList, w);
 
         }
     }
 
-    private void findIslandPaths(ArrayList<Tile> interestPointList, World w) {
-            normalPath(interestPointList, w);
-
-    }
+    /**
+     * Constituer un chemin reliant les tuiles entre eux dans une meme ile
+     * @param interestPointList  ensemble de tuiles
+     * @param w objet world
+     */
 
     private void normalPath(ArrayList<Tile> interestPointList, World w) {
 
         Tile current, next;
-        Tile [] path = new Tile [interestPointList.size()];
-
-        for(int i = 0; i < path.length; i++){
-            current = interestPointList.get(i);
-            path[i] = current;
-        }
+        Tile [] path = interestPointList.toArray(new Tile [0]);
 
         sortPath(path);
 
@@ -143,6 +149,13 @@ public class RoadGenerator implements Generator {
 
     }
 
+    /**
+     *
+     * Ajouter un segment reliant le point centre de la tuile du debut avec celui de la fin
+     * @param smallPath ensemble de deux tuiles, debut et fin
+     * @param w objet world
+     */
+
     private void addSmallPath(ArrayList<Tile> smallPath, World w) {
 
 
@@ -150,6 +163,17 @@ public class RoadGenerator implements Generator {
             w.setRoads(smallPath.get(i), smallPath.get(i+1));
         }
     }
+
+    /**
+     * A prtir d'une tuile de debut et la suivante
+     * On essaie de trouver une voisine au suivante dont la distance entre la voisine et celle de debut
+     * est plus courte que celle entre celle de debut et la suivante
+     *
+     * @param start La tuile au debut du chemin
+     * @param next la suivante
+     * @param w  l'objet world
+     * @return  deux tuiles
+     */
 
     private ArrayList<Tile> findSmallPath(Tile start, Tile next, World w) {
 
@@ -164,8 +188,8 @@ public class RoadGenerator implements Generator {
             hasNext = false;
             for(Tile nTile : w.getNeighbor(current)){
 
-                if(!nTile.getItem().getType().equals("lake") && !nTile.getItem().getType().equals("lagoon")
-                        && !nTile.getItem().getType().equals("ocean")){
+                if(!nTile.getItem().getType().equals(LAKE_BIOME) && !nTile.getItem().getType().equals(LAGOON_BIOME)
+                        && !nTile.getItem().getType().equals(OCEAN_BIOME)){
                     float newDistance = nTile.getCenter().distance(next.getCenter());
                     if(distance > newDistance){
                         maybeNext = nTile;
@@ -189,6 +213,13 @@ public class RoadGenerator implements Generator {
 
         return null;
     }
+
+    /**
+     * Ordonner les tuiles en fonction de la distance entre eux
+     * Ici la clef est la plus courte distance.
+     *
+     * @param path, un ensemble de tuile
+     */
 
     private void sortPath(Tile [] path){
 
@@ -214,22 +245,4 @@ public class RoadGenerator implements Generator {
         }
     }
 
-    private ArrayList<ArrayList<Tile>> getInterestPoints(World w) {
-
-        ArrayList<ArrayList<Tile>> interestPointsListGlobal = new ArrayList<>();
-
-        for(Isle isle: w.getIsleList()){
-            ArrayList<Tile> interestPointsList = new ArrayList<>();
-
-            for (Tile tile : isle.getIslandTiles()){
-
-                if(tile.getPois() != InterestPointsGenerator.POIS.NOTHING){
-                    interestPointsList.add(tile);
-                }
-            }
-
-            interestPointsListGlobal.add(interestPointsList);
-        }
-        return interestPointsListGlobal;
-    }
 }

@@ -4,6 +4,8 @@ import geometry.Coordinate;
 import geometry.Line;
 import randomStrategy.RandomContexte;
 import world.Tile;
+import world.TileColor;
+import world.generator.interestPoints.InterestPointsGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -21,15 +23,29 @@ public class Isle {
         this.islandTiles = islandTiles;
     }
 
+    /**
+     *
+     * @return True si l'ile contient des tuile, false sinon
+     */
+
     public boolean isValide(){
 
         return !islandTiles.isEmpty();
     }
 
+    /**
+     *
+     * @return toutes les tuiles constituant l'ile (should be private)
+     */
 
     public HashSet<Tile> getIslandTiles() {
         return islandTiles;
     }
+
+    /**
+     * Trouver l'ensemble de tuiles contituant le biom vegetation dans une ile
+     * @return ensemble de tuile
+     */
 
     public List<Tile> getVegetationTiles(){
         List<Tile > tileList = new ArrayList<>();
@@ -49,26 +65,7 @@ public class Isle {
 
     public Tile findRandomVegetationTile(RandomContexte random){
 
-        /*
-        List<Coordinate> coordinates = world.getAllCordinates();
-        boolean isValide = false;
 
-        while (!coordinates.isEmpty()  && !isValide ) {
-
-            Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
-            Circle cir = new Circle(diameter, random, coordinate);
-            HashSet<Tile> islandTiles = world.getIslandTiles( cir);
-
-            if (validIsland( islandTiles,height,width, world)){
-                isValide = true;
-
-                this.isle = new Isle(islandTiles);
-                this.circle = cir;
-            }else{
-                coordinates.remove(coordinate);
-            }
-        }
-         */
         boolean isValide = false;
         List<Tile> tempTilesList = new ArrayList<>(this.islandTiles);
         Tile tile = null;
@@ -80,13 +77,7 @@ public class Isle {
                 tempTilesList.remove(tile);
             }
         }
-        /*
-        do {
-            tile = findRandomTile(random);
-        } while (!tile.getItem().getType().equals(VEGETATION_BIOM) );
-        return tile;
 
-         */
         return tile;
     }
 
@@ -102,6 +93,12 @@ public class Isle {
 
     }
 
+    /**
+     * Une coordonnée de biom vegetation
+     * @param random un seed random
+     * @return une coordonnée
+     */
+
     public Coordinate findRandomCoordinate(RandomContexte random){
 
         Tile tile = findRandomVegetationTile(random);
@@ -111,6 +108,11 @@ public class Isle {
         return c.get(random.getRandomInt(c.size()-1));
     }
 
+    /**
+     * Trouver toutes les tuiles entourant la tuile en question
+     * @param t  une tuile
+     * @return ensemble de tuile
+     */
 
     public HashSet<Tile> getNeighbor(Tile t) {
 
@@ -127,6 +129,12 @@ public class Isle {
         return neighbor;
     }
 
+    /**
+     * Trouver l'ensemble de tuile qui se rencontrent dans la meme coordonnée
+     * @param c  une coordonnée
+     * @return  ensemble de tuile
+     */
+
     public HashSet<Tile> getNeighbor(Coordinate c) {
 
         HashSet<Tile> neighbor = new HashSet<>();
@@ -139,6 +147,12 @@ public class Isle {
         }
         return neighbor;
     }
+
+    /**
+     *
+     * @param c une coordonnée
+     * @return enselble de lignes qui intersectent dans la coordonnée en question
+     */
 
 
     public HashSet<Line> getLine(Coordinate c){
@@ -155,6 +169,12 @@ public class Isle {
         return lines;
     }
 
+    /**
+     * Trouver toutes les tuiles qui partagent la meme line
+     * @param l  une line (deux coordonnées )
+     * @return ensemble de tuiles voisines
+     */
+
     public HashSet<Tile> getNeighbor(Line l) {
         HashSet<Tile> neighbor = new HashSet<>();
 
@@ -163,5 +183,60 @@ public class Isle {
 
         return neighbor;
     }
+
+    /**
+     *
+     * @return ensemble de tuiles contenant tous les points d'interets se trouvant sur l'ile
+     */
+
+    public ArrayList<Tile> getIsleinterestPoints(){
+
+        ArrayList<Tile> interestPointsList = new ArrayList<>();
+
+        for (Tile tile : islandTiles ){
+
+            if(tile.getPois() != InterestPointsGenerator.POIS.NOTHING){
+                interestPointsList.add(tile);
+            }
+        }
+        return interestPointsList;
+    }
+
+    /**
+     *
+     * @return ensemble de tuiles contenant un point d'interet de type port
+     */
+
+    public ArrayList<Tile> getIslePortInterestPoints(){
+
+        ArrayList<Tile> interestPointsList = new ArrayList<>();
+
+        for (Tile tile : islandTiles ){
+
+            if(tile.getPois() == InterestPointsGenerator.POIS.PORTS){
+                interestPointsList.add(tile);
+            }
+        }
+        return interestPointsList;
+    }
+
+    /**
+     * Trouver la couleur de la ligne d'une tuile de l'ile
+     * @param line une ligne
+     * @return la la couleur de la ligne
+     */
+
+    public TileColor findLineColor(Line line){
+        TileColor color = null;
+        for( Tile tile:islandTiles){
+            color = tile.getLineColor(line);
+            if(color != null){
+                break;
+            }
+        }
+        return color;
+    }
+
+
 
 }
