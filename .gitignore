@@ -10,3 +10,4 @@ target
 *.jpg
 .DS_Store
 *.txt
+!rapport.pdf

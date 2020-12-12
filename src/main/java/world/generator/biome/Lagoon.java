@@ -1,11 +1,10 @@
 package world.generator.biome;
 
-import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Lagoon extends Biome {
 
@@ -26,15 +25,14 @@ public class Lagoon extends Biome {
 
     @Override
     public void apply(World world) {
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile : tiles.values()) {
-            if(tile.isInLagoon()){
-                tile.setItem(new Lagoon());
-                tile.setBackgroundColor(color);
-                tile.setHumidityLevel(-1);
-                tile.setInOcean(false);
-                tile.setOnIsland(false);
-            }
+        HashSet<Tile> lagoonTiles = world.getLagoonTiles();
+        for (Tile tile : lagoonTiles) {
+
+            tile.setItem(new Lagoon());
+            tile.setBackgroundColor(color);
+            tile.setHumidityLevel(-1);
+            tile.setInOcean(false);
+            tile.setOnIsland(false);
         }
     }
 }

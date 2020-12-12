@@ -62,19 +62,21 @@ public class BordersTest {
         tile9 = new Tile(new Coordinate(3, 6, 0));
         tile10 = new Tile(new Coordinate(5, 6, 0));
 
-        world.addTile(tile1);
-        world.addTile(tile2);
-        world.addTile(tile3);
-        world.addTile(tile4);
-        world.addTile(tile5);
-        world.addTile(tile6);
-        world.addTile(tile7);
-        world.addTile(tile8);
-        world.addTile(tile9);
-        world.addTile(tile10);
-
         islandTiles = new LinkedHashSet<>();
-        islandTiles.addAll(world.getTiles().values());
+
+        islandTiles.add(tile1);
+        islandTiles.add(tile2);
+        islandTiles.add(tile3);
+        islandTiles.add(tile4);
+        islandTiles.add(tile5);
+        islandTiles.add(tile6);
+        islandTiles.add(tile7);
+        islandTiles.add(tile8);
+        islandTiles.add(tile9);
+        islandTiles.add(tile10);
+
+
+        //islandTiles.addAll(world.getTiles().values());
         isle = new Isle(islandTiles);
         island = new Atoll(isle, circle, maxAltitude);
 
@@ -135,10 +137,10 @@ public class BordersTest {
     @Test
     public void isInOceanTest2(){ //change diameter of island to 10 and adding more tiles that will be outside island
 
-        world.addTile(tile11);
-        world.addTile(tile12);
-        world.addTile(tile13);
-        world.addTile(tile14);
+        islandTiles.add(tile11);
+        islandTiles.add(tile12);
+        islandTiles.add(tile13);
+        islandTiles.add(tile14);
 
         diameter = 10;
         circle = new Circle(diameter, randomContexte, coordinateCenter);
@@ -161,7 +163,7 @@ public class BordersTest {
         island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 
-        for(Tile tile:world.getTiles().values()){
+        for(Tile tile:islandTiles){
             assertTrue(tile.isInOcean());
         }
     }
@@ -177,12 +179,12 @@ public class BordersTest {
 
         coordinateCenter = new Coordinate(50, 50, 0);
         diameter = 10;
-        world.addTile(tile15);
-        world.addTile(tile16);
-        world.addTile(tile17);
-        world.addTile(tile18);
+        islandTiles.add(tile15);
+        islandTiles.add(tile16);
+        islandTiles.add(tile17);
+        islandTiles.add(tile18);
         circle = new Circle(diameter, randomContexte, coordinateCenter);
-        islandTiles.addAll(world.getTiles().values());
+
         island = new Atoll(isle, circle, 100);
         island.setBorders(world);
 

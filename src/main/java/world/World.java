@@ -17,18 +17,12 @@ public class World {
     private ArrayList<Line> roads = new ArrayList<>();
 
     public World(RandomContexte random) {
+
         this.tiles = new HashMap<>();
         this.random = random;
         this.isleList = new ArrayList<>();
     }
 
-    /**
-     *
-     * @return  la listes des tuiles (Should be private but we have no other choice other than use it)
-     */
-    public HashMap<Coordinate, Tile> getTiles() {
-        return tiles;
-    }
 
     /**
      *
@@ -318,5 +312,54 @@ public class World {
         }
         return ports;
     }
+
+    /**
+     * Trouver toutes les tuiles se trouvant à l'interieur des iles.
+     * @return liste des tuiles.
+     */
+
+    public HashSet<Tile> getOnIslandTiles(){
+        HashSet<Tile> inlandTiles = new HashSet<>();
+        for(Tile tile:tiles.values()){
+            if ( tile.isOnIsland()  ) {
+                inlandTiles.add(tile);
+            }
+        }
+        return inlandTiles;
+
+    }
+
+    /**
+     * Only ocean tiles belonging to ocean biome
+     * @return list of tiles
+     */
+
+    public HashSet<Tile> getOceanTiles(){
+        HashSet<Tile> oceanTiles = new HashSet<>();
+        for(Tile tile:tiles.values()){
+            if ( tile.isInOcean()  ) {
+                oceanTiles.add(tile);
+            }
+        }
+        return oceanTiles;
+    }
+
+    /**
+     * Only tiles belonging to lagoon biom
+     * @return list of tiles
+     */
+
+    public HashSet<Tile> getLagoonTiles(){
+        HashSet<Tile> lagoonTiles = new HashSet<>();
+        for(Tile tile:tiles.values()){
+            if(tile.isInLagoon()){
+                lagoonTiles.add(tile);
+            }
+        }
+        return lagoonTiles;
+
+    }
+
+
 
 }

@@ -1,11 +1,10 @@
 package world.generator.biome;
 
-import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 import static world.TileColor.ICEBEACH;
 
@@ -35,22 +34,22 @@ public class IceBeach extends Biome {
     @Override
     public void apply(World world) {
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile: tiles.values()) {
-            if ( tile.isOnIsland()) {
-                for (Tile neighbor : world.getNeighbor(tile)) {
+        HashSet<Tile> tiles = world.getOnIslandTiles();
+        for (Tile tile: tiles) {
 
-                    if ( neighbor.isInOcean() || neighbor.isInLagoon() ) {
+            for (Tile neighbor : world.getNeighbor(tile)) {
 
-                        tile.setItem(new IceBeach(localisation));
-                        tile.setBackgroundColor(color);
-                        tile.setHumidityLevel(255);
-                        tile.setInOcean(false);
-                        tile.setOnIsland(false); //add
-                        break;
-                    }
+                if ( neighbor.isInOcean() || neighbor.isInLagoon() ) {
+
+                    tile.setItem(new IceBeach(localisation));
+                    tile.setBackgroundColor(color);
+                    tile.setHumidityLevel(255);
+                    tile.setInOcean(false);
+                    tile.setOnIsland(false); //add
+                    break;
                 }
             }
+
         }
     }
 }
