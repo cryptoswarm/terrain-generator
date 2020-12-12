@@ -1,13 +1,11 @@
 package world.generator.biome;
 
 
-import geometry.Coordinate;
+import world.Tile;
 import world.TileColor;
 import world.World;
-import world.Tile;
-import world.generator.WorldProcessor;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Ocean extends Biome {
 
@@ -29,10 +27,9 @@ public class Ocean extends Biome {
 
     @Override
     public void apply(World world) {
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile : tiles.values()) {
 
-            if ( tile.isInOcean() ) {
+        HashSet<Tile> oceanTiles = world.getOceanTiles();
+        for (Tile tile :oceanTiles) {
 
                 tile.setItem(new Ocean());
                 tile.setBackgroundColor(color);
@@ -40,7 +37,6 @@ public class Ocean extends Biome {
                 tile.setAltitude(ALTITUDE);
                 tile.setOnIsland(false);
                 tile.setInLagoon(false);
-            }
         }
     }
 }

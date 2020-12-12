@@ -336,7 +336,7 @@ Normal -up-|> Mode
 
 ''' world component '''
 
-Class Tile{
+class Tile{
     - border: Border
     - Coordinate center
     - TileColor backgroundColor

@@ -1,0 +1,90 @@
+@startuml
+
+class World {
+    - tiles: HashMap<Coordinate, Tile>
+    - isleList: List<Isle>
+    - findRandomTile(): Tile
+    + addTile(x: float, y: float): void
+    + addIslands(isle: Isle )
+}
+
+class Isle {
+    - islandTiles: HashSet<Tile>
+    + getVegetationTiles(): List<Tile>
+    + findRandomVegetationTile(random: RandomContexte ): Tile
+    + findRandomTile(random: RandomContexte ):Tile
+    + getNeighbor(tile: Tile ): HashSet<Tile>
+    + getNeighbor(c: Coordinate ) : HashSet<Tile>
+}
+
+
+class Tile{
+
+
+    - border: Border
+    - Coordinate center
+    - TileColor backgroundColor
+    - neighbors: HashMap<Coordinate, Tile>
+    - int humidityLevel
+    + addNeighbor(Tile tile)
+}
+
+class Border{
+    - lines: HashSet<Line>
+    - corners: HashSet<Coordinate>
+    + getLineColor(line: Line ): TileColor
+    + getCorners(): HashSet<Coordinate>
+}
+
+
+class RandomContexte{
+    - strategy: RandomStrategy
+    + getRandomInt(range: int ): int
+}
+
+
+class Line {
+    - lineCoordinates: HashSet<Coordinate>
+    + isCoordinateValid(c: Coordinate ): boolean
+    + getCorners(): HashSet<Coordinate>
+
+}
+
+class Coordinate {
+    - x : float
+    - y : float
+    - z : float
+    compareTo(o: Coordinate ): int
+    distance(that: Coordinate ): float
+}
+
+Interface Comparable{
+    compareTo(o: Coordinate ): int
+}
+
+class Seed {
+    - randomness: Random
+    + getRandom(range: int ): int
+}
+
+class Seed implements RandomStrategy
+class JustRandom implements RandomStrategy
+
+
+World "1" *--> "*" Tile
+World "1" *--> "1" RandomContexte
+World "1" *--> "*" Isle
+
+Tile "1" *--> "1" Border
+Tile "1" *--> "1" Coordinate
+
+
+Border "1" *--> "*" Line
+Border "1" *--> "*" Coordinate
+
+Line "1" *--> "2" Coordinate
+
+class Coordinate implements Comparable
+RandomContexte "1" *--> "1" RandomStrategy
+
+@enduml

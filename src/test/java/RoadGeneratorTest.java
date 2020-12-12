@@ -21,7 +21,6 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class RoadGeneratorTest {
 
@@ -284,17 +283,6 @@ public class RoadGeneratorTest {
 
     }
 
-    @Test
-    public void getTilesTest1(){
-        HashSet<Tile> tileList = new HashSet<>();
-        tileList.add(tile1);
-        tileList.add(tile2);
-        tileList.add(tile3);
-        tileList.add(tile4);
-        tileList.add(tile5);
-
-        assertTrue( world.getTiles().values().containsAll(tileList) );
-    }
 
     @Test
     public void getInterestPointTest1(){

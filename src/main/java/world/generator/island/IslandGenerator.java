@@ -1,14 +1,9 @@
 package world.generator.island;
 
 import randomStrategy.RandomContexte;
-import world.Tile;
 import world.World;
 import world.generator.Generator;
 import world.generator.calculator.TileAttributesCalculator;
-
-import java.util.NavigableMap;
-import java.util.Set;
-import java.util.TreeMap;
 
 public class IslandGenerator implements Generator {
 
@@ -62,7 +57,7 @@ public class IslandGenerator implements Generator {
         }
     }
 
-
+/*
     public int calculateDiameter(World world){
 
         int islandNbTiles = 256;
@@ -91,6 +86,9 @@ public class IslandGenerator implements Generator {
 
         return  (int)( 2* Math.sqrt( area / Math.PI) );
     }
+
+ */
+
 
 
 }

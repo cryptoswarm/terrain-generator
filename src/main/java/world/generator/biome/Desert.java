@@ -1,11 +1,10 @@
 package world.generator.biome;
 
-import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Desert extends Biome {
     private final  TileColor color = TileColor.DESERT;
@@ -21,16 +20,18 @@ public class Desert extends Biome {
 
     @Override
     public void apply(World world) {
+        HashSet<Tile> onIslandTiles;
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
 
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile: tiles.values()) {
-            if( tile.isOnIsland()) {
+        //HashMap<Coordinate, Tile> tiles = world.getTiles();
+        onIslandTiles = world.getOnIslandTiles();
+        for (Tile tile: onIslandTiles) {
+            //if( tile.isOnIsland()) {
                 tile.setItem(new Desert(localisation));
                 tile.setBackgroundColor(color);
                 tile.setHumidityLevel(0);
                 tile.setInOcean(false);
-            }
+           // }
         }
     }
 

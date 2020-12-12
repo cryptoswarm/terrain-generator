@@ -1,11 +1,10 @@
 package world.generator.biome;
 
-import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Savane extends Biome {
     private final TileColor color = TileColor.SAVANE;
@@ -23,14 +22,14 @@ public class Savane extends Biome {
     public void apply(World world) {
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
 
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile: tiles.values()) {
-            if( tile.isOnIsland()) {
-                tile.setItem(new Savane(localisation));
-                tile.setBackgroundColor(color);
-                tile.setHumidityLevel(0);
-                tile.setInOcean(false);
-            }
+        HashSet<Tile> onIslandtiles = world.getOnIslandTiles();
+        for (Tile tile: onIslandtiles) {
+
+            tile.setItem(new Savane(localisation));
+            tile.setBackgroundColor(color);
+            tile.setHumidityLevel(0);
+            tile.setInOcean(false);
+
         }
     }
 

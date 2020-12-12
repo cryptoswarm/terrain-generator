@@ -1,12 +1,11 @@
 package world.generator.biome;
 
-import geometry.Coordinate;
 import world.Tile;
 import world.TileColor;
 import world.World;
 import world.generator.WorldProcessor;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class Vegetation extends Biome implements WorldProcessor {
     private final  TileColor color = TileColor.LIGHTGREEN;
@@ -27,17 +26,15 @@ public class Vegetation extends Biome implements WorldProcessor {
 
     @Override
     public void apply(World world) {
-        HashMap<Coordinate, Tile> tiles = world.getTiles();
-        for (Tile tile: tiles.values()) {
+        HashSet<Tile> onIslandtiles = world.getOnIslandTiles();
+        for (Tile tile: onIslandtiles) {
 
-            if( tile.isOnIsland() ) {
+            tile.setItem(new Vegetation());
+            tile.setBackgroundColor(color);
+            tile.setHumidityLevel(0);
+            tile.setInOcean(false);
 
-                tile.setItem(new Vegetation());
-                tile.setBackgroundColor(color);
-                tile.setHumidityLevel(0);
-                tile.setInOcean(false);
 
-            }
         }
     }
 
