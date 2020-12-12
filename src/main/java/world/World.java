@@ -235,7 +235,7 @@ public class World {
      * @param s  La forme de l'ile qu'on veut créer
      * @return   les tuiles qui composent l'ile
      */
-    public HashSet<Tile> getIslandTiles( Shape s){
+    public HashSet<Tile> getTilesInShape(Shape s){
 
         HashSet<Tile> tileList = new LinkedHashSet<>();
         for (Tile tile : tiles.values() ) {

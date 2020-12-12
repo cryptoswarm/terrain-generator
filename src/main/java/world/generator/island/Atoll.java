@@ -69,7 +69,7 @@ public class Atoll extends Island {
 
         int milieu = sortedListTiles.size()/2;
 
-        float diffrenceAltEachtile = (float)maxAlt / isle.getIslandTiles().size();
+        float diffrenceAltEachtile = (float)maxAlt / isle.getIsleTilesNumber();
 
 
         float currentAlt = diffrenceAltEachtile;
@@ -103,22 +103,7 @@ public class Atoll extends Island {
     @Override
     public void setBorders(World world){
 
-        for (Tile tile : isle.getIslandTiles() ) {
-
-            double distance = tile.getCenter().distance(circle.getCenter());
-
-            if (distance > circle.getSmallRadius() && distance < circle.getBigRadius()) {
-
-                tile.setOnIsland(true);
-                tile.setInOcean(false);
-
-            } else if (distance <= circle.getSmallRadius()) {
-
-                tile.setInLagoon(true);
-                tile.setInOcean(false);
-            }
-
-        }
+        isle.definerAtollShapedBorders(circle);
     }
 
 }

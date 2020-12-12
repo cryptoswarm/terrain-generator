@@ -269,7 +269,7 @@ public class RiverTest {
 
         tile6.setItem(new Beach() );
 
-        isle.getIslandTiles().add(tile6);
+        tileList.add(tile6);
 
         HashSet<Line> riverElement = new HashSet<>();
         River river = new River(randomContexte);

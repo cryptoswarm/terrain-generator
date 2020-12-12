@@ -50,14 +50,15 @@ public class Tortuga  extends Island {
 
         double distance;
 
-        int nbIslandTiles = isle.getIslandTiles().size();
+        int nbIslandTiles = isle.getIsleTilesNumber();
+
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.5*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
-        HashSet<Tile> islandSummitTiles = world.getIslandTiles( islandTop );
 
-        isle.getIslandTiles().removeAll(islandSummitTiles);
+        HashSet<Tile> islandSummitTiles = isle.getIsleTiles(islandTop);
 
-        for(Tile tile: isle.getIslandTiles() ){
+        HashSet<Tile> islandExceptSummit = isle.getRemainingTiles(islandSummitTiles);
 
+        for(Tile tile: islandExceptSummit){
 
             distance = Math.abs(tile.getCenter().distance( ellipse.getEllipseCenter() ));
 
@@ -78,8 +79,6 @@ public class Tortuga  extends Island {
             System.out.println("Une pente trop importante. impossible de generer un terrain");
             System.exit(0);
         }
-
-        isle.getIslandTiles().addAll(islandSummitTiles);
     }
 
     public void applyAltitude(TreeMap<Double, List<Tile>> temp, float diffrenceAltEachtile, int maxAltitude) {
@@ -100,12 +99,7 @@ public class Tortuga  extends Island {
 
     @Override
     public  void setBorders(World world){
-
-        for(Tile tile:isle.getIslandTiles()){
-
-            tile.setOnIsland(true);
-            tile.setInOcean(false);
-        }
+        isle.defineTortugaBorders();
     }
 
     public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){

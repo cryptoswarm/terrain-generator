@@ -1,7 +1,9 @@
 package islandSet;
 
+import geometry.Circle;
 import geometry.Coordinate;
 import geometry.Line;
+import geometry.Shape;
 import randomStrategy.RandomContexte;
 import world.Tile;
 import world.TileColor;
@@ -9,6 +11,7 @@ import world.generator.interestPoints.InterestPointsGenerator;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 public class Isle {
@@ -236,6 +239,82 @@ public class Isle {
         }
         return color;
     }
+
+    /**
+     *
+     * @param s  La forme de l'ile qu'on veut créer
+     * @return   les tuiles qui composent l'ile
+     */
+    public HashSet<Tile> getIsleTiles( Shape s){
+
+        HashSet<Tile> tileList = new LinkedHashSet<>();
+        for (Tile tile : islandTiles ) {
+            if( s.isInShape( tile.getCenter() ) ){
+                tileList.add(tile);
+            }
+        }
+        return tileList;
+    }
+
+    /**
+     *
+     * @return le nombre de tuiles composant l'ile
+     */
+    public int getIsleTilesNumber(){
+        return islandTiles.size();
+    }
+
+    /**
+     * Enlever les tuiles composant le sommit de l'ile de l'ensemble de l'ile
+     * @param islandSummitTiles tuiles composant le sommit d'une ile
+     * @return le reste des tuiles
+     */
+
+    public HashSet<Tile> getRemainingTiles( HashSet<Tile> islandSummitTiles ){
+        HashSet<Tile> copy = new HashSet<>(islandTiles);
+        copy.removeAll(islandSummitTiles);
+        return copy;
+    }
+
+    /**
+     * Une ile de forme tortuga
+     * Définir à quel biome appartient chaque tuile de l'ile.
+     */
+
+    public void defineTortugaBorders() {
+
+        for (Tile tile : islandTiles) {
+
+            tile.setOnIsland(true);
+            tile.setInOcean(false);
+        }
+    }
+
+    /**
+     * Une ile de forme atoll
+     * @param circle  une cercle entourant l'ile
+     */
+
+    public void definerAtollShapedBorders(Circle circle){
+
+        for (Tile tile : islandTiles ) {
+
+            double distance = tile.getCenter().distance(circle.getCenter());
+
+            if (distance > circle.getSmallRadius() && distance < circle.getBigRadius()) {
+
+                tile.setOnIsland(true);
+                tile.setInOcean(false);
+
+            } else if (distance <= circle.getSmallRadius()) {
+
+                tile.setInLagoon(true);
+                tile.setInOcean(false);
+            }
+
+        }
+    }
+
 
 
 
