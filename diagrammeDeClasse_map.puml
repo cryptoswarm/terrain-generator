@@ -130,10 +130,13 @@ class Border{
 }
 
 
-class world {
+class World {
+    - isleList: List<Isle>
+    - findRandomTile(): Tile
+
     + addTile(x: float, y: float): void
     + addNeighbor(float x, float y, float nx, float ny): void
-    - findRandomTile(): Tile
+    + addIslands(isle: Isle )
 }
 
 
@@ -166,14 +169,15 @@ Class LakeGenerator {
 }
 
 Class IslandGenerator {
+    - islandShape: IslandShape
     - islandType: String
-    - - generate(w: World)
+    - generate(w: World)
 }
 
-BiomeGenerator .up.|> Generator
-IslandGenerator .up.|> Generator
-RiverGenerator .up.|> Generator
-LakeGenerator .up.|> Generator
+class BiomeGenerator implements Generator
+class IslandGenerator implements Generator
+class RiverGenerator implements Generator
+class LakeGenerator implements Generator
 
 
 
@@ -211,7 +215,7 @@ Tortuga -up-|> Island
 
 ''' Aquifer '''
 Abstract Aquifer {
-        + applyHumidityEffect(world: world, waterSource: HashMap<Coordinate, Tile>): void
+        + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
         - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
 }
 
@@ -305,13 +309,26 @@ Plage -up-|> Biome
 ''' Mode '''
 
 Abstract Mode {
+
+    + modes: Modes
     + abstract getColor(): String
     + applyFactor(c: int, factor: int): int
 }
 
-class Altitude
-class Humidity
-class Normal
+Mode "1" *--> "1" Modes
+
+
+
+enum Modes{
+
+    Altitude
+    Humidity
+    Normal
+    Ressources
+
+}
+
+
 
 Altitude -up-|> Mode
 Humidity -up-|> Mode
@@ -358,9 +375,11 @@ Enum soilType {
 
 
 
-world "1" *--> "*" Tile
-world "1" -- "1" soilType
-world "1" ..> "1" RandomContexte
+World "1" *--> "*" Tile
+World "1" *--> "1" RandomContexte
+World "1" *--> "*" Isle
+
+RandomContexte "1" *--> "1" RandomStrategy
 
 
 
@@ -368,9 +387,6 @@ world "1" ..> "1" RandomContexte
 Biome .up.|> WorldProcessor
 Aquifer .up.|> WorldProcessor
 Island ..up.|> WorldProcessor
-
-
-
 
 
 Lake "1" -- "1" TileColor
@@ -382,7 +398,55 @@ Ocean "1" -- "1" TileColor
 Vegetation "1" -- "1" TileColor
 Lagoon "1" -- "1" TileColor
 
+''' Island shape'''
 
+abstract class IslandShape{
+    - checkNeighbor(w: World , t: Tile ): boolean
+    - validateLines(t: Tile, h: int , w: int ):  boolean
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+    + validIsland( islandTiles: HashSet<Tile>, h: int , w: int , w: World ) : boolean
+}
+
+abstract class Island{
+
+}
+
+class CircularIsland{
+    - circle : Circle
+    - findValidIsland(w: World, r: RandomContexte , diameter: int ) : HashSet<Tile>
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+}
+
+class EllipticIsland{
+    - ellipse:  Ellipse
+    - findValidIsland(w: World, r: RandomContexte , diameter: int ) : HashSet<Tile>
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+}
+
+class EllipticIsland extends IslandShape
+class CircularIsland extends IslandShape
+
+
+EllipticIsland "1" *--> "1" Ellipse
+CircularIsland "1" *--> "1" Circle
+IslandGenerator "1" *--> "1" IslandShape
+
+
+''' world generator composes of '''
+WorldGenerator "1" *--> "1" Mode
+WorldGenerator "1" *--> "1" World
+WorldGenerator "1" *--> "*" UserArgs
+WorldGenerator o--> Generator
+WorldGenerator o--> Reader
+WorldGenerator o--> Writer
+WorldGenerator o--> soilType
+
+''' biome generator delegates services to lake, nape, ocean '''
+
+BiomeGenerator o--> Nape
+BiomeGenerator o--> Lake
+BiomeGenerator o--> Vegetation
+BiomeGenerator o--> IceBeach
 
 
 

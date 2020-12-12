@@ -95,8 +95,6 @@ public class InterestPointsGenerator implements Generator {
                     }
                 }
             }
-
-
         }
 
     }
