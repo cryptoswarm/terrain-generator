@@ -1,0 +1,47 @@
+@startuml
+
+Interface Shape{
+    isInShape(c: Coordinate): boolean
+}
+
+abstract class IslandShape{
+    - checkNeighbor(w: World , t: Tile ): boolean
+    - validateLines(t: Tile, h: int , w: int ):  boolean
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+    + validIsland( islandTiles: HashSet<Tile>, h: int , w: int , w: World ) : boolean
+}
+
+class Ellipse{
+    - ellipseCenter: Coordinate
+    - angle: int
+    + isInShape(c: Coordinate): boolean
+}
+
+class Circle {
+    - center: Coordinate
+    - calculateRadiuses(random: RandomContexte )
+    + isInShape(c: Coordinate): boolean
+}
+
+class CircularIsland{
+    - circle : Circle
+    - findValidIsland(w: World, r: RandomContexte , diameter: int ) : HashSet<Tile>
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+}
+
+class EllipticIsland{
+    - ellipse:  Ellipse
+    - findValidIsland(w: World, r: RandomContexte , diameter: int ) : HashSet<Tile>
+    + createIsland(w: World , r: RandomContexte, maxAlt: int , diameter: int ) : boolean
+}
+
+class EllipticIsland extends IslandShape
+class CircularIsland extends IslandShape
+
+class Circle implements Shape
+class Ellipse implements Shape
+
+EllipticIsland "1" -- "1" Ellipse
+CircularIsland "1" -- "1" Circle
+
+@enduml
