@@ -1,0 +1,45 @@
+@startuml
+
+interface IslandProcessor {
+
+    apply(isle: Isle )
+    setAquiferCenter(tile: Tile )
+    setSoil(soil: soilType )
+}
+
+interface WorldItem {
+    getColor() : TileColor
+    getType() : String
+}
+
+
+''' Aquifer '''
+Abstract Aquifer {
+        + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
+        - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
+}
+
+class Lake{
+    - aquiferCenter: Tile
+    +  apply(isle: Isle )
+}
+
+class Nape{
+    - aquiferCenter: Tile
+    +  apply(isle: Isle )
+}
+
+class River{
+    + findRiverPath(isle: Isle, c: Coordinate, river: HashSet<Line> )
+    +  apply(isle: Isle )
+}
+
+class Lake extends Aquifer
+class Nape extends Aquifer
+class River extends Aquifer
+
+class Aquifer implements IslandProcessor
+class Lake implements WorldItem
+class Nape implements WorldItem
+
+@enduml
