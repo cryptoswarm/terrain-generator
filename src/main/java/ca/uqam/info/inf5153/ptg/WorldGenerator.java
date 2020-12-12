@@ -15,15 +15,14 @@ import world.generator.Generator;
 import world.generator.aquifer.LakeGenerator;
 import world.generator.aquifer.RiverGenerator;
 import world.generator.biome.BiomeGenerator;
-import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.biome.Localization;
+import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.interestPoints.RoadGenerator;
 import world.generator.island.IslandGenerator;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
 import world.soilType;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -100,12 +99,19 @@ public class WorldGenerator {
     }
 
     /**
+     * Ajouter une tuile au monde
      *
-     * @param tile la tuile à ajouter dans world
+     * @param tile une tuile
      */
     public void addWorldTile(Tile tile){
         world.addTile(tile);
     }
+
+    /**
+     *
+     * @param coordinate  une coordonnée centre d'une tuile
+     * @return la couleur de la tuile correspondant à cette coordonnée
+     */
 
 
     public  String getWorldTileColor(Coordinate coordinate){
@@ -117,6 +123,12 @@ public class WorldGenerator {
         return mode.getColor(color.getR(), color.getG(), color.getB(), color.getA(), factor);
 
     }
+
+    /**
+     *
+     * @param coordinate une coordonnée
+     * @return la couleur de la coordonnée
+     */
 
     public String getPointColor(Coordinate coordinate){
 
@@ -137,6 +149,12 @@ public class WorldGenerator {
         return getWorldTileColor(coordinate);
     }
 
+    /**
+     *
+     * @param line  une ligne
+     * @return   la couleur de la ligne
+     */
+
     public String getWorldLineColor(Line line){
 
         if(mode.getMode() == Mode.Modes.Normal){
@@ -147,9 +165,31 @@ public class WorldGenerator {
         return "0:0:0:0";
     }
 
+
+    /**
+     * Ensemble des lignes constituant les routes reliants les différent biom entre eux
+     * @return
+     */
     public ArrayList<Line> getRoads(){
         return world.getRoads();
     }
+
+    /**
+     * Enrichir le monde en se basant sur les caractéristiques voulant par l'utilisateur
+     * L'ordre de la generation est important
+     *
+     * On commence par la generation des iles, le nombre et la forme
+     * On ajoute des biomes aux iles, la localisation des biomes est prises en conséderation
+     *
+     * Ensuites, les sources d'eau, chaque ile va avoir le meme nombre source d'eau
+     * Par contre, la distribution est différente
+     *
+     * Apres, on passe à la generation des rivieres
+     *
+     * Si la prodution est activée, on genere les resources.
+     *
+     * @param world l'objet world
+     */
 
     private void generateWorld(World world) {
 
