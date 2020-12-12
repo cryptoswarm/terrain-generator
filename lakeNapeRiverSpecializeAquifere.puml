@@ -14,7 +14,8 @@ interface WorldItem {
 
 
 ''' Aquifer '''
-Abstract Aquifer {
+
+abstract class Aquifer {
         + applyHumidityEffect(world: World, waterSource: HashMap<Coordinate, Tile>): void
         - getDistanceFromWaterSource(tile: Tile, waterSource: HashMap<Coordinate, Tile>): float
 }
@@ -38,7 +39,7 @@ class Lake extends Aquifer
 class Nape extends Aquifer
 class River extends Aquifer
 
-class Aquifer implements IslandProcessor
+abstract class Aquifer implements IslandProcessor
 class Lake implements WorldItem
 class Nape implements WorldItem
 

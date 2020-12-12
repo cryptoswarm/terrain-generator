@@ -25,9 +25,10 @@ public class Lagoon extends Biome {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> lagoonTiles = world.getLagoonTiles();
-        for (Tile tile : lagoonTiles) {
 
+        HashSet<Tile> lagoonTiles = world.getLagoonTiles();
+
+        for (Tile tile : lagoonTiles) {
             tile.setItem(new Lagoon());
             tile.setBackgroundColor(color);
             tile.setHumidityLevel(-1);
