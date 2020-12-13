@@ -10,8 +10,8 @@ import java.util.*;
 
 public class World {
 
-    final private RandomContexte random;
-    final private HashMap<Coordinate, Tile> tiles;
+    private final  RandomContexte random;
+    private final  HashMap<Coordinate, Tile> tiles;
     private List<Isle> isleList;
     private final TileColor colorDark = TileColor.DARK;
     private ArrayList<Line> roads = new ArrayList<>();
@@ -110,6 +110,7 @@ public class World {
 
         HashSet<Tile> neighbor = new HashSet<>();
         for(Tile tile: tiles.values()){
+
             for(Line line: tile.getBorder()){
                 if(c.equals(line.getC1()) || c.equals(line.getC2())){
                     neighbor.add(tile);
@@ -142,14 +143,9 @@ public class World {
 
     public HashSet<Tile> getNeighbor(Tile t) {
 
-        HashSet<Coordinate> coordinate = new HashSet<>();
         HashSet<Tile> neighbor = new HashSet<>();
 
-        for(Line line: t.getBorder()){
-            coordinate.add(line.getC1());
-            coordinate.add(line.getC2());
-        }
-        for(Coordinate c: coordinate) {
+        for(Coordinate c: t.getCorner()) {
             neighbor.addAll( getNeighbor(c) );
         }
         return neighbor;
@@ -290,21 +286,7 @@ public class World {
 
 
     public ArrayList<Tile> getIslePortInterestPoint(){
-        /*
 
-        ArrayList<ArrayList<Tile>> interestPointsListGlobal = getWorldinterestPoints();
-        ArrayList<Tile> ports = new ArrayList<>();
-
-        for(ArrayList<Tile> tilesList: interestPointsListGlobal){
-            for(Tile tile: tilesList){
-                if(tile.getPois() == InterestPointsGenerator.POIS.PORTS){
-                    ports.add(tile);
-                }
-            }
-        }
-        return ports;
-
-         */
         ArrayList<Tile> ports = new ArrayList<>();
 
         for(Isle isle:isleList){
