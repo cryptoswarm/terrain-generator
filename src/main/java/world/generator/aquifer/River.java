@@ -10,6 +10,8 @@ import world.soilType;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public class River extends Aquifer {
 
@@ -23,7 +25,7 @@ public class River extends Aquifer {
 
     private Coordinate coordinate;
 
-    final private HashSet<Line> river = new HashSet<>();
+    final private Set<Line> river = new HashSet<>();
     final private TileColor riverColor = TileColor.WATERBLUE;
     private  RandomContexte random;
 
@@ -42,8 +44,8 @@ public class River extends Aquifer {
 
     private  Coordinate generateRandomCoordinate(Tile tile){
 
-        HashSet<Coordinate> coordinates = new HashSet<>(tile.getCorner());
-        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
+        Set<Coordinate> coordinates = new HashSet<>(tile.getCorner());
+        List<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
 
     }
@@ -55,7 +57,7 @@ public class River extends Aquifer {
 
         this.coordinate = generateRandomCoordinate(aquiferCenter);
         findRiverPath( isle, coordinate, river);
-        HashSet<Tile> wetZone = applyRiverEffects( isle);
+        Set<Tile> wetZone = applyRiverEffects( isle);
         applyHumidityToAffectedTilesByRiver( isle, wetZone );
 
     }
@@ -65,7 +67,7 @@ public class River extends Aquifer {
      * @param river une liste contenant les lignes qui composent la rivière
      */
 
-    public void findRiverPath(Isle isle, Coordinate coordinate, HashSet<Line> river ) {
+    public void findRiverPath(Isle isle, Coordinate coordinate, Set<Line> river ) {
 
         double riverHeight = coordinate.getZ();
         Coordinate coordinateStart = coordinate;
@@ -125,9 +127,9 @@ public class River extends Aquifer {
      * @param isle une ile
      * @return
      */
-    private HashSet<Tile> applyRiverEffects(Isle isle){
+    private Set<Tile> applyRiverEffects(Isle isle){
 
-        HashSet<Tile> wetZone = new HashSet<>();
+        Set<Tile> wetZone = new HashSet<>();
 
         for(Line line: river) {
             wetZone.addAll( isle.getNeighbor(line) );
@@ -143,7 +145,7 @@ public class River extends Aquifer {
      * @param isle est l'ile.
      * @param wetZone  les tuiles adjacentes à la rivière
      */
-    private void applyHumidityToAffectedTilesByRiver( Isle isle, HashSet<Tile> wetZone ){
+    private void applyHumidityToAffectedTilesByRiver( Isle isle, Set<Tile> wetZone ){
         this.applyHumidityEffect(isle,wetZone, soil);
     }
 }

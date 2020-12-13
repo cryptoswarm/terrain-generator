@@ -4,7 +4,7 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import static world.TileColor.ROCKBEACH;
 
@@ -34,7 +34,7 @@ public class RockBeach extends Biome {
     @Override
     public void apply(World world) {
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
-        HashSet<Tile> onIslandtiles = world.getOnIslandTiles();
+        Set<Tile> onIslandtiles = world.getOnIslandTiles();
         for (Tile tile: onIslandtiles) {
 
             for (Tile neighbor : world.getNeighbor(tile)) {

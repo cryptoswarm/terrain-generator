@@ -9,20 +9,17 @@ import world.Tile;
 import world.TileColor;
 import world.generator.interestPoints.InterestPointsGenerator;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.*;
 
 public class Isle {
 
 
 
-    private HashSet<Tile> islandTiles;
+    private Set<Tile> islandTiles;
     public static final String VEGETATION_BIOM = "vegetation";
     public static final String BEACH_BIOM = "beach";
 
-    public Isle(HashSet<Tile> islandTiles) {
+    public Isle(Set<Tile> islandTiles) {
         this.islandTiles = islandTiles;
     }
 
@@ -41,7 +38,7 @@ public class Isle {
      * @return toutes les tuiles constituant l'ile (should be private)
      */
 
-    public HashSet<Tile> getIslandTiles() {
+    public Set<Tile> getIslandTiles() {
         return islandTiles;
     }
 
@@ -91,7 +88,7 @@ public class Isle {
      */
 
     public Tile findRandomTile(RandomContexte random){
-        ArrayList<Tile> tiles = new ArrayList<>(islandTiles);
+        List<Tile> tiles = new ArrayList<>(islandTiles);
         return tiles.get(random.getRandomInt(tiles.size()-1));
 
     }
@@ -106,8 +103,8 @@ public class Isle {
 
         Tile tile = findRandomVegetationTile(random);
 
-        HashSet<Coordinate> coordinates = new HashSet<>(tile.getCorner());
-        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
+        Set<Coordinate> coordinates = new HashSet<>(tile.getCorner());
+        List<Coordinate> c = new ArrayList<>(coordinates);
         return c.get(random.getRandomInt(c.size()-1));
     }
 
@@ -117,10 +114,10 @@ public class Isle {
      * @return ensemble de tuile
      */
 
-    public HashSet<Tile> getNeighbor(Tile t) {
+    public Set<Tile> getNeighbor(Tile t) {
 
-        HashSet<Coordinate> coordinate = new HashSet<>();
-        HashSet<Tile> neighbor = new HashSet<>();
+        Set<Coordinate> coordinate = new HashSet<>();
+        Set<Tile> neighbor = new HashSet<>();
 
         for(Line line: t.getBorder()){
             coordinate.add(line.getC1());
@@ -138,9 +135,9 @@ public class Isle {
      * @return  ensemble de tuile
      */
 
-    public HashSet<Tile> getNeighbor(Coordinate c) {
+    public Set<Tile> getNeighbor(Coordinate c) {
 
-        HashSet<Tile> neighbor = new HashSet<>();
+        Set<Tile> neighbor = new HashSet<>();
         for(Tile tile: islandTiles){
             for(Line line: tile.getBorder()){
                 if(c.equals(line.getC1()) || c.equals(line.getC2())){
@@ -158,9 +155,9 @@ public class Isle {
      */
 
 
-    public HashSet<Line> getLine(Coordinate c){
+    public Set<Line> getLine(Coordinate c){
 
-        HashSet<Line> lines = new HashSet<>();
+        Set<Line> lines = new HashSet<>();
         for(Tile tile: islandTiles){
 
             for (Line line : tile.getBorder()) {
@@ -178,8 +175,8 @@ public class Isle {
      * @return ensemble de tuiles voisines
      */
 
-    public HashSet<Tile> getNeighbor(Line l) {
-        HashSet<Tile> neighbor = new HashSet<>();
+    public Set<Tile> getNeighbor(Line l) {
+        Set<Tile> neighbor = new HashSet<>();
 
         neighbor.addAll(getNeighbor(l.getC1()));
         neighbor.addAll(getNeighbor(l.getC2()));
@@ -192,9 +189,9 @@ public class Isle {
      * @return ensemble de tuiles contenant tous les points d'interets se trouvant sur l'ile
      */
 
-    public ArrayList<Tile> getIsleinterestPoints(){
+    public List<Tile> getIsleinterestPoints(){
 
-        ArrayList<Tile> interestPointsList = new ArrayList<>();
+        List<Tile> interestPointsList = new ArrayList<>();
 
         for (Tile tile : islandTiles ){
 
@@ -210,9 +207,9 @@ public class Isle {
      * @return ensemble de tuiles contenant un point d'interet de type port
      */
 
-    public ArrayList<Tile> getIslePortInterestPoints(){
+    public List<Tile> getIslePortInterestPoints(){
 
-        ArrayList<Tile> interestPointsList = new ArrayList<>();
+        List<Tile> interestPointsList = new ArrayList<>();
 
         for (Tile tile : islandTiles ){
 
@@ -245,9 +242,9 @@ public class Isle {
      * @param s  La forme de l'ile qu'on veut créer
      * @return   les tuiles qui composent l'ile
      */
-    public HashSet<Tile> getIsleTiles( Shape s){
+    public Set<Tile> getIsleTiles( Shape s){
 
-        HashSet<Tile> tileList = new LinkedHashSet<>();
+        Set<Tile> tileList = new LinkedHashSet<>();
         for (Tile tile : islandTiles ) {
             if( s.isInShape( tile.getCenter() ) ){
                 tileList.add(tile);
@@ -270,8 +267,8 @@ public class Isle {
      * @return le reste des tuiles
      */
 
-    public HashSet<Tile> getRemainingTiles( HashSet<Tile> islandSummitTiles ){
-        HashSet<Tile> copy = new HashSet<>(islandTiles);
+    public Set<Tile> getRemainingTiles( Set<Tile> islandSummitTiles ){
+        Set<Tile> copy = new HashSet<>(islandTiles);
         copy.removeAll(islandSummitTiles);
         return copy;
     }

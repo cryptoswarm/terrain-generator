@@ -7,8 +7,8 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class CircularIsland extends IslandShape {
     private Circle circle;
@@ -48,7 +48,7 @@ public class CircularIsland extends IslandShape {
 
             Coordinate coordinate = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Circle cir = new Circle(diameter, random, coordinate);
-            HashSet<Tile> islandTiles = world.getTilesInShape( cir);
+            Set<Tile> islandTiles = world.getTilesInShape( cir);
 
             if (validIsland( islandTiles,height,width, world)){
                 isValide = true;

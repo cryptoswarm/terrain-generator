@@ -46,7 +46,7 @@ public class Tortuga  extends Island {
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        TreeMap<Double, List<Tile>> temp1 = new TreeMap<>();
+        Map<Double, List<Tile>> temp1 = new TreeMap<>();
 
         double distance;
 
@@ -54,9 +54,9 @@ public class Tortuga  extends Island {
 
         Ellipse islandTop = new Ellipse((int)Math.ceil(0.5*ellipse.getMajorRadius()), random, ellipse.getAngle(), ellipse.getEllipseCenter() );
 
-        HashSet<Tile> islandSummitTiles = isle.getIsleTiles(islandTop);
+        Set<Tile> islandSummitTiles = isle.getIsleTiles(islandTop);
 
-        HashSet<Tile> islandExceptSummit = isle.getRemainingTiles(islandSummitTiles);
+        Set<Tile> islandExceptSummit = isle.getRemainingTiles(islandSummitTiles);
 
         for(Tile tile: islandExceptSummit){
 
@@ -81,7 +81,7 @@ public class Tortuga  extends Island {
         }
     }
 
-    public void applyAltitude(TreeMap<Double, List<Tile>> temp, float diffrenceAltEachtile, int maxAltitude) {
+    public void applyAltitude( Map<Double, List<Tile>> temp, float diffrenceAltEachtile, int maxAltitude) {
 
         float currentAlt = (float) maxAltitude;
 
@@ -102,7 +102,7 @@ public class Tortuga  extends Island {
         isle.defineTortugaBorders();
     }
 
-    public void addTile(TreeMap<Double, List<Tile>> temp, double distance, Tile tile){
+    public void addTile(Map<Double, List<Tile>> temp, double distance, Tile tile){
 
         if (temp.containsKey(distance)) {
             temp.get(distance).add(tile);

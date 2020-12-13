@@ -9,11 +9,10 @@ import world.TileColor;
 import world.World;
 import world.borders.Border;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.*;
 
 public class WorldTest {
@@ -226,7 +225,7 @@ public class WorldTest {
     public void getRoads1(){
 
         world.setRoads(tile1, tile2);
-        ArrayList<Line> lines = world.getRoads();
+        List<Line> lines = world.getRoads();
         Line line12 = new Line(tile1.getCenter(), tile2.getCenter());
         assertTrue(lines.contains(line12));
 
@@ -237,7 +236,7 @@ public class WorldTest {
 
         world.setRoads(tile2, tile3);
         world.setRoads(tile3, tile4);
-        ArrayList<Line> lines = world.getRoads();
+        List<Line> lines = world.getRoads();
 
         Line line23 = new Line(tile2.getCenter(), tile3.getCenter());
         Line line34 = new Line(tile3.getCenter(), tile4.getCenter());

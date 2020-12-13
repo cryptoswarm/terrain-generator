@@ -34,7 +34,7 @@ public class InterestPointsGenerator implements Generator {
 
     private int [] pois;
     private RandomContexte random;
-    private final float RICHNESS_LIMIT = 150;
+
 
     public InterestPointsGenerator(int [] pois, RandomContexte random){
 

@@ -7,8 +7,8 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class EllipticIsland extends IslandShape {
 
@@ -48,7 +48,7 @@ public class EllipticIsland extends IslandShape {
 
             Coordinate c = coordinates.get(random.getRandomInt(coordinates.size()-1));
             Ellipse e = new Ellipse(diameter, random, angle, c);
-            HashSet<Tile> islandTiles = world.getTilesInShape( e );
+            Set<Tile> islandTiles = world.getTilesInShape( e );
 
             if ( validIsland( islandTiles, height, width, world) ) {
                 isValide = true;

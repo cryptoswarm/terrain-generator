@@ -5,7 +5,7 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class Ocean extends Biome {
 
@@ -28,7 +28,7 @@ public class Ocean extends Biome {
     @Override
     public void apply(World world) {
 
-        HashSet<Tile> oceanTiles = world.getOceanTiles();
+        Set<Tile> oceanTiles = world.getOceanTiles();
         for (Tile tile :oceanTiles) {
 
                 tile.setItem(new Ocean());

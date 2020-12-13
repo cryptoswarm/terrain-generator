@@ -5,6 +5,7 @@ import world.World;
 import world.generator.Generator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class RoadGenerator implements Generator {
 
@@ -17,10 +18,10 @@ public class RoadGenerator implements Generator {
     @Override
     public void generate(World w) {
 
-        ArrayList<ArrayList<Tile>> interestPointsListGlobal = w.getWorldinterestPoints();
+        List<ArrayList<Tile>> interestPointsListGlobal = w.getWorldinterestPoints();
         generateRoads(interestPointsListGlobal, w);
 
-        ArrayList<Tile> ports = w.getIslePortInterestPoint();
+        List<Tile> ports = w.getIslePortInterestPoint();
 
         if(ports.size() >= 2){
             generateWaterWays(ports, w);
@@ -35,7 +36,7 @@ public class RoadGenerator implements Generator {
      * @param w objet world
      */
 
-    private void generateWaterWays( ArrayList<Tile> ports, World w) {
+    private void generateWaterWays( List<Tile> ports, World w) {
 
         Tile [] path = ports.toArray(new Tile [0]);
 
@@ -43,7 +44,7 @@ public class RoadGenerator implements Generator {
 
         for(int i = 0; i < path.length; i ++){
 
-            ArrayList<Tile> smallPath = findSmallPathWater(path[i], path[(i+1) % path.length], w);
+            List<Tile> smallPath = findSmallPathWater(path[i], path[(i+1) % path.length], w);
 
             if(smallPath != null){
                 addSmallPath(smallPath, w);
@@ -63,11 +64,12 @@ public class RoadGenerator implements Generator {
      * @return  deux tuiles
      */
 
-    private ArrayList<Tile> findSmallPathWater(Tile start, Tile next, World w) {
+    private List<Tile> findSmallPathWater(Tile start, Tile next, World w) {
 
         boolean hasNext = true;
         Tile current = start;
-        ArrayList<Tile> path = new ArrayList<>();
+
+        List<Tile> path = new ArrayList<>();
 
         while(!current.equals(next) && hasNext){
             path.add(current);
@@ -115,7 +117,7 @@ public class RoadGenerator implements Generator {
      * @param w objet world
      */
 
-    private void generateRoads(ArrayList<ArrayList<Tile>> interestPointsListGlobal, World w) {
+    private void generateRoads(List<ArrayList<Tile>> interestPointsListGlobal, World w) {
 
         for(ArrayList<Tile> interestPointList : interestPointsListGlobal){
 
@@ -141,7 +143,7 @@ public class RoadGenerator implements Generator {
 
             current = path[i];
             next = path[i+1];
-            ArrayList<Tile> smallPath = findSmallPath(current, next, w);
+            List<Tile> smallPath = findSmallPath(current, next, w);
             if(smallPath != null){
                 addSmallPath(smallPath, w);
             }
@@ -156,7 +158,7 @@ public class RoadGenerator implements Generator {
      * @param w objet world
      */
 
-    private void addSmallPath(ArrayList<Tile> smallPath, World w) {
+    private void addSmallPath(List<Tile> smallPath, World w) {
 
 
         for(int i = 0; i < smallPath.size() - 1; i++){
@@ -175,11 +177,11 @@ public class RoadGenerator implements Generator {
      * @return  deux tuiles
      */
 
-    private ArrayList<Tile> findSmallPath(Tile start, Tile next, World w) {
+    private List<Tile> findSmallPath(Tile start, Tile next, World w) {
 
         boolean hasNext = true;
         Tile current = start;
-        ArrayList<Tile> path = new ArrayList<>();
+        List<Tile> path = new ArrayList<>();
 
         while(!current.equals(next) && hasNext){
             path.add(current);

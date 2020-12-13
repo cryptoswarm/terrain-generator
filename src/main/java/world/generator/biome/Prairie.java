@@ -4,7 +4,7 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class Prairie extends Biome {
 
@@ -23,7 +23,7 @@ public class Prairie extends Biome {
     public void apply(World world) {
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
 
-        HashSet<Tile> onIslandtiles = world.getOnIslandTiles();
+        Set<Tile> onIslandtiles = world.getOnIslandTiles();
         for (Tile tile: onIslandtiles) {
 
             tile.setItem(new Prairie(localisation));

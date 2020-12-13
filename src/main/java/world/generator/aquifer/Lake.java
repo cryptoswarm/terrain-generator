@@ -7,13 +7,14 @@ import world.WorldItem;
 import world.soilType;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import static world.TileColor.WATERBLUE;
 
 public class Lake extends Aquifer implements WorldItem {
 
     private Tile aquiferCenter;
-    final private HashSet<Tile> lake = new HashSet<>();
+    final private Set<Tile> lake = new HashSet<>();
     final private TileColor color = WATERBLUE;
     private soilType soil;
     private final  String type = "lake";

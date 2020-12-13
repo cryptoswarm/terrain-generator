@@ -5,7 +5,7 @@ import world.TileColor;
 import world.World;
 import world.generator.WorldProcessor;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public class Vegetation extends Biome implements WorldProcessor {
     private final  TileColor color = TileColor.LIGHTGREEN;
@@ -26,7 +26,7 @@ public class Vegetation extends Biome implements WorldProcessor {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> onIslandtiles = world.getOnIslandTiles();
+        Set<Tile> onIslandtiles = world.getOnIslandTiles();
         for (Tile tile: onIslandtiles) {
 
             tile.setItem(new Vegetation());
