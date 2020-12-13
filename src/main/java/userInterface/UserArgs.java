@@ -89,7 +89,7 @@ public class UserArgs  {
     }
     private String setShape(String shape){
         if(shape != null){
-            if(shape.equals("atoll") || shape.equals("tortuga") || shape.equals("archipelago")){
+            if(shape.equals("atoll") || shape.equals("tortuga")){
                 return shape;
             }else {
                 throw new IllegalArgumentException("Undefined island shape");
