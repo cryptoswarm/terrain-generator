@@ -8,6 +8,7 @@ import world.World;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 public class Atoll extends Island {
@@ -40,7 +41,7 @@ public class Atoll extends Island {
     @Override
     public void defineAltitude(World world, int maxAltitude){
 
-        TreeMap<Double, List<Tile>> sortedListTiles = new TreeMap<>();
+        Map<Double, List<Tile>> sortedListTiles = new TreeMap<>();
 
         for( Tile tile:isle.getIslandTiles() ){
             double distance;
@@ -53,7 +54,7 @@ public class Atoll extends Island {
 
     }
 
-    private void orderTilesBasedOnDistanceFromCenter( TreeMap<Double, List<Tile>> sortedListTiles, Double distance, Tile tile){
+    private void orderTilesBasedOnDistanceFromCenter( Map<Double, List<Tile>> sortedListTiles, Double distance, Tile tile){
 
         if (sortedListTiles.containsKey(distance)) {
             sortedListTiles.get(distance).add(tile);
@@ -65,7 +66,7 @@ public class Atoll extends Island {
     }
 
 
-    public void applyProfilAltimetrique(TreeMap<Double, List<Tile> > sortedListTiles, int maxAlt){
+    public void applyProfilAltimetrique( Map<Double, List<Tile> > sortedListTiles, int maxAlt){
 
         int milieu = sortedListTiles.size()/2;
 

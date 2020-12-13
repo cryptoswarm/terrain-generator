@@ -4,7 +4,7 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import static world.TileColor.ICEBEACH;
 
@@ -34,7 +34,7 @@ public class IceBeach extends Biome {
     @Override
     public void apply(World world) {
         if(!validLocalization(localisation,minT,maxT,minP,maxP)) return;
-        HashSet<Tile> tiles = world.getOnIslandTiles();
+        Set<Tile> tiles = world.getOnIslandTiles();
         for (Tile tile: tiles) {
 
             for (Tile neighbor : world.getNeighbor(tile)) {

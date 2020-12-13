@@ -2,20 +2,17 @@ package world.generator.ressourcesProduction;
 
 import islandSet.Isle;
 import world.Tile;
-import world.TileColor;
 import world.World;
 import world.generator.Generator;
 import world.generator.calculator.TileAttributesCalculator;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 
 
 public class RessourceGenerator  implements Generator {
-
-    public static final int MAX = 255;
-    private final TileColor color = TileColor.CHESTNUT;
 
     private TileAttributesCalculator calculator = new TileAttributesCalculator();
 
@@ -26,15 +23,14 @@ public class RessourceGenerator  implements Generator {
             List<Tile> tileList = isle.getVegetationTiles();
             int nb = tileList.size();
 
-            TreeMap<Double, List<Tile>> tileSurfaceList = orderIslesBasedOnSurface( tileList );
-            TreeMap<Double, List<Tile>> steepEachTile = orderIslesBasedOnSteep(tileSurfaceList);
+            Map<Double, List<Tile>> tileSurfaceList = orderIslesBasedOnSurface( tileList );
+            Map<Double, List<Tile>> steepEachTile = orderIslesBasedOnSteep(tileSurfaceList);
             applyRichiness( steepEachTile, nb);
 
         }
-        //world.reInitiliseTileColor();
     }
 
-    public void applyRichiness( TreeMap<Double, List<Tile>> tileSurfaceList, int nbTiles){
+    public void applyRichiness( Map<Double, List<Tile>> tileSurfaceList, int nbTiles){
 
         float ecartEachTile =  255f / nbTiles + 1;
         float richiness;
@@ -49,13 +45,13 @@ public class RessourceGenerator  implements Generator {
         }
     }
 
-    public TreeMap<Double, List<Tile>> orderIslesBasedOnSurface( List<Tile> tileList ){
+    public Map<Double, List<Tile>> orderIslesBasedOnSurface( List<Tile> tileList ){
 
 
         double surface;
 
 
-        TreeMap<Double, List<Tile>> surfaceEachTile = new TreeMap<>();
+        Map<Double, List<Tile>> surfaceEachTile = new TreeMap<>();
         for(Tile tile:tileList){
             surface = calculator.findTileSurface(tile);
 
@@ -64,8 +60,9 @@ public class RessourceGenerator  implements Generator {
         return surfaceEachTile;
     }
 
-    public TreeMap<Double, List<Tile>> orderIslesBasedOnSteep( TreeMap<Double, List<Tile>> surfaceEachTile ){
-        TreeMap<Double, List<Tile>> steepEachTile = new TreeMap<>();
+    public Map<Double, List<Tile>> orderIslesBasedOnSteep( Map<Double, List<Tile>> surfaceEachTile ){
+
+        Map<Double, List<Tile>> steepEachTile = new TreeMap<>();
         double tileSteep;
         for(List<Tile> tileList:surfaceEachTile.values()){
             for(Tile tile:tileList){
@@ -76,7 +73,7 @@ public class RessourceGenerator  implements Generator {
         return steepEachTile;
     }
 
-    public void addTile(TreeMap<Double, List<Tile>> surfaceEachTile, double surface, Tile tile){
+    public void addTile( Map<Double, List<Tile>> surfaceEachTile, double surface, Tile tile){
 
         if (surfaceEachTile.containsKey(surface)) {
             surfaceEachTile.get(surface).add(tile);

@@ -8,6 +8,7 @@ import world.WorldItem;
 import world.soilType;
 
 import java.util.HashSet;
+import java.util.Set;
 
 import static world.TileColor.DARKGREEN;
 
@@ -15,7 +16,7 @@ public class Nape extends Aquifer implements WorldItem {
 
     private Tile aquiferCenter;
     private soilType soil;
-    final private HashSet<Tile> nape = new HashSet<>();
+    final private Set<Tile> nape = new HashSet<>();
     final private TileColor color = DARKGREEN;
     private final  String type = "nape";
 

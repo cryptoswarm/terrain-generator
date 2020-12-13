@@ -23,7 +23,7 @@ import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
 import world.soilType;
 
-import java.util.ArrayList;
+import java.util.List;
 
 
 public class WorldGenerator {
@@ -170,7 +170,7 @@ public class WorldGenerator {
      * Ensemble des lignes constituant les routes reliants les différent biom entre eux
      * @return
      */
-    public ArrayList<Line> getRoads(){
+    public List<Line> getRoads(){
         return world.getRoads();
     }
 

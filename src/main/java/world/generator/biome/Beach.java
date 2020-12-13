@@ -4,7 +4,7 @@ import world.Tile;
 import world.TileColor;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 import static world.TileColor.SAND;
 
@@ -27,7 +27,7 @@ public class Beach extends Biome {
 
     @Override
     public void apply(World world) {
-        HashSet<Tile> onIsland = world.getOnIslandTiles();
+        Set<Tile> onIsland = world.getOnIslandTiles();
         for (Tile tile: onIsland) {
             for (Tile neighbor : world.getNeighbor(tile)) {
 

@@ -13,7 +13,6 @@ public class World {
     private final  RandomContexte random;
     private final  HashMap<Coordinate, Tile> tiles;
     private List<Isle> isleList;
-    private final TileColor colorDark = TileColor.DARK;
     private ArrayList<Line> roads = new ArrayList<>();
 
     public World(RandomContexte random) {
@@ -34,38 +33,6 @@ public class World {
         return tiles.get(coordinate);
     }
 
-    /**
-     * On cherche la couleur de la ligne
-     * @param line est la ligne qu'on cherche à obtenir sa couleur
-     * @return   la couleur de la ligne
-     */
-    /*
-    public String getLineColor(Line line){
-        TileColor color = null;
-        boolean isFound = false;
-
-        for(int i=0; i<isleList.size() && !isFound; i++){
-            for( Tile tile:isleList.get(i).getIslandTiles()){
-                color = tile.getLineColor(line);
-                if(color != null){
-                    isFound = true;
-                    break;
-                }
-            }
-        }
-
-        if(isFound){
-            System.out.println("line found ");
-        }
-
-        if(color != null) {
-            return color.toString();
-        }
-
-        return "0:0:0:0";
-    }
-
-     */
 
     /**
      * On cherche la couleur de la ligne
@@ -96,7 +63,7 @@ public class World {
 
     }
 
-    public ArrayList<Line> getRoads(){
+    public List<Line> getRoads(){
         return roads;
     }
 
@@ -106,9 +73,9 @@ public class World {
      * @param c une coordonnée
      * @return la liste des tuiles qui ont la meme coordonnée
      */
-    public HashSet<Tile> getNeighbor(Coordinate c) {
+    public Set<Tile> getNeighbor(Coordinate c) {
 
-        HashSet<Tile> neighbor = new HashSet<>();
+        Set<Tile> neighbor = new HashSet<>();
         for(Tile tile: tiles.values()){
 
             for(Line line: tile.getBorder()){
@@ -126,8 +93,8 @@ public class World {
      * @return la liste des tuiles qui ont la meme ligne
      */
 
-    public HashSet<Tile> getNeighbor(Line l) {
-        HashSet<Tile> neighbor = new HashSet<>();
+    public Set<Tile> getNeighbor(Line l) {
+        Set<Tile> neighbor = new HashSet<>();
 
         neighbor.addAll(getNeighbor(l.getC1()));
         neighbor.addAll(getNeighbor(l.getC2()));
@@ -141,9 +108,9 @@ public class World {
      * @return la liste des tuiles qui intersectent à une quelconque coordonnée  de  la tuile t
      */
 
-    public HashSet<Tile> getNeighbor(Tile t) {
+    public Set<Tile> getNeighbor(Tile t) {
 
-        HashSet<Tile> neighbor = new HashSet<>();
+        Set<Tile> neighbor = new HashSet<>();
 
         for(Coordinate c: t.getCorner()) {
             neighbor.addAll( getNeighbor(c) );
@@ -157,9 +124,9 @@ public class World {
      * @param c une coordonnée
      * @return la liste des lignes dont la coordonnée c est une de leurs coordonnées
      */
-    public HashSet<Line> getLine(Coordinate c){
+    public Set<Line> getLine(Coordinate c){
 
-        HashSet<Line> lines = new HashSet<>();
+        Set<Line> lines = new HashSet<>();
         for(Tile tile: tiles.values()){
 
             for (Line line : tile.getBorder()) {
@@ -184,50 +151,14 @@ public class World {
     }
 
 
-
-    /**
-     *
-     * @return une tuile généré aleatoirement a partir de la listes des tuiles composant la carte
-     */
-    public Tile findRandomTile(){
-        ArrayList<Tile> tiles = new ArrayList<>(this.tiles.values());
-        return tiles.get(random.getRandomInt(tiles.size()-1));
-
-    }
-
-    /**
-     *
-     * @return  une tuile généré aléatoirement appartenant au îles et n'étant pas de la beach
-     */
-    public Tile findRandomVegetationTile(){
-        Tile tile;
-        do {
-            tile = findRandomTile();
-        } while ((tile.getItem().getType().equals("beach")) || !tile.isOnIsland());
-        return tile;
-    }
-
-    /**
-     *
-     * @return  une coordonnée généré aléatoirement a partir de la listes des tuiles composant la carte
-     */
-    public Coordinate findRandomCoordinate(){
-
-        Tile tile = findRandomVegetationTile();
-
-        HashSet<Coordinate> coordinates = new HashSet<>(tile.getCorner());
-        ArrayList<Coordinate> c = new ArrayList<>(coordinates);
-        return c.get(random.getRandomInt(c.size()-1));
-    }
-
     /**
      *
      * @param s  La forme de l'ile qu'on veut créer
      * @return   les tuiles qui composent l'ile
      */
-    public HashSet<Tile> getTilesInShape(Shape s){
+    public Set<Tile> getTilesInShape(Shape s){
 
-        HashSet<Tile> tileList = new LinkedHashSet<>();
+        Set<Tile> tileList = new LinkedHashSet<>();
         for (Tile tile : tiles.values() ) {
             if( s.isInShape( tile.getCenter() ) ){
                 tileList.add(tile);
@@ -235,11 +166,6 @@ public class World {
         }
         return tileList;
     }
-
-    public Tile getAtile(Coordinate coordinate){
-        return tiles.get(coordinate);
-    }
-
 
     /**
      *
@@ -257,37 +183,29 @@ public class World {
         return isleList;
     }
 
+    /**
+     *
+     * @return une liste contenant les points d'interet de chaque ile
+     */
 
-    public void reInitiliseTileColor(){
-        for(Tile tile:tiles.values()){
-            if( ! tile.getItem().getType().equals("vegetation") ){
-                tile.setBackgroundColor(colorDark);
-            }
-        }
-    }
+    public List<ArrayList<Tile>> getWorldinterestPoints() {
 
-    public int getTilesNb(){
-        return tiles.size();
-    }
-
-
-    public ArrayList<ArrayList<Tile>> getWorldinterestPoints() {
-
-        ArrayList<ArrayList<Tile>> interestPointsListGlobal = new ArrayList<>();
+        List<ArrayList<Tile>> interestPointsListGlobal = new ArrayList<>();
 
         for (Isle isle:isleList ) {
 
-            ArrayList<Tile> interestPointsList = isle.getIsleinterestPoints();
-
-            interestPointsListGlobal.add(interestPointsList);
+            interestPointsListGlobal.add( new ArrayList<>(isle.getIsleinterestPoints()) );
         }
         return interestPointsListGlobal;
     }
 
+    /**
+     *
+     * @return list des tuiles contenant des ports
+     */
+    public List<Tile> getIslePortInterestPoint(){
 
-    public ArrayList<Tile> getIslePortInterestPoint(){
-
-        ArrayList<Tile> ports = new ArrayList<>();
+        List<Tile> ports = new ArrayList<>();
 
         for(Isle isle:isleList){
             ports.addAll( isle.getIslePortInterestPoints() );
@@ -300,8 +218,8 @@ public class World {
      * @return liste des tuiles.
      */
 
-    public HashSet<Tile> getOnIslandTiles(){
-        HashSet<Tile> inlandTiles = new HashSet<>();
+    public Set<Tile> getOnIslandTiles(){
+        Set<Tile> inlandTiles = new HashSet<>();
         for(Tile tile:tiles.values()){
             if ( tile.isOnIsland()  ) {
                 inlandTiles.add(tile);
@@ -316,8 +234,8 @@ public class World {
      * @return list of tiles
      */
 
-    public HashSet<Tile> getOceanTiles(){ //
-        HashSet<Tile> oceanTiles = new HashSet<>();
+    public Set<Tile> getOceanTiles(){ //
+        Set<Tile> oceanTiles = new HashSet<>();
         for(Tile tile:tiles.values()){
             if ( tile.isInOcean()  ) {
                 oceanTiles.add(tile);
@@ -331,8 +249,9 @@ public class World {
      * @return list of tiles
      */
 
-    public HashSet<Tile> getLagoonTiles(){
-        HashSet<Tile> lagoonTiles = new HashSet<>();
+    public Set<Tile> getLagoonTiles(){
+
+        Set<Tile> lagoonTiles = new HashSet<>();
         for(Tile tile:tiles.values()){
             if(tile.isInLagoon()){
                 lagoonTiles.add(tile);

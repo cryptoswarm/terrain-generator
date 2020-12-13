@@ -8,6 +8,7 @@ import world.borders.Border;
 
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.Set;
 
 import static org.junit.Assert.*;
 
@@ -215,7 +216,7 @@ public class IsleTest {
     @Test
     public void verifyLinesTest1(){
         assertEquals(2, isle.getLine(coordinate14).size());
-        HashSet<Line> lines = isle.getLine(coordinate14);
+        Set<Line> lines = isle.getLine(coordinate14);
         assertTrue(lines.contains(line13));
         assertTrue(lines.contains(line14));
         assertFalse(lines.contains(line17));
@@ -226,7 +227,7 @@ public class IsleTest {
     public void verifyLinesTest2(){
 
         assertEquals(4, isle.getLine(coordinate3).size());
-        HashSet<Line> lines = isle.getLine(coordinate3);
+        Set<Line> lines = isle.getLine(coordinate3);
 
         assertTrue(lines.contains(line2));
         assertTrue(lines.contains(line3));

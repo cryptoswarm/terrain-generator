@@ -5,7 +5,7 @@ import randomStrategy.RandomContexte;
 import world.Tile;
 import world.World;
 
-import java.util.HashSet;
+import java.util.Set;
 
 public abstract class IslandShape {
 
@@ -28,7 +28,7 @@ public abstract class IslandShape {
      *
      */
 
-    public boolean validIsland(HashSet<Tile> islandTiles, int h, int w, World world) {
+    public boolean validIsland(Set<Tile> islandTiles, int h, int w, World world) {
         boolean valid = true;
         boolean validAlt;
         boolean validLines;
