@@ -41,6 +41,7 @@ public class RiverGenerator implements Generator {
                 river.setAquiferCenter(riverStartTile);
                 river.apply(isle);
 
+
             }
         }
     }

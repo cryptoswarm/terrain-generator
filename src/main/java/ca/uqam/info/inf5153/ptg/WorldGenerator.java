@@ -171,7 +171,12 @@ public class WorldGenerator {
      * @return
      */
     public ArrayList<Line> getRoads(){
-        return world.getRoads();
+
+        if (mode.getMode() == Mode.Modes.Normal){
+            return world.getRoads();
+        }
+        return new ArrayList<Line>();
+
     }
 
     /**
