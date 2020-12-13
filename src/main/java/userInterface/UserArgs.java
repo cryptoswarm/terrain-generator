@@ -1,14 +1,17 @@
 package userInterface;
 
+import factory.ShapeFactory;
 import org.apache.commons.cli.*;
 import world.generator.interestPoints.InterestPointsGenerator;
+import world.generator.island.IslandShape;
 import world.mode.*;
 
 
 public class UserArgs  {
     private final String inputFile;
     private final String outputFile;
-    private final String shape;
+
+    private final IslandShape islandShape;
     private final int nbWaterSources;
     private final String soilType;
     private String heatmap;
@@ -32,7 +35,7 @@ public class UserArgs  {
         assert options != null;
         inputFile = setInputFile(options.getOptionValue("i"));
         outputFile = setOutputFile(options.getOptionValue("o"));
-        shape = setShape(options.getOptionValue("shape"));
+        islandShape = findShapeUsingFactory( options.getOptionValue("shape") );
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
         productionActivated = options.hasOption("production");
@@ -87,18 +90,24 @@ public class UserArgs  {
         }
 
     }
-    private String setShape(String shape){
-        if(shape != null){
-            if(shape.equals("atoll") || shape.equals("tortuga") || shape.equals("archipelago")){
-                return shape;
-            }else {
-                throw new IllegalArgumentException("Undefined island shape");
-            }
-        }else {
-            return "atoll";
-        }
 
+    /**
+     *
+     * @param shape the shape of the island
+     * @return  IslandShape
+     */
+    public IslandShape findShapeUsingFactory(String shape) {
+        return ShapeFactory
+                .getIslandShape(shape)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid Shape"));
     }
+
+    public IslandShape getIslandShape(){
+        return islandShape;
+    }
+
+
+
     private int setWaterSources(String nbWaterSources) {
         if (nbWaterSources != null) return Integer.parseInt(nbWaterSources);
         return 0;
@@ -249,9 +258,7 @@ public class UserArgs  {
     public String getInputFile() {
         return inputFile;
     }
-    public String getShape() {
-        return shape;
-    }
+
 
     public int getNbWaterSources() {
         return nbWaterSources;

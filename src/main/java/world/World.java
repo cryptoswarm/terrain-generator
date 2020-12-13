@@ -14,6 +14,8 @@ public class World {
     private final  HashMap<Coordinate, Tile> tiles;
     private List<Isle> isleList;
     private ArrayList<Line> roads = new ArrayList<>();
+    private int width;
+    private int height;
 
     public World(RandomContexte random) {
 
@@ -22,6 +24,21 @@ public class World {
         this.isleList = new ArrayList<>();
     }
 
+    public void setWidth(int width) {
+        this.width = width;
+    }
+
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
+    }
 
     /**
      *

@@ -19,6 +19,7 @@ import world.generator.biome.Localization;
 import world.generator.interestPoints.InterestPointsGenerator;
 import world.generator.interestPoints.RoadGenerator;
 import world.generator.island.IslandGenerator;
+import world.generator.island.IslandShape;
 import world.generator.ressourcesProduction.RessourceGenerator;
 import world.mode.Mode;
 import world.soilType;
@@ -35,7 +36,7 @@ public class WorldGenerator {
     private final int nbsWaterSource;
     private final int nbsRiversSrc;
     private final soilType soil;
-    private final String shape;
+    private final IslandShape islandShape;
     private final int maxAltitude;
     private final String fileName;
     private final String outFileName;
@@ -52,7 +53,7 @@ public class WorldGenerator {
         this.random = new RandomContexte(parsedArgs.getSeed());
         this.world = new World(random);
         this.nbsWaterSource = parsedArgs.getNbWaterSources();
-        this.shape = parsedArgs.getShape();
+        this.islandShape= parsedArgs.getIslandShape();
         this.maxAltitude = parsedArgs.getMaxAltitude();
         this.nbsRiversSrc = parsedArgs.getRivers();
         this.soil = soilType.getSoilType(parsedArgs.getSoilType());
@@ -89,6 +90,7 @@ public class WorldGenerator {
 
     public void setWorldHeight(int h){
         this.height = h;
+        this.world.setHeight(h);
     }
 
     /**
@@ -97,6 +99,7 @@ public class WorldGenerator {
      */
     public void setWorldWidth(int w){
         this.width = w;
+        this.world.setWidth(w);
     }
 
     /**
@@ -199,7 +202,8 @@ public class WorldGenerator {
 
     private void generateWorld(World world) {
 
-        Generator IslGenerator = new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland);
+        //Generator IslGenerator = new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland);
+        Generator IslGenerator = new IslandGenerator(islandShape, width, height, maxAltitude, random, nbsIsland);
         IslGenerator.generate(world);
 
         Generator biomeGenerator = new BiomeGenerator(localization);

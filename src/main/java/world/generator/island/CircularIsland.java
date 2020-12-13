@@ -13,13 +13,8 @@ import java.util.Set;
 public class CircularIsland extends IslandShape {
     private Circle circle;
     private Isle isle;
-    int height;
-    int width;
 
-    public CircularIsland( int height, int width) {
-
-        this.height = height;
-        this.width = width;
+    public CircularIsland() {
     }
 
     @Override
@@ -50,7 +45,7 @@ public class CircularIsland extends IslandShape {
             Circle cir = new Circle(diameter, random, coordinate);
             Set<Tile> islandTiles = world.getTilesInShape( cir);
 
-            if (validIsland( islandTiles,height,width, world)){
+            if (validIsland( islandTiles, world)){
                 isValide = true;
 
                 this.isle = new Isle(islandTiles);

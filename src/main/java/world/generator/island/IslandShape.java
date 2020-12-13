@@ -28,12 +28,15 @@ public abstract class IslandShape {
      *
      */
 
-    public boolean validIsland(Set<Tile> islandTiles, int h, int w, World world) {
+    //public boolean validIsland(Set<Tile> islandTiles, int h, int w, World world) {
+    public boolean validIsland(Set<Tile> islandTiles, World world) {
         boolean valid = true;
         boolean validAlt;
         boolean validLines;
         boolean validBiom;
         boolean validNeighbor;
+        int h = world.getHeight();
+        int w = world.getWidth();
 
 
         for (Tile tile : islandTiles) {  //get all tiles belonging to the new island
