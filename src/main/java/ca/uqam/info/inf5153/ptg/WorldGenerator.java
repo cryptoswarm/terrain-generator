@@ -170,7 +170,7 @@ public class WorldGenerator {
      * Ensemble des lignes constituant les routes reliants les différent biom entre eux
      * @return
      */
-    public ArrayList<Line> getRoads(){
+    public List<Line> getRoads(){
 
         if (mode.getMode() == Mode.Modes.Normal){
             return world.getRoads();
