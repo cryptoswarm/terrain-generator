@@ -14,13 +14,8 @@ public class EllipticIsland extends IslandShape {
 
     private Ellipse ellipse;
     private Isle isle;
-    int height;
-    int width;
 
-    public EllipticIsland( int height, int width) {
-
-        this.height = height;
-        this.width = width;
+    public EllipticIsland( ) {
     }
 
     @Override
@@ -50,7 +45,8 @@ public class EllipticIsland extends IslandShape {
             Ellipse e = new Ellipse(diameter, random, angle, c);
             Set<Tile> islandTiles = world.getTilesInShape( e );
 
-            if ( validIsland( islandTiles, height, width, world) ) {
+
+            if ( validIsland( islandTiles, world) ) {
                 isValide = true;
                 isle = new Isle(islandTiles);
                 this.ellipse = e;

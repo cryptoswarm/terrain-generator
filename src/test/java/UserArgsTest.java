@@ -1,6 +1,7 @@
 import org.junit.Before;
 import org.junit.Test;
 import userInterface.UserArgs;
+import world.generator.island.EllipticIsland;
 
 import static org.junit.Assert.*;
 
@@ -32,11 +33,18 @@ public class UserArgsTest {
     public void outPutFileNameTest(){
         assertEquals("result38.mesh", userArgs.getOutputFile());
     }
-
+/*
     @Test
     public void getShapeNameTest(){
         assertEquals("tortuga", userArgs.getShape());
     }
+
+ */
+    @Test
+    public void getShapeNameTest(){
+        assertTrue( userArgs.getIslandShape() instanceof EllipticIsland );
+    }
+
 
     @Test
     public void getWaterSourcesNbTest(){

@@ -15,19 +15,17 @@ public class IslandGenerator implements Generator {
     private final RandomContexte random;
     private final int maxAltitude;
     private final int nbIsland;
-    private final String shape;
+    private IslandShape islandShape;
 
     private TileAttributesCalculator calculator = new TileAttributesCalculator();
 
-
-
-    public IslandGenerator(String shape, int w, int h, int maxAltitude, RandomContexte r, int nbIsland) {
+    public IslandGenerator(IslandShape islandShape, int w, int h, int maxAltitude, RandomContexte r, int nbIsland) {
         this.width = w;
         this.height = h;
         this.random = r;
         this.maxAltitude = maxAltitude;
         this.nbIsland = nbIsland;
-        this.shape = shape;
+        this.islandShape = islandShape;
     }
 
     @Override
@@ -36,14 +34,6 @@ public class IslandGenerator implements Generator {
         //int diameter = (int)( 2* Math.sqrt( AREA_OF_ISLAND / Math.PI) );
         //int diameter = calculateDiameter(w);
         int islandNotGenerated = 0;
-        IslandShape islandShape;
-
-
-        if ("tortuga".equals(shape)) {
-            islandShape = new EllipticIsland( height, width);
-        } else {
-            islandShape = new CircularIsland( height, width);
-        }
 
         for(int n=0; n<nbIsland; n++) {
 

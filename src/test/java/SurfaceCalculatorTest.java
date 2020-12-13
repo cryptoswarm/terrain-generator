@@ -7,7 +7,9 @@ import world.Tile;
 import world.World;
 import world.borders.Border;
 import world.generator.calculator.TileAttributesCalculator;
+import world.generator.island.CircularIsland;
 import world.generator.island.IslandGenerator;
+import world.generator.island.IslandShape;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,10 @@ public class SurfaceCalculatorTest {
         border = new Border();
 
 
-        String circle = "Circle";
-        islandGenerator = new IslandGenerator(circle, 1000, 1000, 200, random, 3);
+        //String circle = "Circle";
+        IslandShape islandShape = new CircularIsland();
+        //islandGenerator = new IslandGenerator(circle, 1000, 1000, 200, random, 3);
+        islandGenerator = new IslandGenerator(islandShape, 1000, 1000, 200, random, 3);
 
         Coordinate coordinate1 = new Coordinate(344.75677f, 455.95175f, 0);
         Coordinate coordinate2 = new Coordinate( 362.25214f, 461.47955f, 0);
