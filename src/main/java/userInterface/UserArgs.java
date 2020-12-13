@@ -200,9 +200,9 @@ public class UserArgs  {
 
             this.productionActivated = true;
 
-            for (int i = 0; i < pois.length; i++) {
+            for (String s : pois) {
 
-                String[] arg = pois[i].split(":");
+                String[] arg = s.split(":");
 
                 int num = 0;
 
@@ -212,21 +212,25 @@ public class UserArgs  {
                     System.out.println("--pois option must have format: x:number");
                 }
 
+                switch (arg[0]) {
+                    case "cities":
 
-                if (arg[0].equals("cities")) {
+                        this.pois[InterestPointsGenerator.POIS.CITIES.ordinal()] += num;
 
-                    this.pois[InterestPointsGenerator.POIS.CITIES.ordinal()] += num;
+                        break;
+                    case "ports":
 
-                } else if (arg[0].equals("ports")) {
+                        this.pois[InterestPointsGenerator.POIS.PORTS.ordinal()] += num;
 
-                    this.pois[InterestPointsGenerator.POIS.PORTS.ordinal()] += num;
+                        break;
+                    case "villages":
 
-                } else if (arg[0].equals("villages")) {
+                        this.pois[InterestPointsGenerator.POIS.VILLAGES.ordinal()] += num;
 
-                    this.pois[InterestPointsGenerator.POIS.VILLAGES.ordinal()] += num;
-
-                } else {
-                    System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");
+                        break;
+                    default:
+                        System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");
+                        break;
                 }
             }
 
@@ -263,6 +267,7 @@ public class UserArgs  {
         return seed;
     }
     public int getRivers() {return rivers;}
+
     public int getNbsIsland() {
         return nbsIsland;
     }

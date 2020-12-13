@@ -5,7 +5,7 @@ import userInterface.UserArgs;
 
 public class Main {
 
-    public static void main(String[] args) {
+    public static void main(String[] args){
         UserArgs parsedArgs = new UserArgs(args);
 
         WorldGenerator c = new WorldGenerator(parsedArgs);
