@@ -229,7 +229,7 @@ public class UserArgs  {
 
                         break;
                     default:
-                        System.out.println("--pois option must have format: x:number where x is cities, ports or vilages");
+                        System.out.println("--pois option must have format: x:number where x is cities, ports or villages");
                         break;
                 }
             }
