@@ -39,7 +39,7 @@ public class SurfaceCalculatorTest {
         //String circle = "Circle";
         IslandShape islandShape = new CircularIsland();
         //islandGenerator = new IslandGenerator(circle, 1000, 1000, 200, random, 3);
-        islandGenerator = new IslandGenerator(islandShape, 1000, 1000, 200, random, 3);
+        islandGenerator = new IslandGenerator(islandShape,  200, random, 3);
 
         Coordinate coordinate1 = new Coordinate(344.75677f, 455.95175f, 0);
         Coordinate coordinate2 = new Coordinate( 362.25214f, 461.47955f, 0);

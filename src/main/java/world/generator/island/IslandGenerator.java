@@ -10,8 +10,6 @@ public class IslandGenerator implements Generator {
     public static final int AREA_OF_ISLAND = 92539;
     public static final int DIAMETER_Of_Island = 500;
 
-    private final int width;
-    private final int height;
     private final RandomContexte random;
     private final int maxAltitude;
     private final int nbIsland;
@@ -19,9 +17,8 @@ public class IslandGenerator implements Generator {
 
     private TileAttributesCalculator calculator = new TileAttributesCalculator();
 
-    public IslandGenerator(IslandShape islandShape, int w, int h, int maxAltitude, RandomContexte r, int nbIsland) {
-        this.width = w;
-        this.height = h;
+    public IslandGenerator(IslandShape islandShape, int maxAltitude, RandomContexte r, int nbIsland) {
+
         this.random = r;
         this.maxAltitude = maxAltitude;
         this.nbIsland = nbIsland;
@@ -31,8 +28,6 @@ public class IslandGenerator implements Generator {
     @Override
     public void generate(World w) {
 
-        //int diameter = (int)( 2* Math.sqrt( AREA_OF_ISLAND / Math.PI) );
-        //int diameter = calculateDiameter(w);
         int islandNotGenerated = 0;
 
         for(int n=0; n<nbIsland; n++) {

@@ -1,5 +1,6 @@
 package userInterface;
 
+import factory.ModeFactory;
 import factory.ShapeFactory;
 import org.apache.commons.cli.*;
 import world.generator.interestPoints.InterestPointsGenerator;
@@ -14,7 +15,7 @@ public class UserArgs  {
     private final IslandShape islandShape;
     private final int nbWaterSources;
     private final String soilType;
-    private String heatmap;
+    private Mode heatmapMode;
     private final int seed;
     private final int maxAltitude;
     private final int rivers;
@@ -39,7 +40,7 @@ public class UserArgs  {
         nbWaterSources = setWaterSources(options.getOptionValue("water"));
         soilType = setSoilType(options.getOptionValue("soil"));
         productionActivated = options.hasOption("production");
-        heatmap = setHeatmap(options.getOptionValue("heatmap"));
+        heatmapMode = setHeatmap(options.getOptionValue("heatmap"));
         seed = setSeed(options.getOptionValue("seed"));
         maxAltitude = setAltitude(options.getOptionValue("altitude"));
         rivers = setRivers(options.getOptionValue("rivers"));
@@ -106,45 +107,21 @@ public class UserArgs  {
         return islandShape;
     }
 
+    private Mode setHeatmap(String heatmap) {
 
+        return ModeFactory
+                .getMode(heatmap)
+                .orElseThrow( () -> new IllegalArgumentException("Invalid! Heatmap should be set to humidity, altitude or ressources\n"+
+                                                                 " Else do not set it") );
+    }
+
+    public Mode getHeatmapMode() {
+        return heatmapMode;
+    }
 
     private int setWaterSources(String nbWaterSources) {
         if (nbWaterSources != null) return Integer.parseInt(nbWaterSources);
         return 0;
-    }
-
-
-    private String setHeatmap(String heatmap) {
-
-        if (heatmap != null) {
-            if (heatmap.equals("altitude") || heatmap.equals("humidity") || heatmap.equals("ressources")) {
-                if(heatmap.equals("ressources")){
-
-                    productionActivated = true;
-                }
-                return heatmap;
-            } else {
-                throw new IllegalArgumentException("Undefined heatmap");
-            }
-        } else {
-            return  "normal";
-        }
-    }
-
-    public Mode getHeatmap() {
-
-        Mode mode;
-
-        if( heatmap.equals("altitude")){
-            mode = new Altitude();
-        }else if( heatmap.equals("humidity")) {
-            mode = new Humidity();
-        }else if( heatmap.equals("ressources")){
-            mode = new Ressources();
-        }else{
-            mode = new Normal();
-        }
-        return mode;
     }
 
     private String setLocalisation(String localisation) {
@@ -242,10 +219,7 @@ public class UserArgs  {
                         break;
                 }
             }
-
-
         }
-
     }
 
     public int[] getPois(){

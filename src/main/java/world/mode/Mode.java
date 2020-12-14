@@ -11,7 +11,6 @@ public abstract class Mode {
           Humidity,
           Altitude,
           Ressources
-
      }
 
 

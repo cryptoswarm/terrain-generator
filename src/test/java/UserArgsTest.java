@@ -33,13 +33,7 @@ public class UserArgsTest {
     public void outPutFileNameTest(){
         assertEquals("result38.mesh", userArgs.getOutputFile());
     }
-/*
-    @Test
-    public void getShapeNameTest(){
-        assertEquals("tortuga", userArgs.getShape());
-    }
 
- */
     @Test
     public void getShapeNameTest(){
         assertTrue( userArgs.getIslandShape() instanceof EllipticIsland );

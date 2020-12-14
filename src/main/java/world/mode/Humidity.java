@@ -4,6 +4,7 @@ import world.Tile;
 import world.TileColor;
 
 public class Humidity extends Mode {
+
     final private int invalid = -1;
     TileColor color = TileColor.DARKBLUE;
 
@@ -25,4 +26,5 @@ public class Humidity extends Mode {
         if(factor == invalid) return 0 + ":" + 0 + ":" + 0 + ":" + 255;
         return color.getR() + ":" + color.getG() + ":" + 255 + ":" + (255 - value);
     }
+
 }
