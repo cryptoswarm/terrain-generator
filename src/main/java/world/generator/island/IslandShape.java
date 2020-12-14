@@ -9,7 +9,6 @@ import java.util.Set;
 
 public abstract class IslandShape {
 
-
     /**
      * @param world
      * @param random
@@ -22,14 +21,12 @@ public abstract class IslandShape {
     /**
      *
      * @param islandTiles les tuiles composant la nouvelle ile
-     * @param h      La hauteur du monde
-     * @param w      la largeur du monde
      * @return       True si l'ile est valide, False sinon
      *
      */
 
-    //public boolean validIsland(Set<Tile> islandTiles, int h, int w, World world) {
     public boolean validIsland(Set<Tile> islandTiles, World world) {
+
         boolean valid = true;
         boolean validAlt;
         boolean validLines;

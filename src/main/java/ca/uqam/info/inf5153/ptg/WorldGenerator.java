@@ -41,8 +41,6 @@ public class WorldGenerator {
     private final String fileName;
     private final String outFileName;
     private final int nbsIsland;
-    private int width;
-    private int height;
     private boolean production;
     private int [] pois;
     private Localization localization;
@@ -60,7 +58,8 @@ public class WorldGenerator {
         this.fileName = parsedArgs.getInputFile();
         this.outFileName = parsedArgs.getOutputFile();
         this.nbsIsland = parsedArgs.getNbsIsland();
-        this.mode = parsedArgs.getHeatmap();
+        //this.mode = parsedArgs.getHeatmap();
+        this.mode = parsedArgs.getHeatmapMode();
         this.production = parsedArgs.isProductionActivated();
         this.pois = parsedArgs.getPois();
         this.localization = Localization.getLocalization(parsedArgs.getLocalisation());
@@ -89,7 +88,6 @@ public class WorldGenerator {
      */
 
     public void setWorldHeight(int h){
-        this.height = h;
         this.world.setHeight(h);
     }
 
@@ -98,7 +96,6 @@ public class WorldGenerator {
      * @param w définir la largeur de la carte
      */
     public void setWorldWidth(int w){
-        this.width = w;
         this.world.setWidth(w);
     }
 
@@ -202,8 +199,7 @@ public class WorldGenerator {
 
     private void generateWorld(World world) {
 
-        //Generator IslGenerator = new IslandGenerator(shape, width, height, maxAltitude, random, nbsIsland);
-        Generator IslGenerator = new IslandGenerator(islandShape, width, height, maxAltitude, random, nbsIsland);
+        Generator IslGenerator = new IslandGenerator(islandShape, maxAltitude, random, nbsIsland);
         IslGenerator.generate(world);
 
         Generator biomeGenerator = new BiomeGenerator(localization);

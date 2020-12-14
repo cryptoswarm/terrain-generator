@@ -25,6 +25,4 @@ public class Normal extends Mode {
         }
         return R + ":" + applyFactor(G,humidity) + ":" + B + ":" + A;
     }
-
-
 }
